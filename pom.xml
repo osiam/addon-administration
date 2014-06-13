@@ -59,14 +59,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		<!-- coming soon... (at the moment we don't net a security)
-			
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency> 
-		
-		-->
+
 		<!-- OSIAM Dependencies -->
 		<dependency>
 			<groupId>org.osiam</groupId>
