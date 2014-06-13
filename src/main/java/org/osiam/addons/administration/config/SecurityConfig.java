@@ -15,15 +15,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Inject
-	private AdminAccessDecisionManager decisionManager;
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-    	    http.authorizeRequests()
-    	    	.accessDecisionManager(decisionManager)
-    	    	.antMatchers(AdminController.CONTROLLER_PATH + "/**")
-    	    	.authenticated();
-	}
+    @Inject
+    private AdminAccessDecisionManager decisionManager;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .accessDecisionManager(decisionManager)
+                .antMatchers(AdminController.CONTROLLER_PATH + "/**")
+                .authenticated();
+    }
 
 }

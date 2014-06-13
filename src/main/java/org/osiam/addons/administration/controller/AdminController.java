@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(AdminController.CONTROLLER_PATH)
 public class AdminController {
 
-	public final static String CONTROLLER_PATH = "/admin";
-	
-	@RequestMapping
-	public String handleOverview(){
-		return "admin/home";
-	}
+    public final static String CONTROLLER_PATH = "/admin";
+
+    @RequestMapping
+    public String handleOverview() {
+        return "admin/home";
+    }
 }

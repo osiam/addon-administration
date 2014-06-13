@@ -18,25 +18,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminAccessDecisionManager implements AccessDecisionManager {
 
-	@Inject
-	private SessionData session;
-	
-	@Override
-	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
-			throws AccessDeniedException, InsufficientAuthenticationException {
+    @Inject
+    private SessionData session;
 
-		//if there are no access-token in session
-		if(session.getAccesstoken() == null)
-			throw new AccessDeniedException("There is no accesstoken in session!");
-	}
+    @Override
+    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
+            throws AccessDeniedException, InsufficientAuthenticationException {
 
-	@Override
-	public boolean supports(ConfigAttribute attribute) {
-		return true;
-	}
+        // if there are no access-token in session
+        if (session.getAccesstoken() == null)
+            throw new AccessDeniedException("There is no accesstoken in session!");
+    }
 
-	@Override
-	public boolean supports(Class<?> clazz) {
-		return true;
-	}
+    @Override
+    public boolean supports(ConfigAttribute attribute) {
+        return true;
+    }
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return true;
+    }
 }

@@ -14,26 +14,25 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class LoginController {
-	
-	public static final String CONTROLLER_PATH = "/";
 
-	@Inject
-	private OsiamConnector connector;
-	
-	@Inject
-	private SessionData session;
-	
-	@RequestMapping
-	public String handleRedirectoToLogin(){
-		return "redirect:" + connector.getAuthorizationUri(Scope.ALL).toString();
-	}
-	
-	@RequestMapping(params = "code")
-	public String handleLoggedIn(
-			@RequestParam(value = "code", required = true) 
-			String code){
-		
-		session.setAccesstoken(connector.retrieveAccessToken(code));
-		return "redirect:admin";
-	}
+    public static final String CONTROLLER_PATH = "/";
+
+    @Inject
+    private OsiamConnector connector;
+
+    @Inject
+    private SessionData session;
+
+    @RequestMapping
+    public String handleRedirectoToLogin() {
+        return "redirect:" + connector.getAuthorizationUri(Scope.ALL).toString();
+    }
+
+    @RequestMapping(params = "code")
+    public String handleLoggedIn(
+            @RequestParam(value = "code", required = true) String code) {
+
+        session.setAccesstoken(connector.retrieveAccessToken(code));
+        return "redirect:admin";
+    }
 }
