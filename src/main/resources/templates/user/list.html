@@ -2,23 +2,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>User-List</title>
+
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 </head>
 <body>
-	<table>
+	<table class="table table-hover">
 		<thead><tr>
-			<th></th>
+			<th>
+				<input type="checkbox" class="checkbox" />
+			</th>
 			<th th:text="#{msg.user.login}">Login</th>
 			<th th:text="#{msg.user.name.given}">Given Name</th>
 			<th th:text="#{msg.user.name.family}">Family Name</th>
 			<th></th>
 		</tr></thead>
 		<tbody>
+			<!-- Start: Filter-Row -->
+			<tr>
+				<td />
+				<td><input type="text" /></td>
+				<td><input type="text" /></td>
+				<td><input type="text" /></td>
+				<td>
+					<button th:text="#{msg.button.filter}" class="btn btn-default">Filter</button>
+				</td>
+			</tr>
+			<!-- End: Filter-Row -->
 			<tr th:each="user : ${userlist.resources}">
-				<td></td>
+				<td>
+					<input type="checkbox" class="checkbox" />
+				</td>
  				<td th:text="${user.userName}">Login</td>
  				<td th:text="${user.name} != null ? ${user.name.givenName} : '-'">Given Name</td>
 				<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">Family Name</td>
-				<td></td>
+				<td>
+					<button th:text="#{msg.button.actions} + ' >'" class="btn btn-default">Actions</button>
+				</td>
 			</tr>
 		</tbody>
 	</table>
