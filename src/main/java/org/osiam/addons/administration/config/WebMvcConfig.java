@@ -3,9 +3,11 @@ package org.osiam.addons.administration.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-public class MessageSourceConfig {
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public ResourceBundleMessageSource messageSource(){ //don't change the method name!
@@ -14,5 +16,10 @@ public class MessageSourceConfig {
         resource.setBasenames("l10n/general");
         
         return resource;
+    }
+    
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
     }
 }
