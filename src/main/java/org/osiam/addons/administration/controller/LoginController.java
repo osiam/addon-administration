@@ -33,6 +33,6 @@ public class LoginController {
             @RequestParam(value = "code", required = true) String code) {
 
         session.setAccesstoken(connector.retrieveAccessToken(code));
-        return "redirect:admin";
+        return "redirect:" + AdminController.CONTROLLER_PATH;
     }
 }
