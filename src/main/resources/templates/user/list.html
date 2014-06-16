@@ -11,9 +11,21 @@
 			<th>
 				<input type="checkbox" class="checkbox" />
 			</th>
-			<th th:text="#{msg.user.login}">Login</th>
-			<th th:text="#{msg.user.name.given}">Given Name</th>
-			<th th:text="#{msg.user.name.family}">Family Name</th>
+			<th>
+				<span th:text="#{msg.user.login}">Login</span>
+				<a href="">^</a>
+				<a href="">v</a>
+			</th>
+			<th>
+				<span th:text="#{msg.user.name.given}">Given Name</span>
+				<a href="">^</a>
+				<a href="">v</a>	
+			</th>
+			<th>
+				<span th:text="#{msg.user.name.family}">Family Name</span>
+				<a href="">^</a>
+				<a href="">v</a>
+			</th>
 			<th></th>
 		</tr></thead>
 		<tbody>
@@ -41,5 +53,20 @@
 			</tr>
 		</tbody>
 	</table>
+	<span th:text="#{msg.list.result(${userlist.startIndex}, ${userlist.startIndex} - 1 + ${#lists.size(userlist.resources)}, ${userlist.totalResults})}">Result x - y of total</span>
+	<div>
+		<span>
+			Paging-Navigation...
+		</span>
+		<span th:text="#{msg.list.limit}"></span>
+		<select class="form-control">
+			<option>5</option>
+			<option>10</option>
+			<option>20</option>
+			<option>50</option>
+			<option>100</option>
+			<option th:text="#{msg.list.limit.all}">All</option>
+		</select>
+	</div>
 </body>
 </html>
