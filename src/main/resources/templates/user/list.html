@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>User-List</title>
+</head>
+<body>
+	<table>
+		<thead><tr>
+			<th></th>
+			<th>Login</th>
+			<th>Given Name</th>
+			<th>Family Name</th>
+			<th></th>
+		</tr></thead>
+		<tbody>
+			<tr th:each="user : ${userlist.resources}">
+				<td></td>
+ 				<td th:text="${user.userName}">Login</td>
+ 				<td th:if="${user.name != null}" th:text="${user.name.givenName}">Given Name</td>
+				<td th:if="${user.name != null}" th:text="${user.name.familyName}">Family Name</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

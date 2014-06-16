@@ -14,6 +14,6 @@ public class AdminController {
 
     @RequestMapping
     public String handleOverview() {
-        return "admin/home";
+        return "redirect:" + UserViewController.CONTROLLER_PATH;
     }
 }
