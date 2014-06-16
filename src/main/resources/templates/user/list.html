@@ -16,8 +16,8 @@
 			<tr th:each="user : ${userlist.resources}">
 				<td></td>
  				<td th:text="${user.userName}">Login</td>
- 				<td th:if="${user.name != null}" th:text="${user.name.givenName}">Given Name</td>
-				<td th:if="${user.name != null}" th:text="${user.name.familyName}">Family Name</td>
+ 				<td th:text="${user.name} != null ? ${user.name.givenName} : '-'">Given Name</td>
+				<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">Family Name</td>
 				<td></td>
 			</tr>
 		</tbody>
