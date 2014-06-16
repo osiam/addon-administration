@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * This controller contains all handler for the login page ( the root path / ).
  */
 @Controller
+@RequestMapping(LoginController.CONTROLLER_PATH)
 public class LoginController {
 
     public static final String CONTROLLER_PATH = "/";
