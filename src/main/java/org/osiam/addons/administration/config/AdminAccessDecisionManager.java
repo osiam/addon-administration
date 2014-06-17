@@ -26,7 +26,7 @@ public class AdminAccessDecisionManager implements AccessDecisionManager {
             throws AccessDeniedException, InsufficientAuthenticationException {
 
         // if there are no access-token in session
-        if (session.getAccesstoken() == null){
+        if (session.getAccesstoken() == null) {
             throw new AccessDeniedException("There is no accesstoken in session!");
         }
     }
