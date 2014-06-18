@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.osiam.addons.administration.Element;
 import org.osiam.addons.administration.Element.OauthLogin;
+import org.osiam.addons.administration.controller.LoginController;
 
 /**
  * This is an advanced {@link WebDriver}! This class contains more useful functions.
@@ -58,10 +60,22 @@ public class Browser implements WebDriver {
      * @return this
      */
     public Browser doOauthLogin(String username, String password) {
-        fill(new Field(OauthLogin.Username, username),
-             new Field(OauthLogin.Password, password));
+        gotoPage(LoginController.CONTROLLER_PATH);
+
+        if(!getCurrentUrl().contains("osiam-auth-server")) {
+            //always logged in
+            return this;
+        }
         
-        click(OauthLogin.LoginButton);
+        try{
+            fill(new Field(OauthLogin.Username, username),
+                 new Field(OauthLogin.Password, password));
+            
+            click(OauthLogin.LoginButton);
+        }catch(NoSuchElementException e){
+            //maybe we can it ignore, because osiam save it in his session
+        }
+        
         click(OauthLogin.AuthorizeButton);
         
         return this;
