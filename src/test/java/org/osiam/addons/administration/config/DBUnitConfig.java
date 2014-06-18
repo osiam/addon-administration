@@ -9,8 +9,11 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
+/**
+ * This configuration is responsible for establishing the database connection to the integration-system.
+ */
 @Configuration
-@PropertySource("classpath:integration-tests.properties")
+@PropertySource("classpath:it-database.properties")
 public class DBUnitConfig {
 
     @Value("${org.osiam.integration-tests.db.driver}")
