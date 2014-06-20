@@ -9,8 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    @Bean
-    public ResourceBundleMessageSource messageSource() { // don't change the method name!
+    @Bean(name="messageSource")
+    public ResourceBundleMessageSource initializeMessageSource() {
         ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
 
         resource.setBasenames("l10n/general");
