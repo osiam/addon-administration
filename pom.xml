@@ -42,7 +42,7 @@
         <org.osiam.connector4java.version>1.0</org.osiam.connector4java.version>
 
         <!-- needed by spring to know where is the starter class -->
-        <start-class>org.osiam.addon.administration.config.Application</start-class>
+        <start-class>org.osiam.addons.administration.config.Application</start-class>
     </properties>
 
     <scm>
