@@ -17,110 +17,112 @@ import org.osiam.addons.administration.controller.LoginController;
  */
 public class Browser implements WebDriver {
     private final WebDriver delegate;
-    
+
     private String baseURL;
-    
+
     public Browser(WebDriver driver) {
         this.delegate = driver;
     }
-    
+
     /**
      * Set the base-url. This url is used by {@link Browser#gotoPage(String)}!
      * 
-     * @param baseURL The base-url of the administration-servlet.
+     * @param baseURL
+     *        The base-url of the administration-servlet.
      * @return this
      */
     public Browser setBaseURL(String baseURL) {
-       this.baseURL = baseURL;
-       
-       return this;
-    }
-    
-    /**
-     * Go to a specific sub-page of the administration-servlet. This function
-     * requires that the base-url was previously set by {@link Browser#setBaseURL(String)}.
-     *  
-     * @param page Where should be navigated.
-     * @return this
-     */
-    public Browser gotoPage(String page){
-        String target = baseURL + "/" + page;
-        target = target.replaceAll("/{2,}", "/");
-                   
-        get(target);
-        
+        this.baseURL = baseURL;
+
         return this;
     }
-    
+
+    /**
+     * Go to a specific sub-page of the administration-servlet. This function requires that the base-url was previously
+     * set by {@link Browser#setBaseURL(String)}.
+     * 
+     * @param page
+     *        Where should be navigated.
+     * @return this
+     */
+    public Browser gotoPage(String page) {
+        String target = baseURL + "/" + page;
+        target = target.replaceAll("/{2,}", "/");
+
+        get(target);
+
+        return this;
+    }
+
     /**
      * Login via OAuth2-Mechanism from Osiam.
      * 
-     * @param username Username that should be used.
-     * @param password Password that should be used.
+     * @param username
+     *        Username that should be used.
+     * @param password
+     *        Password that should be used.
      * @return this
      */
     public Browser doOauthLogin(String username, String password) {
         gotoPage(LoginController.CONTROLLER_PATH);
 
-        if(!getCurrentUrl().contains("osiam-auth-server")) {
-            //always logged in
+        if (!getCurrentUrl().contains("osiam-auth-server")) {
+            // always logged in
             return this;
         }
-        
-        try{
+
+        try {
             fill(new Field(OauthLogin.Username, username),
-                 new Field(OauthLogin.Password, password));
-            
+                    new Field(OauthLogin.Password, password));
+
             click(OauthLogin.LoginButton);
-        }catch(NoSuchElementException e){
-            //maybe we can it ignore, because osiam save it in his session
+        } catch (NoSuchElementException e) {
+            // maybe we can it ignore, because osiam save it in his session
         }
-        
+
         click(OauthLogin.AuthorizeButton);
-        
+
         return this;
     }
-    
+
     /**
      * Click on the given element.
      * 
-     * @param element Element which should be clicked.
+     * @param element
+     *        Element which should be clicked.
      * @return this
      */
     public Browser click(Element element) {
         findElement(element.by()).click();
-        
+
         return this;
     }
-    
+
     /**
      * Fill all fields on the current page.
      * 
-     * @param fields Fields that should be filled.
+     * @param fields
+     *        Fields that should be filled.
      * @return this
      */
     public Browser fill(List<Field> fields) {
-        for(Field f : fields){
-            //TODO:
+        for (Field f : fields) {
             WebElement webElement = findElement(f.getElement().by());
-            
+
             webElement.clear();
             webElement.sendKeys(String.valueOf(f.getValue()));
         }
-        
+
         return this;
     }
 
     /**
      * {@link Browser#fill(List)}
-     * 
-     * @param fields
-     * @return
      */
-    public Browser fill(Field...fields) {
+    public Browser fill(Field... fields) {
         return fill(Arrays.asList(fields));
     }
-    
+
     /**
      * Is the access for the current page denied?
      * 
@@ -129,57 +131,72 @@ public class Browser implements WebDriver {
     public boolean isAccessDenied() {
         return isTextPresent("Access Denied");
     }
-    
+
     /**
      * Check if the given text is shown on the current page.
      * 
-     * @param text Text to check.
+     * @param text
+     *        Text to check.
      * @return True if the text is present. Otherwise false.
      */
-    public boolean isTextPresent(String text){
-       return findElements(By.xpath("//*[contains(normalize-space(text()), '" + text + "') or contains(normalize-space(.), '" + text + "')]")).size() > 0;
+    public boolean isTextPresent(String text) {
+        return findElements(
+                By.xpath("//*[contains(normalize-space(text()), '" + text + "') or contains(normalize-space(.), '"
+                        + text + "')]")).size() > 0;
     }
 
-    ////
+    // //
     // Delegate methods...
-    ////
-    
+    // //
+
     public void close() {
         delegate.close();
     }
+
     public WebElement findElement(By arg0) {
         return delegate.findElement(arg0);
     }
+
     public List<WebElement> findElements(By arg0) {
         return delegate.findElements(arg0);
     }
+
     public void get(String arg0) {
         delegate.get(arg0);
     }
+
     public String getCurrentUrl() {
         return delegate.getCurrentUrl();
     }
+
     public String getPageSource() {
         return delegate.getPageSource();
     }
+
     public String getTitle() {
         return delegate.getTitle();
     }
+
     public String getWindowHandle() {
         return delegate.getWindowHandle();
     }
+
     public Set<String> getWindowHandles() {
         return delegate.getWindowHandles();
     }
+
     public Options manage() {
         return delegate.manage();
     }
+
     public Navigation navigate() {
         return delegate.navigate();
     }
+
     public void quit() {
         delegate.quit();
     }
+
     public TargetLocator switchTo() {
         return delegate.switchTo();
     }

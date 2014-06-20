@@ -12,9 +12,9 @@ public class UserListIT extends Integrationtest {
 
         browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
-    
+
     @Test
-    public void show_list_of_user(){
+    public void show_list_of_user() {
         assertTrue(isUserVisible(ADMIN_USERNAME));
     }
 

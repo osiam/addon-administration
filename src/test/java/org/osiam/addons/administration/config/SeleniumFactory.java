@@ -19,32 +19,32 @@ import org.springframework.context.annotation.Configuration;
 public class SeleniumFactory {
 
     @Inject
-    Browser browser;
-    
+    private Browser browser;
+
     @Bean
-    Browser browser(){
+    public Browser browser() {
         WebDriver driver;
-        
-        try{
+
+        try {
             driver = new InternetExplorerDriver();
-        }catch(Exception e){
-            try{
+        } catch (Exception e) {
+            try {
                 driver = new SafariDriver();
-            }catch(Exception e1){
-                try{
+            } catch (Exception e1) {
+                try {
                     driver = new FirefoxDriver();
-                }catch(Exception e2){
+                } catch (Exception e2) {
                     driver = new HtmlUnitDriver(true);
                 }
             }
         }
-        
+
         Browser browser = new Browser(driver);
         return browser;
     }
-    
+
     @PreDestroy
-    void closeBrowser(){
+    void closeBrowser() {
         browser.quit();
     }
 }

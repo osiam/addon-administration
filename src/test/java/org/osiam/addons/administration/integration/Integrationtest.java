@@ -43,17 +43,17 @@ public class Integrationtest {
 
     public static final String ADMIN_USERNAME = "marissa";
     public static final String ADMIN_PASSWORD = "koala";
-    
+
     @Value("http://localhost:${local.server.port}/")
-    String baseURL;
-    
+    protected String baseURL;
+
     @Inject
-    Browser browser;
-    
+    protected Browser browser;
+
     @Before
-    public void setup(){
+    public void setup() {
         browser.setBaseURL(baseURL);
         browser.manage().deleteAllCookies();
     }
-    
+
 }
