@@ -18,23 +18,23 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(UserViewController.CONTROLLER_PATH)
 public class UserViewController {
 
-    public final static String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/list";
+    public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/list";
     
     /*
      * List of request parameters.
      */
     
-    public final static String RP_QUERY = "query";
-    public final static String RP_LIMIT = "limit";
-    public final static String RP_OFFSET = "offset";
-    public final static String RP_ORDER_BY = "orderBy";
-    public final static String RP_ASCENDING = "asc";
+    public static final String RP_QUERY = "query";
+    public static final String RP_LIMIT = "limit";
+    public static final String RP_OFFSET = "offset";
+    public static final String RP_ORDER_BY = "orderBy";
+    public static final String RP_ASCENDING = "asc";
     
     
     /*
      * List of model names.
      */
-    public final static String MN_USER_LIST = "userlist";
+    public static final String MN_USER_LIST = "userlist";
     
     
     @Inject

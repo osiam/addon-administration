@@ -4,8 +4,6 @@ import javax.inject.Inject;
 
 import org.osiam.addons.administration.model.SessionData;
 import org.osiam.client.OsiamConnector;
-import org.osiam.client.oauth.AccessToken;
-import org.osiam.client.query.Query;
 import org.osiam.client.query.QueryBuilder;
 import org.osiam.resources.scim.SCIMSearchResult;
 import org.osiam.resources.scim.User;
@@ -18,10 +16,10 @@ import org.springframework.stereotype.Component;
 public class UserService {
 
     @Inject
-    SessionData sessionData;
+    protected SessionData sessionData;
 
     @Inject
-    OsiamConnector connector;
+    protected OsiamConnector connector;
 
     /**
      * See {@link UserService#searchUser(String, Integer, Long, String, Boolean)}.
@@ -41,12 +39,13 @@ public class UserService {
      * Search for existing Users.
      * 
      * @see OsiamConnector#searchUsers(Query, AccessToken)
-     * @param query
-     * @param limit
-     * @param offset
-     * @param orderBy
-     * @param ascending
-     * @return
+     * 
+     * @param query Containing the query to execute.
+     * @param limit The maximum number of returned resources.
+     * @param offset The (1-based) index of the first resource.
+     * @param orderBy The attribute to sort the resulting resources by.
+     * @param ascending The sort direction of the resulting resources.
+     * @return A SCIMSearchResult Containing a list of all found Users.
      */
     public SCIMSearchResult<User> searchUser(String query, Integer limit, Long offset, String orderBy, Boolean ascending) {
         QueryBuilder qb = new QueryBuilder();

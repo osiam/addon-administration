@@ -10,14 +10,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean
-    public ResourceBundleMessageSource messageSource(){ //don't change the method name!
+    public ResourceBundleMessageSource messageSource() { // don't change the method name!
         ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
-        
+
         resource.setBasenames("l10n/general");
-        
+
         return resource;
     }
-    
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
