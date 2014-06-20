@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * This controller contains all handler for the login page ( the root path / ).
  */
 @Controller
+@RequestMapping(LoginController.CONTROLLER_PATH)
 public class LoginController {
 
     public static final String CONTROLLER_PATH = "/";
@@ -33,6 +34,6 @@ public class LoginController {
             @RequestParam(value = "code", required = true) String code) {
 
         session.setAccesstoken(connector.retrieveAccessToken(code));
-        return "redirect:admin";
+        return "redirect:" + AdminController.CONTROLLER_PATH;
     }
 }
