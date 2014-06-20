@@ -20,43 +20,34 @@ public class UserViewController {
 
     public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/list";
     
-    /*
-     * List of request parameters.
-     */
+    public static final String REQUEST_PARAMETER_QUERY = "query";
+    public static final String REQUEST_PARAMETER_LIMIT = "limit";
+    public static final String REQUEST_PARAMETER_OFFSET = "offset";
+    public static final String REQUEST_PARAMETER_ORDER_BY = "orderBy";
+    public static final String REQUEST_PARAMETER_ASCENDING = "asc";
     
-    public static final String RP_QUERY = "query";
-    public static final String RP_LIMIT = "limit";
-    public static final String RP_OFFSET = "offset";
-    public static final String RP_ORDER_BY = "orderBy";
-    public static final String RP_ASCENDING = "asc";
-    
-    
-    /*
-     * List of model names.
-     */
-    public static final String MN_USER_LIST = "userlist";
-    
+    public static final String MODEL_USER_LIST = "userlist";
     
     @Inject
     private UserService service;
     
     @RequestMapping
     public ModelAndView handleList(
-            @RequestParam(value = RP_QUERY, required = false) 
+            @RequestParam(value = REQUEST_PARAMETER_QUERY, required = false) 
             String query,
-            @RequestParam(value = RP_LIMIT, required = false) 
+            @RequestParam(value = REQUEST_PARAMETER_LIMIT, required = false) 
             Integer limit,
-            @RequestParam(value = RP_OFFSET, required = false) 
+            @RequestParam(value = REQUEST_PARAMETER_OFFSET, required = false) 
             Long offset,
-            @RequestParam(value = RP_ORDER_BY, required = false) 
+            @RequestParam(value = REQUEST_PARAMETER_ORDER_BY, required = false) 
             String orderBy,
-            @RequestParam(value = RP_ASCENDING, required = false) 
+            @RequestParam(value = REQUEST_PARAMETER_ASCENDING, required = false) 
             Boolean ascending) {
         
         ModelAndView mav = new ModelAndView("user/list");
 
         SCIMSearchResult<User> userList = service.searchUser(query, limit, offset, orderBy, ascending);
-        mav.addObject(MN_USER_LIST, userList);
+        mav.addObject(MODEL_USER_LIST, userList);
         
         return mav;
     }
