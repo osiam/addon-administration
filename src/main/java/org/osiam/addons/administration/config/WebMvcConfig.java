@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    @Bean(name="messageSource")
+    @Bean(name = "messageSource")
     public ResourceBundleMessageSource initializeMessageSource() {
         ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
 

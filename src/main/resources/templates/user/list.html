@@ -9,22 +9,22 @@
 	<table class="table table-hover">
 		<thead><tr>
 			<th>
-				<input type="checkbox" class="checkbox" />
+				<input id="user-checkbox" type="checkbox" class="checkbox" />
 			</th>
 			<th>
 				<span th:text="#{msg.user.login}">Login</span>
-				<a href="">^</a>
-				<a href="">v</a>
+				<a id="order-by-login-desc" href="">^</a>
+				<a id="order-by-login-asc" href="">v</a>
 			</th>
 			<th>
 				<span th:text="#{msg.user.name.given}">Given Name</span>
-				<a href="">^</a>
-				<a href="">v</a>	
+				<a id="order-by-givenname-desc" href="">^</a>
+				<a id="order-by-givenname-asc" href="">v</a>	
 			</th>
 			<th>
 				<span th:text="#{msg.user.name.family}">Family Name</span>
-				<a href="">^</a>
-				<a href="">v</a>
+				<a id="order-by-familyname-desc" href="">^</a>
+				<a id="order-by-familyname-asc" href="">v</a>
 			</th>
 			<th></th>
 		</tr></thead>
@@ -32,23 +32,23 @@
 			<!-- Start: Filter-Row -->
 			<tr>
 				<td />
-				<td><input type="text" /></td>
-				<td><input type="text" /></td>
-				<td><input type="text" /></td>
+				<td><input id="filter-login" type="text" /></td>
+				<td><input id="filter-givenname" type="text" /></td>
+				<td><input id="filter-familyname" type="text" /></td>
 				<td>
-					<button th:text="#{msg.button.filter}" class="btn btn-default">Filter</button>
+					<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default">Filter</button>
 				</td>
 			</tr>
 			<!-- End: Filter-Row -->
 			<tr th:each="user : ${userlist.resources}">
 				<td>
-					<input type="checkbox" class="checkbox" />
+					<input th:id="${'user-checkbox-' + userStat.index}" type="checkbox" class="checkbox" />
 				</td>
  				<td th:text="${user.userName}">Login</td>
  				<td th:text="${user.name} != null ? ${user.name.givenName} : '-'">Given Name</td>
 				<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">Family Name</td>
 				<td>
-					<button th:text="#{msg.button.actions} + ' >'" class="btn btn-default">Actions</button>
+					<button th:id="${'action-button-' + userStat.index}" th:text="#{msg.button.actions} + ' >'" class="btn btn-default">Actions</button>
 				</td>
 			</tr>
 		</tbody>
