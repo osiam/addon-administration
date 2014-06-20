@@ -29,7 +29,7 @@ public class UserViewController {
     public static final String MODEL_USER_LIST = "userlist";
     
     @Inject
-    private UserService service;
+    private UserService userService;
     
     @RequestMapping
     public ModelAndView handleList(
@@ -44,11 +44,11 @@ public class UserViewController {
             @RequestParam(value = REQUEST_PARAMETER_ASCENDING, required = false) 
             Boolean ascending) {
         
-        ModelAndView mav = new ModelAndView("user/list");
+        ModelAndView modelAndView = new ModelAndView("user/list");
 
-        SCIMSearchResult<User> userList = service.searchUser(query, limit, offset, orderBy, ascending);
-        mav.addObject(MODEL_USER_LIST, userList);
+        SCIMSearchResult<User> userList = userService.searchUser(query, limit, offset, orderBy, ascending);
+        modelAndView.addObject(MODEL_USER_LIST, userList);
         
-        return mav;
+        return modelAndView;
     }
 }
