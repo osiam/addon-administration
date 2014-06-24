@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AdminAccessDecisionManager decisionManager;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception { //NOSONAR the authorizeRequests() throws it and can't be omitted
         http.authorizeRequests()
                 .accessDecisionManager(decisionManager)
                 .antMatchers(AdminController.CONTROLLER_PATH + "/**")
