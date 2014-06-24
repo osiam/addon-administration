@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 public class UserService {
 
     @Inject
-    protected SessionData sessionData;
+    private SessionData sessionData;
 
     @Inject
-    protected OsiamConnector connector;
+    private OsiamConnector connector;
 
     /**
      * See {@link UserService#searchUser(String, Integer, Long, String, Boolean)}.
