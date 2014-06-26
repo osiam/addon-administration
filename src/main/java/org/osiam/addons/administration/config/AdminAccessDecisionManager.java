@@ -21,7 +21,7 @@ public class AdminAccessDecisionManager implements AccessDecisionManager {
     private SessionData session;
 
     @Override
-    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes){
+    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) {
         // if there are no access-token in session
         if (session.getAccesstoken() == null) {
             throw new AccessDeniedException("There is no accesstoken in session!");

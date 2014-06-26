@@ -7,40 +7,43 @@ public class RedirectBuilder {
     private String destination;
     private String path;
     private String query;
-    
+
     /**
      * Set the url-path of the redirect destination.
      * 
-     * @param path The url path.
+     * @param path
+     *        The url path.
      * @return this
      */
     public RedirectBuilder setPath(String path) {
         this.path = path;
-        
+
         return this;
     }
-    
+
     /**
      * Set the url-query of the redirect destination.
      * 
-     * @param query The query of the url.
+     * @param query
+     *        The query of the url.
      * @return this
      */
     public RedirectBuilder setQuery(String query) {
         this.query = query;
-        
+
         return this;
     }
-    
+
     /**
      * Set the complete redirect destination.
      * 
-     * @param destination The <b>complete</b> destination.
+     * @param destination
+     *        The <b>complete</b> destination.
      * @return this
      */
-    public RedirectBuilder setDestination(String destination){
+    public RedirectBuilder setDestination(String destination) {
         this.destination = destination;
-        
+
         return this;
     }
 
@@ -51,20 +54,20 @@ public class RedirectBuilder {
      */
     public String build() {
         StringBuilder redirect = new StringBuilder("redirect:");
-        
-        if(destination != null){
+
+        if (destination != null) {
             redirect.append(destination);
-        }else{
-            if(path != null){
+        } else {
+            if (path != null) {
                 redirect.append(path);
             }
-            
-            if(query != null){
+
+            if (query != null) {
                 redirect.append("?");
                 redirect.append(query);
             }
         }
-        
+
         return redirect.toString();
     }
 
