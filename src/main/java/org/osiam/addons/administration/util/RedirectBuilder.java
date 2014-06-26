@@ -27,7 +27,7 @@ public class RedirectBuilder {
      * @return this
      */
     public RedirectBuilder setQuery(String query) {
-        this.path = query;
+        this.query = query;
         
         return this;
     }
