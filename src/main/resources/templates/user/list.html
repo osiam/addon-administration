@@ -3,6 +3,7 @@
 <head>
 <title>User-List</title>
 
+	<script type="text/javascript" src="../../js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}" ></script>
 	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 </head>
 <body>
@@ -31,13 +32,15 @@
 		<tbody>
 			<!-- Start: Filter-Row -->
 			<tr>
-				<td />
-				<td><input id="filter-login" type="text" /></td>
-				<td><input id="filter-givenname" type="text" /></td>
-				<td><input id="filter-familyname" type="text" /></td>
-				<td>
-					<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default">Filter</button>
-				</td>
+				<form id="filter-form" action="" >
+					<td><input type="hidden" name="action" value="filter"/></td>
+					<td><input id="filter-login" name="query.userName" type="text" /></td>
+					<td><input id="filter-givenname" name="query.name.givenName" type="text" /></td>
+					<td><input id="filter-familyname" name="query.name.familyName" type="text" /></td>
+					<td>
+						<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default" type="submit">Filter</button>
+					</td>
+				</form>
 			</tr>
 			<!-- End: Filter-Row -->
 			<tr th:each="user : ${userlist.resources}">
@@ -59,7 +62,7 @@
 			Paging-Navigation...
 		</span>
 		<span th:text="#{msg.list.limit}"></span>
-		<select class="form-control">
+		<select id="paging-limit" class="form-control">
 			<option>5</option>
 			<option>10</option>
 			<option>20</option>
