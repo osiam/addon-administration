@@ -25,6 +25,24 @@ public interface Element {
         public By by() {
             return this.by;
         }
+    }
+    
+    public static enum UserList implements Element {
+        FilterButton(By.id("filter-button")),
+        FilterLogin(By.id("filter-login")),
+        FilterGivenName(By.id("filter-givenname")),
+        FilterFamilyName(By.id("filter-familyname"));
+
+        private By by;
+        
+        private UserList(By by) {
+            this.by = by;
+        }
+        
+        @Override
+        public By by() {
+            return this.by;
+        }
         
     }
 }
