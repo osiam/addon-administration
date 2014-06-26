@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "org.osiam.addons.administration")
-@PropertySource("classpath:addon-administration.properties")
+@PropertySource(value = "classpath:addon-administration.properties", ignoreResourceNotFound = true)
 public class Application {
 
     public static void main(String[] args) {
