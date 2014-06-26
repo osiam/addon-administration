@@ -25,14 +25,14 @@ public class UserService {
      * See {@link UserService#searchUser(String, Integer, Long, String, Boolean)}.
      */
     public SCIMSearchResult<User> searchUser(String query) {
-        return searchUser(query, null, null, null, null);
+        return searchUser(query, null, null, null, null, null);
     }
 
     /**
      * See {@link UserService#searchUser(String, Integer, Long, String, Boolean)}.
      */
     public SCIMSearchResult<User> searchUser(String query, Integer limit, Long offset) {
-        return searchUser(query, limit, offset, null, null);
+        return searchUser(query, limit, offset, null, null, null);
     }
 
     /**
@@ -45,12 +45,17 @@ public class UserService {
      * @param offset The (1-based) index of the first resource.
      * @param orderBy The attribute to sort the resulting resources by.
      * @param ascending The sort direction of the resulting resources.
+     * @param attributes List of attributes to return.
      * @return A SCIMSearchResult Containing a list of all found Users.
      */
-    public SCIMSearchResult<User> searchUser(String query, Integer limit, Long offset, String orderBy, Boolean ascending) {
+    public SCIMSearchResult<User> searchUser(String query, Integer limit, Long offset, String orderBy, Boolean ascending, String attributes) {
         QueryBuilder qb = new QueryBuilder();
         qb.filter(query);
 
+        if(attributes != null){
+            qb.attributes(attributes);
+        }
+        
         if (limit != null) {
             qb.count(limit);
         }
@@ -66,7 +71,7 @@ public class UserService {
                 qb.descending(orderBy);
             }
         }
-
+        
         return connector.searchUsers(qb.build(), sessionData.getAccesstoken());
     }
 }

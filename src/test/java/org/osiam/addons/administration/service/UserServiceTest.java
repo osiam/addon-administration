@@ -47,20 +47,20 @@ public class UserServiceTest {
     @Test
     public void searchUser_onlyQuery() {
         final SCIMSearchResult<User> toReturn = mock(SCIMSearchResult.class);
-        doReturn(toReturn).when(toTestSpy).searchUser(anyString(), anyInt(), anyLong(), anyString(), anyBoolean());
+        doReturn(toReturn).when(toTestSpy).searchUser(anyString(), anyInt(), anyLong(), anyString(), anyBoolean(), anyString());
 
         final String query = "TestQuery";
         final SCIMSearchResult<User> result = toTestSpy.searchUser(query);
 
         assertSame(result, toReturn);
-        verify(toTestSpy).searchUser(query, null, null, null, null);
+        verify(toTestSpy).searchUser(query, null, null, null, null, null);
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void searchUser_withLimit() {
         final SCIMSearchResult<User> toReturn = mock(SCIMSearchResult.class);
-        doReturn(toReturn).when(toTestSpy).searchUser(anyString(), anyInt(), anyLong(), anyString(), anyBoolean());
+        doReturn(toReturn).when(toTestSpy).searchUser(anyString(), anyInt(), anyLong(), anyString(), anyBoolean(), anyString());
 
         final String query = "TestQuery";
         final Integer limit = 13;
@@ -68,7 +68,7 @@ public class UserServiceTest {
         final SCIMSearchResult<User> result = toTestSpy.searchUser(query, limit, offset);
 
         assertSame(result, toReturn);
-        verify(toTestSpy).searchUser(query, limit, offset, null, null);
+        verify(toTestSpy).searchUser(query, limit, offset, null, null, null);
     }
 
     @Test
@@ -78,8 +78,9 @@ public class UserServiceTest {
         final Long offset = 12L;
         final String orderBy = "orderby";
         final Boolean asc = false; // desc
+        final String attributes = "attributes";
 
-        toTestSpy.searchUser(query, limit, offset, orderBy, asc);
+        toTestSpy.searchUser(query, limit, offset, orderBy, asc, attributes);
 
         ArgumentCaptor<Query> cap = ArgumentCaptor.forClass(Query.class);
 
@@ -91,5 +92,6 @@ public class UserServiceTest {
         assertTrue(offset == usedQuery.getStartIndex());
         assertEquals(orderBy, usedQuery.getSortBy());
         assertEquals("descending", usedQuery.getSortOrder());
+        assertEquals(attributes, usedQuery.getAttributes());
     }
 }
