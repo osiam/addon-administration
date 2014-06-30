@@ -21,19 +21,6 @@ public class UserlistSession {
     private Boolean ascending;
     private Map<String, String> filterFields = Collections.EMPTY_MAP;
     
-    public UserlistSession() {
-    }
-
-    public UserlistSession(String query, Integer limit, Long offset, String orderBy, Boolean ascending,
-            Map<String, String> filterFields) {
-        this.query = query;
-        this.limit = limit;
-        this.offset = offset;
-        this.orderBy = orderBy;
-        this.ascending = ascending;
-        this.filterFields = filterFields;
-    }
-
     public String getQuery() {
         return query;
     }
