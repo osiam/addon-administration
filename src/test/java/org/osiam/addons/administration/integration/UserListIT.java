@@ -38,11 +38,13 @@ public class UserListIT extends Integrationtest {
 
     @Test
     public void apply_multi_filter(){
-        browser.fill(new Field(UserList.FilterLogin, ADMIN_USERNAME));
+        browser.fill(
+                new Field(UserList.FilterGivenName, "Adeline"),
+                new Field(UserList.FilterFamilyName, "Davies"));
         browser.click(UserList.FilterButton);
         
-        assertTrue(isUserVisible(ADMIN_USERNAME));
-        assertFalse(isUserVisible("adavies"));  //an another user
+        assertFalse(isUserVisible(ADMIN_USERNAME));
+        assertTrue(isUserVisible("adavies"));  //an another user
     }
     
     private boolean isUserVisible(String username) {
