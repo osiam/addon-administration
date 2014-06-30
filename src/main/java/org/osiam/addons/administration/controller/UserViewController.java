@@ -1,7 +1,5 @@
 package org.osiam.addons.administration.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,13 +32,13 @@ public class UserViewController {
     public static final String REQUEST_PARAMETER_ORDER_BY = "orderBy";
     public static final String REQUEST_PARAMETER_ASCENDING = "asc";
     public static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
-    
+
     public static final String MODEL_USER_LIST = "userlist";
     public static final String MODEL_SESSION_DATA = "sessionData";
 
     @Inject
     private UserService userService;
-    
+
     @Inject
     private UserlistSession session;
 
@@ -59,7 +57,7 @@ public class UserViewController {
         SCIMSearchResult<User> userList = userService.searchUser(query, limit, offset, orderBy, ascending, attributes);
         modelAndView.addObject(MODEL_USER_LIST, userList);
         modelAndView.addObject(MODEL_SESSION_DATA, session);
-        
+
         session.setQuery(query);
         session.setLimit(limit);
         session.setOffset(offset);
@@ -75,25 +73,28 @@ public class UserViewController {
 
         Map<String, String> filterParameter = extractFilterParameter(allParameters);
         String filterQuery = buildFilterQuery(filterParameter);
-        String urlQuery = REQUEST_PARAMETER_QUERY + "=" + filterQuery;
 
         session.setFilterFields(filterParameter);
-        
+
         return new RedirectBuilder()
                 .setPath(CONTROLLER_PATH)
-                .setQuery(urlQuery)
+                .addParameter(REQUEST_PARAMETER_QUERY, filterQuery)
+                .addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
+                .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+                .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
+                .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
                 .build();
     }
 
     private Map<String, String> extractFilterParameter(Map<String, String> allParameters) {
         Map<String, String> result = new HashMap<String, String>();
-        
+
         for (Entry<String, String> param : allParameters.entrySet()) {
             if (param.getKey().startsWith(REQUEST_PARAMETER_QUERY_PREFIX)) {
                 result.put(param.getKey(), param.getValue());
             }
         }
-        
+
         return result;
     }
 
@@ -116,10 +117,21 @@ public class UserViewController {
             }
         }
 
-        try {
-            return URLEncoder.encode(filterQuery.toString(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalStateException(e);
-        }
+        return filterQuery.toString();
+    }
+
+    @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=sort")
+    public String handleSortAction(
+            @RequestParam(value = REQUEST_PARAMETER_ORDER_BY, required = false) String orderBy,
+            @RequestParam(value = REQUEST_PARAMETER_ASCENDING, required = false) Boolean ascending) {
+
+        return new RedirectBuilder()
+                .setPath(CONTROLLER_PATH)
+                .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
+                .addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
+                .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+                .addParameter(REQUEST_PARAMETER_ORDER_BY, orderBy)
+                .addParameter(REQUEST_PARAMETER_ASCENDING, ascending)
+                .build();
     }
 }
