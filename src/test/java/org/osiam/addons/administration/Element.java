@@ -31,7 +31,14 @@ public interface Element {
         FilterButton(By.id("filter-button")),
         FilterLogin(By.id("filter-login")),
         FilterGivenName(By.id("filter-givenname")),
-        FilterFamilyName(By.id("filter-familyname"));
+        FilterFamilyName(By.id("filter-familyname")), 
+        
+        SortLoginAsc(By.id("order-by-login-asc")),
+        SortLoginDesc(By.id("order-by-login-desc")),
+        SortGivenNameAsc(By.id("order-by-givenname-asc")),
+        SortGivenNameDesc(By.id("order-by-givenname-desc")),
+        SortFamilyNameAsc(By.id("order-by-familyname-asc")),
+        SortFamilyNameDesc(By.id("order-by-familyname-desc"));
 
         private By by;
         
