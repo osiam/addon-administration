@@ -2,7 +2,7 @@ package org.osiam.addons.administration.controller;
 
 import javax.inject.Inject;
 
-import org.osiam.addons.administration.model.SessionData;
+import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.Scope;
@@ -23,7 +23,7 @@ public class LoginController {
     private OsiamConnector connector;
 
     @Inject
-    private SessionData session;
+    private GeneralSessionData session;
 
     @RequestMapping
     public String handleRedirectoToLogin() {

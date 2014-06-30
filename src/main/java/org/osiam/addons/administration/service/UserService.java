@@ -2,7 +2,7 @@ package org.osiam.addons.administration.service;
 
 import javax.inject.Inject;
 
-import org.osiam.addons.administration.model.SessionData;
+import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.query.QueryBuilder;
 import org.osiam.resources.scim.SCIMSearchResult;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class UserService {
 
     @Inject
-    private SessionData sessionData;
+    private GeneralSessionData sessionData;
 
     @Inject
     private OsiamConnector connector;

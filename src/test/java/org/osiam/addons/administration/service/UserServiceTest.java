@@ -19,7 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.osiam.addons.administration.model.SessionData;
+import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
@@ -37,7 +37,7 @@ public class UserServiceTest {
     
     @Spy
     @InjectMocks
-    SessionData sessionData = new SessionData();
+    GeneralSessionData sessionData = new GeneralSessionData();
     
     @Spy
     @InjectMocks
