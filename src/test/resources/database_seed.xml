@@ -134,10 +134,6 @@
     <scim_name id="100051" familyname="Erick" formatted="Erick Willey" givenname="Willey"/>
 
     <scim_user
-            password="cbae73fac0893291c4792ef19d158a589402288b35cb18fb8406e951b9d95f6b8b06a3526ffebe96ae0d91c04ae615a7fe2af362763db386ccbf3b55c29ae800"
-            username="marissa" internal_id="100001" active="true"/>
-
-    <scim_user
             password="42db3b474c2a54f6b1c3c352e4436274de6b0239432c9a6c2d51c62e54b28ad1e3ecbb306f7748890934e3dae4292e339189c8bb7af55f68de9855ca455f19e4"
             displayname="BarbaraJ." locale="de" nickname="Barbara" preferredlanguage="de"
             profileurl="http://babaraJ.com" timezone="UTC" title="Dr."
@@ -169,6 +165,10 @@
     <scim_user
             password="fde98149b655d62202e250d65d80005b5989e622887a01692df6f8f89d569f9273fa0a76a227aeb8a2418412f89efd247e9e960cbd0ae27024aff5f0831fc95e"
             username="ewilley" internal_id="100049" name_id="100051" active="false"/>
+            
+    <scim_user
+            password="cbae73fac0893291c4792ef19d158a589402288b35cb18fb8406e951b9d95f6b8b06a3526ffebe96ae0d91c04ae615a7fe2af362763db386ccbf3b55c29ae800"
+            username="marissa" internal_id="100001" active="true"/>
 
     <scim_group displayname="test_group01" internal_id="100052"/>
     <scim_group displayname="test_group02" internal_id="100054"/>
