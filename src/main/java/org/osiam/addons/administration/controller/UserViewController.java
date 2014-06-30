@@ -1,5 +1,7 @@
 package org.osiam.addons.administration.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -114,6 +116,10 @@ public class UserViewController {
             }
         }
 
-        return filterQuery.toString();
+        try {
+            return URLEncoder.encode(filterQuery.toString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }
