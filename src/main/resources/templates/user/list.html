@@ -31,14 +31,14 @@
 		</tr></thead>
 		<tbody>
 			<!-- Start: Filter-Row -->
-			<tr>
-				<form id="filter-form" action="" >
+			<tr th:object="${sessionData.filterFields}">
+				<form id="filter-form" action="">
 				<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 				
 					<td><input type="hidden" name="action" value="filter"/></td>
-					<td><input id="filter-login" name="query.userName" type="text" /></td>
-					<td><input id="filter-givenname" name="query.name.givenName" type="text" /></td>
-					<td><input id="filter-familyname" name="query.name.familyName" type="text" /></td>
+					<td><input id="filter-login" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
+					<td><input id="filter-givenname" name="query.name.givenName" type="text" th:value="*{get('query.name.givenName')}" /></td>
+					<td><input id="filter-familyname" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
 					<td>
 						<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default" type="submit">Filter</button>
 					</td>
