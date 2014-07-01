@@ -38,7 +38,9 @@ public interface Element {
         SortGivenNameAsc(By.id("order-by-givenname-asc")),
         SortGivenNameDesc(By.id("order-by-givenname-desc")),
         SortFamilyNameAsc(By.id("order-by-familyname-asc")),
-        SortFamilyNameDesc(By.id("order-by-familyname-desc"));
+        SortFamilyNameDesc(By.id("order-by-familyname-desc")), 
+        
+        Limit(By.id("paging-limit"));
 
         private By by;
         

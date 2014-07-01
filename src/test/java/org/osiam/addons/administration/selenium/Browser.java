@@ -8,8 +8,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.osiam.addons.administration.Element;
 import org.osiam.addons.administration.Element.OauthLogin;
+import org.osiam.addons.administration.Element.UserList;
 import org.osiam.addons.administration.controller.LoginController;
 
 /**
@@ -93,9 +95,27 @@ public class Browser implements WebDriver {
      * @return this
      */
     public Browser click(Element element) {
-        findElement(element.by()).click();
+        findElement(element).click();
 
         return this;
+    }
+
+    /**
+     * Return the element if it was found.
+     * 
+     * @param element
+     * @return this
+     */
+    public WebElement findElement(Element element) {
+        return findElement(element.by());
+    }
+
+    public Select findSelectElement(Element element) {
+        return new Select(findElement(element));
+    }
+    
+    public WebElement findSelectedOption(Element element) {
+        return findSelectElement(element).getFirstSelectedOption();
     }
 
     /**
@@ -107,13 +127,26 @@ public class Browser implements WebDriver {
      */
     public Browser fill(List<Field> fields) {
         for (Field f : fields) {
-            WebElement webElement = findElement(f.getElement().by());
+            WebElement webElement = findElement(f.getElement());
 
-            webElement.clear();
-            webElement.sendKeys(String.valueOf(f.getValue()));
+            if ("select".equalsIgnoreCase(webElement.getTagName())) {
+                selectOption(webElement, f.getValue());
+            } else {
+                webElement.clear();
+                webElement.sendKeys(String.valueOf(f.getValue()));
+            }
         }
 
         return this;
+    }
+
+    private void selectOption(WebElement selectElement, Object value) {
+        Select select = new Select(selectElement);
+        try {
+            select.selectByValue(String.valueOf(value));
+        } catch (NoSuchElementException e) {
+            select.selectByVisibleText(String.valueOf(value));
+        }
     }
 
     /**

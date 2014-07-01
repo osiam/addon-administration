@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
 import org.osiam.addons.administration.Element.UserList;
 import org.osiam.addons.administration.selenium.Field;
 
@@ -67,6 +68,26 @@ public class UserListIT extends Integrationtest {
 
         browser.click(UserList.SortFamilyNameDesc);
         assertTrue(isUserAtPosition("jcambell", 0));    //  Thompson
+    }
+    
+    @Test
+    public void limit(){
+        //default limit: 20
+        assertEquals("20", browser.findSelectedOption(UserList.Limit).getText());
+        
+        //change limit seticfied
+        assertTrue("Precondition is not satisfied! For this testcase the dataset must be contains more than 5 users!", 
+                getDisplayedUser() > 5);
+        
+        browser.fill(new Field(UserList.Limit, "5"));
+        assertTrue(getDisplayedUser() <= 5);
+        assertEquals("5", browser.findSelectedOption(UserList.Limit).getText());
+    }
+
+    private int getDisplayedUser() {
+        String userRowsXpath = "//table//tr//button[contains(@id, 'action-button')]";
+        
+        return browser.findElements(By.xpath(userRowsXpath)).size();
     }
 
     private boolean isUserVisible(String username) {
