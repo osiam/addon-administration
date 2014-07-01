@@ -36,6 +36,8 @@ public class UserViewController {
     public static final String MODEL_USER_LIST = "userlist";
     public static final String MODEL_SESSION_DATA = "sessionData";
 
+    private static final Integer DEFAULT_LIMIT = 20;
+
     @Inject
     private UserService userService;
 
@@ -53,6 +55,9 @@ public class UserViewController {
         ModelAndView modelAndView = new ModelAndView("user/list");
 
         final String attributes = "userName, name.givenName, name.familyName";
+        if (limit == null) {
+            limit = DEFAULT_LIMIT;
+        }
 
         SCIMSearchResult<User> userList = userService.searchUser(query, limit, offset, orderBy, ascending, attributes);
         modelAndView.addObject(MODEL_USER_LIST, userList);
@@ -122,8 +127,8 @@ public class UserViewController {
 
     @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=sort")
     public String handleSortAction(
-            @RequestParam(value = REQUEST_PARAMETER_ORDER_BY, required = false) String orderBy,
-            @RequestParam(value = REQUEST_PARAMETER_ASCENDING, required = false) Boolean ascending) {
+            @RequestParam(value = REQUEST_PARAMETER_ORDER_BY) String orderBy,
+            @RequestParam(value = REQUEST_PARAMETER_ASCENDING) Boolean ascending) {
 
         return new RedirectBuilder()
                 .setPath(CONTROLLER_PATH)
@@ -132,6 +137,20 @@ public class UserViewController {
                 .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
                 .addParameter(REQUEST_PARAMETER_ORDER_BY, orderBy)
                 .addParameter(REQUEST_PARAMETER_ASCENDING, ascending)
+                .build();
+    }
+
+    @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=limit")
+    public String handleLimitAction(
+            @RequestParam(value = REQUEST_PARAMETER_LIMIT) Integer limit) {
+
+        return new RedirectBuilder()
+                .setPath(CONTROLLER_PATH)
+                .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
+                .addParameter(REQUEST_PARAMETER_LIMIT, limit)
+                .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+                .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
+                .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
                 .build();
     }
 }
