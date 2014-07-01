@@ -56,4 +56,14 @@ public class UserService {
 
         return connector.searchUsers(qb.build(), sessionData.getAccesstoken());
     }
+    
+    /**
+     * Returns the user with the given ID.
+     * 
+     * @param id the user ID
+     * @return the requested user
+     */
+    public User getUser(String id) {
+        return connector.getUser(id, sessionData.getAccesstoken());
+    }
 }
