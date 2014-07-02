@@ -60,9 +60,9 @@
 	</table>
 	<span th:text="#{msg.list.result(${userlist.startIndex}, ${userlist.startIndex} - 1 + ${#lists.size(userlist.resources)}, ${userlist.totalResults})}">Result x - y of total</span>
 	<div>
-		<span>
+		<div th:replace="makros :: pagingControlls(${paging}, 2)">
 			Paging-Navigation...
-		</span>
+		</div>
 		<span th:text="#{msg.list.limit}"></span>
 		<form name="form-limit" action="">
 			<input type="hidden" name="action" value="limit" />

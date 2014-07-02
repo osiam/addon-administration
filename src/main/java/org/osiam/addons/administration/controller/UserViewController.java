@@ -7,6 +7,8 @@ import java.util.Map.Entry;
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.model.session.UserlistSession;
+import org.osiam.addons.administration.paging.PagingBuilder;
+import org.osiam.addons.administration.paging.PagingLinks;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.scim.SCIMSearchResult;
@@ -35,6 +37,7 @@ public class UserViewController {
 
     public static final String MODEL_USER_LIST = "userlist";
     public static final String MODEL_SESSION_DATA = "sessionData";
+    public static final String MODEL_PAGING_LINKS = "paging";
 
     private static final Integer DEFAULT_LIMIT = 20;
 
@@ -60,8 +63,10 @@ public class UserViewController {
         }
 
         SCIMSearchResult<User> userList = userService.searchUser(query, limit, offset, orderBy, ascending, attributes);
+        PagingLinks pagingLinks = generatePagingLinks(userList, query, orderBy, ascending);
         modelAndView.addObject(MODEL_USER_LIST, userList);
         modelAndView.addObject(MODEL_SESSION_DATA, session);
+        modelAndView.addObject(MODEL_PAGING_LINKS, pagingLinks);
 
         session.setQuery(query);
         session.setLimit(limit);
@@ -70,6 +75,30 @@ public class UserViewController {
         session.setAscending(ascending);
 
         return modelAndView;
+    }
+
+    private PagingLinks generatePagingLinks(SCIMSearchResult<User> userList, String query, String orderBy,
+            Boolean ascending) {
+        PagingBuilder builder = new PagingBuilder()
+                .setBaseUrl("")
+                .setStartIndex(1L)  //SCIMResult begins with 1!
+                .setOffsetParameter(REQUEST_PARAMETER_OFFSET)
+                .setOffset(userList.getStartIndex())
+                .setLimitParameter(REQUEST_PARAMETER_LIMIT)
+                .setLimit(userList.getItemsPerPage())
+                .setTotal(userList.getTotalResults());
+
+        if (query != null) {
+            builder.addParameter(REQUEST_PARAMETER_QUERY, query);
+        }
+        if (orderBy != null) {
+            builder.addParameter(REQUEST_PARAMETER_ORDER_BY, orderBy);
+        }
+        if (ascending != null) {
+            builder.addParameter(REQUEST_PARAMETER_ASCENDING, ascending);
+        }
+
+        return builder.build();
     }
 
     @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=filter")
