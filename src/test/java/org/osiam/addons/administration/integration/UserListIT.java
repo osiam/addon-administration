@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
 import org.osiam.addons.administration.Element.UserList;
 import org.osiam.addons.administration.selenium.Field;
 

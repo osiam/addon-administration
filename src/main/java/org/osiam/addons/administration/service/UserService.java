@@ -40,22 +40,29 @@ public class UserService {
      * 
      * @see OsiamConnector#searchUsers(Query, AccessToken)
      * 
-     * @param query Containing the query to execute.
-     * @param limit The maximum number of returned resources.
-     * @param offset The (1-based) index of the first resource.
-     * @param orderBy The attribute to sort the resulting resources by.
-     * @param ascending The sort direction of the resulting resources.
-     * @param attributes List of attributes to return.
+     * @param query
+     *        Containing the query to execute.
+     * @param limit
+     *        The maximum number of returned resources.
+     * @param offset
+     *        The (1-based) index of the first resource.
+     * @param orderBy
+     *        The attribute to sort the resulting resources by.
+     * @param ascending
+     *        The sort direction of the resulting resources.
+     * @param attributes
+     *        List of attributes to return.
      * @return A SCIMSearchResult Containing a list of all found Users.
      */
-    public SCIMSearchResult<User> searchUser(String query, Integer limit, Long offset, String orderBy, Boolean ascending, String attributes) {
+    public SCIMSearchResult<User> searchUser(String query, Integer limit, Long offset, String orderBy,
+            Boolean ascending, String attributes) {
         QueryBuilder qb = new QueryBuilder();
         qb.filter(query);
 
-        if(attributes != null){
+        if (attributes != null) {
             qb.attributes(attributes);
         }
-        
+
         if (limit != null) {
             qb.count(limit);
         }
@@ -71,7 +78,7 @@ public class UserService {
                 qb.descending(orderBy);
             }
         }
-        
+
         return connector.searchUsers(qb.build(), sessionData.getAccesstoken());
     }
 }
