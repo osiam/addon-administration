@@ -32,9 +32,11 @@
 		<tbody>
 			<!-- Start: Filter-Row -->
 			<tr th:object="${sessionData.filterFields}">
-				<form id="filter-form" action="">
-				<!--/* All osiam-query relevant fields must begin with "query."!  */-->
-				
+				<form id="filter-form" action="" method="post">
+					<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+					<th:block th:replace="makros :: csrf" />
+
+					<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 					<td><input type="hidden" name="action" value="filter"/></td>
 					<td><input id="filter-login" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
 					<td><input id="filter-givenname" name="query.name.givenName" type="text" th:value="*{get('query.name.givenName')}" /></td>
@@ -64,7 +66,10 @@
 			Paging-Navigation...
 		</div>
 		<span th:text="#{msg.list.limit}"></span>
-		<form name="form-limit" action="">
+		<form name="form-limit" action="" method="post">
+			<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+			<th:block th:replace="makros :: csrf" />
+					
 			<input type="hidden" name="action" value="limit" />
 			<select id="paging-limit" name="limit" class="form-control" onchange="document['form-limit'].submit();">
 				<option th:selected="${sessionData.limit} == 5" >5</option>
