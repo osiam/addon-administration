@@ -12,6 +12,7 @@ import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,7 @@ import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
 import org.osiam.resources.scim.SCIMSearchResult;
+import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -105,5 +107,14 @@ public class UserServiceTest {
         
         User result = toTestSpy.getUser(id);
         assertEquals(user, result);
+    }
+    
+    @Test
+    public void updateUser() {
+        UpdateUser updateUser = new UpdateUser.Builder().build();
+        String id = "user ID";
+        
+        toTestSpy.updateUser(id, updateUser);
+        verify(connector, times(1)).updateUser(eq(id), eq(updateUser), same(accessToken));
     }
 }

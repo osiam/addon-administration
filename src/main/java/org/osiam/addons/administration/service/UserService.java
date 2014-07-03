@@ -6,6 +6,7 @@ import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.query.QueryBuilder;
 import org.osiam.resources.scim.SCIMSearchResult;
+import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Component;
 
@@ -65,5 +66,15 @@ public class UserService {
      */
     public User getUser(String id) {
         return connector.getUser(id, sessionData.getAccesstoken());
+    }
+    
+    /**
+     * Updates a user based on the given {@link UpdateUser}.
+     * 
+     * @param id the user ID
+     * @param updateUser the {@link UpdateUser}}
+     */
+    public void updateUser(String id, UpdateUser updateUser) {
+        connector.updateUser(id, updateUser, sessionData.getAccesstoken());
     }
 }
