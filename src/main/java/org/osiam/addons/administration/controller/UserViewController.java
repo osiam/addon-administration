@@ -114,7 +114,7 @@ public class UserViewController {
                 .setPath(CONTROLLER_PATH)
                 .addParameter(REQUEST_PARAMETER_QUERY, filterQuery)
                 .addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
-                .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+                .addParameter(REQUEST_PARAMETER_OFFSET, null)
                 .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
                 .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
                 .build();
@@ -177,7 +177,7 @@ public class UserViewController {
                 .setPath(CONTROLLER_PATH)
                 .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
                 .addParameter(REQUEST_PARAMETER_LIMIT, limit)
-                .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+                .addParameter(REQUEST_PARAMETER_OFFSET, null)
                 .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
                 .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
                 .build();

@@ -14,8 +14,8 @@
 			</th>
 			<th>
 				<span th:text="#{msg.user.login}">Login</span>
-				<a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">^</a>
-				<a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">v</a>
+				<i class="icon-arrow-up"><a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">^</a></i> 
+				<i class="icon-arrow-down"><a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">v</a></i> 
 			</th>
 			<th>
 				<span th:text="#{msg.user.name.given}">Given Name</span>
