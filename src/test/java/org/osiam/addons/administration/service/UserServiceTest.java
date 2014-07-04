@@ -11,8 +11,8 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,14 +35,14 @@ public class UserServiceTest {
 
     @Mock
     OsiamConnector connector;
-    
+
     @Mock
     AccessToken accessToken;
-    
+
     @Spy
     @InjectMocks
     GeneralSessionData sessionData = new GeneralSessionData();
-    
+
     @Spy
     @InjectMocks
     UserService toTestSpy = new UserService();
@@ -51,7 +51,8 @@ public class UserServiceTest {
     @Test
     public void searchUser_onlyQuery() {
         final SCIMSearchResult<User> toReturn = mock(SCIMSearchResult.class);
-        doReturn(toReturn).when(toTestSpy).searchUser(anyString(), anyInt(), anyLong(), anyString(), anyBoolean(), anyString());
+        doReturn(toReturn).when(toTestSpy).searchUser(anyString(), anyInt(), anyLong(), anyString(), anyBoolean(),
+                anyString());
 
         final String query = "TestQuery";
         final SCIMSearchResult<User> result = toTestSpy.searchUser(query);
@@ -64,7 +65,8 @@ public class UserServiceTest {
     @Test
     public void searchUser_withLimit() {
         final SCIMSearchResult<User> toReturn = mock(SCIMSearchResult.class);
-        doReturn(toReturn).when(toTestSpy).searchUser(anyString(), anyInt(), anyLong(), anyString(), anyBoolean(), anyString());
+        doReturn(toReturn).when(toTestSpy).searchUser(anyString(), anyInt(), anyLong(), anyString(), anyBoolean(),
+                anyString());
 
         final String query = "TestQuery";
         final Integer limit = 13;
@@ -98,23 +100,23 @@ public class UserServiceTest {
         assertEquals("descending", usedQuery.getSortOrder());
         assertEquals(attributes, usedQuery.getAttributes());
     }
-    
+
     @Test
     public void getUser() throws NoSuchUserException {
         String id = "userID";
-        
+
         User user = mock(User.class);
         doReturn(user).when(connector).getUser(eq(id), same(accessToken));
-        
+
         User result = toTestSpy.getUser(id);
         assertEquals(user, result);
     }
-    
+
     @Test
     public void updateUser() {
         UpdateUser updateUser = new UpdateUser.Builder().build();
         String id = "user ID";
-        
+
         toTestSpy.updateUser(id, updateUser);
         verify(connector, times(1)).updateUser(eq(id), eq(updateUser), same(accessToken));
     }
