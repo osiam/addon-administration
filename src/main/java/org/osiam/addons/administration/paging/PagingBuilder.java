@@ -119,13 +119,22 @@ public class PagingBuilder {
     }
 
     public PagingLinks build() {
-        List<String> urls = new ArrayList<String>();
+        
         PagingLinks pagingList = new PagingLinks();
 
         if (offset == null || limit == null || total == null) {
             return pagingList;
         }
 
+        configurePagingLinks(pagingList);
+        configurePrevAndNext(pagingList);
+
+        return pagingList;
+    }
+
+    private void configurePagingLinks(PagingLinks pagingList) {
+        List<String> urls = new ArrayList<String>();
+        
         for (long i = 0; i < total; i += limit) {
             UriBuilder builder = UriBuilder.fromUri(baseUrl)
                     .queryParam(offsetParameter, startIndex + i)
@@ -139,18 +148,21 @@ public class PagingBuilder {
                 }
             }
 
+            urls.add(builder.toString());
+            
             if (i + startIndex == offset) {
                 pagingList.setCurLink(builder.toString());
             }
-            urls.add(builder.toString());
         }
-
+        
         if (pagingList.getCurLink() == null) {
             pagingList.setCurLink(urls.get(urls.size() - 1));
         }
-
+        
         pagingList.setLinks(urls);
+    }
 
+    private void configurePrevAndNext(PagingLinks pagingList) {
         if (pagingList.getLinks().size() > 0) {
             // set previous- and next- link
             int indexOfCurLink = pagingList.getLinks().indexOf(pagingList.getCurLink());
@@ -163,7 +175,5 @@ public class PagingBuilder {
                 }
             }
         }
-
-        return pagingList;
     }
 }
