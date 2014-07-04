@@ -3,6 +3,7 @@ package org.osiam.addons.administration.controller.user;
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.controller.AdminController;
+import org.osiam.addons.administration.exception.NoSuchUserException;
 import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
@@ -25,17 +26,16 @@ import org.springframework.web.servlet.ModelAndView;
 public class EditUserController {
 
     public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/edit";
-    
+
     public static final String REQUEST_PARAMETER_ID = "id";
-    
+
     public static final String MODEL = "model";
 
     @Inject
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handle(
-            @RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
+    public ModelAndView handle(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) throws NoSuchUserException {
         ModelAndView modelAndView = new ModelAndView("user/editUser");
 
         User user = userService.getUser(id);
@@ -45,10 +45,10 @@ public class EditUserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String handleUpdate(
-            @ModelAttribute(MODEL) UpdateUserCommand command) {
-        command.setUser(userService.getUser(command.getId()));
-        
+    public String handleUpdate(@ModelAttribute(MODEL) UpdateUserCommand command) throws NoSuchUserException {
+        User user = userService.getUser(command.getId());
+        command.setUser(user);
+
         UpdateUser updateUser = command.asUpdateUser();
         userService.updateUser(command.getId(), updateUser);
 

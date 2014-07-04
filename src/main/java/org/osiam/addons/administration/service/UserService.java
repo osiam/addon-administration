@@ -2,6 +2,7 @@ package org.osiam.addons.administration.service;
 
 import javax.inject.Inject;
 
+import org.osiam.addons.administration.exception.NoSuchUserException;
 import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.query.QueryBuilder;
@@ -57,22 +58,32 @@ public class UserService {
 
         return connector.searchUsers(qb.build(), sessionData.getAccesstoken());
     }
-    
+
     /**
      * Returns the user with the given ID.
      * 
-     * @param id the user ID
+     * @param id
+     *        the user ID
      * @return the requested user
+     * @throws NoSuchUserException if the no user was found for id.
      */
-    public User getUser(String id) {
-        return connector.getUser(id, sessionData.getAccesstoken());
+    public User getUser(String id) throws NoSuchUserException {
+        User user = connector.getUser(id, sessionData.getAccesstoken());
+
+        if (user == null) {
+            throw new NoSuchUserException(id);
+        }
+
+        return user;
     }
-    
+
     /**
      * Updates a user based on the given {@link UpdateUser}.
      * 
-     * @param id the user ID
-     * @param updateUser the {@link UpdateUser}}
+     * @param id
+     *        the user ID
+     * @param updateUser
+     *        the {@link UpdateUser}
      */
     public void updateUser(String id, UpdateUser updateUser) {
         connector.updateUser(id, updateUser, sessionData.getAccesstoken());
