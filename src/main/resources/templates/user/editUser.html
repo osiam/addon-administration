@@ -34,7 +34,10 @@
 			<div class="row">
 				<div class="col-sm-2 col-sm-offset-10 text-right">
 					<button class="btn btn-md btn-primary" type="submit" th:text="#{edit_user.update}">OK</button>
-					<button class="btn btn-md btn-primary" type="button" th:text="#{edit_user.cancel}">Zurück</button>
+					
+					<a th:href="@{list}">
+						<button class="btn btn-md btn-primary" type="button" th:text="#{edit_user.cancel}">Zurück</button>
+					</a>
 				</div>
 			</div>
 		</div>

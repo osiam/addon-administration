@@ -25,7 +25,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class EditUserController {
 
     public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/edit";
+    
     public static final String REQUEST_PARAMETER_ID = "id";
+    
     public static final String MODEL = "model";
 
     @Inject
