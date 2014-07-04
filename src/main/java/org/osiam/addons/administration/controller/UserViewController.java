@@ -82,7 +82,7 @@ public class UserViewController {
             Boolean ascending) {
         PagingBuilder builder = new PagingBuilder()
                 .setBaseUrl("")
-                .setStartIndex(1L)  //SCIMResult begins with 1!
+                .setStartIndex(1L) // SCIMResult begins with 1!
                 .setOffsetParameter(REQUEST_PARAMETER_OFFSET)
                 .setOffset(userList.getStartIndex())
                 .setLimitParameter(REQUEST_PARAMETER_LIMIT)
@@ -103,8 +103,7 @@ public class UserViewController {
     }
 
     @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=filter")
-    public String handleFilterAction(
-            @RequestParam Map<String, String> allParameters) {
+    public String handleFilterAction(@RequestParam Map<String, String> allParameters) {
 
         Map<String, String> filterParameter = extractFilterParameter(allParameters);
         String filterQuery = buildFilterQuery(filterParameter);
@@ -171,8 +170,7 @@ public class UserViewController {
     }
 
     @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=limit")
-    public String handleLimitAction(
-            @RequestParam(value = REQUEST_PARAMETER_LIMIT) Integer limit) {
+    public String handleLimitAction(@RequestParam(value = REQUEST_PARAMETER_LIMIT) Integer limit) {
 
         return new RedirectBuilder()
                 .setPath(CONTROLLER_PATH)
