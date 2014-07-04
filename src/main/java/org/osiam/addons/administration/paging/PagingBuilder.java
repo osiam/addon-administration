@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.UriBuilder;
+
 /**
  * This builder is responsible for building a {@link PagingLinks} instance that contains all paging links.
  */
@@ -91,11 +93,10 @@ public class PagingBuilder {
     }
 
     /**
-     * Set the start index of paging. 
-     * For example: 
-     *  if you begin to count by 1, you need to set the start index to 1!
+     * Set the start index of paging. For example: if you begin to count by 1, you need to set the start index to 1!
      * 
-     * @param startIndex The start index.
+     * @param startIndex
+     *        The start index.
      * @return this
      */
     public PagingBuilder setStartIndex(Long startIndex) {
@@ -106,8 +107,10 @@ public class PagingBuilder {
     /**
      * Add a parameter that will be always appending at the paging links.
      * 
-     * @param parameter Name of the parameter.
-     * @param values Parameter values.
+     * @param parameter
+     *        Name of the parameter.
+     * @param values
+     *        Parameter values.
      * @return this
      */
     public PagingBuilder addParameter(String parameter, Object... values) {
@@ -124,26 +127,22 @@ public class PagingBuilder {
         }
 
         for (long i = 0; i < total; i += limit) {
-            StringBuilder url = new StringBuilder(baseUrl);
-            url.append("?");
-
-            url.append(buildParameter(offsetParameter, String.valueOf(startIndex + i)));
-            url.append("&");
-            url.append(buildParameter(limitParameter, String.valueOf(limit)));
+            UriBuilder builder = UriBuilder.fromUri(baseUrl)
+                    .queryParam(offsetParameter, startIndex + i)
+                    .queryParam(limitParameter, limit);
 
             // insert additional parameters
             for (String curKey : parameters.keySet()) {
                 Object[] value = parameters.get(curKey);
-                if (value != null) {
-                    url.append("&");
-                    url.append(buildParameter(curKey, value));
+                if (value != null && value.length > 0) {
+                    builder.queryParam(curKey, value);
                 }
             }
 
             if (i + startIndex == offset) {
-                pagingList.setCurLink(url.toString());
+                pagingList.setCurLink(builder.toString());
             }
-            urls.add(url.toString());
+            urls.add(builder.toString());
         }
 
         if (pagingList.getCurLink() == null) {
@@ -166,23 +165,5 @@ public class PagingBuilder {
         }
 
         return pagingList;
-    }
-
-    private String buildParameter(String parameter, Object... values) {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < values.length; i++) {
-            Object value = values[i];
-
-            if (i > 0) {
-                sb.append("&");
-            }
-
-            sb.append(parameter);
-            sb.append("=");
-            sb.append(value);
-        }
-
-        return sb.toString();
     }
 }
