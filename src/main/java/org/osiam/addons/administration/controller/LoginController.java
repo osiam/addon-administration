@@ -2,7 +2,8 @@ package org.osiam.addons.administration.controller;
 
 import javax.inject.Inject;
 
-import org.osiam.addons.administration.model.SessionData;
+import org.osiam.addons.administration.model.session.GeneralSessionData;
+import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.Scope;
 import org.springframework.stereotype.Controller;
@@ -22,11 +23,13 @@ public class LoginController {
     private OsiamConnector connector;
 
     @Inject
-    private SessionData session;
+    private GeneralSessionData session;
 
     @RequestMapping
     public String handleRedirectoToLogin() {
-        return "redirect:" + connector.getAuthorizationUri(Scope.ALL).toString();
+        return new RedirectBuilder()
+                .setDestination(connector.getAuthorizationUri(Scope.ALL).toString())
+                .build();
     }
 
     @RequestMapping(params = "code")
@@ -34,6 +37,8 @@ public class LoginController {
             @RequestParam(value = "code", required = true) String code) {
 
         session.setAccesstoken(connector.retrieveAccessToken(code));
-        return "redirect:" + AdminController.CONTROLLER_PATH;
+        return new RedirectBuilder()
+                .setPath(AdminController.CONTROLLER_PATH)
+                .build();
     }
 }

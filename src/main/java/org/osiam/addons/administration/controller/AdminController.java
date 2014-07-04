@@ -1,5 +1,6 @@
 package org.osiam.addons.administration.controller;
 
+import org.osiam.addons.administration.util.RedirectBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,6 +15,8 @@ public class AdminController {
 
     @RequestMapping
     public String handleOverview() {
-        return "redirect:" + UserViewController.CONTROLLER_PATH;
+        return new RedirectBuilder()
+                .setPath(UserViewController.CONTROLLER_PATH)
+                .build();
     }
 }

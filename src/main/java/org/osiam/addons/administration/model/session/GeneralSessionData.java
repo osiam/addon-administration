@@ -1,4 +1,4 @@
-package org.osiam.addons.administration.model;
+package org.osiam.addons.administration.model.session;
 
 import org.osiam.client.oauth.AccessToken;
 import org.springframework.context.annotation.Scope;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class SessionData {
+public class GeneralSessionData {
 
     private AccessToken accesstoken;
 

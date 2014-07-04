@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.osiam.addons.administration.Element;
 import org.osiam.addons.administration.Element.OauthLogin;
 import org.osiam.addons.administration.controller.LoginController;
@@ -72,15 +73,15 @@ public class Browser implements WebDriver {
         }
 
         try {
-            fill(new Field(OauthLogin.Username, username),
-                    new Field(OauthLogin.Password, password));
+            fill(new Field(OauthLogin.USERNAME, username),
+                    new Field(OauthLogin.PASSWORD, password));
 
-            click(OauthLogin.LoginButton);
+            click(OauthLogin.LOGIN_BUTTON);
         } catch (NoSuchElementException e) {
             // maybe we can it ignore, because osiam save it in his session
         }
 
-        click(OauthLogin.AuthorizeButton);
+        click(OauthLogin.AUTHORIZE_BUTTON);
 
         return this;
     }
@@ -93,9 +94,27 @@ public class Browser implements WebDriver {
      * @return this
      */
     public Browser click(Element element) {
-        findElement(element.by()).click();
+        findElement(element).click();
 
         return this;
+    }
+
+    /**
+     * Return the element if it was found.
+     * 
+     * @param element
+     * @return this
+     */
+    public WebElement findElement(Element element) {
+        return findElement(element.by());
+    }
+
+    public Select findSelectElement(Element element) {
+        return new Select(findElement(element));
+    }
+    
+    public WebElement findSelectedOption(Element element) {
+        return findSelectElement(element).getFirstSelectedOption();
     }
 
     /**
@@ -107,13 +126,26 @@ public class Browser implements WebDriver {
      */
     public Browser fill(List<Field> fields) {
         for (Field f : fields) {
-            WebElement webElement = findElement(f.getElement().by());
+            WebElement webElement = findElement(f.getElement());
 
-            webElement.clear();
-            webElement.sendKeys(String.valueOf(f.getValue()));
+            if ("select".equalsIgnoreCase(webElement.getTagName())) {
+                selectOption(webElement, f.getValue());
+            } else {
+                webElement.clear();
+                webElement.sendKeys(String.valueOf(f.getValue()));
+            }
         }
 
         return this;
+    }
+
+    private void selectOption(WebElement selectElement, Object value) {
+        Select select = new Select(selectElement);
+        try {
+            select.selectByValue(String.valueOf(value));
+        } catch (NoSuchElementException e) {
+            select.selectByVisibleText(String.valueOf(value));
+        }
     }
 
     /**
@@ -132,6 +164,15 @@ public class Browser implements WebDriver {
         return isTextPresent("Access Denied");
     }
 
+    /**
+     * Is the current page an error page?
+     * 
+     * @return True if it so. Otherwise false.
+     */
+    public boolean isErrorPage() {
+        return isTextPresent("Whitelabel Error Page");
+    }
+    
     /**
      * Check if the given text is shown on the current page.
      * 

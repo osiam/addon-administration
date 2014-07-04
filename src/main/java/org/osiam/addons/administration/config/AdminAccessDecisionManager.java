@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import org.osiam.addons.administration.model.SessionData;
+import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -18,10 +18,10 @@ import org.springframework.stereotype.Component;
 public class AdminAccessDecisionManager implements AccessDecisionManager {
 
     @Inject
-    private SessionData session;
+    private GeneralSessionData session;
 
     @Override
-    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes){
+    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) {
         // if there are no access-token in session
         if (session.getAccesstoken() == null) {
             throw new AccessDeniedException("There is no accesstoken in session!");

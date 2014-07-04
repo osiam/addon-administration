@@ -3,6 +3,7 @@
 <head>
 <title>User-List</title>
 
+	<script type="text/javascript" src="../../js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}" ></script>
 	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 </head>
 <body>
@@ -13,31 +14,37 @@
 			</th>
 			<th>
 				<span th:text="#{msg.user.login}">Login</span>
-				<a id="order-by-login-desc" href="">^</a>
-				<a id="order-by-login-asc" href="">v</a>
+				<i class="icon-arrow-up"><a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">^</a></i> 
+				<i class="icon-arrow-down"><a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">v</a></i> 
 			</th>
 			<th>
 				<span th:text="#{msg.user.name.given}">Given Name</span>
-				<a id="order-by-givenname-desc" href="">^</a>
-				<a id="order-by-givenname-asc" href="">v</a>	
+				<a id="order-by-givenname-desc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}">^</a>
+				<a id="order-by-givenname-asc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}">v</a>	
 			</th>
 			<th>
 				<span th:text="#{msg.user.name.family}">Family Name</span>
-				<a id="order-by-familyname-desc" href="">^</a>
-				<a id="order-by-familyname-asc" href="">v</a>
+				<a id="order-by-familyname-desc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}">^</a>
+				<a id="order-by-familyname-asc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}">v</a>
 			</th>
 			<th></th>
 		</tr></thead>
 		<tbody>
 			<!-- Start: Filter-Row -->
-			<tr>
-				<td />
-				<td><input id="filter-login" type="text" /></td>
-				<td><input id="filter-givenname" type="text" /></td>
-				<td><input id="filter-familyname" type="text" /></td>
-				<td>
-					<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default">Filter</button>
-				</td>
+			<tr th:object="${sessionData.filterFields}">
+				<form id="filter-form" action="" method="post">
+					<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+					<th:block th:replace="makros :: csrf" />
+
+					<!--/* All osiam-query relevant fields must begin with "query."!  */-->
+					<td><input type="hidden" name="action" value="filter"/></td>
+					<td><input id="filter-login" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
+					<td><input id="filter-givenname" name="query.name.givenName" type="text" th:value="*{get('query.name.givenName')}" /></td>
+					<td><input id="filter-familyname" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
+					<td>
+						<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default" type="submit">Filter</button>
+					</td>
+				</form>
 			</tr>
 			<!-- End: Filter-Row -->
 			<tr th:each="user : ${userlist.resources}">
@@ -55,18 +62,21 @@
 	</table>
 	<span th:text="#{msg.list.result(${userlist.startIndex}, ${userlist.startIndex} - 1 + ${#lists.size(userlist.resources)}, ${userlist.totalResults})}">Result x - y of total</span>
 	<div>
-		<span>
+		<div th:replace="makros :: pagingControlls(${paging}, 2, '')">
 			Paging-Navigation...
-		</span>
+		</div>
 		<span th:text="#{msg.list.limit}"></span>
-		<select class="form-control">
-			<option>5</option>
-			<option>10</option>
-			<option>20</option>
-			<option>50</option>
-			<option>100</option>
-			<option th:text="#{msg.list.limit.all}">All</option>
-		</select>
+		<form name="form-limit" action="">
+			<input type="hidden" name="action" value="limit" />
+			<select id="paging-limit" name="limit" class="form-control" onchange="document['form-limit'].submit();">
+				<option th:selected="${sessionData.limit} == 5" >5</option>
+				<option th:selected="${sessionData.limit} == 10">10</option>
+				<option th:selected="${sessionData.limit} == 20">20</option>
+				<option th:selected="${sessionData.limit} == 50">50</option>
+				<option th:selected="${sessionData.limit} == 100">100</option>
+				<option th:selected="${sessionData.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
+			</select>
+		</form>
 	</div>
 </body>
 </html>
