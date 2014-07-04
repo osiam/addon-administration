@@ -1,10 +1,10 @@
 package org.osiam.addons.administration.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.ws.rs.core.UriBuilder;
 
 /**
  * This class is responsible for creating an redirect string that can be returned by Spring-Request-Handler.
@@ -29,8 +29,7 @@ public class RedirectBuilder {
     }
 
     /**
-     * Set the url-query of the redirect destination. 
-     * This query should be encoded before!
+     * Set the url-query of the redirect destination. This query should be encoded before!
      * 
      * @param query
      *        The query of the url.
@@ -56,8 +55,7 @@ public class RedirectBuilder {
     }
 
     /**
-     * Add a parameter which will be append at the url query.
-     * The value of the parameter will be encode automatically.
+     * Add a parameter which will be append at the url query. The value of the parameter will be encode automatically.
      * 
      * @param key
      *        The name of the parameter.
@@ -77,50 +75,28 @@ public class RedirectBuilder {
      * @return The redirect string.
      */
     public String build() {
-        StringBuilder redirect = new StringBuilder("redirect:");
+        UriBuilder uri = null;
 
         if (destination != null) {
-            redirect.append(destination);
+            uri = UriBuilder.fromUri(destination);
         } else {
+            uri = UriBuilder.fromPath("");
+
             if (path != null) {
-                redirect.append(path);
+                uri.path(path);
             }
 
             if (query != null) {
-                redirect.append("?");
-                redirect.append(query);
+                uri.replaceQuery(query);
             }
 
             if (!parameters.isEmpty()) {
-                if (query == null) {
-                    redirect.append("?");
-                } else {
-                    redirect.append("&");
-                }
-
-                boolean isFirst = true;
                 for (Entry<String, Object> param : parameters.entrySet()) {
-                    if (!isFirst) {
-                        redirect.append("&");
-                    }
-
-                    redirect.append(param.getKey());
-                    if (param.getValue() != null) {
-                        redirect.append("=");
-
-                        try {
-                            String encodedValue = URLEncoder.encode(param.getValue().toString(), "UTF-8");
-                            redirect.append(encodedValue);
-                        } catch (UnsupportedEncodingException e) {
-                            throw new IllegalStateException(e);
-                        }
-                    }
-
-                    isFirst = false;
+                    uri.queryParam(param.getKey(), param.getValue() != null ? param.getValue() : "");
                 }
             }
         }
 
-        return redirect.toString();
+        return "redirect:" + uri.toString();
     }
 }
