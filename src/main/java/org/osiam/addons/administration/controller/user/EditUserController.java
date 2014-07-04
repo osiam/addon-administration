@@ -1,7 +1,8 @@
-package org.osiam.addons.administration.controller;
+package org.osiam.addons.administration.controller.user;
 
 import javax.inject.Inject;
 
+import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;

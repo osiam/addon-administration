@@ -1,5 +1,6 @@
 package org.osiam.addons.administration.controller;
 
+import org.osiam.addons.administration.controller.user.UserViewController;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

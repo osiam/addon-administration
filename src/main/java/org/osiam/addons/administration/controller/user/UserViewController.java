@@ -1,4 +1,4 @@
-package org.osiam.addons.administration.controller;
+package org.osiam.addons.administration.controller.user;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
+import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.model.session.UserlistSession;
 import org.osiam.addons.administration.paging.PagingBuilder;
 import org.osiam.addons.administration.paging.PagingLinks;
