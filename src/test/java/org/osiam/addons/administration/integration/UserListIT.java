@@ -24,15 +24,15 @@ public class UserListIT extends Integrationtest {
 
     @Test
     public void apply_empty_filter() {
-        browser.click(UserList.FilterButton);
+        browser.click(UserList.FILTER_BUTTON);
 
         assertTrue(isUserVisible(ADMIN_USERNAME));
     }
 
     @Test
     public void apply_single_filter() {
-        browser.fill(new Field(UserList.FilterLogin, ADMIN_USERNAME));
-        browser.click(UserList.FilterButton);
+        browser.fill(new Field(UserList.FILTER_LOGIN, ADMIN_USERNAME));
+        browser.click(UserList.FILTER_BUTTON);
 
         assertTrue(isUserVisible(ADMIN_USERNAME));
         assertFalse(isUserVisible("adavies")); // an another user
@@ -41,9 +41,9 @@ public class UserListIT extends Integrationtest {
     @Test
     public void apply_multi_filter() {
         browser.fill(
-                new Field(UserList.FilterGivenName, "Adeline"),
-                new Field(UserList.FilterFamilyName, "Davies"));
-        browser.click(UserList.FilterButton);
+                new Field(UserList.FILTER_GIVEN_NAME, "Adeline"),
+                new Field(UserList.FILTER_FAMILY_NAME, "Davies"));
+        browser.click(UserList.FILTER_BUTTON);
 
         assertFalse(isUserVisible(ADMIN_USERNAME));
         assertTrue(isUserVisible("adavies")); // an another user
@@ -51,48 +51,48 @@ public class UserListIT extends Integrationtest {
 
     @Test
     public void order() {
-        browser.click(UserList.SortLoginAsc);
+        browser.click(UserList.SORT_LOGIN_ASC);
         assertTrue(isUserAtPosition("adavies", 0));
 
-        browser.click(UserList.SortGivenNameAsc);
+        browser.click(UserList.SORT_GIVEN_NAME_ASC);
         assertTrue(isUserAtPosition("adavies", 0)); // Adeline
 
-        browser.click(UserList.SortFamilyNameAsc);
+        browser.click(UserList.SORT_FAMILY_NAME_ASC);
         assertTrue(isUserAtPosition("gparker", 0)); // Barker
 
-        browser.click(UserList.SortLoginDesc);
+        browser.click(UserList.SORT_LOGIN_DESC);
         assertTrue(isUserAtPosition("marissa", 0));
 
-        browser.click(UserList.SortGivenNameDesc);
+        browser.click(UserList.SORT_GIVEN_NAME_DESC);
         assertTrue(isUserAtPosition("ewilley", 0)); // Willey
 
-        browser.click(UserList.SortFamilyNameDesc);
+        browser.click(UserList.SORT_FAMILY_NAME_DESC);
         assertTrue(isUserAtPosition("jcambell", 0)); // Thompson
     }
 
     @Test
     public void limit() {
         // default limit: 20
-        assertEquals("20", browser.findSelectedOption(UserList.Limit).getText());
+        assertEquals("20", browser.findSelectedOption(UserList.LIMIT).getText());
 
         // change limit seticfied
         assertTrue("Precondition is not satisfied! For this testcase the dataset must be contains more than 5 users!",
                 getDisplayedUser() > 5);
 
-        browser.fill(new Field(UserList.Limit, "5"));
+        browser.fill(new Field(UserList.LIMIT, "5"));
         assertTrue(getDisplayedUser() <= 5);
-        assertEquals("5", browser.findSelectedOption(UserList.Limit).getText());
+        assertEquals("5", browser.findSelectedOption(UserList.LIMIT).getText());
     }
 
     @Test
     public void paging() {
-        browser.fill(new Field(UserList.Limit, "5")); // set limit to 5
+        browser.fill(new Field(UserList.LIMIT, "5")); // set limit to 5
         int userCount = 0;
 
         while (true) {
             try {
                 userCount += getDisplayedUser();
-                browser.click(UserList.PagingNext);
+                browser.click(UserList.PAGING_NEXT);
             } catch (NoSuchElementException e) {
                 break;
             }
@@ -102,7 +102,7 @@ public class UserListIT extends Integrationtest {
 
         while (true) {
             try {
-                browser.click(UserList.PagingPrevious);
+                browser.click(UserList.PAGING_PREVIOUS);
             } catch (NoSuchElementException e) {
                 break;
             }
@@ -110,16 +110,16 @@ public class UserListIT extends Integrationtest {
             assertFalse(browser.isErrorPage());
         }
 
-        browser.click(UserList.PagingLast);
+        browser.click(UserList.PAGING_LAST);
         assertFalse(browser.isErrorPage());
 
-        browser.click(UserList.PagingFirst);
+        browser.click(UserList.PAGING_FIRST);
         assertFalse(browser.isErrorPage());
 
         clickFirstPagingNumber();
         assertFalse(browser.isErrorPage());
 
-        browser.fill(new Field(UserList.Limit, "0")); // set limit to "unlimited"
+        browser.fill(new Field(UserList.LIMIT, "0")); // set limit to "unlimited"
         assertEquals(getDisplayedUser(), userCount);
     }
 

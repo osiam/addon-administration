@@ -73,15 +73,15 @@ public class Browser implements WebDriver {
         }
 
         try {
-            fill(new Field(OauthLogin.Username, username),
-                    new Field(OauthLogin.Password, password));
+            fill(new Field(OauthLogin.USERNAME, username),
+                    new Field(OauthLogin.PASSWORD, password));
 
-            click(OauthLogin.LoginButton);
+            click(OauthLogin.LOGIN_BUTTON);
         } catch (NoSuchElementException e) {
             // maybe we can it ignore, because osiam save it in his session
         }
 
-        click(OauthLogin.AuthorizeButton);
+        click(OauthLogin.AUTHORIZE_BUTTON);
 
         return this;
     }
