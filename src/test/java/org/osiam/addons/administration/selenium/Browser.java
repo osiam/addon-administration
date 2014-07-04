@@ -165,6 +165,15 @@ public class Browser implements WebDriver {
     }
 
     /**
+     * Is the current page an error page?
+     * 
+     * @return True if it so. Otherwise false.
+     */
+    public boolean isErrorPage() {
+        return isTextPresent("Whitelabel Error Page");
+    }
+    
+    /**
      * Check if the given text is shown on the current page.
      * 
      * @param text

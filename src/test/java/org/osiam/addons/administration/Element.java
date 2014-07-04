@@ -39,8 +39,13 @@ public interface Element {
         SortGivenNameDesc(By.id("order-by-givenname-desc")),
         SortFamilyNameAsc(By.id("order-by-familyname-asc")),
         SortFamilyNameDesc(By.id("order-by-familyname-desc")), 
-        
-        Limit(By.id("paging-limit"));
+
+        Limit(By.id("paging-limit")),
+
+        PagingNext(By.xpath("//a[@id = 'paging-next' and not(@href = '#')]")),
+        PagingPrevious(By.xpath("//a[@id = 'paging-prev' and not(@href = '#')]")),
+        PagingLast(By.xpath("//a[@id = 'paging-last' and not(@href = '#')]")),
+        PagingFirst(By.xpath("//a[@id = 'paging-first' and not(@href = '#')]"));
 
         private By by;
         

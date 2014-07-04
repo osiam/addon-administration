@@ -11,7 +11,7 @@
     		For example: If you use a MaxNumber = 2 then you get the following paging result:
     		<< < 1 2 [3] 4 5 > >> 
     	*/-->
-		<ul class="pagination" th:fragment="pagingControlls(pagingLinks, maxNumber)" 
+		<ul class="pagination" th:fragment="pagingControlls(pagingLinks, maxNumber, idPrefix)" 
 			th:with="
 				isLastPage=${pagingLinks.getLastLink().equals(pagingLinks.getCurLink())},
 				isFirstPage=${pagingLinks.getFirstLink().equals(pagingLinks.getCurLink())},
@@ -22,29 +22,29 @@
 				
 			<!--/* First-Link */-->
 			<li th:if="${not isFirstPage}">
-				<a th:href="${pagingLinks.firstLink}">&lt;&lt;</a>
+				<a th:id="${idPrefix + 'paging-first'}" th:href="${pagingLinks.firstLink}">&lt;&lt;</a>
 			</li>
 			<li th:unless="${not isFirstPage}" class="disabled">
-				<a href="#">&lt;&lt;</a>
+				<a th:id="${idPrefix + 'paging-first'}" href="#">&lt;&lt;</a>
 			</li>
 			
 			<!--/* Previous-Link */-->
 			<li th:if="${pagingLinks.prevLink != null}">
-				<a th:href="${pagingLinks.prevLink}">&lt;</a>
+				<a th:id="${idPrefix + 'paging-prev'}" th:href="${pagingLinks.prevLink}">&lt;</a>
 			</li>
 			<li th:unless="${pagingLinks.prevLink != null}" class="disabled">
-				<a href="#">&lt;</a>
+				<a th:id="${idPrefix + 'paging-prev'}" href="#">&lt;</a>
 			</li>
 			
 			<!--/* Number-Links */-->
 			
 			<th:block th:if="${not isFirstPart and not isLastPart}">
 				<li th:each="i : ${#numbers.sequence(maxNumber, 1)}" th:with="curIndex=${curLinkIndex - i}">
-					<a th:href="${pagingLinks.getLinks().get(curIndex)}" th:text="${curIndex + 1}">1</a>
+					<a th:id="${idPrefix + 'paging-' + curIndex}" th:href="${pagingLinks.getLinks().get(curIndex)}" th:text="${curIndex + 1}">1</a>
 				</li>
-				<li class="active"><a href="#" th:text="${curLinkIndex + 1}">2</a></li>
+				<li class="active"><a th:id="${idPrefix + 'paging-' + curIndex}" href="#" th:text="${curLinkIndex + 1}">2</a></li>
 				<li th:each="i : ${#numbers.sequence(0, maxNumber - 1)}" th:with="curIndex=${curLinkIndex + i + 1}">
-					<a th:href="${pagingLinks.getLinks().get(curIndex)}" th:text="${curIndex + 1}">3</a>
+					<a th:id="${idPrefix + 'paging-' + curIndex}" th:href="${pagingLinks.getLinks().get(curIndex)}" th:text="${curIndex + 1}">3</a>
 				</li>
 			</th:block>
 			<th:block th:unless="${not isFirstPart and not isLastPart}">
@@ -52,10 +52,10 @@
 					<th:block th:each="i : ${#numbers.sequence(0, maxNumber * 2)}" >
 						<th:block th:if="${i lt #lists.size(pagingLinks.links)}">
 							<li class="active" th:if="${pagingLinks.getCurLink().equals(pagingLinks.getLinks().get(i))}">
-								<a href="#" th:text="${i + 1}"></a>
+								<a th:id="${idPrefix + 'paging-' + i}" href="#" th:text="${i + 1}"></a>
 							</li>
 							<li th:unless="${pagingLinks.getCurLink().equals(pagingLinks.getLinks().get(i))}">
-								<a th:href="${pagingLinks.getLinks().get(i)}" th:text="${i + 1}">1</a>
+								<a th:id="${idPrefix + 'paging-' + i}" th:href="${pagingLinks.getLinks().get(i)}" th:text="${i + 1}">1</a>
 							</li>
 						</th:block>
 					</th:block>
@@ -64,10 +64,10 @@
 					
 					<th:block th:each="i : ${#numbers.sequence(((indexBegin lt 0) ? 0 : indexBegin), pagingLinks.getLinks().size() - 1)}" >
 						<li class="active" th:if="${pagingLinks.getCurLink().equals(pagingLinks.getLinks().get(i))}">
-							<a href="#" th:text="${i + 1}"></a>
+							<a th:id="${idPrefix + 'paging-' + i}" href="#" th:text="${i + 1}"></a>
 						</li>
 						<li th:unless="${pagingLinks.getCurLink().equals(pagingLinks.getLinks().get(i))}">
-							<a th:href="${pagingLinks.getLinks().get(i)}" th:text="${i + 1}">1</a>
+							<a th:id="${idPrefix + 'paging-' + i}" th:href="${pagingLinks.getLinks().get(i)}" th:text="${i + 1}">1</a>
 						</li>
 					</th:block>
 				</th:block>
@@ -75,18 +75,18 @@
 			
 			<!--/* Next-Link */-->
 			<li th:if="${pagingLinks.nextLink != null}">
-				<a th:href="${pagingLinks.nextLink}">&gt;</a>
+				<a th:id="${idPrefix + 'paging-next'}" th:href="${pagingLinks.nextLink}">&gt;</a>
 			</li>
 			<li th:unless="${pagingLinks.nextLink != null}" class="disabled">
-				<a href="#">&gt;</a>
+				<a th:id="${idPrefix + 'paging-next'}" href="#">&gt;</a>
 			</li>
 			
 			<!--/* Last-Link */-->
 			<li th:if="${not isLastPage}">
-				<a th:href="${pagingLinks.lastLink}">&gt;&gt;</a>
+				<a th:id="${idPrefix + 'paging-last'}" th:href="${pagingLinks.lastLink}">&gt;&gt;</a>
 			</li>
 			<li th:unless="${not isLastPage}" class="disabled">
-				<a href="#">&gt;&gt;</a>
+				<a th:id="${idPrefix + 'paging-last'}" href="#">&gt;&gt;</a>
 			</li>
 		</ul>
 		

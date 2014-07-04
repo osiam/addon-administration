@@ -62,14 +62,11 @@
 	</table>
 	<span th:text="#{msg.list.result(${userlist.startIndex}, ${userlist.startIndex} - 1 + ${#lists.size(userlist.resources)}, ${userlist.totalResults})}">Result x - y of total</span>
 	<div>
-		<div th:replace="makros :: pagingControlls(${paging}, 2)">
+		<div th:replace="makros :: pagingControlls(${paging}, 2, '')">
 			Paging-Navigation...
 		</div>
 		<span th:text="#{msg.list.limit}"></span>
-		<form name="form-limit" action="" method="post">
-			<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-			<th:block th:replace="makros :: csrf" />
-					
+		<form name="form-limit" action="">
 			<input type="hidden" name="action" value="limit" />
 			<select id="paging-limit" name="limit" class="form-control" onchange="document['form-limit'].submit();">
 				<option th:selected="${sessionData.limit} == 5" >5</option>
