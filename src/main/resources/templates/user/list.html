@@ -55,7 +55,6 @@
  				<td th:text="${user.name} != null ? ${user.name.givenName} : '-'">Given Name</td>
 				<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">Family Name</td>
 				<td>
-					<button th:id="${'action-button-' + userStat.index}" th:text="#{msg.button.actions} + ' >'" class="btn btn-default">Actions</button>
 					<a th:href="@{edit(id = ${user.id})}">
 						<button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn btn-default">Edit</button>
 					</a>
