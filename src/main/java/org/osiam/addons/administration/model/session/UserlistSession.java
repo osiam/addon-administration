@@ -19,7 +19,7 @@ public class UserlistSession {
     private Long offset;
     private String orderBy;
     private Boolean ascending;
-    private Map<String, String> filterFields = Collections.EMPTY_MAP;
+    private Map<String, String> filterFields = Collections.emptyMap();
     
     public String getQuery() {
         return query;
