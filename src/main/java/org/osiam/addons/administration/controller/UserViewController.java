@@ -61,13 +61,10 @@ public class UserViewController {
         ModelAndView modelAndView = new ModelAndView("user/list");
 
         final String attributes = "userName, name.givenName, name.familyName";
-        if (limit == null) {
-            limit = DEFAULT_LIMIT;
-        }
-        if (orderBy == null) {
-            orderBy = DEFAULT_SORT_BY;
-            ascending = DEFAULT_SORT_DIRECTION;
-        }
+
+        limit = limit == null ? DEFAULT_LIMIT : limit;
+        orderBy = orderBy == null ? DEFAULT_SORT_BY : orderBy;
+        ascending = ascending == null ? DEFAULT_SORT_DIRECTION : ascending;
 
         SCIMSearchResult<User> userList = userService.searchUser(query, limit, offset, orderBy, ascending, attributes);
         PagingLinks pagingLinks = generatePagingLinks(userList, query, orderBy, ascending);
