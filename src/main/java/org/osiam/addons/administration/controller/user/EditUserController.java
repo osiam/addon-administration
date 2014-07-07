@@ -35,7 +35,7 @@ public class EditUserController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handle(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) throws NoSuchUserException {
+    public ModelAndView handleUserEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) throws NoSuchUserException {
         ModelAndView modelAndView = new ModelAndView("user/editUser");
 
         User user = userService.getUser(id);
@@ -45,7 +45,7 @@ public class EditUserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String handleUpdate(@ModelAttribute(MODEL) UpdateUserCommand command) throws NoSuchUserException {
+    public String handleUserUpdate(@ModelAttribute(MODEL) UpdateUserCommand command) throws NoSuchUserException {
         User user = userService.getUser(command.getId());
         command.setUser(user);
 
