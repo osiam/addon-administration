@@ -45,8 +45,8 @@ public class UserService {
         QueryBuilder qb = new QueryBuilder();
         qb.filter(query);
         qb.attributes(attributes);
-        qb.count(limit);
-        qb.startIndex(offset);
+        qb.count(limit == null ? 0 : limit);
+        qb.startIndex(offset == null ? 0 : offset);
 
         if (ascending) {
             qb.ascending(orderBy);
