@@ -57,6 +57,24 @@ public interface Element {
         public By by() {
             return this.by;
         }
+    }
+
+    public static enum UserEdit implements Element {
+        FIRSTNAME(By.id("firstname")),
+        LASTNAME(By.id("lastname")),
+        MAIL(By.id("email")),
+        SUBMIT_BUTTON(By.xpath("//button[@type = 'submit']")),
+        CANCEL_BUTTON(By.xpath("//button[@type = 'button']"));
         
+        private By by;
+        
+        private UserEdit(By by) {
+            this.by = by;
+        }
+        
+        @Override
+        public By by() {
+            return this.by;
+        }
     }
 }
