@@ -64,7 +64,7 @@ public class UserViewController {
         if (limit == null) {
             limit = DEFAULT_LIMIT;
         }
-        if(orderBy == null){
+        if (orderBy == null) {
             orderBy = DEFAULT_SORT_BY;
             ascending = DEFAULT_SORT_DIRECTION;
         }
