@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8" />
-	<title th:text="#{edit_user.title}">Benutzer bearbeiten</title>
+	<title th:text="#{edit_user.title}">Edit user</title>
 	<script type="text/javascript" src="../../js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}" ></script>
 	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 </head>
@@ -16,13 +16,12 @@
 				<fieldset th:object="${model}">
 					<!-- CSRF token -->
 					<th:block th:replace="makros :: csrf" />
-					<!-- TODO macro -->
 					<div class="col-sm-4 form-group" >
-						<label for="firstname" th:text="#{edit_user.first_name}">Vorname</label>
+						<label for="firstname" th:text="#{edit_user.first_name}">Given Name</label>
 						<input class="form-control required" type="text" th:placeholder="#{edit_user.first_name}" required="required" id="firstname" name="firstname" th:field="*{firstName}" />
 					</div>
 					<div class="col-sm-4 form-group">
-						<label for="firstname" th:text="#{edit_user.last_name}">Nachname</label>
+						<label for="firstname" th:text="#{edit_user.last_name}">Family Name</label>
 						<input class="form-control required" type="text" th:placeholder="#{edit_user.last_name}" required="required" id="lastname" name="lastname" th:field="*{lastName}" />
 					</div>
 					<div class="col-sm-4 form-group">
@@ -36,7 +35,7 @@
 					<button class="btn btn-md btn-primary" type="submit" th:text="#{edit_user.update}">OK</button>
 					
 					<a th:href="@{list}">
-						<button class="btn btn-md btn-primary" type="button" th:text="#{edit_user.cancel}">Zurück</button>
+						<button class="btn btn-md btn-primary" type="button" th:text="#{edit_user.cancel}">Back</button>
 					</a>
 				</div>
 			</div>
