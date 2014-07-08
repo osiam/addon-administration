@@ -15,12 +15,12 @@ public class UserEditIT extends Integrationtest {
 
         browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
-    
+
     private static final String TEST_USER_NAME = "adavies";
     private static final String TEST_USER_FIRST_NAME = "Adeline";
     private static final String TEST_USER_LAST_NAME = "Davies";
     private static final String TEST_USER_MAIL = "";
-    
+
     @Test
     public void edit_user() {
         editTestUser();
@@ -29,6 +29,7 @@ public class UserEditIT extends Integrationtest {
         final String newLastName = "Test456";
         final String newMail = "Test123@abc.de";
 
+        // Test case: cancellation
         browser.fill(new Field(UserEdit.FIRSTNAME, newFirstName));
         browser.fill(new Field(UserEdit.LASTNAME, newLastName));
         browser.fill(new Field(UserEdit.MAIL, newMail));
@@ -42,8 +43,7 @@ public class UserEditIT extends Integrationtest {
         assertEquals(TEST_USER_LAST_NAME, browser.getValue(UserEdit.LASTNAME));
         assertEquals(TEST_USER_MAIL, browser.getValue(UserEdit.MAIL));
 
-        // ///////////////
-
+        // Test case: regular submit
         browser.fill(new Field(UserEdit.FIRSTNAME, newFirstName));
         browser.fill(new Field(UserEdit.LASTNAME, newLastName));
         browser.fill(new Field(UserEdit.MAIL, newMail));
@@ -53,17 +53,16 @@ public class UserEditIT extends Integrationtest {
         browser.click(UserEdit.CANCEL_BUTTON);
 
         editTestUser();
-        
+
         // New Data should be saved
-        assertEquals(newFirstName, browser.getValue(UserEdit.FIRSTNAME)); 
-        assertEquals(newLastName, browser.getValue(UserEdit.LASTNAME)); 
-        assertEquals(newMail, browser.getValue(UserEdit.MAIL)); 
+        assertEquals(newFirstName, browser.getValue(UserEdit.FIRSTNAME));
+        assertEquals(newLastName, browser.getValue(UserEdit.LASTNAME));
+        assertEquals(newMail, browser.getValue(UserEdit.MAIL));
 
-        // ////////////////
-
+        // Test case: invalid E-Mail
         browser.fill(new Field(UserEdit.MAIL, "notValid"));
         browser.click(UserEdit.SUBMIT_BUTTON);
-        
+
         // An error should be occurred
         assertTrue(browser.isErrorPage());
     }
