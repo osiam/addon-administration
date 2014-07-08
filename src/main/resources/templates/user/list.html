@@ -14,18 +14,18 @@
 			</th>
 			<th>
 				<span th:text="#{msg.user.login}">Login</span>
-				<i class="icon-arrow-up"><a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">^</a></i> 
-				<i class="icon-arrow-down"><a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">v</a></i> 
+				<i class="icon-arrow-up"><a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">^</a></i> 
+				<i class="icon-arrow-down"><a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">v</a></i> 
 			</th>
 			<th>
 				<span th:text="#{msg.user.name.given}">Given Name</span>
-				<a id="order-by-givenname-desc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}">^</a>
-				<a id="order-by-givenname-asc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}">v</a>	
+				<a id="order-by-givenname-asc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}">^</a>
+				<a id="order-by-givenname-desc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}">v</a>	
 			</th>
 			<th>
 				<span th:text="#{msg.user.name.family}">Family Name</span>
-				<a id="order-by-familyname-desc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}">^</a>
-				<a id="order-by-familyname-asc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}">v</a>
+				<a id="order-by-familyname-asc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}">^</a>
+				<a id="order-by-familyname-desc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}">v</a>
 			</th>
 			<th></th>
 		</tr></thead>
