@@ -3,7 +3,6 @@ package org.osiam.addons.administration.controller.user;
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.controller.AdminController;
-import org.osiam.addons.administration.exception.NoSuchUserException;
 import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
@@ -35,7 +34,7 @@ public class EditUserController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handleUserEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) throws NoSuchUserException {
+    public ModelAndView handleUserEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
         ModelAndView modelAndView = new ModelAndView("user/editUser");
 
         User user = userService.getUser(id);
@@ -45,7 +44,7 @@ public class EditUserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String handleUserUpdate(@ModelAttribute(MODEL) UpdateUserCommand command) throws NoSuchUserException {
+    public String handleUserUpdate(@ModelAttribute(MODEL) UpdateUserCommand command) {
         User user = userService.getUser(command.getId());
         command.setUser(user);
 
