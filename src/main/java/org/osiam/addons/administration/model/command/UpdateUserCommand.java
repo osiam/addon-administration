@@ -1,9 +1,12 @@
 package org.osiam.addons.administration.model.command;
 
+import org.osiam.resources.helper.SCIMHelper;
 import org.osiam.resources.scim.Email;
 import org.osiam.resources.scim.Name;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
+
+import com.google.common.base.Optional;
 
 /**
  * Command object for the user update view.
@@ -13,7 +16,7 @@ import org.osiam.resources.scim.User;
 public class UpdateUserCommand {
 
     private User user;
-   
+
     private String id;
     private String firstName;
     private String lastName;
@@ -32,9 +35,9 @@ public class UpdateUserCommand {
             setFirstName(user.getName().getGivenName());
             setLastName(user.getName().getFamilyName());
         }
-        Email primaryEmail = getPrimaryEMail(user);
-        if (primaryEmail != null) {
-            setEmail(primaryEmail.getValue());
+        Optional<Email> primaryEmail = SCIMHelper.getPrimaryOrFirstEmail(user);
+        if (primaryEmail.isPresent()) {
+            setEmail(primaryEmail.get().getValue());
         }
     }
 
@@ -113,7 +116,8 @@ public class UpdateUserCommand {
     /**
      * Sets the user ID.
      * 
-     * @param id the user ID to set
+     * @param id
+     *        the user ID to set
      */
     public void setId(String id) {
         this.id = id;
@@ -138,22 +142,14 @@ public class UpdateUserCommand {
         Name name = new Name.Builder().setGivenName(getFirstName()).setFamilyName(getLastName()).build();
         UpdateUser.Builder builder = new UpdateUser.Builder().updateName(name);
 
-        Email previousEmail = getPrimaryEMail(user);
-        if (previousEmail != null) {
-            builder.updateEmail(previousEmail, new Email.Builder(previousEmail).setValue(getEmail()).build());
+        Optional<Email> previousEmail = SCIMHelper.getPrimaryOrFirstEmail(user);
+        if (previousEmail.isPresent()) {
+            builder.updateEmail(previousEmail.get(), new Email.Builder(previousEmail.get()).setValue(getEmail())
+                    .build());
         } else {
             builder.addEmail(new Email.Builder().setPrimary(true).setValue(getEmail()).build());
         }
 
         return builder.build();
-    }
-
-    private Email getPrimaryEMail(User user) {
-        for (Email eMail : user.getEmails()) {
-            if (eMail.isPrimary()) {
-                return eMail;
-            }
-        }
-        return null;
     }
 }
