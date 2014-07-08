@@ -49,7 +49,7 @@ public class EditUserController {
         User user = userService.getUser(command.getId());
         command.setUser(user);
 
-        UpdateUser updateUser = command.asUpdateUser();
+        UpdateUser updateUser = command.getAsUpdateUser();
         userService.updateUser(command.getId(), updateUser);
 
         return new RedirectBuilder().setPath(CONTROLLER_PATH)

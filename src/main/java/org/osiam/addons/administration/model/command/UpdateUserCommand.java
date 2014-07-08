@@ -138,7 +138,7 @@ public class UpdateUserCommand {
      * 
      * @return the requested {@link UpdateUser}
      */
-    public UpdateUser asUpdateUser() {
+    public UpdateUser getAsUpdateUser() {
         Name name = new Name.Builder().setGivenName(getFirstName()).setFamilyName(getLastName()).build();
         UpdateUser.Builder builder = new UpdateUser.Builder().updateName(name);
 

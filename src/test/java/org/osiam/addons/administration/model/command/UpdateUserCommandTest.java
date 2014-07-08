@@ -45,7 +45,7 @@ public class UpdateUserCommandTest {
         command.setFirstName(newFirstName);
         command.setLastName(newLastName);
 
-        UpdateUser updateUser = command.asUpdateUser();
+        UpdateUser updateUser = command.getAsUpdateUser();
         User resultingUser = updateUser.getScimConformUpdateUser();
 
         assertEquals(newFirstName, resultingUser.getName().getGivenName());
@@ -70,7 +70,7 @@ public class UpdateUserCommandTest {
         String newEmail = "primary_new@osiam.org";
         command.setEmail(newEmail);
 
-        UpdateUser updateUser = command.asUpdateUser();
+        UpdateUser updateUser = command.getAsUpdateUser();
         User resultingUser = updateUser.getScimConformUpdateUser();
 
         assertEquals(1, resultingUser.getEmails().size());
