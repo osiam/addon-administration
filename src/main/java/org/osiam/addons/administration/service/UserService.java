@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.osiam.addons.administration.exception.NoSuchUserException;
 import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.OsiamConnector;
+import org.osiam.client.exception.NoResultException;
 import org.osiam.client.query.QueryBuilder;
 import org.osiam.resources.scim.SCIMSearchResult;
 import org.osiam.resources.scim.UpdateUser;
@@ -65,16 +66,15 @@ public class UserService {
      * @param id
      *        the user ID
      * @return the requested user
-     * @throws NoSuchUserException if the no user was found for id.
+     * @throws NoSuchUserException
+     *         if the no user was found for id.
      */
     public User getUser(String id) throws NoSuchUserException {
-        User user = connector.getUser(id, sessionData.getAccesstoken());
-
-        if (user == null) {
-            throw new NoSuchUserException(id);
+        try {
+            return connector.getUser(id, sessionData.getAccesstoken());
+        } catch (NoResultException n) {
+            throw new NoSuchUserException("Didn't find a user with ID: " + id);
         }
-
-        return user;
     }
 
     /**
