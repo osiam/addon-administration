@@ -48,6 +48,15 @@ public class UserListIT extends Integrationtest {
         assertFalse(isUserVisible(ADMIN_USERNAME));
         assertTrue(isUserVisible("adavies")); // an another user
     }
+    
+    @Test
+    public void apply_no_result_filter() {
+        browser.fill(
+                new Field(UserList.FILTER_LOGIN, "DoesNotExist"));
+        browser.click(UserList.FILTER_BUTTON);
+
+        assertEquals(0, getDisplayedUser());
+    }
 
     @Test
     public void order() {
