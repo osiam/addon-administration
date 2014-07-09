@@ -1,5 +1,7 @@
 package org.osiam.addons.administration.config;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
@@ -40,7 +42,13 @@ public class SeleniumFactory {
         }
 
         Browser browser = new Browser(driver);
+        configure(browser);
+        
         return browser;
+    }
+
+    private void configure(Browser browser) {
+        browser.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
     @PreDestroy
