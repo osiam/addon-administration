@@ -41,6 +41,8 @@ public class UserViewController {
     public static final String MODEL_PAGING_LINKS = "paging";
 
     private static final Integer DEFAULT_LIMIT = 20;
+    private static final String DEFAULT_SORT_BY = "userName";
+    private static final Boolean DEFAULT_SORT_DIRECTION = true;
 
     @Inject
     private UserService userService;
@@ -59,9 +61,10 @@ public class UserViewController {
         ModelAndView modelAndView = new ModelAndView("user/list");
 
         final String attributes = "userName, name.givenName, name.familyName";
-        if (limit == null) {
-            limit = DEFAULT_LIMIT;
-        }
+
+        limit = limit == null ? DEFAULT_LIMIT : limit;
+        orderBy = orderBy == null ? DEFAULT_SORT_BY : orderBy;
+        ascending = ascending == null ? DEFAULT_SORT_DIRECTION : ascending;
 
         SCIMSearchResult<User> userList = userService.searchUser(query, limit, offset, orderBy, ascending, attributes);
         PagingLinks pagingLinks = generatePagingLinks(userList, query, orderBy, ascending);
