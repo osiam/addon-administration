@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.osiam.addons.administration.Element;
 import org.osiam.addons.administration.Element.OauthLogin;
+import org.osiam.addons.administration.Element.UserEdit;
 import org.osiam.addons.administration.controller.LoginController;
 
 /**
@@ -115,6 +116,23 @@ public class Browser implements WebDriver {
     
     public WebElement findSelectedOption(Element element) {
         return findSelectElement(element).getFirstSelectedOption();
+    }
+    
+    /**
+     * Get the value of the given element.
+     * 
+     * @param element
+     * @return The value of the element.
+     */
+    public Object getValue(Element element) {
+        WebElement webElement = findElement(element.by());
+        
+        switch(webElement.getTagName().toLowerCase()){
+        case "input":
+            return webElement.getAttribute("value");
+        default:
+            return webElement.getText();
+        }
     }
 
     /**

@@ -1,4 +1,4 @@
-package org.osiam.addons.administration.controller;
+package org.osiam.addons.administration.controller.user;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
+import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.model.session.UserlistSession;
 import org.osiam.addons.administration.paging.PagingBuilder;
 import org.osiam.addons.administration.paging.PagingLinks;
@@ -60,9 +61,9 @@ public class UserViewController {
 
         ModelAndView modelAndView = new ModelAndView("user/list");
 
-        final String attributes = "userName, name.givenName, name.familyName";
+		final String attributes = "id, userName, name.givenName, name.familyName";
 
-        limit = limit == null ? DEFAULT_LIMIT : limit;
+		limit = limit == null ? DEFAULT_LIMIT : limit;
         orderBy = orderBy == null ? DEFAULT_SORT_BY : orderBy;
         ascending = ascending == null ? DEFAULT_SORT_DIRECTION : ascending;
 
@@ -85,7 +86,7 @@ public class UserViewController {
             Boolean ascending) {
         PagingBuilder builder = new PagingBuilder()
                 .setBaseUrl("")
-                .setStartIndex(1L) // SCIMResult begins with 1!
+                .setStartIndex(1L)  //SCIMResult begins with 1!
                 .setOffsetParameter(REQUEST_PARAMETER_OFFSET)
                 .setOffset(userList.getStartIndex())
                 .setLimitParameter(REQUEST_PARAMETER_LIMIT)
