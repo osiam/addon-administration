@@ -136,16 +136,16 @@ public class PagingBuilder {
         List<String> urls = new ArrayList<String>();
         
         for (long i = 0; i < total; i += limit) {
-            UriBuilder builder = buildUri(i);
-            urls.add(builder.toString());
+            String uri = buildUri(i);
+            urls.add(uri);
             
             if (i + startIndex == offset) {
-                pagingList.setCurLink(builder.toString());
+                pagingList.setCurLink(uri);
             }
         }
         
         if(urls.isEmpty()){
-            urls.add(buildUri(0).toString());
+            urls.add(buildUri(0));
         }
         
         if (pagingList.getCurLink() == null) {
@@ -155,7 +155,7 @@ public class PagingBuilder {
         pagingList.setLinks(urls);
     }
 
-    private UriBuilder buildUri(long offset) {
+    private String buildUri(long offset) {
         UriBuilder builder = UriBuilder.fromUri(baseUrl)
                 .queryParam(offsetParameter, startIndex + offset)
                 .queryParam(limitParameter, limit);
@@ -167,7 +167,8 @@ public class PagingBuilder {
                 builder.queryParam(curKey, value);
             }
         }
-        return builder;
+        
+        return builder.toString();
     }
 
     private void configurePrevAndNext(PagingLinks pagingList) {
