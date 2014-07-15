@@ -25,7 +25,7 @@ public class UserEditIT extends Integrationtest {
     public void edit_user() {
         editTestUser();
 
-        final String newFirstName = "Test123";
+        final String newFirstName = "Test123\u00e4";
         final String newLastName = "Test456";
         final String newMail = "Test123@abc.de";
 
