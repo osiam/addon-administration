@@ -19,7 +19,7 @@ public class UserEditIT extends Integrationtest {
     private static final String TEST_USER_NAME = "adavies";
     private static final String TEST_USER_FIRST_NAME = "Adeline";
     private static final String TEST_USER_LAST_NAME = "Davies";
-    private static final String TEST_USER_MAIL = "";
+    private static final String TEST_USER_MAIL = "adavies@example.com";
 
     @Test
     public void edit_user() {

@@ -21,9 +21,14 @@ public class Browser implements WebDriver {
     private final WebDriver delegate;
 
     private String baseURL;
+    private long implicitWait = 0;
 
     public Browser(WebDriver driver) {
         this.delegate = driver;
+    }
+
+    public void setImplicitWait(long implicitWaitInMs) {
+        this.implicitWait = implicitWaitInMs;
     }
 
     /**
@@ -73,17 +78,14 @@ public class Browser implements WebDriver {
             return this;
         }
 
-        try {
+        if(getCurrentUrl().contains("login")){
             fill(new Field(OauthLogin.USERNAME, username),
-                    new Field(OauthLogin.PASSWORD, password));
+                 new Field(OauthLogin.PASSWORD, password));
 
             click(OauthLogin.LOGIN_BUTTON);
-        } catch (NoSuchElementException e) {
-            // maybe we can it ignore, because osiam save it in his session
         }
 
         click(OauthLogin.AUTHORIZE_BUTTON);
-
         return this;
     }
 
@@ -101,23 +103,46 @@ public class Browser implements WebDriver {
     }
 
     /**
-     * Return the element if it was found.
+     * Return the element if it was found. This method use the implicit wait mechanism!
      * 
      * @param element
      * @return this
      */
     public WebElement findElement(Element element) {
+        for (int i = 0; i < implicitWait / 250; i++) {
+            try {
+                return findElement(element.by());
+            } catch (NoSuchElementException e) {
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e1) {
+                    break;
+                }
+            }
+        }
+
+        // last try
         return findElement(element.by());
+    }
+    
+    /**
+     * Return the element if it was found. This method don't use the implicit wait mechanism!
+     * 
+     * @param element
+     * @return this
+     */
+    public List<WebElement> findElements(Element element) {
+        return findElements(element.by());
     }
 
     public Select findSelectElement(Element element) {
         return new Select(findElement(element));
     }
-    
+
     public WebElement findSelectedOption(Element element) {
         return findSelectElement(element).getFirstSelectedOption();
     }
-    
+
     /**
      * Get the value of the given element.
      * 
@@ -126,8 +151,8 @@ public class Browser implements WebDriver {
      */
     public Object getValue(Element element) {
         WebElement webElement = findElement(element.by());
-        
-        switch(webElement.getTagName().toLowerCase()){
+
+        switch (webElement.getTagName().toLowerCase()) {
         case "input":
             return webElement.getAttribute("value");
         default:
@@ -190,7 +215,7 @@ public class Browser implements WebDriver {
     public boolean isErrorPage() {
         return isTextPresent("Whitelabel Error Page");
     }
-    
+
     /**
      * Check if the given text is shown on the current page.
      * 

@@ -40,7 +40,13 @@ public class SeleniumFactory {
         }
 
         Browser browser = new Browser(driver);
+        configure(browser);
+
         return browser;
+    }
+
+    private void configure(Browser browser) {
+        browser.setImplicitWait(5000);
     }
 
     @PreDestroy
