@@ -5,6 +5,7 @@
     <title>User-List</title>
 	<script type="text/javascript" src="../../js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}" ></script>
 	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" type="text/css" href="../../css/Style.css" th:href="@{/css/Style.css}"/>
 </head>
 <body>
 	<table class="table table-hover">
@@ -55,10 +56,23 @@
  				<td th:text="${user.name} != null ? ${user.name.givenName} : '-'">Given Name</td>
 				<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">Family Name</td>
 				<td>
-					<a th:href="@{edit(id = ${user.id})}">
-						<button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn btn-default">Edit</button>
-					</a>
-				</td>
+				<!-- Start: Action-Menu	-->
+					<nav>
+    					<ul>
+        	        		<li class = "action">
+            	        		<label id="actions">Aktionen ></label>
+                	    		<ul>
+                    	    		<li>
+                    	    			<a th:href="@{edit(id = ${user.id})}">
+                                        	<button th:id="${'action-button-edit-' + userStat.index}" th:text="#{edit_user.title}" class="btn btn-default">Edit</button>
+                                        </a>
+									</li>
+                    			</ul>
+                			</li>
+	                	</ul>
+    	            </nav>
+				<!-- End: Action-Menu -->
+			</td>
 			</tr>
 		</tbody>
 	</table>
