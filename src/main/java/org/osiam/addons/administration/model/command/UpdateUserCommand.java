@@ -66,6 +66,8 @@ public class UpdateUserCommand {
     @Valid
     private List<EntitlementCommand> entitlements = new ArrayList<EntitlementCommand>();
 
+	private Map<String, String> extensions;
+
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
      *
@@ -433,6 +435,14 @@ public class UpdateUserCommand {
 
     public void setMeta(MetaCommand meta) {
         this.meta = meta;
+    }
+
+	public Map<String, String> getExtensions() {
+        return extensions;
+    }
+
+    public void setExtensions(Map<String, String> extensions) {
+        this.extensions = extensions;
     }
 
     /**
