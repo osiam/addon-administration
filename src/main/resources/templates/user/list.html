@@ -4,10 +4,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>User-List</title>
 	<script type="text/javascript" src="../../js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}" ></script>
+	<script type="text/javascript" src="../../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" ></script>
+	<script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}" ></script>
+	<script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}" ></script>
+	
 	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 	<link rel="stylesheet" type="text/css" href="../../css/Style.css" th:href="@{/css/Style.css}"/>
+	
 </head>
 <body>
+	<div id="dialog-message-container">
+		<input id="dialog-deactivate-message" type="hidden" th:value="#{msg.user.dialog.deactivate.message}" />
+		<input id="dialog-deactivate-title" type="hidden" th:value="#{msg.user.dialog.deactivate.title}" />
+		<input id="dialog-deactivate-success" type="hidden" th:value="#{msg.user.dialog.deactivate.success}" />
+		<input id="dialog-deactivate-abort" type="hidden" th:value="#{msg.user.dialog.deactivate.abort}" />
+	</div>
+	
 	<table class="table table-hover">
 		<thead><tr>
 			<th>
@@ -33,7 +45,7 @@
 		<tbody>
 			<!-- Start: Filter-Row -->
 			<tr th:object="${sessionData.filterFields}">
-				<form id="filter-form" action="" method="post">
+				<form id="filter-form" action="" method="POST">
 					<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
 					<th:block th:replace="makros :: csrf" />
 
@@ -67,9 +79,12 @@
 									</a>
 								</li>
 								<li>
-								<a th:href="@{'' (action = 'deactivate', id = ${user.id})}">
-									<button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn btn-default">Deactivate</button>
-								</a>
+									<form action="" method="GET">
+										<input type="hidden" name="action" value="deactivate" />
+										<input type="hidden" name="id" th:value="${user.id}" />
+										
+										<button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn btn-default" type="submit">Deactivate</button>
+									</form>
 								</li>
 							</ul>
 						</li>
