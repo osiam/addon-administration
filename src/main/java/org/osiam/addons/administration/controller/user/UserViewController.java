@@ -62,7 +62,7 @@ public class UserViewController {
 
         ModelAndView modelAndView = new ModelAndView("user/list");
 
-		final String attributes = "id, userName, name.givenName, name.familyName";
+		final String attributes = "id, userName, active, name.givenName, name.familyName";
 
 		limit = limit == null ? DEFAULT_LIMIT : limit;
         orderBy = orderBy == null ? DEFAULT_SORT_BY : orderBy;

@@ -60,7 +60,7 @@
 				</form>
 			</tr>
 			<!-- End: Filter-Row -->
-			<tr th:each="user : ${userlist.resources}">
+			<tr th:each="user : ${userlist.resources}" th:class="${user.active} ? 'success' : 'danger'">
 				<td>
 					<input th:id="${'user-checkbox-' + userStat.index}" type="checkbox" class="checkbox" />
 				</td>
