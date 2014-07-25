@@ -36,6 +36,7 @@ public class UserViewController {
     public static final String REQUEST_PARAMETER_ORDER_BY = "orderBy";
     public static final String REQUEST_PARAMETER_ASCENDING = "asc";
     public static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
+    public static final String REQUEST_PARAMETER_USER_ID = "id";
 
     public static final String MODEL_USER_LIST = "userlist";
     public static final String MODEL_SESSION_DATA = "sessionData";
@@ -184,5 +185,19 @@ public class UserViewController {
                 .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
                 .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
                 .build();
+    }
+    
+    @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=deactivate")
+    public String handleUserDeactivation(@RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id){
+        userService.deactivateUser(id);
+        
+        return new RedirectBuilder()
+            .setPath(CONTROLLER_PATH)
+            .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
+            .addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
+            .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+            .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
+            .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+            .build();
     }
 }
