@@ -173,7 +173,7 @@ public class UserListIT extends Integrationtest {
     }
 
     private int getDisplayedUser() {
-        String userRowsXpath = "//table//tr//button[contains(@id, 'action-button')]";
+        String userRowsXpath = "//table//tr//li[contains(@class, 'action')]";
 
         return browser.findElements(By.xpath(userRowsXpath)).size();
     }
