@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.controller.AdminController;
+import org.osiam.addons.administration.mail.EmailSender;
 import org.osiam.addons.administration.model.session.UserlistSession;
 import org.osiam.addons.administration.paging.PagingBuilder;
 import org.osiam.addons.administration.paging.PagingLinks;
@@ -51,6 +52,9 @@ public class UserViewController {
 
     @Inject
     private UserlistSession session;
+    
+    @Inject
+    private EmailSender emailSender;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleList(
@@ -190,6 +194,9 @@ public class UserViewController {
     @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=deactivate")
     public String handleUserDeactivation(@RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id){
         userService.deactivateUser(id);
+        
+        User user = userService.getUser(id);
+        emailSender.sendDeactivateMail(user);
         
         return new RedirectBuilder()
             .setPath(CONTROLLER_PATH)
