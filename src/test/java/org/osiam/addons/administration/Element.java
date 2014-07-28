@@ -45,7 +45,12 @@ public interface Element {
         PAGING_NEXT(By.xpath("//a[@id = 'paging-next' and not(@href = '#')]")),
         PAGING_PREVIOUS(By.xpath("//a[@id = 'paging-prev' and not(@href = '#')]")),
         PAGING_LAST(By.xpath("//a[@id = 'paging-last' and not(@href = '#')]")),
-        PAGING_FIRST(By.xpath("//a[@id = 'paging-first' and not(@href = '#')]"));
+        PAGING_FIRST(By.xpath("//a[@id = 'paging-first' and not(@href = '#')]")),
+
+        DIALOG_SUCCESS(By.xpath("//div[contains(@role, 'dialog')]//button[contains(@data-bb-handler, 'success')]")),
+        DIALOG_ABORT(By.xpath("//div[contains(@role, 'dialog')]//button[contains(@data-bb-handler, 'danger')]")),
+        DIALOG_CLOSE(By.xpath("//div[contains(@role, 'dialog')]//button[starts-with(@class, 'bootbox-close-button')]"));
+
 
         private By by;
         
