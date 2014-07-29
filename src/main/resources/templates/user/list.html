@@ -13,8 +13,14 @@
 	
 </head>
 <body>
-	<div id="dialog-message-container">
-		<input id="dialog-deactivate-message" type="hidden" th:value="#{msg.user.dialog.deactivate.message}" />
+	<div id="dialog-message-container" style="display:none;">
+		<div id="dialog-deactivate-message">
+			<p th:text="#{msg.user.dialog.deactivate.message}" />
+			<p>
+				<label for="send-mail" th:text="#{msg.user.dialog.deactivate.email.message}" >SendMail?</label>
+				<input id="send-mail" type="checkbox" />
+			</p>
+		</div>
 		<input id="dialog-deactivate-title" type="hidden" th:value="#{msg.user.dialog.deactivate.title}" />
 		<input id="dialog-deactivate-success" type="hidden" th:value="#{msg.user.dialog.deactivate.success}" />
 		<input id="dialog-deactivate-abort" type="hidden" th:value="#{msg.user.dialog.deactivate.abort}" />
@@ -81,6 +87,7 @@
 								<li>
 									<form action="" method="GET">
 										<input type="hidden" name="action" value="deactivate" />
+										<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
 										<input type="hidden" name="id" th:value="${user.id}" />
 										
 										<button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn btn-default" type="submit">Deactivate</button>

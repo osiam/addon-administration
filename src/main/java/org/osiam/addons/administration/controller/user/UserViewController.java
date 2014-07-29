@@ -38,6 +38,7 @@ public class UserViewController {
     public static final String REQUEST_PARAMETER_ASCENDING = "asc";
     public static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
     public static final String REQUEST_PARAMETER_USER_ID = "id";
+    public static final String REQUEST_PARAMETER_SEND_MAIL = "sendMail";
 
     public static final String MODEL_USER_LIST = "userlist";
     public static final String MODEL_SESSION_DATA = "sessionData";
@@ -46,6 +47,7 @@ public class UserViewController {
     private static final Integer DEFAULT_LIMIT = 20;
     private static final String DEFAULT_SORT_BY = "userName";
     private static final Boolean DEFAULT_SORT_DIRECTION = true;
+
 
     @Inject
     private UserService userService;
@@ -192,11 +194,16 @@ public class UserViewController {
     }
     
     @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=deactivate")
-    public String handleUserDeactivation(@RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id){
+    public String handleUserDeactivation(
+            @RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id,
+            @RequestParam(value = REQUEST_PARAMETER_SEND_MAIL) final Boolean sendMail){
+        
         userService.deactivateUser(id);
         
-        User user = userService.getUser(id);
-        emailSender.sendDeactivateMail(user);
+        if (sendMail) {
+            User user = userService.getUser(id);
+            emailSender.sendDeactivateMail(user);
+        }
         
         return new RedirectBuilder()
             .setPath(CONTROLLER_PATH)
