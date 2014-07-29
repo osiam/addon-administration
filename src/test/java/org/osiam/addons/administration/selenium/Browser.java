@@ -114,8 +114,9 @@ public class Browser implements WebDriver {
             try {
             	WebElement tempElement = findElement(element.by());
             	
-            	if(!tempElement.isDisplayed())
-            		throw new ElementNotVisibleException("Element is not visisble");
+            	if(!tempElement.isDisplayed()) {
+            		throw new ElementNotVisibleException("Element is not visible");
+            	}
             		
             	return findElement(element.by());
             } catch (NoSuchElementException | ElementNotVisibleException e) {
