@@ -11,7 +11,7 @@ public class SecurityIT extends Integrationtest {
     public void no_access_without_valid_access_token() {
         browser.gotoPage(AdminController.CONTROLLER_PATH);
 
-        assertTrue(browser.isAccessDenied());
+        assertTrue(browser.isLoginPage());
     }
 
     @Test

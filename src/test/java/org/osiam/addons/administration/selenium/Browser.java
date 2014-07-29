@@ -222,6 +222,15 @@ public class Browser implements WebDriver {
     public boolean isErrorPage() {
         return isTextPresent("Whitelabel Error Page");
     }
+    
+    /**
+     * Is the current page the login page?
+     * 
+     * @return True if it so. Otherwise false.
+     */
+    public boolean isLoginPage() {
+        return getCurrentUrl().contains("osiam-auth-server");
+    }
 
     /**
      * Check if the given text is shown on the current page.
