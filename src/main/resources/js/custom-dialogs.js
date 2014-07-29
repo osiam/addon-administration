@@ -10,7 +10,7 @@ $(function(){
 					label : $('#dialog-deactivate-success').val(),
 					className : "btn-success",
 					callback : function() {
-						var sendMail = $('#send-mail').is(':checked');
+						var sendMail = $('div[role="dialog"] #send-mail').is(':checked');
 						
 						button.parent().find('input[name="sendMail"]').val(sendMail);
 						button.parent().submit();
@@ -22,8 +22,6 @@ $(function(){
 				}
 			}
 		});
-		
-		$('#dialog-message-container').remove();
 		
 		return false;
 	});
