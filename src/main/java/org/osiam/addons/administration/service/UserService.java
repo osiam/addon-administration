@@ -94,4 +94,16 @@ public class UserService {
 
         connector.updateUser(id, updateUser, sessionData.getAccesstoken());
     }
+    
+    /**
+     * Activate the user by the given userId.
+     * 
+     * @param id
+     *        the user ID
+     */
+    public void activateUser(String id) {
+        UpdateUser updateUser = new UpdateUser.Builder().updateActive(true).build();
+        
+        connector.updateUser(id, updateUser, sessionData.getAccesstoken());
+    }
 }

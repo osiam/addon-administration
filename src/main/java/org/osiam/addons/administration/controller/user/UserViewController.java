@@ -214,4 +214,26 @@ public class UserViewController {
             .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
             .build();
     }
+    
+    @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=activate")
+    public String handleUserActivation(
+            @RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id,
+            @RequestParam(value = REQUEST_PARAMETER_SEND_MAIL) final Boolean sendMail){
+        
+        userService.activateUser(id);
+        
+        if (sendMail) {
+            User user = userService.getUser(id);
+            emailSender.sendDeactivateMail(user);
+        }
+        
+        return new RedirectBuilder()
+            .setPath(CONTROLLER_PATH)
+            .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
+            .addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
+            .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+            .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
+            .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+            .build();
+    }
 }
