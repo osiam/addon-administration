@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.client.exception.UnauthorizedException;
@@ -23,7 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler implements AccessDeniedHandler {
-
+    private static final Logger LOG = Logger.getLogger(GlobalExceptionHandler.class);
+    
     @Inject
     private GeneralSessionData session;
     
@@ -44,6 +46,8 @@ public class GlobalExceptionHandler implements AccessDeniedHandler {
     
     @ExceptionHandler(Exception.class)
     public ModelAndView handleUncaught(HttpServletRequest req, Exception e){
+        LOG.error("Uncaught exception was thrown.", e);
+        
         ModelAndView mav = new ModelAndView("error");
         
         mav.addObject("exception", e);
