@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
- * This class is responsible for handle all exception that could be thrown by any controller-handler.
+ * This class is responsible for handling all exceptions thrown by any controller-handler.
  */
 @ControllerAdvice
 public class GlobalExceptionHandler implements AccessDeniedHandler {
