@@ -25,42 +25,41 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class GlobalExceptionHandler implements AccessDeniedHandler {
     private static final Logger LOG = Logger.getLogger(GlobalExceptionHandler.class);
-    
+
     @Inject
     private GeneralSessionData session;
-    
-    
+
     @ExceptionHandler(UnauthorizedException.class)
     public String handleUnauthorized() {
         session.setAccesstoken(null);
-        
+
         return new RedirectBuilder().setDestination(LoginController.CONTROLLER_PATH).build();
     }
-    
+
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
             AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        
+
         response.sendRedirect(LoginController.CONTROLLER_PATH);
     }
-    
+
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleUncaught(HttpServletRequest req, Exception e){
+    public ModelAndView handleUncaught(HttpServletRequest req, Exception e) {
         LOG.error("Uncaught exception was thrown.", e);
-        
+
         ModelAndView mav = new ModelAndView("error");
-        
+
         mav.addObject("exception", e);
         mav.addObject("stacktrace", getStackTrace(e));
         mav.addObject("request", req);
-        
+
         return mav;
     }
 
     private String getStackTrace(Throwable t) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        
+
         t.printStackTrace(pw);
         return sw.toString();
     }

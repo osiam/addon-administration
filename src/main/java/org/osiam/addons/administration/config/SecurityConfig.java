@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Inject
     private GlobalExceptionHandler exceptionHandler;
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception { // NOSONAR the authorizeRequests() throws it and can't be omitted
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
@@ -38,14 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDecisionManager(decisionManager)
                 .antMatchers(AdminController.CONTROLLER_PATH + "/**")
                 .authenticated()
-            .and()
+                .and()
                 .exceptionHandling()
-                    .authenticationEntryPoint(getAuthenticationEntryPoint())
-                    .accessDeniedHandler(exceptionHandler);
+                .authenticationEntryPoint(getAuthenticationEntryPoint())
+                .accessDeniedHandler(exceptionHandler);
     }
 
     private AuthenticationEntryPoint getAuthenticationEntryPoint() {
         return new LoginUrlAuthenticationEntryPoint(LoginController.CONTROLLER_PATH);
     }
-
 }

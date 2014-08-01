@@ -82,7 +82,7 @@ public class UserService {
     public void updateUser(String id, UpdateUser updateUser) {
         connector.updateUser(id, updateUser, sessionData.getAccesstoken());
     }
-    
+
     /**
      * Deactivate the user by the given userId.
      * 
@@ -91,7 +91,7 @@ public class UserService {
      */
     public void deactivateUser(String id) {
         UpdateUser updateUser = new UpdateUser.Builder().updateActive(false).build();
-        
+
         connector.updateUser(id, updateUser, sessionData.getAccesstoken());
     }
 }

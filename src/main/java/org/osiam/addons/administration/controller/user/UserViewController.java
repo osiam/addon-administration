@@ -68,9 +68,9 @@ public class UserViewController {
 
         ModelAndView modelAndView = new ModelAndView("user/list");
 
-		final String attributes = "id, userName, active, name.givenName, name.familyName";
+        final String attributes = "id, userName, active, name.givenName, name.familyName";
 
-		limit = limit == null ? DEFAULT_LIMIT : limit;
+        limit = limit == null ? DEFAULT_LIMIT : limit;
         orderBy = orderBy == null ? DEFAULT_SORT_BY : orderBy;
         ascending = ascending == null ? DEFAULT_SORT_DIRECTION : ascending;
 
@@ -192,19 +192,19 @@ public class UserViewController {
                 .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
                 .build();
     }
-    
+
     @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=deactivate")
     public String handleUserDeactivation(
             @RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id,
             @RequestParam(value = REQUEST_PARAMETER_SEND_MAIL) final Boolean sendMail){
-        
+
         userService.deactivateUser(id);
-        
+
         if (sendMail) {
             User user = userService.getUser(id);
             emailSender.sendDeactivateMail(user);
         }
-        
+
         return new RedirectBuilder()
             .setPath(CONTROLLER_PATH)
             .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())

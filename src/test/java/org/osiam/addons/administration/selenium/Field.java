@@ -8,24 +8,28 @@ import org.osiam.addons.administration.Element;
 public class Field {
     private Element element;
     private Object value;
-    
+
     public Field(Element element, Object value) {
         this.element = element;
         this.value = value;
     }
-    
+
     public Element getElement() {
         return element;
     }
+
     public void setElement(Element element) {
         this.element = element;
     }
+
     public Object getValue() {
         return value;
     }
+
     public void setValue(Object value) {
         this.value = value;
     }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -34,6 +38,7 @@ public class Field {
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -52,5 +57,5 @@ public class Field {
             return false;
         return true;
     }
-    
+
 }

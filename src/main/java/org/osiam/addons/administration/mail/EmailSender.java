@@ -56,24 +56,24 @@ public class EmailSender {
 
     @Inject
     private EmailTemplateRenderer renderer;
-    
+
     @Value("${org.osiam.mail.from}")
     private String fromAddress;
-    
+
     public void sendDeactivateMail(User user) {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("user", user);
-        
+
         String mailConent = renderer.renderEmailBody("deactivate", new Locale(user.getLocale()), variables);
         String mailSubject = renderer.renderEmailSubject("deactivate", new Locale(user.getLocale()), variables);
         Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
-        if(!email.isPresent()){
+        if (!email.isPresent()) {
             throw new SendEmailException("The user has no email!", "user.no.email");
         }
-        
+
         sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailConent);
     }
-    
+
     public void sendPlainTextMail(String fromAddress, String toAddress, String subject, String content) {
         mailSender.send(getMessage(fromAddress, toAddress, subject, content));
     }

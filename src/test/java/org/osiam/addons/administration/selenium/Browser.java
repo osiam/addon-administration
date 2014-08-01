@@ -222,7 +222,7 @@ public class Browser implements WebDriver {
     public boolean isErrorPage() {
         return isTextPresent("Whitelabel Error Page");
     }
-    
+
     /**
      * Is the current page the login page?
      * 

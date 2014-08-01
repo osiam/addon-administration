@@ -10,7 +10,7 @@ public abstract class GenericController {
 
     @Inject
     private HttpSession session;
-    
+
     /**
      * Store an object into the session.
      * 
@@ -30,7 +30,7 @@ public abstract class GenericController {
     public Object restoreFromSession(String key){
         return session.getAttribute(generateKey(key));
     }
-    
+
     /**
      * Remove the object from the session.
      * 
@@ -39,7 +39,7 @@ public abstract class GenericController {
     public void removeFromSession(String key){
         session.removeAttribute(generateKey(key));
     }
-    
+
     private String generateKey(String key) {
         return getClass().getName() + key;
     }

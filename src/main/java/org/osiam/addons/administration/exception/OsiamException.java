@@ -26,7 +26,7 @@ package org.osiam.addons.administration.exception;
 public class OsiamException extends RuntimeException {
 
     private static final long serialVersionUID = -292158452140136468L;
-    
+
     private String key;
     private int httpStatusCode;
 
@@ -43,17 +43,17 @@ public class OsiamException extends RuntimeException {
         this.key = key;
         this.httpStatusCode = httpStatusCode;
     }
-    
+
     public OsiamException(String message, String key, int httpStatusCode) {
         super(message);
         this.key = key;
         this.httpStatusCode = httpStatusCode;
     }
-    
-    public String getKey(){
+
+    public String getKey() {
         return key;
     }
-    
+
     public int getHttpStatusCode() {
         return httpStatusCode;
     }

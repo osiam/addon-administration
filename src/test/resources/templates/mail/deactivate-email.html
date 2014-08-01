@@ -5,10 +5,9 @@
     </head>
     <body>
         <div id="mail-subject" th:remove="tag" >You are now deactivated</div>
-    	
-   	<div id="mail-body" th:remove="tag">
-   		You are now deactivated!
-		<div th:text="${user}"></div>
-	</div>
+        <div id="mail-body" th:remove="tag">
+            You are now deactivated!
+            <div th:text="${user}"></div>
+        </div>
     </body>
 </html>

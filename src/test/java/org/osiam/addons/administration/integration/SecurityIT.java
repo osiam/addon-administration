@@ -19,7 +19,7 @@ public class SecurityIT extends Integrationtest {
         browser
                 .doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD)
                 .gotoPage(AdminController.CONTROLLER_PATH);
-        
+
         assertFalse(browser.isAccessDenied());
     }
 }

@@ -84,14 +84,14 @@ public class UserServiceTest {
         toTestSpy.updateUser(id, updateUser);
         verify(connector, times(1)).updateUser(eq(id), eq(updateUser), same(accessToken));
     }
-    
+
     @Test
     public void deactivateUser() {
         String id = "userID";
-        
+
         toTestSpy.deactivateUser(id);
         ArgumentCaptor<UpdateUser> cap = ArgumentCaptor.forClass(UpdateUser.class);
-        
+
         verify(connector, times(1)).updateUser(eq(id), cap.capture(), same(accessToken));
         assertFalse(cap.getValue().getScimConformUpdateUser().isActive());
     }

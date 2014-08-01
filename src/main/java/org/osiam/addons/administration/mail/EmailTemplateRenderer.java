@@ -42,10 +42,10 @@ import com.google.common.base.Strings;
  */
 @Service
 public class EmailTemplateRenderer {
-  
+
     @Inject
     private SpringTemplateEngine templateEngine;
-    
+
     public String renderEmailSubject(String templateName, Locale locale, Map<String, Object> variables) {
         String emailSubject = renderTemplate(templateName, "#mail-subject", locale, variables);
         if (Strings.isNullOrEmpty(emailSubject)) {
@@ -55,7 +55,7 @@ public class EmailTemplateRenderer {
         }
         return emailSubject;
     }
-    
+
     public String renderEmailBody(String templateName, Locale locale, Map<String, Object> variables) {
         String emailBody = renderTemplate(templateName, "#mail-body", locale, variables);
         if (Strings.isNullOrEmpty(emailBody)) {
@@ -65,11 +65,11 @@ public class EmailTemplateRenderer {
         }
         return emailBody;
     }
-    
+
     private String renderTemplate(String templateName, String selectorExpression, Locale locale, Map<String, Object> variables) {
         Context context = new Context(locale);
         context.setVariables(variables);
-        
+
         return templateEngine.process(templateName + "-email", context, new DOMSelectorFragmentSpec(selectorExpression));
     }
 }

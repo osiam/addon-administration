@@ -25,25 +25,25 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(EditUserController.CONTROLLER_PATH)
 public class EditUserController extends GenericController {
     private static final Logger LOG = Logger.getLogger(EditUserController.class);
-    
+
     public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/edit";
 
     public static final String REQUEST_PARAMETER_ID = "id";
     public static final String REQUEST_PARAMETER_ERROR = "error";
-    
+
     private static final String SESSION_KEY_COMMAND = "command";
 
     public static final String MODEL = "model";
 
     @Inject
     private UserService userService;
-    
+
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleUserEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
         ModelAndView modelAndView = new ModelAndView("user/editUser");
 
         clearSession();
-        
+
         User user = userService.getUser(id);
         modelAndView.addObject(MODEL, new UpdateUserCommand(user));
 
@@ -53,11 +53,11 @@ public class EditUserController extends GenericController {
     private void clearSession() {
         removeFromSession(SESSION_KEY_COMMAND);
     }
-    
+
     @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
     public ModelAndView handleUserEditFailure(
             @RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
-        
+
         ModelAndView modelAndView = new ModelAndView("user/editUser");
 
         modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
@@ -73,16 +73,16 @@ public class EditUserController extends GenericController {
         final RedirectBuilder redirect = new RedirectBuilder()
                                             .setPath(CONTROLLER_PATH)
                                             .addParameter(REQUEST_PARAMETER_ID, command.getId());
-        
-        try{
+
+        try {
             UpdateUser updateUser = command.getAsUpdateUser();
             userService.updateUser(command.getId(), updateUser);
-        }catch(SCIMDataValidationException e){
+        } catch(SCIMDataValidationException e) {
             LOG.warn("Could not update user.", e);
             storeInSession(SESSION_KEY_COMMAND, command);
             redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
         }
-        
+
         return redirect.build();
     }
 }
