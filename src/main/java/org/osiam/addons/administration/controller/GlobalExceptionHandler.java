@@ -1,8 +1,6 @@
 package org.osiam.addons.administration.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -18,6 +16,8 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.common.base.Throwables;
 
 /**
  * This class is responsible for handling all exceptions thrown by any controller-handler.
@@ -57,10 +57,6 @@ public class GlobalExceptionHandler implements AccessDeniedHandler {
     }
 
     private String getStackTrace(Throwable t) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-
-        t.printStackTrace(pw);
-        return sw.toString();
+        return Throwables.getStackTraceAsString(t);
     }
 }
