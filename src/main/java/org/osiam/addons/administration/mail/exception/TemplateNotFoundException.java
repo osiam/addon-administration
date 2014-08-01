@@ -21,7 +21,25 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/**
- * This package contains the classes for spring configuration.
- */
-package org.osiam.addons.administration.config;
+package org.osiam.addons.administration.mail.exception;
+
+import org.osiam.addons.administration.exception.OsiamException;
+import org.springframework.http.HttpStatus;
+
+public class TemplateNotFoundException extends OsiamException {
+
+    private static final long serialVersionUID = -292158452140136468L;
+
+    public TemplateNotFoundException() {
+        super();
+    }
+
+    public TemplateNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public TemplateNotFoundException(String message, String key) {
+        super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
+
+}

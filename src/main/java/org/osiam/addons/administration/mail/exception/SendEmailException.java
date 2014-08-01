@@ -21,7 +21,29 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/**
- * This package contains the classes for spring configuration.
- */
-package org.osiam.addons.administration.config;
+package org.osiam.addons.administration.mail.exception;
+
+import org.osiam.addons.administration.exception.OsiamException;
+import org.springframework.http.HttpStatus;
+
+public class SendEmailException extends OsiamException {
+
+    private static final long serialVersionUID = -292158452140136468L;
+
+    public SendEmailException() {
+        super();
+    }
+
+    public SendEmailException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public SendEmailException(String message, String key, Throwable cause) {
+        super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value(), cause);
+    }
+
+    public SendEmailException(String message, String key) {
+        super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
+
+}

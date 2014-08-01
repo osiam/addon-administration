@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.controller.AdminController;
+import org.osiam.addons.administration.mail.EmailSender;
 import org.osiam.addons.administration.model.session.UserlistSession;
 import org.osiam.addons.administration.paging.PagingBuilder;
 import org.osiam.addons.administration.paging.PagingLinks;
@@ -36,6 +37,8 @@ public class UserViewController {
     public static final String REQUEST_PARAMETER_ORDER_BY = "orderBy";
     public static final String REQUEST_PARAMETER_ASCENDING = "asc";
     public static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
+    public static final String REQUEST_PARAMETER_USER_ID = "id";
+    public static final String REQUEST_PARAMETER_SEND_MAIL = "sendMail";
 
     public static final String MODEL_USER_LIST = "userlist";
     public static final String MODEL_SESSION_DATA = "sessionData";
@@ -45,11 +48,15 @@ public class UserViewController {
     private static final String DEFAULT_SORT_BY = "userName";
     private static final Boolean DEFAULT_SORT_DIRECTION = true;
 
+
     @Inject
     private UserService userService;
 
     @Inject
     private UserlistSession session;
+    
+    @Inject
+    private EmailSender emailSender;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleList(
@@ -61,9 +68,9 @@ public class UserViewController {
 
         ModelAndView modelAndView = new ModelAndView("user/list");
 
-		final String attributes = "id, userName, name.givenName, name.familyName";
+        final String attributes = "id, userName, active, name.givenName, name.familyName";
 
-		limit = limit == null ? DEFAULT_LIMIT : limit;
+        limit = limit == null ? DEFAULT_LIMIT : limit;
         orderBy = orderBy == null ? DEFAULT_SORT_BY : orderBy;
         ascending = ascending == null ? DEFAULT_SORT_DIRECTION : ascending;
 
@@ -184,5 +191,27 @@ public class UserViewController {
                 .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
                 .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
                 .build();
+    }
+
+    @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=deactivate")
+    public String handleUserDeactivation(
+            @RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id,
+            @RequestParam(value = REQUEST_PARAMETER_SEND_MAIL) final Boolean sendMail){
+
+        userService.deactivateUser(id);
+
+        if (sendMail) {
+            User user = userService.getUser(id);
+            emailSender.sendDeactivateMail(user);
+        }
+
+        return new RedirectBuilder()
+            .setPath(CONTROLLER_PATH)
+            .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
+            .addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
+            .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+            .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
+            .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+            .build();
     }
 }

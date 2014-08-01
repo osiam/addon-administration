@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -111,8 +112,14 @@ public class Browser implements WebDriver {
     public WebElement findElement(Element element) {
         for (int i = 0; i < implicitWait / 250; i++) {
             try {
-                return findElement(element.by());
-            } catch (NoSuchElementException e) {
+            	WebElement tempElement = findElement(element.by());
+            	
+            	if(!tempElement.isDisplayed()) {
+            		throw new ElementNotVisibleException("Element is not visible");
+            	}
+            		
+            	return findElement(element.by());
+            } catch (NoSuchElementException | ElementNotVisibleException e) {
                 try {
                     Thread.sleep(250);
                 } catch (InterruptedException e1) {
@@ -214,6 +221,15 @@ public class Browser implements WebDriver {
      */
     public boolean isErrorPage() {
         return isTextPresent("Whitelabel Error Page");
+    }
+
+    /**
+     * Is the current page the login page?
+     * 
+     * @return True if it so. Otherwise false.
+     */
+    public boolean isLoginPage() {
+        return getCurrentUrl().contains("osiam-auth-server");
     }
 
     /**

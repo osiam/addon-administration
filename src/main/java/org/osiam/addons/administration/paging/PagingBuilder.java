@@ -167,7 +167,7 @@ public class PagingBuilder {
                 builder.queryParam(curKey, value);
             }
         }
-        
+
         return builder.toString();
     }
 

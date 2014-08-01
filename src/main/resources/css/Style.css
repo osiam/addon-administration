@@ -1,0 +1,39 @@
+nav ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+nav ul,nav ul li {
+    background-color: #428bca;
+}
+
+nav ul li {
+    list-style: none;
+    float:left;
+}
+
+nav ul li label {
+    padding: 8px 3px 4px 10px;
+    text-decoration: none;
+    color: #FFFFFF;
+
+    -webkit-transition: background 0.3s ease-out 0s;
+    -moz-transition: background 0.3s ease-out 0s;
+    -o-transition: background 0.3s ease-out 0s;
+    transition: background 0.3s ease-out 0s;
+}
+
+nav ul li:hover > ul {
+    visibility: visible;
+}
+
+nav ul li ul{
+    display: inline;
+    visibility: hidden;
+    position: absolute;
+    padding:0px;
+}
+
+button ul li.action:hover button, nav ul li.action:hover > ul li button  {
+    background-color: #428bca;
+}

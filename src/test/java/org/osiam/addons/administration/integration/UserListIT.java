@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.osiam.addons.administration.Element;
 import org.osiam.addons.administration.Element.UserList;
 import org.osiam.addons.administration.selenium.Field;
 
@@ -48,7 +49,7 @@ public class UserListIT extends Integrationtest {
         assertFalse(isUserVisible(ADMIN_USERNAME));
         assertTrue(isUserVisible("adavies")); // an another user
     }
-    
+
     @Test
     public void apply_no_result_filter() {
         browser.fill(
@@ -132,6 +133,23 @@ public class UserListIT extends Integrationtest {
         assertEquals(getDisplayedUser(), userCount);
     }
 
+    @Test
+    public void userDeactivation() {
+        String username = "hsimpson";
+
+        // abort deactivation
+        handleDeactivationDialog(username, UserList.DIALOG_ABORT);
+        assertTrue(isUserActive(username));
+
+        // abort deactivation via closing dialog
+        handleDeactivationDialog(username, UserList.DIALOG_CLOSE);
+        assertTrue(isUserActive(username));
+
+        // deactivate user
+        handleDeactivationDialog(username, UserList.DIALOG_SUCCESS);
+        assertFalse(isUserActive(username));
+    }
+
     private void clickFirstPagingNumber() {
         String pagingNumberXpath = "//a[contains(@id, 'paging-') " +
                 "and not(@id = 'paging-first') " +
@@ -143,14 +161,38 @@ public class UserListIT extends Integrationtest {
         browser.findElements(By.xpath(pagingNumberXpath)).get(0).click();
     }
 
+    private void handleDeactivationDialog(String username, Element elementToClick) {
+        String actionLabelXpath =
+                "//table//td[contains(., '" + username + "')]/..//label";
+        String deactivateButtonXpath =
+                "//table//td[contains(., '" + username
+                        + "')]/..//button[starts-with(@id, 'action-button-deactivate-')]";
+
+        browser.findElement(By.xpath(actionLabelXpath)).click();
+        browser.findElement(By.xpath(deactivateButtonXpath)).click();
+        browser.findElement(elementToClick).click();
+    }
+
     private int getDisplayedUser() {
-        String userRowsXpath = "//table//tr//button[contains(@id, 'action-button')]";
+        String userRowsXpath = "//table//tr//li[contains(@class, 'action')]";
 
         return browser.findElements(By.xpath(userRowsXpath)).size();
     }
 
     private boolean isUserVisible(String username) {
         return browser.isTextPresent(username);
+    }
+
+    private boolean isUserActive(String username) {
+        String buttonXpath = "//table//tr[contains(@class, 'success')]//td[contains(., '" + username + "')]";
+
+        try {
+            browser.findElement(By.xpath(buttonXpath));
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+
+        return true;
     }
 
     private boolean isUserAtPosition(String username, Integer position) {

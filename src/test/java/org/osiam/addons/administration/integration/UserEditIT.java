@@ -68,7 +68,10 @@ public class UserEditIT extends Integrationtest {
     }
 
     private void editTestUser() {
+        String actionLabelXpath = "//td[. = '" + TEST_USER_NAME + "']/..//label[contains(@id, 'action-label')]";
         String editButtonXpath = "//td[. = '" + TEST_USER_NAME + "']/..//button[contains(@id, 'action-button-edit')]";
+
+        browser.findElement(By.xpath(actionLabelXpath)).click();
         browser.findElement(By.xpath(editButtonXpath)).click();
     }
 }

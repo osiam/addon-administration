@@ -21,7 +21,41 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/**
- * This package contains the classes for spring configuration.
- */
-package org.osiam.addons.administration.config;
+package org.osiam.addons.administration.exception;
+
+public class OsiamException extends RuntimeException {
+
+    private static final long serialVersionUID = -292158452140136468L;
+
+    private String key;
+    private int httpStatusCode;
+
+    public OsiamException() {
+        super();
+    }
+
+    public OsiamException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public OsiamException(String message, String key, int httpStatusCode, Throwable cause) {
+        super(message, cause);
+        this.key = key;
+        this.httpStatusCode = httpStatusCode;
+    }
+
+    public OsiamException(String message, String key, int httpStatusCode) {
+        super(message);
+        this.key = key;
+        this.httpStatusCode = httpStatusCode;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public int getHttpStatusCode() {
+        return httpStatusCode;
+    }
+
+}
