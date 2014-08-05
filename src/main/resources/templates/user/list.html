@@ -21,7 +21,7 @@
 				<input id="send-mail" type="checkbox" />
 			</p>
 		</div>
-		
+
 		<div id="dialog-activate-message">
 			<p th:text="#{msg.user.dialog.activate.message}" />
 			<p>
@@ -29,12 +29,12 @@
 				<input id="send-mail" type="checkbox" />
 			</p>
 		</div>
-		
+
 		<input id="dialog-title" type="hidden" th:value="#{msg.user.dialog.title}" />
 		<input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}" />
 		<input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}" />
 	</div>
-	
+
 	<table class="table table-hover">
 		<thead><tr>
 			<th>
@@ -98,7 +98,7 @@
 										<input type="hidden" name="action" value="deactivate" />
 										<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
 										<input type="hidden" name="id" th:value="${user.id}" />
-										
+
 										<button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn btn-default" type="submit">Deactivate</button>
 									</form>
 								</li>
@@ -107,7 +107,7 @@
 										<input type="hidden" name="action" value="activate" />
 										<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
 										<input type="hidden" name="id" th:value="${user.id}" />
-										
+
 										<button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn btn-default" type="submit">Activate</button>
 									</form>
 								</li>

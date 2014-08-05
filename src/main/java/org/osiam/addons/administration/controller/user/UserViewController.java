@@ -49,13 +49,12 @@ public class UserViewController {
     private static final String DEFAULT_SORT_BY = "userName";
     private static final Boolean DEFAULT_SORT_DIRECTION = true;
 
-
     @Inject
     private UserService userService;
 
     @Inject
     private UserlistSession session;
-    
+
     @Inject
     private EmailSender emailSender;
 
@@ -199,12 +198,12 @@ public class UserViewController {
             @RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id,
             @RequestParam(value = REQUEST_PARAMETER_SEND_MAIL) final Boolean sendMail,
             HttpServletRequest request){
-        
+
         userService.deactivateUser(id);
 
         if (sendMail) {
             User user = userService.getUser(id);
-            
+
             if(user.getLocale() == null) {
                 emailSender.sendDeactivateMail(user, request.getLocale());
             } else {
@@ -221,25 +220,25 @@ public class UserViewController {
             .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
             .build();
     }
-    
+
     @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=activate")
     public String handleUserActivation(
             @RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id,
             @RequestParam(value = REQUEST_PARAMETER_SEND_MAIL) final Boolean sendMail,
-        	HttpServletRequest request){
-        
+            HttpServletRequest request){
+
         userService.activateUser(id);
-        
+
         if (sendMail) {
             User user = userService.getUser(id);
-           
+
             if(user.getLocale() == null) {
                 emailSender.sendActivateMail(user, request.getLocale());
             } else {
                 emailSender.sendActivateMail(user);
             }
         }
-        
+
         return new RedirectBuilder()
             .setPath(CONTROLLER_PATH)
             .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())

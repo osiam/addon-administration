@@ -113,11 +113,11 @@ public class Browser implements WebDriver {
         for (int i = 0; i < implicitWait / 250; i++) {
             try {
             	WebElement tempElement = findElement(element.by());
-            	
+
             	if(!tempElement.isDisplayed()) {
             		throw new ElementNotVisibleException("Element is not visible");
             	}
-            		
+
             	return findElement(element.by());
             } catch (NoSuchElementException | ElementNotVisibleException e) {
                 try {
@@ -131,7 +131,7 @@ public class Browser implements WebDriver {
         // last try
         return findElement(element.by());
     }
-    
+
     /**
      * Return the element if it was found. This method don't use the implicit wait mechanism!
      * 

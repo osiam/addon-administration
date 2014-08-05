@@ -136,37 +136,37 @@ public class UserListIT extends Integrationtest {
     @Test
     public void userDeactivation() {
     	String username = "hsimpson";
-    	
+
     	//abort deactivation
     	handleDeactivationDialog(username, UserList.DIALOG_ABORT);
     	assertTrue(isUserActive(username));
-    	
+
     	//abort deactivation via closing dialog
     	handleDeactivationDialog(username, UserList.DIALOG_CLOSE);
     	assertTrue(isUserActive(username));
-    	
+
     	//deactivate user
     	handleDeactivationDialog(username, UserList.DIALOG_SUCCESS);
     	assertFalse(isUserActive(username));
     }
-    
+
     @Test
     public void userActivation() {
     	String username = "jcambell";
-    	
+
     	//abort activation
     	handleActivationDialog(username, UserList.DIALOG_ABORT);
     	assertTrue(isUserDeactive(username));
-    	
+
     	//abort activation via closing dialog
     	handleActivationDialog(username, UserList.DIALOG_CLOSE);
     	assertTrue(isUserDeactive(username));
-    	
+
     	//activate user
     	handleActivationDialog(username, UserList.DIALOG_SUCCESS);
     	assertFalse(isUserDeactive(username));
     }
-    
+
     private void clickFirstPagingNumber() {
         String pagingNumberXpath = "//a[contains(@id, 'paging-') " +
                 "and not(@id = 'paging-first') " +
@@ -189,7 +189,7 @@ public class UserListIT extends Integrationtest {
         browser.findElement(By.xpath(deactivateButtonXpath)).click();
         browser.findElement(elementToClick).click();
     }
-    
+
     private void handleActivationDialog(String username, Element elementToClick) {
     	String actionLabelXpath = 			
     			"//table//td[contains(., '" + username + "')]/..//label";
@@ -222,19 +222,19 @@ public class UserListIT extends Integrationtest {
     	
     	return true;
 	}
-    
+
     private boolean isUserDeactive(String username) {
     	String buttonXpath = "//table//tr[contains(@class, 'danger')]//td[contains(., '" + username + "')]";
-   
-        try {
+
+    	try {
         	browser.findElement(By.xpath(buttonXpath));
         } catch (NoSuchElementException e) {
         	return false;
         }
     	
     	return true;
-	}
-    
+    }
+
     private boolean isUserAtPosition(String username, Integer position) {
         // the row #2 is the first user-row!
         String rowXpath = "//table//tr[" + (2 - position) + "]//td[contains(., '" + username + "')]";
