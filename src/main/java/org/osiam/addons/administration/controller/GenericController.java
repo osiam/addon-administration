@@ -3,11 +3,15 @@ package org.osiam.addons.administration.controller;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
+
 /**
  * Generic controller with common functionality.
  */
 public abstract class GenericController {
-
+    private static final String SPRING_BR_PREFIX = BindingResult.MODEL_KEY_PREFIX;
+    
     @Inject
     private HttpSession session;
 
@@ -38,6 +42,22 @@ public abstract class GenericController {
      */
     public void removeFromSession(String key){
         session.removeAttribute(generateKey(key));
+    }
+    
+    protected void storeBindingResultIntoSession(BindingResult result, String modelName) {
+        storeInSession(getClass().getName() + modelName, result);
+    }
+
+    protected Object restoreBindingResultFromSession(String modelName) {
+        return restoreFromSession(getClass().getName() + modelName);
+    }
+    
+    protected void restoreBindingResultFromSession(String modelName, ModelAndView model){
+        model.addObject(SPRING_BR_PREFIX + modelName, restoreBindingResultFromSession(modelName));
+    }
+
+    protected void removeBindingResultFromSession(String modelName) {
+        removeFromSession(getClass().getName() + modelName);
     }
 
     private String generateKey(String key) {

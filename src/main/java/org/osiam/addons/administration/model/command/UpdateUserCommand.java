@@ -1,5 +1,8 @@
 package org.osiam.addons.administration.model.command;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.osiam.resources.helper.SCIMHelper;
 import org.osiam.resources.scim.Email;
 import org.osiam.resources.scim.Name;
@@ -10,14 +13,15 @@ import com.google.common.base.Optional;
 
 /**
  * Command object for the user update view.
- * 
- * @author Timo Kanera, tarent solutions GmbH
  */
 public class UpdateUserCommand {
 
     private User user;
 
     private String id;
+    
+    @NotNull
+    @Size(min = 1)
     private String firstName;
     private String lastName;
     private String email;

@@ -19,10 +19,11 @@
             <div class="row">
                 <fieldset th:object="${model}">
                     <!-- CSRF token -->
-                <th:block th:replace="makros :: csrf" />
+                	<th:block th:replace="makros :: csrf" />
                     <div class="col-sm-4 form-group" >
                         <label for="firstname" th:text="#{edit_user.first_name}">Given Name</label>
                         <input class="form-control required" type="text" th:placeholder="#{edit_user.first_name}" required="required" id="firstname" name="firstname" th:field="*{firstName}" />
+                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name Error</span>
                     </div>
                     <div class="col-sm-4 form-group">
                         <label for="firstname" th:text="#{edit_user.last_name}">Family Name</label>

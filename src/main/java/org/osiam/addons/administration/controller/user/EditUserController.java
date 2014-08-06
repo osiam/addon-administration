@@ -1,6 +1,7 @@
 package org.osiam.addons.administration.controller.user;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
@@ -12,6 +13,7 @@ import org.osiam.resources.exception.SCIMDataValidationException;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,6 +54,7 @@ public class EditUserController extends GenericController {
 
     private void clearSession() {
         removeFromSession(SESSION_KEY_COMMAND);
+        removeBindingResultFromSession(MODEL);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
@@ -61,27 +64,36 @@ public class EditUserController extends GenericController {
         ModelAndView modelAndView = new ModelAndView("user/editUser");
 
         modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
+        restoreBindingResultFromSession(MODEL, modelAndView);
 
         return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String handleUserUpdate(@ModelAttribute(MODEL) UpdateUserCommand command) {
-        User user = userService.getUser(command.getId());
-        command.setUser(user);
-
+    public String handleUserUpdate(
+            @Valid @ModelAttribute(MODEL) UpdateUserCommand command,
+            BindingResult bindingResult) {
+        
         final RedirectBuilder redirect = new RedirectBuilder()
                                             .setPath(CONTROLLER_PATH)
                                             .addParameter(REQUEST_PARAMETER_ID, command.getId());
-
+        
         try {
-            UpdateUser updateUser = command.getAsUpdateUser();
-            userService.updateUser(command.getId(), updateUser);
+            if(!bindingResult.hasErrors()){
+                User user = userService.getUser(command.getId());
+                command.setUser(user);
+    
+                UpdateUser updateUser = command.getAsUpdateUser();
+                userService.updateUser(command.getId(), updateUser);
+                return redirect.build();
+            }
         } catch(SCIMDataValidationException e) {
             LOG.warn("Could not update user.", e);
-            storeInSession(SESSION_KEY_COMMAND, command);
-            redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
         }
+        
+        storeInSession(SESSION_KEY_COMMAND, command);
+        storeBindingResultIntoSession(bindingResult, MODEL);
+        redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
         return redirect.build();
     }
