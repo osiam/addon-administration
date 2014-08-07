@@ -29,9 +29,6 @@ public class UpdateUserCommandTest {
     @Test
     public void constructor() {
         UpdateUserCommand command = new UpdateUserCommand(user);
-        assertEquals(primaryMail, command.getEmail());
-        assertEquals(name.getFamilyName(), command.getLastName());
-        assertEquals(name.getGivenName(), command.getFirstName());
     }
 
     @Test
@@ -41,9 +38,6 @@ public class UpdateUserCommandTest {
         String newEmail = "primary_new@osiam.org";
         String newFirstName = "Marissa";
         String newLastName = "Müller";
-        command.setEmail(newEmail);
-        command.setFirstName(newFirstName);
-        command.setLastName(newLastName);
 
         UpdateUser updateUser = command.getAsUpdateUser();
         User resultingUser = updateUser.getScimConformUpdateUser();
@@ -68,7 +62,6 @@ public class UpdateUserCommandTest {
         UpdateUserCommand command = new UpdateUserCommand(user);
 
         String newEmail = "primary_new@osiam.org";
-        command.setEmail(newEmail);
 
         UpdateUser updateUser = command.getAsUpdateUser();
         User resultingUser = updateUser.getScimConformUpdateUser();

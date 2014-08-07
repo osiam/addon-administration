@@ -1,16 +1,13 @@
 package org.osiam.addons.administration.model.command;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.osiam.resources.helper.SCIMHelper;
-import org.osiam.resources.scim.Email;
-import org.osiam.resources.scim.Name;
+import org.hibernate.validator.constraints.URL;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
-
-import com.google.common.base.Optional;
 
 /**
  * Command object for the user update view.
@@ -22,33 +19,28 @@ public class UpdateUserCommand {
     private String id;
     private Boolean active;
     @NotNull
-    private String firstName;
-    @NotNull
-    private String lastName;
-    @NotNull
     private String title;
     @NotNull
-    private String displayname;
+    private String displayName;
     @NotNull
-    private String nickname;
+    private String nickName;
     @NotNull
     @Pattern(regexp = "^[a-zA-Z]{2}$")
-    private String preferredlanguage;
+    private String preferredLanguage;
     @NotNull
-    @Pattern(regexp = ".\\@.*\\..*")
-    private String email;
-    @NotNull
-    @Pattern(regexp = "^[a-z]{2}_[A-Z]{2}&")
+    @Pattern(regexp = "^[a-z]{2}_[A-Z]{2}$")
     private String locale;
     @NotNull
-    @Pattern(regexp = "www\\..*\\..*")
-    private String profileurl;
+    @URL
+    private String profileURL;
     @NotNull
     @Pattern(regexp = ".*\\/.*")
     private String timezone;
     @NotNull
     @Size(min = 1)
-    private String username;
+    private String userName;
+    @Valid
+    private NameCommand name;
 
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
@@ -62,22 +54,14 @@ public class UpdateUserCommand {
 
         setActive(user.isActive());
         setTitle(user.getTitle());
-        setDisplayname(user.getDisplayName());
-        setNickname(user.getNickName());
-        setPreferredlanguage(user.getPreferredLanguage());
+        setDisplayName(user.getDisplayName());
+        setNickName(user.getNickName());
+        setPreferredLanguage(user.getPreferredLanguage());
         setLocale(user.getLocale());
-        setProfileurl(user.getProfileUrl());
+        setProfileURL(user.getProfileUrl());
         setTimezone(user.getTimezone());
-        setUsername(user.getUserName());
+        setUserName(user.getUserName());
 
-        if (user.getName() != null) {
-            setFirstName(user.getName().getGivenName());
-            setLastName(user.getName().getFamilyName());
-        }
-        Optional<Email> primaryEmail = SCIMHelper.getPrimaryOrFirstEmail(user);
-        if (primaryEmail.isPresent()) {
-            setEmail(primaryEmail.get().getValue());
-        }
     }
 
     /**
@@ -86,80 +70,24 @@ public class UpdateUserCommand {
     public UpdateUserCommand() {
     }
 
-    /**
-     * Returns the first name.
-     * 
-     * @return the first name
-     */
-    public String getFirstName() {
-        return firstName;
-    }
-
-    /**
-     * Sets the first name.
-     * 
-     * @param firstName
-     *        the first name to set
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    /**
-     * Returns the last name.
-     * 
-     * @return the last name
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * Sets the last name.
-     * 
-     * @param lastName
-     *        the last name to set
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    /**
-     * Returns the e-mail address.
-     * 
-     * @return the the e-mail address
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Sets the e-mail address.
-     * 
-     * @param email
-     *        the e-mail address to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     /**
      * Returns the displayname.
      * 
      * @return the the displayname
      */
-    public String getDisplayname() {
-        return displayname;
+    public String getDisplayName() {
+        return displayName;
     }
 
     /**
      * Sets the displayname.
      * 
-     * @param displayname
+     * @param displayName
      *        the displayname to set
      */
-    public void setDisplayname(String displayname) {
-        this.displayname = displayname;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     /**
@@ -186,18 +114,18 @@ public class UpdateUserCommand {
      * 
      * @return the the nickname
      */
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
     /**
      * Sets the nickname.
      * 
-     * @param nickname
+     * @param nickName
      *        the nickname to set
      */
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     /**
@@ -205,18 +133,18 @@ public class UpdateUserCommand {
      * 
      * @return the the preferredlanguage
      */
-    public String getPreferredlanguage() {
-        return preferredlanguage;
+    public String getPreferredLanguage() {
+        return preferredLanguage;
     }
 
     /**
      * Sets the preferredlanguage.
      * 
-     * @param preferredlanguage
+     * @param preferredLanguage
      *        the preferredlanguage to set
      */
-    public void setPreferredlanguage(String preferredlanguage) {
-        this.preferredlanguage = preferredlanguage;
+    public void setPreferredLanguage(String preferredLanguage) {
+        this.preferredLanguage = preferredLanguage;
     }
 
     /**
@@ -224,18 +152,18 @@ public class UpdateUserCommand {
      * 
      * @return the the profileurl
      */
-    public String getProfileurl() {
-        return profileurl;
+    public String getProfileURL() {
+        return profileURL;
     }
 
     /**
      * Sets the profileurl.
      * 
-     * @param profileurl
+     * @param profileURL
      *        the profileurl to set
      */
-    public void setProfileurl(String profileurl) {
-        this.profileurl = profileurl;
+    public void setProfileURL(String profileURL) {
+        this.profileURL = profileURL;
     }
 
     /**
@@ -281,18 +209,18 @@ public class UpdateUserCommand {
      * 
      * @return the the username
      */
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     /**
      * Sets the username.
      * 
-     * @param username
+     * @param userName
      *        the username to set
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     /**
@@ -353,31 +281,44 @@ public class UpdateUserCommand {
     }
 
     /**
+     * Returns the name object.
+     * 
+     * @return the name object
+     */
+
+    public NameCommand getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name object.
+     * 
+     * @param name
+     *        the name object to set
+     */
+    public void setName(NameCommand name) {
+        this.name = name;
+    }
+
+    /**
      * Returns a SCIM {@link UpdateUser} based on this command.
      * 
      * @return the requested {@link UpdateUser}
      */
     public UpdateUser getAsUpdateUser() {
-        Name name = new Name.Builder().setGivenName(getFirstName()).setFamilyName(getLastName()).build();
-        UpdateUser.Builder builder = new UpdateUser.Builder().updateName(name);
+        UpdateUser.Builder builder = new UpdateUser.Builder();
 
-        builder.updateActive(getActive());
+        if(getActive() != null)
+            builder.updateActive(getActive());
+        builder.updateName(getName().getAsName());
         builder.updateTitle(getTitle());
-        builder.updateDisplayName(getDisplayname());
-        builder.updateNickName(getNickname());
-        builder.updatePreferredLanguage(getPreferredlanguage());
+        builder.updateDisplayName(getDisplayName());
+        builder.updateNickName(getNickName());
+        builder.updatePreferredLanguage(getPreferredLanguage());
         builder.updateLocale(getLocale());
-        builder.updateProfileUrl(getProfileurl());
+        builder.updateProfileUrl(getProfileURL());
         builder.updateTimezone(getTimezone());
-        builder.updateUserName(getUsername());
-
-        Optional<Email> previousEmail = SCIMHelper.getPrimaryOrFirstEmail(user);
-        if (previousEmail.isPresent()) {
-            builder.updateEmail(previousEmail.get(), new Email.Builder(previousEmail.get()).setValue(getEmail())
-                    .build());
-        } else {
-            builder.addEmail(new Email.Builder().setPrimary(true).setValue(getEmail()).build());
-        }
+        builder.updateUserName(getUserName());
 
         return builder.build();
     }

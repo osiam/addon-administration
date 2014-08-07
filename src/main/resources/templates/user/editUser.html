@@ -19,20 +19,78 @@
             <div class="row">
                 <fieldset th:object="${model}">
                     <!-- CSRF token -->
-                	<th:block th:replace="makros :: csrf" />
+                    <th:block th:replace="makros :: csrf" />
+
                     <div class="col-sm-4 form-group" >
-                        <label for="firstname" th:text="#{edit_user.first_name}">Given Name</label>
-                        <input class="form-control required" type="text" th:placeholder="#{edit_user.first_name}" required="required" id="firstname" name="firstname" th:field="*{firstName}" />
-                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name Error</span>
+                        <label for="active" th:text="#{edit_user.active}">Is active</label>
+                        <input class="form-control" type="checkbox" id="active" th:field="*{active}"/>
                     </div>
-                    <div class="col-sm-4 form-group">
-                        <label for="firstname" th:text="#{edit_user.last_name}">Family Name</label>
-                        <input class="form-control required" type="text" th:placeholder="#{edit_user.last_name}" required="required" id="lastname" name="lastname" th:field="*{lastName}" />
+
+                     <div class="col-sm-4 form-group" >
+                        <label for="familyname" th:text="#{edit_user.name.familyname}">Familyname</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.name.familyname}" id="familyname" th:field="*{name.familyname}" />
                     </div>
-                    <div class="col-sm-4 form-group">
-                        <label for="firstname" th:text="#{edit_user.primary_email}">E-Mail</label>
-                        <input class="form-control required" type="text" th:placeholder="#{edit_user.primary_email}" required="required" id="email" name="email" th:field="*{email}" />
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="formatted" th:text="#{edit_user.name.formatted}">Formatted Name</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.name.formatted}" id="formatted" th:field="*{name.formatted}" />
                     </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="givenname" th:text="#{edit_user.name.givenname}">Givenname</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.name.givenname}" id="givenname" th:field="*{name.givenname}" />
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="honorificprefix" th:text="#{edit_user.name.honorificprefix}">Honorific prefix</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.name.honorificprefix}" id="honorificprefix" th:field="*{name.honorificprefix}" />
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="honorificsuffix" th:text="#{edit_user.name.honorificsuffix}">Honorific suffix</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.name.honorificsuffix}" id="honorificsuffix" th:field="*{name.honorificsuffix}" />
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="middlename" th:text="#{edit_user.name.middlename}">Middelname</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.name.middlename}" id="middlename" th:field="*{name.middlename}" />
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="displayName" th:text="#{edit_user.displayName}">Displayname</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.displayName}" id="displayName" th:field="*{displayName}" />
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="nickName" th:text="#{edit_user.nickName}">Nickname</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.nickName}" id="nickName" th:field="*{nickName}" />
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="preferredLanguage" th:text="#{edit_user.preferredLanguage}">Preferred language</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.preferredLanguage}" id="preferredLanguage" th:field="*{preferredLanguage}" />
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="locale" th:text="#{edit_user.locale}">Locale</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.locale}" id="locale" th:field="*{locale}" />
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="profileURL" th:text="#{edit_user.profileURL}">Profile URL</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.profileURL}" id="profileURL" th:field="*{profileURL}" />
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="timezone" th:text="#{edit_user.timezone}">Timezone</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.timezone}" id="timezone" th:field="*{timezone}" />
+                    </div>
+
+					<div class="col-sm-4 form-group" >
+                        <label for="userName" th:text="#{edit_user.userName}">Username</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.userName}" id="userName" th:field="*{userName}" />
+                    </div>
+
                 </fieldset>
             </div>
             <div class="row">
