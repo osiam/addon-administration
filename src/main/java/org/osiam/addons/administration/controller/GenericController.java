@@ -45,11 +45,11 @@ public abstract class GenericController {
     }
     
     protected void storeBindingResultIntoSession(BindingResult result, String modelName) {
-        storeInSession(getClass().getName() + modelName, result);
+        storeInSession(generateKey(modelName), result);
     }
 
     protected Object restoreBindingResultFromSession(String modelName) {
-        return restoreFromSession(getClass().getName() + modelName);
+        return restoreFromSession(generateKey(modelName));
     }
     
     protected void restoreBindingResultFromSession(String modelName, ModelAndView model){
@@ -57,7 +57,7 @@ public abstract class GenericController {
     }
 
     protected void removeBindingResultFromSession(String modelName) {
-        removeFromSession(getClass().getName() + modelName);
+        removeFromSession(generateKey(modelName));
     }
 
     private String generateKey(String key) {
