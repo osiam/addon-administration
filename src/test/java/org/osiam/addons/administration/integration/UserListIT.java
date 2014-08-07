@@ -150,6 +150,23 @@ public class UserListIT extends Integrationtest {
         assertFalse(isUserActive(username));
     }
 
+    @Test
+    public void userActivation() {
+        String username = "jcambell";
+
+        // abort activation
+        handleActivationDialog(username, UserList.DIALOG_ABORT);
+        assertTrue(isUserDeactive(username));
+
+        // abort activation via closing dialog
+        handleActivationDialog(username, UserList.DIALOG_CLOSE);
+        assertTrue(isUserDeactive(username));
+
+        // activate user
+        handleActivationDialog(username, UserList.DIALOG_SUCCESS);
+        assertFalse(isUserDeactive(username));
+    }
+
     private void clickFirstPagingNumber() {
         String pagingNumberXpath = "//a[contains(@id, 'paging-') " +
                 "and not(@id = 'paging-first') " +
@@ -173,6 +190,17 @@ public class UserListIT extends Integrationtest {
         browser.findElement(elementToClick).click();
     }
 
+    private void handleActivationDialog(String username, Element elementToClick) {
+        String actionLabelXpath =
+                "//table//td[contains(., '" + username + "')]/..//label";
+        String deactivateButtonXpath =
+                "//table//td[contains(., '" + username + "')]/..//button[starts-with(@id, 'action-button-activate-')]";
+
+        browser.findElement(By.xpath(actionLabelXpath)).click();
+        browser.findElement(By.xpath(deactivateButtonXpath)).click();
+        browser.findElement(elementToClick).click();
+    }
+
     private int getDisplayedUser() {
         String userRowsXpath = "//table//tr//li[contains(@class, 'action')]";
 
@@ -185,6 +213,18 @@ public class UserListIT extends Integrationtest {
 
     private boolean isUserActive(String username) {
         String buttonXpath = "//table//tr[contains(@class, 'success')]//td[contains(., '" + username + "')]";
+
+        try {
+            browser.findElement(By.xpath(buttonXpath));
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isUserDeactive(String username) {
+        String buttonXpath = "//table//tr[contains(@class, 'danger')]//td[contains(., '" + username + "')]";
 
         try {
             browser.findElement(By.xpath(buttonXpath));

@@ -61,11 +61,33 @@ public class EmailSender {
     private String fromAddress;
 
     public void sendDeactivateMail(User user) {
+        sendDeactivateMail(user, new Locale(user.getLocale()));
+    }
+
+    public void sendDeactivateMail(User user, Locale locale) {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("user", user);
 
-        String mailConent = renderer.renderEmailBody("deactivate", new Locale(user.getLocale()), variables);
-        String mailSubject = renderer.renderEmailSubject("deactivate", new Locale(user.getLocale()), variables);
+        String mailConent = renderer.renderEmailBody("deactivate", locale, variables);
+        String mailSubject = renderer.renderEmailSubject("deactivate", locale, variables);
+        Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
+        if (!email.isPresent()) {
+            throw new SendEmailException("The user has no email!", "user.no.email");
+        }
+
+        sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailConent);
+    }
+
+    public void sendActivateMail(User user) {
+        sendActivateMail(user, new Locale(user.getLocale()));
+    }
+
+    public void sendActivateMail(User user, Locale locale) {
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("user", user);
+
+        String mailConent = renderer.renderEmailBody("activate", locale, variables);
+        String mailSubject = renderer.renderEmailSubject("activate", locale, variables);
         Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
         if (!email.isPresent()) {
             throw new SendEmailException("The user has no email!", "user.no.email");

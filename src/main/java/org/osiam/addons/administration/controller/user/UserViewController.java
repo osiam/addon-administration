@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.mail.EmailSender;
@@ -48,13 +49,12 @@ public class UserViewController {
     private static final String DEFAULT_SORT_BY = "userName";
     private static final Boolean DEFAULT_SORT_DIRECTION = true;
 
-
     @Inject
     private UserService userService;
 
     @Inject
     private UserlistSession session;
-    
+
     @Inject
     private EmailSender emailSender;
 
@@ -196,13 +196,47 @@ public class UserViewController {
     @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=deactivate")
     public String handleUserDeactivation(
             @RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id,
-            @RequestParam(value = REQUEST_PARAMETER_SEND_MAIL) final Boolean sendMail){
+            @RequestParam(value = REQUEST_PARAMETER_SEND_MAIL) final Boolean sendMail,
+            HttpServletRequest request){
 
         userService.deactivateUser(id);
 
         if (sendMail) {
             User user = userService.getUser(id);
-            emailSender.sendDeactivateMail(user);
+
+            if(user.getLocale() == null) {
+                emailSender.sendDeactivateMail(user, request.getLocale());
+            } else {
+                emailSender.sendDeactivateMail(user);
+            }
+        }
+
+        return new RedirectBuilder()
+            .setPath(CONTROLLER_PATH)
+            .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
+            .addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
+            .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+            .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
+            .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+            .build();
+    }
+
+    @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=activate")
+    public String handleUserActivation(
+            @RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id,
+            @RequestParam(value = REQUEST_PARAMETER_SEND_MAIL) final Boolean sendMail,
+            HttpServletRequest request){
+
+        userService.activateUser(id);
+
+        if (sendMail) {
+            User user = userService.getUser(id);
+
+            if(user.getLocale() == null) {
+                emailSender.sendActivateMail(user, request.getLocale());
+            } else {
+                emailSender.sendActivateMail(user);
+            }
         }
 
         return new RedirectBuilder()

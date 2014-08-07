@@ -134,24 +134,24 @@ public class PagingBuilder {
 
     private void configurePagingLinks(PagingLinks pagingList) {
         List<String> urls = new ArrayList<String>();
-        
+
         for (long i = 0; i < total; i += limit) {
             String uri = buildUri(i);
             urls.add(uri);
-            
+
             if (i + startIndex == offset) {
                 pagingList.setCurLink(uri);
             }
         }
-        
+
         if(urls.isEmpty()){
             urls.add(buildUri(0));
         }
-        
+
         if (pagingList.getCurLink() == null) {
             pagingList.setCurLink(urls.get(urls.size() - 1));
         }
-        
+
         pagingList.setLinks(urls);
     }
 
