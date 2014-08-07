@@ -342,6 +342,14 @@ public class UpdateUserCommand {
     public void setUser(User user) {
         this.user = user;
     }
+    
+    public List<EmailCommand> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(List<EmailCommand> emails) {
+        this.emails = emails;
+    }
 
     public List<EmailCommand> getEmails() {
         return emails;
