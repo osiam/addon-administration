@@ -24,20 +24,41 @@
 <div class="topbar"></div>
 
 <div class="container shadow" id="content">
-    <div class="topbar">
-        <div class="container">
-            <span class="pull-right">Logout <span class="glyphicon glyphicon-remove"></span></span>
-        </div>
-    </div>
+	<div class="topbar">
+		<div class="container">
+			<span class="pull-right">Logout <span class="glyphicon glyphicon-remove"></span></span>
+		</div>		
+	</div>
 
-    <div id="dialog-message-container" style="display:none;">
-        <input id="dialog-title" type="hidden" th:value="#{msg.user.dialog.title}" />
-        <input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}" />
-        <input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}" />
-        <input id="dialog-updateUser-message" type="hidden" th:value="#{msg.user.dialog.updateUser.message}" />
-        <input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.user.dialog.cancelUpdate.message}" />
-    </div>
-
+	<div id="dialog-message-container" style="display:none;">
+		<input id="dialog-title" type="hidden" th:value="#{msg.user.dialog.title}" />
+		<input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}" />
+		<input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}" />
+		<input id="dialog-updateUser-message" type="hidden" th:value="#{msg.user.dialog.updateUser.message}" />
+		<input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.user.dialog.cancelUpdate.message}" />
+	</div>
+	<div id="templates" style="display:none;">
+		<div id="email-template">
+			<div class="col-sm-4 form-group">
+		        <label for="email-__ID__-display" th:text="#{edit_user.email.display}">Display</label>
+		        <input class="form-control" type="text" id="email-__ID__-display" th:placeholder="#{edit_user.email.display}" name="emails[__ID__].display"/>
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="email-__ID__-value" th:text="#{edit_user.email.value}">Value</label>
+		        <input class="form-control required" type="email" required="required" th:id="email-__ID__-value" th:placeholder="#{edit_user.email.value}" name="emails[__ID__].value" />
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="email-__ID__-primary" th:text="#{edit_user.email.primary}">Primary</label>
+		        <input class="form-control" type="checkbox" th:id="email-__ID__-primary" name="emails[__ID__].primary" value="false" />
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="email-__ID__-type" th:text="#{edit_user.email.type}">Type</label>
+		        <input class="form-control required" type="text" th:id="email-__ID__-type" th:placeholder="#{edit_user.email.type}" name="emails[__ID__].type" />
+		        <input type="hidden" value="on" name="_emails[__ID__].primary" />
+		    </div>
+		</div>
+	</div>
+	
     <form method="POST" action="">
         <div class="">
 
@@ -177,7 +198,7 @@
             	START EMAIL-BLOCK
             */-->
             <fieldset>
-	            <div class="row" th:each="email, stat : *{emails}">
+	            <div class="row" th:each="email, stat : *{emails}" th:id="${'email-block-' + stat.index}">
 	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].display}')}? ' bg-danger' : '')">
 	                    <label th:for="${'email-' + stat.index + '-display'}" th:text="#{edit_user.email.display}">Display</label>
 	                    <input class="form-control" type="text" th:id="${'email-' + stat.index + '-display'}" th:placeholder="#{edit_user.email.display}" th:field="*{emails[__${stat.index}__].display}" />
@@ -185,7 +206,7 @@
 	                </div>
 	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].value}')}? ' bg-danger' : '')">
 	                    <label th:for="${'email-' + stat.index + '-value'}" th:text="#{edit_user.email.value}">Value</label>
-	                    <input class="form-control required" type="text" required="required" th:id="${'email-' + stat.index + '-value'}" th:placeholder="#{edit_user.email.value}" th:field="*{emails[__${stat.index}__].value}" />
+	                    <input class="form-control required" type="email" required="required" th:id="${'email-' + stat.index + '-value'}" th:placeholder="#{edit_user.email.value}" th:field="*{emails[__${stat.index}__].value}" />
 						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].value}')}" th:errors="*{emails[__${stat.index}__].value}" >Value Error</span>
 	                </div>
 	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].primary}')}? ' bg-danger' : '')">
@@ -199,7 +220,7 @@
 						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].type}')}" th:errors="*{emails[__${stat.index}__].type}" >Type Error</span>
 	                </div>
 	            </div>
-	            <button class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.email}">Add Email</button>
+	            <button id="button-add-email" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.email}">Add Email</button>
             </fieldset>
             <!--/* 
             	END EMAIL-BLOCK
