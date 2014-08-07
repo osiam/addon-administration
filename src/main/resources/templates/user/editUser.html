@@ -15,6 +15,7 @@
 		<input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}" />
 		<input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}" />
 		<input id="dialog-updateUser-message" type="hidden" th:value="#{msg.user.dialog.updateUser.message}" />
+		<input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.user.dialog.cancelUpdate.message}" />
 	</div>
 	
     <form method="POST" action="">
@@ -107,7 +108,7 @@
             <div class="col-sm-2 col-sm-offset-10 text-right">
                     <button class="btn btn-md btn-primary" type="submit" id="btnSaveChanges" th:text="#{edit_user.update}">Save</button>
                     <a th:href="@{list}">
-                        <button class="btn btn-md btn-primary" type="button" th:text="#{edit_user.cancel}">Back</button>
+                        <button class="btn btn-md btn-primary" type="button" id="btnCancelChanges" th:text="#{edit_user.cancel}">Back</button>
                     </a>
                 </div>
             </div>

@@ -44,14 +44,13 @@ public class GlobalExceptionHandler implements AccessDeniedHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleUncaught(HttpServletRequest req, Exception e) {
+    public ModelAndView handleUncaught(Exception e) {
         LOG.error("Uncaught exception was thrown.", e);
 
         ModelAndView mav = new ModelAndView("error");
 
         mav.addObject("exception", e);
         mav.addObject("stacktrace", getStackTrace(e));
-        mav.addObject("request", req);
 
         return mav;
     }
