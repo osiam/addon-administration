@@ -175,6 +175,25 @@
 			</div>
 			<button th:id="${'button-remove-addresses-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.addresses}">Remove Address</button>
 		</div>
+		<div id="phoneNumber-template">
+			<div class="col-sm-4 form-group">
+		        <label for="phoneNumber-__ID__-display" th:text="#{edit_user.phoneNumber.display}">Display</label>
+		        <input class="form-control" type="text" id="phoneNumber-__ID__-display" th:placeholder="#{edit_user.phoneNumber.display}" name="phoneNumbers[__ID__].display"/>
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="phoneNumber-__ID__-value" th:text="#{edit_user.phoneNumber.value}">Value</label>
+		        <input class="form-control required" type="tel" required="required" th:id="phoneNumber-__ID__-value" th:placeholder="#{edit_user.phoneNumber.value}" name="phoneNumbers[__ID__].value" />
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="phoneNumber-__ID__-primary" th:text="#{edit_user.phoneNumber.primary}">Primary</label>
+		        <input class="form-control" type="checkbox" th:id="phoneNumber-__ID__-primary" name="phoneNumbers[__ID__].primary" value="false" />
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="phoneNumber-__ID__-type" th:text="#{edit_user.phoneNumber.type}">Type</label>
+		        <input class="form-control required" type="text" th:id="phoneNumber-__ID__-type" th:placeholder="#{edit_user.phoneNumber.type}" name="phoneNumbers[__ID__].type" />
+		        <input type="hidden" value="on" name="_phoneNumbers[__ID__].primary" />
+		    </div>
+		</div>
 	</div>
 
 	<form method="POST" action="" th:object="${model}">

@@ -350,6 +350,14 @@ public class UpdateUserCommand {
     public void setEmails(List<EmailCommand> emails) {
         this.emails = emails;
     }
+    
+    public List<PhonenumberCommand> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+    
+    public void setPhoneNumbers(List<PhonenumberCommand> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
 
     public List<EmailCommand> getEmails() {
         return emails;
