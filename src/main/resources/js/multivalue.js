@@ -12,6 +12,18 @@ $(function(){
 		newBlock.show();
 	});
 	
+	$("#button-add-phoneNumber").click(function(){
+		var allPhoneNumberBlocks = $("[id^='phoneNumber-block-']");
+		var displayedPhoneNumberCount = allPhoneNumberBlocks.size();
+		var lastPhoneNumberBlock = allPhoneNumberBlocks.last();
+		
+		var myIndex = displayedPhoneNumberCount;
+		var newBlock = cloneBlock('#phoneNumber-template', 'phoneNumber-block-' + myIndex, myIndex);
+		
+		lastPhoneNumberBlock.after(newBlock);
+		newBlock.show();
+	});
+	
 	function cloneBlock(searchString, newId, newIndex){
 		var templateBlock = $(searchString);
 		var newBlock = templateBlock.clone();

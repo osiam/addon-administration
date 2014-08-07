@@ -57,6 +57,25 @@
 		        <input type="hidden" value="on" name="_emails[__ID__].primary" />
 		    </div>
 		</div>
+		<div id="phoneNumber-template">
+			<div class="col-sm-4 form-group">
+		        <label for="phoneNumber-__ID__-display" th:text="#{edit_user.phoneNumber.display}">Display</label>
+		        <input class="form-control" type="text" id="phoneNumber-__ID__-display" th:placeholder="#{edit_user.phoneNumber.display}" name="phoneNumbers[__ID__].display"/>
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="phoneNumber-__ID__-value" th:text="#{edit_user.phoneNumber.value}">Value</label>
+		        <input class="form-control required" type="tel" required="required" th:id="phoneNumber-__ID__-value" th:placeholder="#{edit_user.phoneNumber.value}" name="phoneNumbers[__ID__].value" />
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="phoneNumber-__ID__-primary" th:text="#{edit_user.phoneNumber.primary}">Primary</label>
+		        <input class="form-control" type="checkbox" th:id="phoneNumber-__ID__-primary" name="phoneNumbers[__ID__].primary" value="false" />
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="phoneNumber-__ID__-type" th:text="#{edit_user.phoneNumber.type}">Type</label>
+		        <input class="form-control required" type="text" th:id="phoneNumber-__ID__-type" th:placeholder="#{edit_user.phoneNumber.type}" name="phoneNumbers[__ID__].type" />
+		        <input type="hidden" value="on" name="_phoneNumbers[__ID__].primary" />
+		    </div>
+		</div>
 	</div>
 	
     <form method="POST" action="">
@@ -224,6 +243,37 @@
             </fieldset>
             <!--/* 
             	END EMAIL-BLOCK
+            */-->
+             <!--/* 
+            	START PHONE-NUMBER-BLOCK
+            */-->
+            <fieldset>
+	            <div class="row" th:each="phoneNumber, stat : *{phoneNumbers}" th:id="${'phoneNumber-block-' + stat.index}">
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].display}')}? ' bg-danger' : '')">
+	                    <label th:for="${'phoneNumber-' + stat.index + '-display'}" th:text="#{edit_user.phoneNumber.display}">Display</label>
+	                    <input class="form-control" type="text" th:id="${'phoneNumber-' + stat.index + '-display'}" th:placeholder="#{edit_user.phoneNumber.display}" th:field="*{phoneNumbers[__${stat.index}__].display}" />
+						<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].display}')}" th:errors="*{phoneNumbers[__${stat.index}__].display}" >Display Error</span>
+	                </div>
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].value}')}? ' bg-danger' : '')">
+	                    <label th:for="${'phoneNumber-' + stat.index + '-value'}" th:text="#{edit_user.phoneNumber.value}">Value</label>
+	                    <input class="form-control required" type="tel" required="required" th:id="${'phoneNumber-' + stat.index + '-value'}" th:placeholder="#{edit_user.phoneNumber.value}" th:field="*{phoneNumbers[__${stat.index}__].value}" />
+						<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].value}')}" th:errors="*{phoneNumbers[__${stat.index}__].value}" >Value Error</span>
+	                </div>
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].primary}')}? ' bg-danger' : '')">
+	                    <label th:for="${'phoneNumber-' + stat.index + '-primary'}" th:text="#{edit_user.phoneNumber.primary}">Primary</label>
+	                    <input class="form-control" type="checkbox" th:id="${'phoneNumber-' + stat.index + '-primary'}" th:field="*{phoneNumbers[__${stat.index}__].primary}" />
+						<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].primary}')}" th:errors="*{phoneNumbers[__${stat.index}__].primary}" >Primary Error</span>
+	                </div>
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].type}')}? ' bg-danger' : '')">
+	                    <label th:for="${'phoneNumber-' + stat.index + '-type'}" th:text="#{edit_user.phoneNumber.type}">Type</label>
+	                    <input class="form-control required" type="text" th:id="${'phoneNumber-' + stat.index + '-type'}" th:placeholder="#{edit_user.phoneNumber.type}" th:field="*{phoneNumbers[__${stat.index}__].type}" />
+						<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].type}')}" th:errors="*{phoneNumbers[__${stat.index}__].type}" >Type Error</span>
+	                </div>
+	            </div>
+	            <button id="button-add-phoneNumber" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.phoneNumber}">Add phoneNumber</button>
+            </fieldset>
+            <!--/* 
+            	END PHONE-NUMBER-BLOCK
             */-->
             <div class="row">
             <div class="col-sm-2 col-sm-offset-10 text-right">

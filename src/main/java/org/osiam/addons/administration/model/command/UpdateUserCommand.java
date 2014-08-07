@@ -8,8 +8,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
+import org.osiam.resources.helper.SCIMHelper;
+import org.osiam.resources.scim.Email;
+import org.osiam.resources.scim.Name;
+import org.osiam.resources.scim.PhoneNumber;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 
@@ -50,6 +52,8 @@ public class UpdateUserCommand {
 
     @Valid
     private List<EmailCommand> emails = new ArrayList<EmailCommand>();
+    @Valid
+    private List<PhonenumberCommand> phoneNumbers = new ArrayList<PhonenumberCommand>();    
     
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
@@ -89,6 +93,11 @@ public class UpdateUserCommand {
         if(user.getEmails() != null){
             for(Email email : user.getEmails()){
                 this.emails.add(new EmailCommand(email));
+            }
+        }
+        if(user.getPhoneNumbers() != null){
+            for(PhoneNumber number : user.getPhoneNumbers()){
+                this.phoneNumbers.add(new PhonenumberCommand(number));
             }
         }
     }
@@ -323,6 +332,14 @@ public class UpdateUserCommand {
 
     public void setEmails(List<EmailCommand> emails) {
         this.emails = emails;
+    }
+    
+    public List<PhonenumberCommand> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+    
+    public void setPhoneNumbers(List<PhonenumberCommand> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
     }
 
     /**
