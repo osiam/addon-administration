@@ -47,8 +47,8 @@
                  th:text="#{edit_user.error.validation}" class="alert alert-danger">
                 Validation Error
             </div>
-            <div class="row">
-                <fieldset th:object="${model}">
+            
+                <fieldset>
                     <!-- CSRF token -->
                     <th:block th:replace="makros :: csrf" />
 
@@ -173,6 +173,37 @@
                     </div>
                 </fieldset>
             </div>
+            <!--/* 
+            	START EMAIL-BLOCK
+            */-->
+            <fieldset>
+	            <div class="row" th:each="email, stat : *{emails}">
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].display}')}? ' bg-danger' : '')">
+	                    <label th:for="${'email-' + stat.index + '-display'}" th:text="#{edit_user.email.display}">Display</label>
+	                    <input class="form-control" type="text" th:id="${'email-' + stat.index + '-display'}" th:placeholder="#{edit_user.email.display}" th:field="*{emails[__${stat.index}__].display}" />
+						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].display}')}" th:errors="*{emails[__${stat.index}__].display}" >Display Error</span>
+	                </div>
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].value}')}? ' bg-danger' : '')">
+	                    <label th:for="${'email-' + stat.index + '-value'}" th:text="#{edit_user.email.value}">Value</label>
+	                    <input class="form-control required" type="text" required="required" th:id="${'email-' + stat.index + '-value'}" th:placeholder="#{edit_user.email.value}" th:field="*{emails[__${stat.index}__].value}" />
+						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].value}')}" th:errors="*{emails[__${stat.index}__].value}" >Value Error</span>
+	                </div>
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].primary}')}? ' bg-danger' : '')">
+	                    <label th:for="${'email-' + stat.index + '-primary'}" th:text="#{edit_user.email.primary}">Primary</label>
+	                    <input class="form-control" type="checkbox" th:id="${'email-' + stat.index + '-primary'}" th:field="*{emails[__${stat.index}__].primary}" />
+						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].primary}')}" th:errors="*{emails[__${stat.index}__].primary}" >Primary Error</span>
+	                </div>
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].type}')}? ' bg-danger' : '')">
+	                    <label th:for="${'email-' + stat.index + '-type'}" th:text="#{edit_user.email.type}">Type</label>
+	                    <input class="form-control required" type="text" th:id="${'email-' + stat.index + '-type'}" th:placeholder="#{edit_user.email.type}" th:field="*{emails[__${stat.index}__].type}" />
+						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].type}')}" th:errors="*{emails[__${stat.index}__].type}" >Type Error</span>
+	                </div>
+	            </div>
+	            <button class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.email}">Add Email</button>
+            </fieldset>
+            <!--/* 
+            	END EMAIL-BLOCK
+            */-->
             <div class="row">
             <div class="col-sm-2 col-sm-offset-10 text-right">
                     <button class="btn btn-sm btn-info" type="submit" id="btnSaveChanges" th:text="#{edit_user.update}">Save</button>

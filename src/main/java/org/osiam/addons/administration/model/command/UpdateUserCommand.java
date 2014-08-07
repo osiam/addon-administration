@@ -1,5 +1,8 @@
 package org.osiam.addons.administration.model.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -45,6 +48,9 @@ public class UpdateUserCommand {
     @Valid
     private MetaCommand meta = new MetaCommand();
 
+    @Valid
+    private List<EmailCommand> emails = new ArrayList<EmailCommand>();
+    
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
      *
@@ -70,6 +76,21 @@ public class UpdateUserCommand {
 
         if(user.getMeta() != null)
             setMeta(new MetaCommand(user.getMeta()));
+
+        if (user.getName() != null) {
+            setFirstName(user.getName().getGivenName());
+            setLastName(user.getName().getFamilyName());
+        }
+        Optional<Email> primaryEmail = SCIMHelper.getPrimaryOrFirstEmail(user);
+        if (primaryEmail.isPresent()) {
+            setEmail(primaryEmail.get().getValue());
+        }
+        
+        if(user.getEmails() != null){
+            for(Email email : user.getEmails()){
+                this.emails.add(new EmailCommand(email));
+            }
+        }
     }
 
     /**
@@ -294,6 +315,14 @@ public class UpdateUserCommand {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+    
+    public List<EmailCommand> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(List<EmailCommand> emails) {
+        this.emails = emails;
     }
 
     /**
