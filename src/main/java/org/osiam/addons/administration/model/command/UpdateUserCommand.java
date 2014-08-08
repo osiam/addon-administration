@@ -40,7 +40,7 @@ public class UpdateUserCommand {
     @Size(min = 1)
     private String userName;
     @Valid
-    private NameCommand name;
+    private NameCommand name = new NameCommand();
 
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
@@ -61,7 +61,9 @@ public class UpdateUserCommand {
         setProfileURL(user.getProfileUrl());
         setTimezone(user.getTimezone());
         setUserName(user.getUserName());
-
+        
+        if(user.getName() != null)
+            setName(new NameCommand(user.getName()));
     }
 
     /**

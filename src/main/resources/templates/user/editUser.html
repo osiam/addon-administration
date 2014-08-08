@@ -76,6 +76,11 @@
                         <label for="nickName" th:text="#{edit_user.nickName}">Nickname</label>
                         <input class="form-control" type="text" th:placeholder="#{edit_user.nickName}" id="nickName" th:field="*{nickName}" />
                     </div>
+                    
+                    <div class="col-sm-4 form-group" >
+	                    <label for="userTitle" th:text="#{edit_user.userTitle}">Titel</label>
+	                    <input class="form-control" type="text" th:placeholder="#{edit_user.userTitle}" id="userTitle" th:field="*{title}" />
+                	</div>
 
                     <div class="col-sm-4 form-group" >
                         <label for="preferredLanguage" th:text="#{edit_user.preferredLanguage}">Preferred language</label>

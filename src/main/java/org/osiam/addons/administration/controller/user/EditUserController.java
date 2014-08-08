@@ -83,6 +83,7 @@ public class EditUserController extends GenericController {
                 command.setUser(user);
     
                 userService.replaceUser(command.getId(), command.getAsUser());
+                redirect.setPath("list");
                 return redirect.build();
             }
         } catch(SCIMDataValidationException e) {
