@@ -3,7 +3,7 @@ $(function(){
 		var button = $(this);
 
 		bootbox.dialog({
-			message : $('#dialog-cancelUpdate-message').val(),
+			message : $('#dialog-updateUser-message').val(),
 			title : $('#dialog-title').val(),
 			buttons : {
 				success : {
