@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.URL;
 import org.osiam.resources.scim.Email;
+import org.osiam.resources.scim.Im;
 import org.osiam.resources.scim.PhoneNumber;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
@@ -52,7 +53,10 @@ public class UpdateUserCommand {
     @Valid
     private List<EmailCommand> emails = new ArrayList<EmailCommand>();
     @Valid
-    private List<PhonenumberCommand> phoneNumbers = new ArrayList<PhonenumberCommand>();    
+    private List<PhonenumberCommand> phoneNumbers = new ArrayList<PhonenumberCommand>();
+    @Valid
+    private List<ImCommand> ims = new ArrayList<ImCommand>();
+        
     
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
@@ -92,6 +96,11 @@ public class UpdateUserCommand {
         if (user.getPhoneNumbers() != null) {
             for (PhoneNumber number : user.getPhoneNumbers()) {
                 this.phoneNumbers.add(new PhonenumberCommand(number));
+            }
+        }
+        if (user.getIms() != null) {
+            for (Im im : user.getIms()) {
+                this.ims.add(new ImCommand(im));
             }
         }
     }
@@ -335,6 +344,14 @@ public class UpdateUserCommand {
     public void setPhoneNumbers(List<PhonenumberCommand> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
+    
+    public void setIms(List<ImCommand> ims) {
+        this.ims = ims;
+    }
+    
+    public List<ImCommand> getIms() {
+        return ims;
+    }
 
     /**
      * Returns the name object.
@@ -406,6 +423,9 @@ public class UpdateUserCommand {
         }
         for (PhonenumberCommand number : getPhoneNumbers()) {
             builder.addPhoneNumber(number.getAsPhoneNumber());
+        }
+        for (ImCommand im : getIms()) {
+            builder.addIm(im.getAsIm());
         }
         
         return builder.build();

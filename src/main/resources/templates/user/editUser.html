@@ -77,6 +77,25 @@
 		        <input type="hidden" value="on" name="_phoneNumbers[__ID__].primary" />
 		    </div>
 		</div>
+		<div id="im-template">
+			<div class="col-sm-4 form-group">
+		        <label for="im-__ID__-display" th:text="#{edit_user.im.display}">Display</label>
+		        <input class="form-control" type="text" id="im-__ID__-display" th:placeholder="#{edit_user.im.display}" name="ims[__ID__].display"/>
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="im-__ID__-value" th:text="#{edit_user.im.value}">Value</label>
+		        <input class="form-control required" type="tel" required="required" th:id="im-__ID__-value" th:placeholder="#{edit_user.im.value}" name="ims[__ID__].value" />
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="im-__ID__-primary" th:text="#{edit_user.im.primary}">Primary</label>
+		        <input class="form-control" type="checkbox" th:id="im-__ID__-primary" name="ims[__ID__].primary" value="false" />
+		    </div>
+		    <div class="col-sm-4 form-group">
+		        <label for="im-__ID__-type" th:text="#{edit_user.im.type}">Type</label>
+		        <input class="form-control required" type="text" th:id="im-__ID__-type" th:placeholder="#{edit_user.im.type}" name="ims[__ID__].type" />
+		        <input type="hidden" value="on" name="_ims[__ID__].primary" />
+		    </div>
+		</div>
 	</div>
 	
     <form method="POST" action="" th:object="${model}">
@@ -269,6 +288,37 @@
             </fieldset>
             <!--/* 
             	END PHONE-NUMBER-BLOCK
+            */-->
+            <!--/* 
+            	START IM-BLOCK
+            */-->
+            <fieldset>
+	            <div class="row" th:each="im, stat : *{ims}" th:id="${'im-block-' + stat.index}">
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].display}')}? ' bg-danger' : '')">
+	                    <label th:for="${'im-' + stat.index + '-display'}" th:text="#{edit_user.im.display}">Display</label>
+	                    <input class="form-control" type="text" th:id="${'im-' + stat.index + '-display'}" th:placeholder="#{edit_user.im.display}" th:field="*{ims[__${stat.index}__].display}" />
+						<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].display}')}" th:errors="*{ims[__${stat.index}__].display}" >Display Error</span>
+	                </div>
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].value}')}? ' bg-danger' : '')">
+	                    <label th:for="${'im-' + stat.index + '-value'}" th:text="#{edit_user.im.value}">Value</label>
+	                    <input class="form-control required" type="tel" required="required" th:id="${'im-' + stat.index + '-value'}" th:placeholder="#{edit_user.im.value}" th:field="*{ims[__${stat.index}__].value}" />
+						<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].value}')}" th:errors="*{ims[__${stat.index}__].value}" >Value Error</span>
+	                </div>
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}? ' bg-danger' : '')">
+	                    <label th:for="${'im-' + stat.index + '-primary'}" th:text="#{edit_user.im.primary}">Primary</label>
+	                    <input class="form-control" type="checkbox" th:id="${'im-' + stat.index + '-primary'}" th:field="*{ims[__${stat.index}__].primary}" />
+						<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}" th:errors="*{ims[__${stat.index}__].primary}" >Primary Error</span>
+	                </div>
+	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].type}')}? ' bg-danger' : '')">
+	                    <label th:for="${'im-' + stat.index + '-type'}" th:text="#{edit_user.im.type}">Type</label>
+	                    <input class="form-control required" type="text" th:id="${'im-' + stat.index + '-type'}" th:placeholder="#{edit_user.im.type}" th:field="*{ims[__${stat.index}__].type}" />
+						<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].type}')}" th:errors="*{ims[__${stat.index}__].type}" >Type Error</span>
+	                </div>
+	            </div>
+	            <button id="button-add-im" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.im}">Add im</button>
+            </fieldset>
+            <!--/* 
+            	END IM-BLOCK
             */-->
             <div class="row">
             <div class="col-sm-2 col-sm-offset-10 text-right">

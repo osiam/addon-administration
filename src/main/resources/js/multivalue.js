@@ -24,6 +24,18 @@ $(function(){
 		newBlock.show();
 	});
 	
+	$("#button-add-im").click(function(){
+		var allImBlocks = $("[id^='im-block-']");
+		var displayedImCount = allImBlocks.size();
+		var lastImBlock = allImBlocks.last();
+		
+		var myIndex = displayedImCount;
+		var newBlock = cloneBlock('#im-template', 'im-block-' + myIndex, myIndex);
+		
+		lastImBlock.after(newBlock);
+		newBlock.show();
+	});
+	
 	function cloneBlock(searchString, newId, newIndex){
 		var templateBlock = $(searchString);
 		var newBlock = templateBlock.clone();
