@@ -10,7 +10,7 @@ import org.osiam.resources.scim.PhoneNumber.Type;
 /**
  * Command object for the user update view.
  */
-public class PhonenumberCommand {
+public class PhonenumberCommand implements Emptieable {
 
     @NotNull
     @NotEmpty
@@ -38,6 +38,11 @@ public class PhonenumberCommand {
         if (phoneNumber.getType() != null) {
             setType(phoneNumber.getType().getValue());
         }
+    }
+    
+    @Override
+    public boolean isEmpty(){
+        return getPrimary() == null && getDisplay() == null && getType() == null && getValue() == null;
     }
 
     public PhoneNumber getAsPhoneNumber() {

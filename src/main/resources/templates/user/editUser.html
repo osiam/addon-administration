@@ -57,6 +57,7 @@
 		        <input class="form-control required" type="text" th:id="email-__ID__-type" th:placeholder="#{edit_user.email.type}" name="emails[__ID__].type" />
 		        <input type="hidden" value="on" name="_emails[__ID__].primary" />
 		    </div>
+		    <button th:id="${'button-remove-email-__ID__'}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.email}">Remove email</button>
 		</div>
 		<div id="phoneNumber-template">
 			<div class="col-sm-4 form-group">
@@ -76,6 +77,7 @@
 		        <input class="form-control required" type="text" th:id="phoneNumber-__ID__-type" th:placeholder="#{edit_user.phoneNumber.type}" name="phoneNumbers[__ID__].type" />
 		        <input type="hidden" value="on" name="_phoneNumbers[__ID__].primary" />
 		    </div>
+		    <button th:id="${'button-remove-phoneNumber-__ID__'}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove phoneNumber</button>
 		</div>
 		<div id="im-template">
 			<div class="col-sm-4 form-group">
@@ -95,6 +97,7 @@
 		        <input class="form-control required" type="text" th:id="im-__ID__-type" th:placeholder="#{edit_user.im.type}" name="ims[__ID__].type" />
 		        <input type="hidden" value="on" name="_ims[__ID__].primary" />
 		    </div>
+		    <button th:id="${'button-remove-im-__ID__'}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.im}">Remove Im</button>
 		</div>
 	</div>
 	
@@ -230,7 +233,7 @@
             <!--/* 
             	START EMAIL-BLOCK
             */-->
-            <fieldset>
+            <fieldset id="email-container">
 	            <div class="row" th:each="email, stat : *{emails}" th:id="${'email-block-' + stat.index}">
 	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].display}')}? ' bg-danger' : '')">
 	                    <label th:for="${'email-' + stat.index + '-display'}" th:text="#{edit_user.email.display}">Display</label>
@@ -252,6 +255,7 @@
 	                    <input class="form-control required" type="text" th:id="${'email-' + stat.index + '-type'}" th:placeholder="#{edit_user.email.type}" th:field="*{emails[__${stat.index}__].type}" />
 						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].type}')}" th:errors="*{emails[__${stat.index}__].type}" >Type Error</span>
 	                </div>
+	                <button th:id="${'button-remove-email-' + stat.index}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.email}">Remove email</button>
 	            </div>
 	            <button id="button-add-email" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.email}">Add Email</button>
             </fieldset>
@@ -261,7 +265,7 @@
              <!--/* 
             	START PHONE-NUMBER-BLOCK
             */-->
-            <fieldset>
+            <fieldset id="phoneNumber-container">
 	            <div class="row" th:each="phoneNumber, stat : *{phoneNumbers}" th:id="${'phoneNumber-block-' + stat.index}">
 	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].display}')}? ' bg-danger' : '')">
 	                    <label th:for="${'phoneNumber-' + stat.index + '-display'}" th:text="#{edit_user.phoneNumber.display}">Display</label>
@@ -283,6 +287,7 @@
 	                    <input class="form-control required" type="text" th:id="${'phoneNumber-' + stat.index + '-type'}" th:placeholder="#{edit_user.phoneNumber.type}" th:field="*{phoneNumbers[__${stat.index}__].type}" />
 						<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].type}')}" th:errors="*{phoneNumbers[__${stat.index}__].type}" >Type Error</span>
 	                </div>
+	                <button th:id="${'button-remove-phoneNumber-' + stat.index}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove phonenumber</button>
 	            </div>
 	            <button id="button-add-phoneNumber" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.phoneNumber}">Add phoneNumber</button>
             </fieldset>
@@ -292,7 +297,7 @@
             <!--/* 
             	START IM-BLOCK
             */-->
-            <fieldset>
+            <fieldset id="im-container">
 	            <div class="row" th:each="im, stat : *{ims}" th:id="${'im-block-' + stat.index}">
 	                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].display}')}? ' bg-danger' : '')">
 	                    <label th:for="${'im-' + stat.index + '-display'}" th:text="#{edit_user.im.display}">Display</label>
@@ -314,6 +319,7 @@
 	                    <input class="form-control required" type="text" th:id="${'im-' + stat.index + '-type'}" th:placeholder="#{edit_user.im.type}" th:field="*{ims[__${stat.index}__].type}" />
 						<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].type}')}" th:errors="*{ims[__${stat.index}__].type}" >Type Error</span>
 	                </div>
+	                <button th:id="${'button-remove-im-' + stat.index}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.im}">Remove Im</button>
 	            </div>
 	            <button id="button-add-im" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.im}">Add im</button>
             </fieldset>

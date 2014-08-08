@@ -10,7 +10,7 @@ import org.osiam.resources.scim.Email.Type;
 /**
  * Command object for the user update view.
  */
-public class EmailCommand  {
+public class EmailCommand implements Emptieable {
 
     @NotNull
     @NotEmpty
@@ -37,6 +37,11 @@ public class EmailCommand  {
         if(email.getType() != null) {
             setType(email.getType().getValue());
         }
+    }
+    
+    @Override
+    public boolean isEmpty(){
+        return getPrimary() == null && getDisplay() == null && getType() == null && getValue() == null;
     }
     
     public Email getAsEmail(){

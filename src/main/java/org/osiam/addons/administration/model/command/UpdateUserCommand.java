@@ -1,6 +1,7 @@
 package org.osiam.addons.administration.model.command;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,8 +19,7 @@ import org.osiam.resources.scim.User;
 /**
  * Command object for the user update view.
  */
-public class UpdateUserCommand {
-
+public class UpdateUserCommand {    
     private User user;
 
     private String id;
@@ -408,6 +408,7 @@ public class UpdateUserCommand {
     public User getAsUser(){
         User.Builder builder = new User.Builder(getUserName());
 
+        builder.setActive(getActive());
         builder.setName(getName().getAsName());
         builder.setTitle(getTitle());
         builder.setDisplayName(getDisplayName());
@@ -417,17 +418,37 @@ public class UpdateUserCommand {
         builder.setLocale(getLocale());
         builder.setProfileUrl(getProfileURL());
         builder.setTimezone(getTimezone());
-        
+
         for (EmailCommand email : getEmails()) {
-            builder.addEmail(email.getAsEmail());
+            if (!email.isEmpty()) {
+                builder.addEmail(email.getAsEmail());
+            }
         }
         for (PhonenumberCommand number : getPhoneNumbers()) {
-            builder.addPhoneNumber(number.getAsPhoneNumber());
+            if (!number.isEmpty()) {
+                builder.addPhoneNumber(number.getAsPhoneNumber());
+            }
         }
         for (ImCommand im : getIms()) {
-            builder.addIm(im.getAsIm());
+            if (!im.isEmpty()) {
+                builder.addIm(im.getAsIm());
+            }
         }
-        
+
         return builder.build();
+    }
+
+    public void purge() {
+        removeEmptyElements(getEmails().iterator());
+        removeEmptyElements(getPhoneNumbers().iterator());
+        removeEmptyElements(getIms().iterator());
+    }
+
+    private void removeEmptyElements(Iterator<? extends Emptieable> elements) {
+        while(elements.hasNext()){
+            if(elements.next().isEmpty()){
+                elements.remove();
+            }
+        }
     }
 }

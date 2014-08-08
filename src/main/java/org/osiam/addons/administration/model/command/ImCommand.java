@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.Im;
 import org.osiam.resources.scim.Im.Type;
 
-public class ImCommand {
+public class ImCommand implements Emptieable {
     @NotNull
     @NotEmpty
     @NotBlank
@@ -34,6 +34,11 @@ public class ImCommand {
         if (im.getType() != null) {
             setType(im.getType().getValue());
         }
+    }
+    
+    @Override
+    public boolean isEmpty(){
+        return getPrimary() == null && getDisplay() == null && getType() == null && getValue() == null;
     }
 
     public Im getAsIm() {
