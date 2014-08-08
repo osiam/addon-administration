@@ -8,9 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.osiam.resources.helper.SCIMHelper;
+import org.hibernate.validator.constraints.URL;
 import org.osiam.resources.scim.Email;
-import org.osiam.resources.scim.Name;
 import org.osiam.resources.scim.PhoneNumber;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
@@ -82,21 +81,16 @@ public class UpdateUserCommand {
             setMeta(new MetaCommand(user.getMeta()));
 
         if (user.getName() != null) {
-            setFirstName(user.getName().getGivenName());
-            setLastName(user.getName().getFamilyName());
+            setName(new NameCommand(user.getName()));
         }
-        Optional<Email> primaryEmail = SCIMHelper.getPrimaryOrFirstEmail(user);
-        if (primaryEmail.isPresent()) {
-            setEmail(primaryEmail.get().getValue());
-        }
-        
-        if(user.getEmails() != null){
-            for(Email email : user.getEmails()){
+
+        if (user.getEmails() != null) {
+            for (Email email : user.getEmails()) {
                 this.emails.add(new EmailCommand(email));
             }
         }
-        if(user.getPhoneNumbers() != null){
-            for(PhoneNumber number : user.getPhoneNumbers()){
+        if (user.getPhoneNumbers() != null) {
+            for (PhoneNumber number : user.getPhoneNumbers()) {
                 this.phoneNumbers.add(new PhonenumberCommand(number));
             }
         }
@@ -406,7 +400,14 @@ public class UpdateUserCommand {
         builder.setLocale(getLocale());
         builder.setProfileUrl(getProfileURL());
         builder.setTimezone(getTimezone());
-
+        
+        for (EmailCommand email : getEmails()) {
+            builder.addEmail(email.getAsEmail());
+        }
+        for (PhonenumberCommand number : getPhoneNumbers()) {
+            builder.addPhoneNumber(number.getAsPhoneNumber());
+        }
+        
         return builder.build();
     }
 }
