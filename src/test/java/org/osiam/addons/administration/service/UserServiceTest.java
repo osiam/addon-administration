@@ -84,6 +84,15 @@ public class UserServiceTest {
         toTestSpy.updateUser(id, updateUser);
         verify(connector, times(1)).updateUser(eq(id), eq(updateUser), same(accessToken));
     }
+    
+    @Test
+    public void replaceUser() {
+        User replaceUser = new User.Builder().build();
+        String id = "user ID";
+
+        toTestSpy.replaceUser(id, replaceUser);
+        verify(connector, times(1)).replaceUser(eq(id), eq(replaceUser), same(accessToken));
+    }
 
     @Test
     public void deactivateUser() {

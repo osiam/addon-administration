@@ -106,4 +106,16 @@ public class UserService {
 
         connector.updateUser(id, updateUser, sessionData.getAccesstoken());
     }
+    
+    /**
+     * Replace a user based on the given {@link User}.
+     * 
+     * @param id
+     *        the user ID
+     * @param User
+     *        the {@link User}
+     */
+    public void replaceUser(String id, User newUser) {
+        connector.replaceUser(id, newUser, sessionData.getAccesstoken());
+    }
 }

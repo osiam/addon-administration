@@ -322,4 +322,19 @@ public class UpdateUserCommand {
 
         return builder.build();
     }
+    
+    public User getAsUser(){
+        User.Builder builder = new User.Builder(getUser());
+        
+        builder.setName(getName().getAsName());
+        builder.setTitle(getTitle());
+        builder.setDisplayName(getDisplayName());
+        builder.setNickName(getNickName());
+        builder.setPreferredLanguage(getPreferredLanguage());
+        builder.setLocale(getLocale());
+        builder.setProfileUrl(getProfileURL());
+        builder.setTimezone(getTimezone());
+        
+        return builder.build();
+    }
 }

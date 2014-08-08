@@ -10,7 +10,6 @@ import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.exception.SCIMDataValidationException;
-import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -83,8 +82,7 @@ public class EditUserController extends GenericController {
                 User user = userService.getUser(command.getId());
                 command.setUser(user);
     
-                UpdateUser updateUser = command.getAsUpdateUser();
-                userService.updateUser(command.getId(), updateUser);
+                userService.replaceUser(command.getId(), command.getAsUser());
                 return redirect.build();
             }
         } catch(SCIMDataValidationException e) {
