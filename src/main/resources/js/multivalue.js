@@ -12,6 +12,11 @@ $(function(){
 		newBlock.show();
 	});
 	
+	$("button[id^='button-remove-email-']").click(function(){
+		var myBlock = $(this).parent();
+		myBlock.remove();
+	});
+	
 	$("#button-add-phoneNumber").click(function(){
 		var allPhoneNumberBlocks = $("[id^='phoneNumber-block-']");
 		var displayedPhoneNumberCount = allPhoneNumberBlocks.size();
@@ -24,6 +29,11 @@ $(function(){
 		newBlock.show();
 	});
 	
+	$("button[id^='button-remove-phoneNumber-']").click(function(){
+		var myBlock = $(this).parent();
+		myBlock.remove();
+	});
+	
 	$("#button-add-im").click(function(){
 		var allImBlocks = $("[id^='im-block-']");
 		var displayedImCount = allImBlocks.size();
@@ -34,6 +44,11 @@ $(function(){
 		
 		lastImBlock.after(newBlock);
 		newBlock.show();
+	});
+	
+	$("button[id^='button-remove-im-']").click(function(){
+		var myBlock = $(this).parent();
+		myBlock.remove();
 	});
 	
 	function cloneBlock(searchString, newId, newIndex){
