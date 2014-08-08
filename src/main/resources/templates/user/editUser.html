@@ -193,6 +193,7 @@
 		        <input class="form-control required" type="text" th:id="phoneNumber-__ID__-type" th:placeholder="#{edit_user.phoneNumber.type}" name="phoneNumbers[__ID__].type" />
 		        <input type="hidden" value="on" name="_phoneNumbers[__ID__].primary" />
 		    </div>
+		    <button th:id="${'button-remove-phoneNumber-__ID__'}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove phoneNumber</button>
 		</div>
 	</div>
 
