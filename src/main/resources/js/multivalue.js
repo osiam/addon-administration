@@ -1,5 +1,7 @@
 $(function(){
 	
+	$(".only-on-js").css({"visibility":"visible"});
+	
 	$("#button-add-email").click(function(){
 		var allEmailBlocks = $("[id^='email-block-']");
 		var displayedEmailCount = allEmailBlocks.size();
