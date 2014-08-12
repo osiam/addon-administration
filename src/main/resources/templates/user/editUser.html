@@ -7,9 +7,9 @@
     <script type="text/javascript" src="../../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" ></script>
     <script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}" ></script>
     <script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}" ></script>
-	<script type="text/javascript" src="../../js/multivalue.js" th:src="@{/js/multivalue.js}" ></script>
-    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
-    <link rel="stylesheet" type="text/css" href="../../css/Style.css" th:href="@{/css/Style.css}"/>
+    <script type="text/javascript" src="../../js/multivalue.js" th:src="@{/js/multivalue.js}" ></script>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../../css/Style.css"/>
 </head>
 <body>
 
@@ -57,7 +57,7 @@
 		        <input class="form-control required" type="text" th:id="email-__ID__-type" th:placeholder="#{edit_user.email.type}" name="emails[__ID__].type" />
 		        <input type="hidden" value="on" name="_emails[__ID__].primary" />
 		    </div>
-		    <button th:id="${'button-remove-email-__ID__'}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.email}">Remove email</button>
+		    <button th:id="${'button-remove-email-__ID__'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.email}">Remove email</button>
 		</div>
 		<div id="phoneNumber-template">
 			<div class="col-sm-4 form-group">
@@ -77,7 +77,7 @@
 		        <input class="form-control required" type="text" th:id="phoneNumber-__ID__-type" th:placeholder="#{edit_user.phoneNumber.type}" name="phoneNumbers[__ID__].type" />
 		        <input type="hidden" value="on" name="_phoneNumbers[__ID__].primary" />
 		    </div>
-		    <button th:id="${'button-remove-phoneNumber-__ID__'}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove phoneNumber</button>
+		    <button th:id="${'button-remove-phoneNumber-__ID__'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove phoneNumber</button>
 		</div>
 		<div id="im-template">
 			<div class="col-sm-4 form-group">
@@ -97,7 +97,7 @@
 		        <input class="form-control required" type="text" th:id="im-__ID__-type" th:placeholder="#{edit_user.im.type}" name="ims[__ID__].type" />
 		        <input type="hidden" value="on" name="_ims[__ID__].primary" />
 		    </div>
-		    <button th:id="${'button-remove-im-__ID__'}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.im}">Remove Im</button>
+		    <button th:id="${'button-remove-im-__ID__'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.im}">Remove Im</button>
 		</div>
 	</div>
 	
@@ -255,9 +255,9 @@
 	                    <input class="form-control required" type="text" th:id="${'email-' + stat.index + '-type'}" th:placeholder="#{edit_user.email.type}" th:field="*{emails[__${stat.index}__].type}" />
 						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].type}')}" th:errors="*{emails[__${stat.index}__].type}" >Type Error</span>
 	                </div>
-	                <button th:id="${'button-remove-email-' + stat.index}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.email}">Remove email</button>
+	                <button th:id="${'button-remove-email-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.email}">Remove email</button>
 	            </div>
-	            <button id="button-add-email" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.email}">Add Email</button>
+	            <button id="button-add-email" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.email}">Add Email</button>
             </fieldset>
             <!--/* 
             	END EMAIL-BLOCK
@@ -287,9 +287,9 @@
 	                    <input class="form-control required" type="text" th:id="${'phoneNumber-' + stat.index + '-type'}" th:placeholder="#{edit_user.phoneNumber.type}" th:field="*{phoneNumbers[__${stat.index}__].type}" />
 						<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].type}')}" th:errors="*{phoneNumbers[__${stat.index}__].type}" >Type Error</span>
 	                </div>
-	                <button th:id="${'button-remove-phoneNumber-' + stat.index}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove phonenumber</button>
+	                <button th:id="${'button-remove-phoneNumber-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove phonenumber</button>
 	            </div>
-	            <button id="button-add-phoneNumber" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.phoneNumber}">Add phoneNumber</button>
+	            <button id="button-add-phoneNumber" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.phoneNumber}">Add phoneNumber</button>
             </fieldset>
             <!--/* 
             	END PHONE-NUMBER-BLOCK
@@ -319,9 +319,9 @@
 	                    <input class="form-control required" type="text" th:id="${'im-' + stat.index + '-type'}" th:placeholder="#{edit_user.im.type}" th:field="*{ims[__${stat.index}__].type}" />
 						<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].type}')}" th:errors="*{ims[__${stat.index}__].type}" >Type Error</span>
 	                </div>
-	                <button th:id="${'button-remove-im-' + stat.index}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.im}">Remove Im</button>
+	                <button th:id="${'button-remove-im-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.im}">Remove Im</button>
 	            </div>
-	            <button id="button-add-im" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.add.im}">Add im</button>
+	            <button id="button-add-im" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.im}">Add im</button>
             </fieldset>
             <!--/* 
             	END IM-BLOCK
