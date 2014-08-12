@@ -230,7 +230,7 @@ public class UpdateUserCommand {
      * 
      * @return the the active
      */
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 
@@ -310,10 +310,17 @@ public class UpdateUserCommand {
     public UpdateUser getAsUpdateUser() {
         UpdateUser.Builder builder = new UpdateUser.Builder();
 
-        if(getActive() != null)
-            builder.updateActive(getActive());
+        if(isActive() != null) {
+            builder.updateActive(isActive());
+        }
         builder.updateName(getName().getAsName());
         builder.updateTitle(getTitle());
+        //in scim UpdateUser getActive expected boolean (it can't be null)
+        if(isActive() == null || isActive() == false) {
+            builder.updateActive(false);
+        } else {
+            builder.updateActive(true);
+        }
         builder.updateDisplayName(getDisplayName());
         builder.updateNickName(getNickName());
         builder.updatePreferredLanguage(getPreferredLanguage());
@@ -331,6 +338,7 @@ public class UpdateUserCommand {
         builder.setName(getName().getAsName());
         builder.setTitle(getTitle());
         builder.setDisplayName(getDisplayName());
+        builder.setActive(isActive());
         builder.setNickName(getNickName());
         builder.setPreferredLanguage(getPreferredLanguage());
         builder.setLocale(getLocale());
