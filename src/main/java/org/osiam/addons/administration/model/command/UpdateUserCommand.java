@@ -41,6 +41,8 @@ public class UpdateUserCommand {
     private String userName;
     @Valid
     private NameCommand name = new NameCommand();
+    @Valid
+    private MetaCommand meta = new MetaCommand();
 
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
@@ -61,9 +63,12 @@ public class UpdateUserCommand {
         setProfileURL(user.getProfileUrl());
         setTimezone(user.getTimezone());
         setUserName(user.getUserName());
-        
+
         if(user.getName() != null)
             setName(new NameCommand(user.getName()));
+        
+        if(user.getMeta() != null)
+            setMeta(new MetaCommand(user.getMeta()));
     }
 
     /**
@@ -71,7 +76,6 @@ public class UpdateUserCommand {
      */
     public UpdateUserCommand() {
     }
-
 
     /**
      * Returns the displayname.
@@ -235,6 +239,15 @@ public class UpdateUserCommand {
     }
 
     /**
+     * Returns the active.
+     * 
+     * @return the the active
+     */
+    public Boolean getActive() {
+        return active;
+    }
+
+    /**
      * Sets the active.
      * 
      * @param active
@@ -302,6 +315,14 @@ public class UpdateUserCommand {
         this.name = name;
     }
 
+    public MetaCommand getMeta() {
+        return meta;
+    }
+
+    public void setMeta(MetaCommand meta) {
+        this.meta = meta;
+    }
+
     /**
      * Returns a SCIM {@link UpdateUser} based on this command.
      * 
@@ -315,12 +336,6 @@ public class UpdateUserCommand {
         }
         builder.updateName(getName().getAsName());
         builder.updateTitle(getTitle());
-        //in scim UpdateUser getActive expected boolean (it can't be null)
-        if(isActive() == null || isActive() == false) {
-            builder.updateActive(false);
-        } else {
-            builder.updateActive(true);
-        }
         builder.updateDisplayName(getDisplayName());
         builder.updateNickName(getNickName());
         builder.updatePreferredLanguage(getPreferredLanguage());
@@ -331,10 +346,10 @@ public class UpdateUserCommand {
 
         return builder.build();
     }
-    
+
     public User getAsUser(){
         User.Builder builder = new User.Builder(getUser());
-        
+
         builder.setName(getName().getAsName());
         builder.setTitle(getTitle());
         builder.setDisplayName(getDisplayName());
@@ -344,7 +359,7 @@ public class UpdateUserCommand {
         builder.setLocale(getLocale());
         builder.setProfileUrl(getProfileURL());
         builder.setTimezone(getTimezone());
-        
+
         return builder.build();
     }
 }
