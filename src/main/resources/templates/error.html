@@ -4,12 +4,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
-        <h1>Error Page</h1>
-        <p>Application has encountered an error. Please contact support on ...</p>
-        <label for="url">Failed URL:</label><span id="url" th:text="${request.requestURL}">URL</span>
+        <h1>${error_page.message}</h1>
+        <p>${error_page.support}</p>
+        <label for="url">${error_page.url.failed}</label>
+        <span id="url" th:text="${request.requestURL}">URL</span>
         <br />
-        <label for="exception-message">Exception:</label><span id="exception-message" th:text="${exception.message}"></span>
+        <label for="exception-message">Exception:</label>
+        <span id="exception-message" th:text="${exception.message}"></span>
         <br />
-    <pre th:text="${stacktrace}"></pre>
+        <pre th:text="${stacktrace}"></pre>
     </body>
 </html>
