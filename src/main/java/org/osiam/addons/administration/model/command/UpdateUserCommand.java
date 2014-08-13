@@ -15,6 +15,7 @@ import org.osiam.resources.scim.Im;
 import org.osiam.resources.scim.PhoneNumber;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
+import org.osiam.resources.scim.X509Certificate;
 
 /**
  * Command object for the user update view.
@@ -56,6 +57,8 @@ public class UpdateUserCommand {
     private List<PhonenumberCommand> phoneNumbers = new ArrayList<PhonenumberCommand>();
     @Valid
     private List<ImCommand> ims = new ArrayList<ImCommand>();
+    @Valid
+    private List<X509CertificateCommand> certificates = new ArrayList<X509CertificateCommand>();
         
     
     /**
@@ -101,6 +104,11 @@ public class UpdateUserCommand {
         if (user.getIms() != null) {
             for (Im im : user.getIms()) {
                 this.ims.add(new ImCommand(im));
+            }
+        }
+        if (user.getX509Certificates() != null) {
+            for (X509Certificate certificate: user.getX509Certificates()) {
+                this.certificates.add(new X509CertificateCommand(certificate));
             }
         }
     }
@@ -353,6 +361,14 @@ public class UpdateUserCommand {
         return ims;
     }
 
+    public List<X509CertificateCommand> getCertificates() {
+        return certificates;
+    }
+
+    public void setCertificates(List<X509CertificateCommand> certificates) {
+        this.certificates = certificates;
+    }
+
     /**
      * Returns the name object.
      *
@@ -432,6 +448,12 @@ public class UpdateUserCommand {
         for (ImCommand im : getIms()) {
             if (!im.isEmpty()) {
                 builder.addIm(im.getAsIm());
+            }
+        }
+
+        for (X509CertificateCommand certificates : getCertificates()) {
+            if (!certificates.isEmpty()) {
+                builder.addX509Certificate(certificates.getAsCertificate());
             }
         }
 
