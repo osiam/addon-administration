@@ -33,14 +33,14 @@ public class EmailCommand implements Emptieable {
         setDisplay(email.getDisplay());
         setPrimary(email.isPrimary());
         setValue(email.getValue());
-        
+ 
         if(email.getType() != null) {
             setType(email.getType().getValue());
         }
     }
-    
+
     @Override
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return getPrimary() == null && getDisplay() == null && getType() == null && getValue() == null;
     }
     

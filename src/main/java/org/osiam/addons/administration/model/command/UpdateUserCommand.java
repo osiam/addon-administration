@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.URL;
+import org.osiam.resources.scim.Address;
 import org.osiam.resources.scim.Email;
 import org.osiam.resources.scim.Im;
 import org.osiam.resources.scim.PhoneNumber;
@@ -59,8 +60,9 @@ public class UpdateUserCommand {
     private List<ImCommand> ims = new ArrayList<ImCommand>();
     @Valid
     private List<X509CertificateCommand> certificates = new ArrayList<X509CertificateCommand>();
-        
     
+    private List<AddressCommand> addresses = new ArrayList<AddressCommand>();
+
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
      *
@@ -109,6 +111,11 @@ public class UpdateUserCommand {
         if (user.getX509Certificates() != null) {
             for (X509Certificate certificate: user.getX509Certificates()) {
                 this.certificates.add(new X509CertificateCommand(certificate));
+            }
+        }
+        if (user.getAddresses() != null) {
+            for (Address address: user.getAddresses()) {
+                this.addresses.add(new AddressCommand(address));
             }
         }
     }
@@ -369,6 +376,14 @@ public class UpdateUserCommand {
         this.certificates = certificates;
     }
 
+    public List<AddressCommand> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressCommand> addresses) {
+        this.addresses = addresses;
+    }
+
     /**
      * Returns the name object.
      *
@@ -457,6 +472,12 @@ public class UpdateUserCommand {
             }
         }
 
+        for (AddressCommand address : getAddresses()) {
+            if (!address.isEmpty()) {
+                builder.addAddress(address.getAsAddress());
+            }
+        }
+
         return builder.build();
     }
 
@@ -464,6 +485,8 @@ public class UpdateUserCommand {
         removeEmptyElements(getEmails().iterator());
         removeEmptyElements(getPhoneNumbers().iterator());
         removeEmptyElements(getIms().iterator());
+        removeEmptyElements(getCertificates().iterator());
+        removeEmptyElements(getAddresses().iterator());
     }
 
     private void removeEmptyElements(Iterator<? extends Emptieable> elements) {
