@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.URL;
 import org.osiam.resources.scim.Address;
 import org.osiam.resources.scim.Email;
+import org.osiam.resources.scim.Entitlement;
 import org.osiam.resources.scim.Im;
 import org.osiam.resources.scim.PhoneNumber;
 import org.osiam.resources.scim.UpdateUser;
@@ -60,8 +61,10 @@ public class UpdateUserCommand {
     private List<ImCommand> ims = new ArrayList<ImCommand>();
     @Valid
     private List<X509CertificateCommand> certificates = new ArrayList<X509CertificateCommand>();
-    
+    @Valid
     private List<AddressCommand> addresses = new ArrayList<AddressCommand>();
+    @Valid
+    private List<EntitlementCommand> entitlements = new ArrayList<EntitlementCommand>();
 
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
@@ -116,6 +119,11 @@ public class UpdateUserCommand {
         if (user.getAddresses() != null) {
             for (Address address: user.getAddresses()) {
                 this.addresses.add(new AddressCommand(address));
+            }
+        }
+        if(user.getEntitlements() != null) {
+            for (Entitlement entitlement : user.getEntitlements()) {
+                this.entitlements.add(new EntitlementCommand(entitlement));
             }
         }
     }
@@ -384,6 +392,14 @@ public class UpdateUserCommand {
         this.addresses = addresses;
     }
 
+    public List<EntitlementCommand> getEntitlements() {
+        return entitlements;
+    }
+
+    public void setEntitlements(List<EntitlementCommand> entitlements) {
+        this.entitlements = entitlements;
+    }
+
     /**
      * Returns the name object.
      *
@@ -465,16 +481,19 @@ public class UpdateUserCommand {
                 builder.addIm(im.getAsIm());
             }
         }
-
         for (X509CertificateCommand certificates : getCertificates()) {
             if (!certificates.isEmpty()) {
                 builder.addX509Certificate(certificates.getAsCertificate());
             }
         }
-
         for (AddressCommand address : getAddresses()) {
             if (!address.isEmpty()) {
                 builder.addAddress(address.getAsAddress());
+            }
+        }
+        for (EntitlementCommand entitlement : getEntitlements()) {
+            if (!entitlement.isEmpty()) {
+                builder.addEntitlement(entitlement.getAsEntitlement());
             }
         }
 
@@ -487,6 +506,7 @@ public class UpdateUserCommand {
         removeEmptyElements(getIms().iterator());
         removeEmptyElements(getCertificates().iterator());
         removeEmptyElements(getAddresses().iterator());
+        removeEmptyElements(getEntitlements().iterator());
     }
 
     private void removeEmptyElements(Iterator<? extends Emptieable> elements) {
