@@ -1,18 +1,66 @@
-nav ul {
-    padding: 0px;
-    margin: 0px;
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
 }
 
-nav ul,nav ul li {
-    background-color: #428bca;
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
 }
 
-nav ul li {
+ol, ul {
+	list-style: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+.actionNav {
+	position: relative;
+}
+
+.actionNav ul li {
     list-style: none;
-    float:left;
+    text-align:left;
 }
 
-nav ul li label {
+li.action ul {
+    background-color: white;
+    border: 1px solid #ccc;
+    left: 77px;
+    padding: 3px;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+}
+
+li.action:hover > ul {
+    visibility: visible;
+}
+
+
+/*nav ul li label {
     padding: 8px 3px 4px 10px;
     text-decoration: none;
     color: #FFFFFF;
@@ -23,17 +71,100 @@ nav ul li label {
     transition: background 0.3s ease-out 0s;
 }
 
-nav ul li:hover > ul {
-    visibility: visible;
-}
 
 nav ul li ul{
     display: inline;
-    visibility: hidden;
-    position: absolute;
     padding:0px;
+}*/
+
+
+
+
+#header {
+	background: #fcfcfc; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZjZmNmYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjU2JSIgc3RvcC1jb2xvcj0iI2ZjZmNmYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMmUyZTIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #fcfcfc 0%, #fcfcfc 56%, #e2e2e2 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfcfc), color-stop(56%,#fcfcfc), color-stop(100%,#e2e2e2)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #fcfcfc 0%,#fcfcfc 56%,#e2e2e2 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #fcfcfc 0%,#fcfcfc 56%,#e2e2e2 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #fcfcfc 0%,#fcfcfc 56%,#e2e2e2 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #fcfcfc 0%,#fcfcfc 56%,#e2e2e2 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#e2e2e2',GradientType=0 ); /* IE6-8 */
+	-webkit-box-shadow: 0px 3px 5px 0px rgba(180,180,180,1);
+	-moz-box-shadow: 0px 3px 5px 0px rgba(180,180,180,1);
+	box-shadow: 0px 3px 5px 0px rgba(180,180,180,1);
+    height: 50px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1000;    
 }
 
-button ul li.action:hover button, nav ul li.action:hover > ul li button  {
-    background-color: #428bca;
+#header h1 {
+    display: inline;
+    font-size: 29px;
+    line-height: 50px;
+    margin: 0;
+}
+
+#header #logo {
+    float: right;
+    height: 50px;
+    line-height: 45px;
+}
+
+.topbar {
+    background-color: rgba(192, 241, 254, 0.7);
+    height: 30px;
+    line-height: 30px;
+}
+
+#content .topbar {
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#content {
+    background-color: #fff;
+    margin-top: -30px;
+    padding: 30px 20px 20px;
+    position: relative;
+}
+
+.container.shadow {
+-webkit-box-shadow: 0px 0px 3px 0px rgba(180,180,180,1);
+-moz-box-shadow: 0px 0px 3px 0px rgba(180,180,180,1);
+box-shadow: 0px 0px 3px 0px rgba(180,180,180,1);
+}
+
+.nobtn {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+    color: #333;
+    padding: 0;
+}
+
+
+/******* table sorter ***********/
+.sortingArrows {
+    display: inline-block;
+    vertical-align: sub;
+    width: 5px;
+}
+
+.sortingArrows a {
+    display: block;
+    cursor: pointer;
+    height: 7px;
+}
+
+
+/************ paging **************/
+
+.resultsPerPage {
+    display: inline;
 }

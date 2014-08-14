@@ -8,11 +8,30 @@
     <script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}" ></script>
     <script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}" ></script>
 
-    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" type="text/css" href="../../css/Style.css" th:href="@{/css/Style.css}"/>
 
 </head>
 <body>
+
+<header id="header" class="">
+  <div class="container">
+  		<h1>Administration</h1>
+  		<div id="logo">
+  			<img src="../../img/osiam_logo.png" alt="OSIAM Logo" width="150px" />
+  		</div>
+  </div>
+</header>
+
+<div class="topbar"></div>
+
+<div class="container shadow" id="content">
+	<div class="topbar">
+		<div class="container">
+			<span class="pull-right">Logout <span class="glyphicon glyphicon-remove"></span></span>
+		</div>		
+	</div>
+
 	<div id="dialog-message-container" style="display:none;">
 		<div id="dialog-deactivate-message">
 			<p th:text="#{msg.user.dialog.deactivate.message}" />
@@ -36,27 +55,37 @@
 	</div>
 
 	<table class="table table-hover">
-		<thead><tr>
-			<th>
-				<input id="user-checkbox" type="checkbox" class="checkbox" />
-			</th>
-			<th>
-				<span th:text="#{msg.user.login}">Login</span>
-				<i class="icon-arrow-up"><a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">^</a></i> 
-				<i class="icon-arrow-down"><a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">v</a></i> 
-			</th>
-			<th>
-				<span th:text="#{msg.user.name.given}">Given Name</span>
-				<a id="order-by-givenname-asc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}">^</a>
-				<a id="order-by-givenname-desc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}">v</a>	
-			</th>
-			<th>
-				<span th:text="#{msg.user.name.family}">Family Name</span>
-				<a id="order-by-familyname-asc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}">^</a>
-				<a id="order-by-familyname-desc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}">v</a>
-			</th>
-			<th></th>
-		</tr></thead>
+		<thead>
+			<tr>
+				<th>
+					<input id="user-checkbox" type="checkbox" class="checkbox" />
+				</th>
+				<th>
+					<span th:text="#{msg.user.login}">Login</span>
+					<span class="sortingArrows">
+						<a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a> 
+						<a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+					</span> 
+				</th>
+				<th>
+					<span th:text="#{msg.user.name.given}">Given Name</span>
+					<span class="sortingArrows">
+						<a id="order-by-givenname-asc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+						<a id="order-by-givenname-desc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+					</span>	
+				</th>
+				<th>
+					<span th:text="#{msg.user.name.family}">Family Name</span>
+					<span class="sortingArrows">
+						<a id="order-by-familyname-asc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+						<a id="order-by-familyname-desc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+					</span>
+				</th>
+				<th></th>
+			</tr>
+		</thead>		
+		
+		
 		<tbody>
 			<!-- Start: Filter-Row -->
 			<tr th:object="${sessionData.filterFields}">
@@ -70,7 +99,7 @@
 					<td><input id="filter-givenname" name="query.name.givenName" type="text" th:value="*{get('query.name.givenName')}" /></td>
 					<td><input id="filter-familyname" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
 					<td>
-						<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-primary" type="submit">Filter</button>
+						<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default btn-sm" type="submit">Filter <span class="glyphicon glyphicon-filter"></span></button>
 					</td>
 				</form>
 			</tr>
@@ -84,13 +113,14 @@
 				<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">Family Name</td>
 				<td>
 				<!-- Start: Action-Menu	-->
-				<nav>
+				<nav class="actionNav">
 					<ul>
-						<li class="action"><label th:id="${'action-label-' + userStat.index}" th:text="#{msg.button.action} + '&gt;'">Actions &gt;</label>
-							<ul>
+						<li class="action">
+							<div class="btn btn-info btn-sm" th:id="${'action-label-' + userStat.index}" th:text="#{msg.button.action} + '&gt;'">Actions <span class="glyphicon glyphicon-chevron-right"></span></div>
+							<ul class="btn">
 								<li>
 									<a th:href="@{edit(id = ${user.id})}">
-										<button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn btn-default">Edit</button>
+										<button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
 									</a>
 								</li>
 								<li th:if="${user.active}">
@@ -99,7 +129,7 @@
 										<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
 										<input type="hidden" name="id" th:value="${user.id}" />
 
-										<button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn btn-default" type="submit">Deactivate</button>
+										<button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn-link" type="submit">Deactivate</button>
 									</form>
 								</li>
 								<li th:unless="${user.active}">
@@ -108,7 +138,7 @@
 										<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
 										<input type="hidden" name="id" th:value="${user.id}" />
 
-										<button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn btn-default" type="submit">Activate</button>
+										<button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate</button>
 									</form>
 								</li>
 							</ul>
@@ -125,9 +155,9 @@
 			Paging-Navigation...
 		</div>
 		<span th:text="#{msg.list.limit}"></span>
-		<form name="form-limit" action="">
+		<form name="form-limit" action="" class="resultsPerPage">
 			<input type="hidden" name="action" value="limit" />
-			<select id="paging-limit" name="limit" class="form-control" onchange="document['form-limit'].submit();">
+			<select id="paging-limit" name="limit" class="" onchange="document['form-limit'].submit();">
 				<option th:selected="${sessionData.limit} == 5" >5</option>
 				<option th:selected="${sessionData.limit} == 10">10</option>
 				<option th:selected="${sessionData.limit} == 20">20</option>
@@ -137,5 +167,8 @@
 			</select>
 		</form>
 	</div>
+	
+	
+</div>	
 </body>
 </html>
