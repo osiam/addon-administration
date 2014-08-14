@@ -242,10 +242,14 @@ th {
   .navbar {
     display: none;
   }
-  .table td,
-  .table th {
+  .table td {
     background-color: #fff !important;
   }
+  
+.table > thead > tr > th {
+    background-color: #d1d1d1 !important;
+  }
+  
   .btn > .caret,
   .dropup > .btn > .caret {
     border-top-color: #000 !important;
@@ -1080,10 +1084,12 @@ h1,
 .h1 {
   font-size: 36px;
 }
-h2,
-.h2 {
-  font-size: 30px;
+
+h2, .h2 {
+    font-size: 25px;
+    margin-bottom: 0.5em !important;
 }
+
 h3,
 .h3 {
   font-size: 24px;
@@ -2058,9 +2064,11 @@ pre code {
     margin-left: 0;
   }
 }
+
 table {
-  background-color: transparent;
+    background-color: transparent;
 }
+
 th {
   text-align: left;
 }
@@ -2077,7 +2085,7 @@ th {
 .table > tfoot > tr > td {
   padding: 8px;
   line-height: 1.42857143;
-  vertical-align: top;
+  /*vertical-align: top;*/
   border-top: 1px solid #ddd;
 }
 .table > thead > tr > th {
@@ -4312,6 +4320,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination {
     border-radius: 4px;
     display: inline-block;
+    margin:0 10px;
     vertical-align: middle;
 }
 
