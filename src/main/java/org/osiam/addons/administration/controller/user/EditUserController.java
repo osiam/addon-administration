@@ -1,12 +1,9 @@
 package org.osiam.addons.administration.controller.user;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
-
 import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
-import org.osiam.addons.administration.model.command.EmailCommand;
 import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
