@@ -8,7 +8,6 @@ import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 
 public class UpdateUserCommandTest {
-
     private User user;
     private String userName = "maglino";
     private Boolean isActive = false;
@@ -19,20 +18,19 @@ public class UpdateUserCommandTest {
     private String locale = "de_DE";
     private String profileUrl = "myProfile.gibtsNielmals.com";
     private String timezone = "Mond/DieDunkleSeite";
-    
 
     @Before
     public void setUp() {
         user = new User.Builder(this.userName)
-            .setActive(this.isActive)
-            .setTitle(this.title)
-            .setDisplayName(this.displayName)
-            .setNickName(this.nickName)
-            .setPreferredLanguage(this.preferredLanguage)
-            .setLocale(this.locale)
-            .setProfileUrl(this.profileUrl)
-            .setTimezone(this.timezone)
-            .build();
+                .setActive(this.isActive)
+                .setTitle(this.title)
+                .setDisplayName(this.displayName)
+                .setNickName(this.nickName)
+                .setPreferredLanguage(this.preferredLanguage)
+                .setLocale(this.locale)
+                .setProfileUrl(this.profileUrl)
+                .setTimezone(this.timezone)
+                .build();
     }
 
     @Test
@@ -40,7 +38,7 @@ public class UpdateUserCommandTest {
         UpdateUserCommand command = new UpdateUserCommand(user);
 
         assertEquals(this.userName, command.getUserName());
-        assertEquals(this.isActive, command.isActive());
+        assertEquals(this.isActive, command.getActive());
         assertEquals(this.title, command.getTitle());
         assertEquals(this.displayName, command.getDisplayName());
         assertEquals(this.nickName, command.getNickName());
