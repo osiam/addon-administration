@@ -65,11 +65,29 @@ public interface Element {
     }
 
     public static enum UserEdit implements Element {
-        FIRSTNAME(By.id("firstname")),
-        LASTNAME(By.id("lastname")),
-        MAIL(By.id("email")),
-        SUBMIT_BUTTON(By.xpath("//button[@type = 'submit']")),
-        CANCEL_BUTTON(By.xpath("//button[@type = 'button']"));
+        ACTIVE(By.id("active")),
+        LASTNAME(By.id("familyname")),
+        FORMATTEDNAME(By.id("formatted")),
+        GIVENNAME(By.id("givenname")),
+        HONORIFICPREFIX(By.id("honorificprefix")),
+        HONORIFICSUFFIX(By.id("honorificsuffix")),
+        MIDDLENAME(By.id("middlename")),
+        DISPLAYNAME(By.id("displayName")),
+        NICKNAME(By.id("nickName")),
+        USERTITLE(By.id("userTitle")),
+
+        PREFERREDLANGUAGE(By.id("preferredLanguage")),
+        LOCALE(By.id("locale")),
+        PROFILEURL(By.id("profileURL")),
+        TIMEZONE(By.id("timezone")),
+        USERNAME(By.id("userName")),
+
+        SUBMIT_BUTTON(By.id("btnCancelChanges")),
+        CANCEL_BUTTON(By.id("btnCancelChanges")),
+
+        DIALOG_SUCCESS(By.xpath("//div[contains(@class, 'modal-dialog')]//button[contains(@class, 'btn-success')]")),
+        DIALOG_ABORT(  By.xpath("//div[contains(@class, 'modal-dialog')]//button[contains(@class, 'btn-danger')]")),
+        DIALOG_CLOSE(  By.xpath("//div[contains(@class, 'modal-dialog')]//button[contains(@class, 'close')]"));
 
         private By by;
 
