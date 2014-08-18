@@ -9,7 +9,12 @@ $(function(){
         var myIndex = displayedEmailCount;
         var newBlock = cloneBlock('#email-template', 'email-block-' + myIndex, myIndex);
 
-        lastEmailBlock.after(newBlock);
+        if(lastEmailBlock.length > 0){
+            lastEmailBlock.after(newBlock);
+        }else{
+            $('#email-container').prepend(newBlock);
+        }
+
         newBlock.show();
     });
 
@@ -26,7 +31,12 @@ $(function(){
         var myIndex = displayedPhoneNumberCount;
         var newBlock = cloneBlock('#phoneNumber-template', 'phoneNumber-block-' + myIndex, myIndex);
 
-        lastPhoneNumberBlock.after(newBlock);
+        if(lastPhoneNumberBlock.length > 0){
+            lastPhoneNumberBlock.after(newBlock);
+        }else{
+            $('#phoneNumber-container').prepend(newBlock);
+        }
+
         newBlock.show();
     });
 
@@ -43,7 +53,12 @@ $(function(){
         var myIndex = displayedImCount;
         var newBlock = cloneBlock('#im-template', 'im-block-' + myIndex, myIndex);
 
-        lastImBlock.after(newBlock);
+        if(lastImBlock.length > 0){
+            lastImBlock.after(newBlock);
+        }else{
+            $('#im-container').prepend(newBlock);
+        }
+
         newBlock.show();
     });
 
@@ -52,15 +67,20 @@ $(function(){
         myBlock.remove();
     });
 
-    $("#button-add-certificates").click(function(){
+    $("#button-add-certificate").click(function(){
         var allCertificatesBlocks = $("[id^='certificates-block-']");
         var displayedCertificatesCount = allCertificatesBlocks.size();
         var lastCertificatesBlock = allCertificatesBlocks.last();
 
         var myIndex = displayedCertificatesCount;
-        var newBlock = cloneBlock('#certificates-template', 'certificates-block-' + myIndex, myIndex);
+        var newBlock = cloneBlock('#certificate-template', 'certificates-block-' + myIndex, myIndex);
 
-        lastCertificatesBlock.after(newBlock);
+        if(lastCertificatesBlock.length > 0){
+            lastCertificatesBlock.after(newBlock);
+        }else{
+            $('#certificates-container').prepend(newBlock);
+        }
+
         newBlock.show();
     });
 
@@ -70,14 +90,19 @@ $(function(){
     });
 
     $("#button-add-entitlement").click(function(){
-        var allentitlementBlocks = $("[id^='entitlement-block-']");
-        var displayedentitlementCount = allentitlementBlocks.size();
-        var lastentitlementBlock = allentitlementBlocks.last();
+        var allEntitlementBlocks = $("[id^='entitlement-block-']");
+        var displayedEntitlementCount = allEntitlementBlocks.size();
+        var lastEntitlementBlock = allEntitlementBlocks.last();
 
-        var myIndex = displayedentitlementCount;
+        var myIndex = displayedEntitlementCount;
         var newBlock = cloneBlock('#entitlement-template', 'entitlement-block-' + myIndex, myIndex);
 
-        lastentitlementBlock.after(newBlock);
+        if(lastEntitlementBlock.length > 0){
+            lastEntitlementBlock.after(newBlock);
+        }else{
+            $('#entitlements-container').prepend(newBlock);
+        }
+
         newBlock.show();
     });
 
@@ -87,14 +112,19 @@ $(function(){
     });
 
     $("#button-add-address").click(function(){
-        var allentitlementBlocks = $("[id^='address-block-']");
-        var displayedentitlementCount = allentitlementBlocks.size();
-        var lastentitlementBlock = allentitlementBlocks.last();
+        var allAddressBlocks = $("[id^='address-block-']");
+        var displayedAddressCount = allAddressBlocks.size();
+        var lastAddressBlock = allAddressBlocks.last();
 
-        var myIndex = displayedentitlementCount;
+        var myIndex = displayedAddressCount;
         var newBlock = cloneBlock('#address-template', 'address-block-' + myIndex, myIndex);
 
-        lastentitlementBlock.after(newBlock);
+        if(lastAddressBlock.length > 0){
+            lastAddressBlock.after(newBlock);
+        }else{
+            $('#addresses-container').prepend(newBlock);
+        }
+
         newBlock.show();
     });
 
