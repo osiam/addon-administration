@@ -1,6 +1,8 @@
 package org.osiam.addons.administration.controller.user;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
+
 import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
@@ -37,7 +39,7 @@ public class EditUserController extends GenericController {
 
     @Inject
     private UserService userService;
-    
+
     @Inject
     private Validator validator;
 
@@ -106,7 +108,7 @@ public class EditUserController extends GenericController {
     private void validateCommand(UpdateUserCommand command, BindingResult bindingResult) {
         //we must validate for our own, because we need to purge the command
         //before we can validate it
-        
+
         command.purge();
         validator.validate(command, bindingResult);
     }
