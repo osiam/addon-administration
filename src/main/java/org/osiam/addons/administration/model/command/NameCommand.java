@@ -8,27 +8,21 @@ import org.osiam.resources.scim.Name;
 public class NameCommand {
 
     @NotNull
-    @NotBlank
     private String familyname;
 
     @NotNull
-    @NotBlank
     private String formatted;
 
     @NotNull
-    @NotBlank
     private String givenname;
 
     @NotNull
-    @NotBlank
     private String honorificprefix;
 
     @NotNull
-    @NotBlank
     private String honorificsuffix;
 
     @NotNull
-    @NotBlank
     private String middlename;
 
     public NameCommand() {

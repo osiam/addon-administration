@@ -82,7 +82,7 @@ public interface Element {
         TIMEZONE(By.id("timezone")),
         USERNAME(By.id("userName")),
 
-        SUBMIT_BUTTON(By.id("btnCancelChanges")),
+        SUBMIT_BUTTON(By.id("btnSaveChanges")),
         CANCEL_BUTTON(By.id("btnCancelChanges")),
 
         DIALOG_SUCCESS(By.xpath("//div[contains(@class, 'modal-dialog')]//button[contains(@class, 'btn-success')]")),

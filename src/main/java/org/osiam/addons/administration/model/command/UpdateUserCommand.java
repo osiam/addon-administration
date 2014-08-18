@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
@@ -25,19 +26,19 @@ public class UpdateUserCommand {
     @NotNull
     private String nickName;
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z]{2}$")
+    @Pattern(regexp = "$^|^[a-zA-Z]{2}$")
     private String preferredLanguage;
     @NotNull
-    @Pattern(regexp = "^[a-z]{2}_[A-Z]{2}$")
+    @Pattern(regexp = "$^|^[a-z]{2}_[A-Z]{2}$")
     private String locale;
     @NotNull
     @URL
     private String profileURL;
     @NotNull
-    @Pattern(regexp = ".*\\/.*")
+    @Pattern(regexp = "$^|.*\\/.*")
     private String timezone;
     @NotNull
-    @Size(min = 1)
+    @NotBlank
     private String userName;
     @Valid
     private NameCommand name = new NameCommand();
