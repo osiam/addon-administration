@@ -39,7 +39,7 @@ public class EditUserController extends GenericController {
 
     @Inject
     private UserService userService;
-    
+
     @Inject
     private Validator validator;
 
