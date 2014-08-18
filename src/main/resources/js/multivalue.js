@@ -130,12 +130,12 @@ $(function(){
             myBlock.remove();
         });
 
-        $("button[id^='button-remove-entitlement-']").click(function(){
+        $("button[id^='button-remove-entitlements-']").click(function(){
             var myBlock = $(this).parent();
             myBlock.remove();
         });
 
-        $("button[id^='button-remove-address-']").click(function(){
+        $("button[id^='button-remove-addresses-']").click(function(){
             var myBlock = $(this).parent();
             myBlock.remove();
         });
