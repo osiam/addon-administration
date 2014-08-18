@@ -3,6 +3,7 @@ package org.osiam.addons.administration.model.command;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -66,7 +67,7 @@ public class UpdateUserCommand {
     @Valid
     private List<EntitlementCommand> entitlements = new ArrayList<EntitlementCommand>();
 
-	private Map<String, String> extensions;
+    private Map<String, Map<String, String>> extensions;
 
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
@@ -437,11 +438,11 @@ public class UpdateUserCommand {
         this.meta = meta;
     }
 
-	public Map<String, String> getExtensions() {
+    public Map<String, Map<String, String>> getExtensions() {
         return extensions;
     }
 
-    public void setExtensions(Map<String, String> extensions) {
+    public void setExtensions(Map<String, Map<String, String>> extensions) {
         this.extensions = extensions;
     }
 

@@ -80,6 +80,9 @@ public class EditUserController extends GenericController {
             @ModelAttribute(MODEL) UpdateUserCommand command,
             BindingResult bindingResult) {
 
+        User user = userService.getUser(command.getId());
+        command.setUser(user);
+
         validateCommand(command, bindingResult);
 
         final RedirectBuilder redirect = new RedirectBuilder()
@@ -88,9 +91,6 @@ public class EditUserController extends GenericController {
 
         try {
             if(!bindingResult.hasErrors()){
-                User user = userService.getUser(command.getId());
-                command.setUser(user);
-
                 userService.replaceUser(command.getId(), command.getAsUser());
 
                 redirect.addParameter("saveSuccess", true);
