@@ -85,7 +85,7 @@ public class EditUserController extends GenericController {
                 userService.replaceUser(command.getId(), command.getAsUser());
 
                 redirect.addParameter("saveSuccess", true);
-                redirect.setPath("list");
+                redirect.setPath(UserViewController.CONTROLLER_PATH);
                 return redirect.build();
             }
         } catch(SCIMDataValidationException e) {
