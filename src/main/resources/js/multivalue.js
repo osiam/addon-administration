@@ -16,11 +16,7 @@ $(function(){
         }
 
         newBlock.show();
-    });
-
-    $("button[id^='button-remove-email-']").click(function(){
-        var myBlock = $(this).parent();
-        myBlock.remove();
+        applyRemoveActions();
     });
 
     $("#button-add-phoneNumber").click(function(){
@@ -38,11 +34,7 @@ $(function(){
         }
 
         newBlock.show();
-    });
-
-    $("button[id^='button-remove-phoneNumber-']").click(function(){
-        var myBlock = $(this).parent();
-        myBlock.remove();
+        applyRemoveActions();
     });
 
     $("#button-add-im").click(function(){
@@ -60,11 +52,7 @@ $(function(){
         }
 
         newBlock.show();
-    });
-
-    $("button[id^='button-remove-im-']").click(function(){
-        var myBlock = $(this).parent();
-        myBlock.remove();
+        applyRemoveActions();
     });
 
     $("#button-add-certificate").click(function(){
@@ -82,11 +70,7 @@ $(function(){
         }
 
         newBlock.show();
-    });
-
-    $("button[id^='button-remove-certificates-']").click(function(){
-        var myBlock = $(this).parent();
-        myBlock.remove();
+        applyRemoveActions();
     });
 
     $("#button-add-entitlement").click(function(){
@@ -104,11 +88,7 @@ $(function(){
         }
 
         newBlock.show();
-    });
-
-    $("button[id^='button-remove-entitlement-']").click(function(){
-        var myBlock = $(this).parent();
-        myBlock.remove();
+        applyRemoveActions();
     });
 
     $("#button-add-address").click(function(){
@@ -126,12 +106,40 @@ $(function(){
         }
 
         newBlock.show();
+        applyRemoveActions();
     });
 
-    $("button[id^='button-remove-address-']").click(function(){
-        var myBlock = $(this).parent();
-        myBlock.remove();
-    });
+    function applyRemoveActions(){
+        $("button[id^='button-remove-email-']").click(function(){
+            var myBlock = $(this).parent();
+            myBlock.remove();
+        });
+
+        $("button[id^='button-remove-phoneNumber-']").click(function(){
+            var myBlock = $(this).parent();
+            myBlock.remove();
+        });
+
+        $("button[id^='button-remove-im-']").click(function(){
+            var myBlock = $(this).parent();
+            myBlock.remove();
+        });
+
+        $("button[id^='button-remove-certificates-']").click(function(){
+            var myBlock = $(this).parent();
+            myBlock.remove();
+        });
+
+        $("button[id^='button-remove-entitlement-']").click(function(){
+            var myBlock = $(this).parent();
+            myBlock.remove();
+        });
+
+        $("button[id^='button-remove-address-']").click(function(){
+            var myBlock = $(this).parent();
+            myBlock.remove();
+        });
+    }
 
     function cloneBlock(searchString, newId, newIndex){
         var templateBlock = $(searchString);
@@ -153,4 +161,5 @@ $(function(){
         return newBlock;
     };
 
+    applyRemoveActions();
 });
