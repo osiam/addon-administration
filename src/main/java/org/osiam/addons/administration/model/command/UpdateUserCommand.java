@@ -1,9 +1,11 @@
 package org.osiam.addons.administration.model.command;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -11,14 +13,18 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
+import org.osiam.addons.administration.model.validation.ExtensionValidator;
 import org.osiam.resources.scim.Address;
 import org.osiam.resources.scim.Email;
 import org.osiam.resources.scim.Entitlement;
+import org.osiam.resources.scim.Extension;
+import org.osiam.resources.scim.Extension.Field;
 import org.osiam.resources.scim.Im;
 import org.osiam.resources.scim.PhoneNumber;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 import org.osiam.resources.scim.X509Certificate;
+import org.springframework.validation.BindingResult;
 
 /**
  * Command object for the user update view.
@@ -67,7 +73,7 @@ public class UpdateUserCommand {
     @Valid
     private List<EntitlementCommand> entitlements = new ArrayList<EntitlementCommand>();
 
-    private Map<String, Map<String, String>> extensions;
+    private Map<String, Map<String, String>> extensions = new HashMap<String, Map<String,String>>();
 
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
@@ -127,6 +133,14 @@ public class UpdateUserCommand {
         if(user.getEntitlements() != null) {
             for (Entitlement entitlement : user.getEntitlements()) {
                 this.entitlements.add(new EntitlementCommand(entitlement));
+            }
+        }
+        if(user.getExtensions() != null){
+            for(Extension extension : user.getExtensions().values()){
+                this.extensions.put(extension.getUrn(), new HashMap<String, String>());
+                for(Entry<String, Field> field : extension.getFields().entrySet()){
+                    this.extensions.get(extension.getUrn()).put(field.getKey(), field.getValue().getValue());
+                }
             }
         }
     }
@@ -531,6 +545,27 @@ public class UpdateUserCommand {
         while(elements.hasNext()){
             if(elements.next().isEmpty()){
                 elements.remove();
+            }
+        }
+    }
+
+    public void validate(BindingResult bindingResult) {
+        validateExtensions(bindingResult);
+    }
+
+    private void validateExtensions(BindingResult bindingResult) {
+        ExtensionValidator validator = new ExtensionValidator(
+                "extensions",
+                getUser().getExtensions(),
+                bindingResult);
+
+        for(Entry<String, Map<String, String>> extension : getExtensions().entrySet()){
+            final String urn = extension.getKey();
+            for(Entry<String, String> field : extension.getValue().entrySet()){
+                final String key = field.getKey();
+                final String value = field.getValue();
+
+                validator.validate(urn, key, value);
             }
         }
     }

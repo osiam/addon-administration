@@ -119,6 +119,7 @@ public class EditUserController extends GenericController {
      */
     private void validateCommand(UpdateUserCommand command, BindingResult bindingResult) {
         command.purge();
+        command.validate(bindingResult);
         validator.validate(command, bindingResult);
     }
 }
