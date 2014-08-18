@@ -235,31 +235,37 @@
                 <div class="col-sm-4 form-group" >
                     <label for="formatted" th:text="#{edit_user.name.formatted}">Formatted Name</label>
                     <input class="form-control" type="text" th:placeholder="#{edit_user.name.formatted}" id="formatted" th:field="*{name.formatted}" />
+                    <span th:if="${#fields.hasErrors('*{name.formatted}')}" th:errors="*{name.formatted}" class="text-danger" >Formatted Name Error</span>
                 </div>
 
                 <div class="col-sm-4 form-group" >
                     <label for="givenname" th:text="#{edit_user.name.givenname}">Givenname</label>
                     <input class="form-control" type="text" th:placeholder="#{edit_user.name.givenname}" id="givenname" th:field="*{name.givenname}" />
+                        <span th:if="${#fields.hasErrors('*{name.givenname}')}" th:errors="*{name.givenname}" class="text-danger" >Givenname Error</span>
                 </div>
 
                 <div class="col-sm-4 form-group" >
                     <label for="honorificprefix" th:text="#{edit_user.name.honorificprefix}">Honorific prefix</label>
                     <input class="form-control" type="text" th:placeholder="#{edit_user.name.honorificprefix}" id="honorificprefix" th:field="*{name.honorificprefix}" />
+                        <span th:if="${#fields.hasErrors('*{name.honorificprefix}')}" th:errors="*{name.honorificprefix}" class="text-danger" >Honorific prefix Error</span>
                 </div>
 
                 <div class="col-sm-4 form-group" >
                     <label for="honorificsuffix" th:text="#{edit_user.name.honorificsuffix}">Honorific suffix</label>
                     <input class="form-control" type="text" th:placeholder="#{edit_user.name.honorificsuffix}" id="honorificsuffix" th:field="*{name.honorificsuffix}" />
+                        <span th:if="${#fields.hasErrors('*{name.honorificsuffix}')}" th:errors="*{name.honorificsuffix}" class="text-danger" >Honorific suffix Error</span>
                 </div>
 
                 <div class="col-sm-4 form-group" >
                     <label for="middlename" th:text="#{edit_user.name.middlename}">Middelname</label>
                     <input class="form-control" type="text" th:placeholder="#{edit_user.name.middlename}" id="middlename" th:field="*{name.middlename}" />
+                        <span th:if="${#fields.hasErrors('*{name.middlename}')}" th:errors="*{name.middlename}" class="text-danger" >Middelname Error</span>
                 </div>
 
                 <div class="col-sm-4 form-group" >
                     <label for="displayName" th:text="#{edit_user.displayName}">Displayname</label>
                     <input class="form-control" type="text" th:placeholder="#{edit_user.displayName}" id="displayName" th:field="*{displayName}" />
+                        <span th:if="${#fields.hasErrors('*{displayName}')}" th:errors="*{displayName}" class="text-danger" >Displayname Error</span>
                 </div>
 
                     <div class="col-sm-4 form-group" >
@@ -277,13 +283,32 @@
                 <div class="col-sm-4 form-group" >
                     <label for="preferredLanguage" th:text="#{edit_user.preferredLanguage}">Preferred language</label>
                     <input class="form-control" type="text" th:placeholder="#{edit_user.preferredLanguage}" id="preferredLanguage" th:field="*{preferredLanguage}" />
+                        <span th:if="${#fields.hasErrors('*{preferredLanguage}')}" th:errors="*{preferredLanguage}" class="text-danger" >Preferred language Error</span>
                 </div>
 
-                    <div class="col-sm-4 form-group" >
-                        <label for="preferredLanguage" th:text="#{edit_user.preferredLanguage}">Preferred language</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.preferredLanguage}" id="preferredLanguage" th:field="*{preferredLanguage}" />
-                        <span th:if="${#fields.hasErrors('*{preferredLanguage}')}" th:errors="*{preferredLanguage}" class="text-danger" >Preferred language Error</span>
-                    </div>
+                <div class="col-sm-4 form-group" >
+                    <label for="locale" th:text="#{edit_user.locale}">Locale</label>
+                    <input class="form-control" type="text" th:placeholder="#{edit_user.locale}" id="locale" th:field="*{locale}" />
+                        <span th:if="${#fields.hasErrors('*{locale}')}" th:errors="*{locale}" class="text-danger" >Locale Error</span>
+                </div>
+
+                <div class="col-sm-4 form-group" >
+                    <label for="profileURL" th:text="#{edit_user.profileURL}">Profile URL</label>
+                    <input class="form-control" type="text" th:placeholder="#{edit_user.profileURL}" id="profileURL" th:field="*{profileURL}" />
+                        <span th:if="${#fields.hasErrors('*{profileURL}')}" th:errors="*{profileURL}" class="text-danger" >Profile URL Error</span>
+                </div>
+
+                <div class="col-sm-4 form-group" >
+                    <label for="timezone" th:text="#{edit_user.timezone}">Timezone</label>
+                    <input class="form-control" type="text" th:placeholder="#{edit_user.timezone}" id="timezone" th:field="*{timezone}" />
+                        <span th:if="${#fields.hasErrors('*{timezone}')}" th:errors="*{timezone}" class="text-danger" >Timezone Error</span>
+                </div>
+
+                <div class="col-sm-4 form-group" >
+                    <label for="userName" th:text="#{edit_user.userName}">Username</label>
+                    <input class="form-control" type="text" th:placeholder="#{edit_user.userName}" id="userName" th:field="*{userName}" />
+                    <span th:if="${#fields.hasErrors('*{userName}')}" th:errors="*{userName}" class="text-danger" >Username Error</span>
+                </div>
 
                 <div class="col-sm-4 form-group" >
                     <label for="created" th:text="#{edit_user.meta.created}">Created</label>
