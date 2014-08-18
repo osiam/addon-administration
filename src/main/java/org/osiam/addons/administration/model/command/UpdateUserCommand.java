@@ -46,7 +46,7 @@ public class UpdateUserCommand {
 
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
-     * 
+     *
      * @param user
      *        the user
      */
@@ -66,7 +66,7 @@ public class UpdateUserCommand {
 
         if(user.getName() != null)
             setName(new NameCommand(user.getName()));
-        
+
         if(user.getMeta() != null)
             setMeta(new MetaCommand(user.getMeta()));
     }
@@ -79,7 +79,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the displayname.
-     * 
+     *
      * @return the the displayname
      */
     public String getDisplayName() {
@@ -88,7 +88,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the displayname.
-     * 
+     *
      * @param displayName
      *        the displayname to set
      */
@@ -98,7 +98,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the locale.
-     * 
+     *
      * @return the the locale
      */
     public String getLocale() {
@@ -107,7 +107,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the locale.
-     * 
+     *
      * @param locale
      *        the locale to set
      */
@@ -117,7 +117,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the nickname.
-     * 
+     *
      * @return the the nickname
      */
     public String getNickName() {
@@ -126,7 +126,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the nickname.
-     * 
+     *
      * @param nickName
      *        the nickname to set
      */
@@ -136,7 +136,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the preferredlanguage.
-     * 
+     *
      * @return the the preferredlanguage
      */
     public String getPreferredLanguage() {
@@ -145,7 +145,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the preferredlanguage.
-     * 
+     *
      * @param preferredLanguage
      *        the preferredlanguage to set
      */
@@ -155,7 +155,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the profileurl.
-     * 
+     *
      * @return the the profileurl
      */
     public String getProfileURL() {
@@ -164,7 +164,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the profileurl.
-     * 
+     *
      * @param profileURL
      *        the profileurl to set
      */
@@ -174,7 +174,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the timezone.
-     * 
+     *
      * @return the the timezone
      */
     public String getTimezone() {
@@ -183,7 +183,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the timezone.
-     * 
+     *
      * @param timezone
      *        the timezone to set
      */
@@ -193,7 +193,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the title.
-     * 
+     *
      * @return the the title
      */
     public String getTitle() {
@@ -202,7 +202,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the title.
-     * 
+     *
      * @param title
      *        the title to set
      */
@@ -212,7 +212,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the username.
-     * 
+     *
      * @return the the username
      */
     public String getUserName() {
@@ -221,7 +221,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the username.
-     * 
+     *
      * @param userName
      *        the username to set
      */
@@ -231,7 +231,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the active.
-     * 
+     *
      * @return the the active
      */
     public Boolean isActive() {
@@ -240,7 +240,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the active.
-     * 
+     *
      * @return the the active
      */
     public Boolean getActive() {
@@ -249,7 +249,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the active.
-     * 
+     *
      * @param active
      *        the active to set
      */
@@ -259,7 +259,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the user.
-     * 
+     *
      * @return the the user
      */
     public User getUser() {
@@ -268,7 +268,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the user ID.
-     * 
+     *
      * @return the user ID
      */
     public String getId() {
@@ -277,7 +277,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the user ID.
-     * 
+     *
      * @param id
      *        the user ID to set
      */
@@ -287,7 +287,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the user.
-     * 
+     *
      * @param user
      *        the {@link User} to set.
      */
@@ -297,7 +297,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns the name object.
-     * 
+     *
      * @return the name object
      */
 
@@ -307,7 +307,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the name object.
-     * 
+     *
      * @param name
      *        the name object to set
      */
@@ -325,7 +325,7 @@ public class UpdateUserCommand {
 
     /**
      * Returns a SCIM {@link UpdateUser} based on this command.
-     * 
+     *
      * @return the requested {@link UpdateUser}
      */
     public UpdateUser getAsUpdateUser() {
@@ -348,7 +348,7 @@ public class UpdateUserCommand {
     }
 
     public User getAsUser(){
-        User.Builder builder = new User.Builder(getUser());
+        User.Builder builder = new User.Builder(getUserName());
 
         builder.setName(getName().getAsName());
         builder.setTitle(getTitle());
