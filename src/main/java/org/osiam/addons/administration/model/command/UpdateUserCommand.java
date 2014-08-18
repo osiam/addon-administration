@@ -22,7 +22,7 @@ import org.osiam.resources.scim.X509Certificate;
 /**
  * Command object for the user update view.
  */
-public class UpdateUserCommand {    
+public class UpdateUserCommand {
     private User user;
 
     private String id;
@@ -351,7 +351,7 @@ public class UpdateUserCommand {
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     public List<EmailCommand> getEmails() {
         return emails;
     }
@@ -359,19 +359,19 @@ public class UpdateUserCommand {
     public void setEmails(List<EmailCommand> emails) {
         this.emails = emails;
     }
-    
+
     public List<PhonenumberCommand> getPhoneNumbers() {
         return phoneNumbers;
     }
-    
+
     public void setPhoneNumbers(List<PhonenumberCommand> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
-    
+
     public void setIms(List<ImCommand> ims) {
         this.ims = ims;
     }
-    
+
     public List<ImCommand> getIms() {
         return ims;
     }
