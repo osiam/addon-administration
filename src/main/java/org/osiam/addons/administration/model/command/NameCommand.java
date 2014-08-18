@@ -2,7 +2,6 @@ package org.osiam.addons.administration.model.command;
 
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.osiam.resources.scim.Name;
 
 public class NameCommand {

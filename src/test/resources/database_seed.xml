@@ -135,31 +135,31 @@
 
     <scim_user
             password="42db3b474c2a54f6b1c3c352e4436274de6b0239432c9a6c2d51c62e54b28ad1e3ecbb306f7748890934e3dae4292e339189c8bb7af55f68de9855ca455f19e4"
-            displayname="BarbaraJ." locale="de" nickname="Barbara" preferredlanguage="de"
+            displayname="BarbaraJ." locale="de_DE" nickname="Barbara" preferredlanguage="de"
             profileurl="http://babaraJ.com" timezone="UTC" title="Dr."
             username="bjensen" usertype="user" internal_id="100046" name_id="100048" active="false"/>
-    <scim_user displayname="BeccyT." locale="de" nickname="Beccy"
+    <scim_user displayname="BeccyT." locale="de_DE" nickname="Beccy"
                password="908661cbdcd4795f95926b57e9979a80969f7ef55cec4c3dcfccabcae55d32f2a1eae227a91fd41df1462c2bb7b60c136beb75666d7bb60ff859ff886788a349"
                title="Dr." username="jcambell" internal_id="100005" name_id="100007" active="false"/>
-    <scim_user displayname="AdelineD." locale="de" nickname="Adeline"
+    <scim_user displayname="AdelineD." locale="de_DE" nickname="Adeline"
                password="de80fa5f5b167a83e57d0f388f1f1964b8c3b991347eb71d7d74ed8823e88d592b19762ca78b58982aa85bb28a3b4596a97346daeabfcf2913bdc400e9af4b67"
                title="Prof." username="adavies" internal_id="100009" name_id="100011" active="false"/>
     <scim_user displayname="CarolinaM." locale="de" nickname="Carolina"
                password="1fb68a8abc646ade5a1b75317269ff097374da7b39663adc5930bd92b21d8fce409eabc31ab60450c13046a533c4a7632c26fe75c72f12f4aa798aa034980ed1"
                username="cmiller" internal_id="100013" name_id="100015" active="false"/>
-    <scim_user displayname="DanielC." locale="de" nickname="Daniel"
+    <scim_user displayname="DanielC." locale="de_DE" nickname="Daniel"
                password="5adcf124d1edbad344f8bf4cac60d63dd3c071b58a2514a1a4b96837da370de4cd962d7275a6903b5c2c4a82712dc3b0c43a9f99c4a29631708af1352a86a0bf"
                title="" username="dcooper" internal_id="100021" name_id="100023" active="false"/>
-    <scim_user displayname="EmilP." locale="de" nickname="Emil"
+    <scim_user displayname="EmilP." locale="de_DE" nickname="Emil"
                password="bff691b597ddc20e9368e6a887d6f7575968c17e164da805c07e3c59df467cde7cb4db9d2bbaaee644950c3eeab8e7c246e65f655cb0c05b93fc5d17a8ae01c8"
                title="" username="epalmer" internal_id="100025" name_id="100027" active="false"/>
-    <scim_user displayname="GreggB." locale="de" nickname="Gregg"
+    <scim_user displayname="GreggB." locale="de_DE" nickname="Gregg"
                password="bd8e5a6e09890f7dc8328a1264f947d2756b376f6d93d920cbe506621f9d2a5332557248e5fc2e0463a2f87e9921d29f0421178654df3165c9a811cac01a0681"
                title="" username="gparker" internal_id="100029" name_id="100031" active="false"/>
-    <scim_user displayname="HomerS." locale="us" nickname="Homer"
+    <scim_user displayname="HomerS." locale="us_US" nickname="Homer"
                password="b14df56c6c14c33162ea39d97f3cc060314163f979a319111e3a4e32233ae3c842d507dbd61e8f745683b9868987f9c3b3baa3778332a3c12d92099a2e30737e"
                title="King" username="hsimpson" internal_id="100033" name_id="100035" active="true"/>
-    <scim_user displayname="KennyM." locale="de" nickname="Kenny"
+    <scim_user displayname="KennyM." locale="de_DE" nickname="Kenny"
                password="7b41aceb545dd17af963140cc34147e78e9f57776b6175a31d4206cfa8010aa412706b36ff2a3ff857d41040c45cf4134cf0d315eff4612bb1004c56a5527126"
                title="Dr." username="kmorris" internal_id="100042" name_id="100044" active="false"/>
     <scim_user

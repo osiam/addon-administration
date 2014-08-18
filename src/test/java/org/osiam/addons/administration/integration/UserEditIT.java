@@ -1,13 +1,11 @@
 package org.osiam.addons.administration.integration;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.osiam.addons.administration.Element.UserEdit;
-import org.osiam.addons.administration.Element.UserList;
 import org.osiam.addons.administration.selenium.Field;
 
 public class UserEditIT extends Integrationtest {
@@ -19,10 +17,7 @@ public class UserEditIT extends Integrationtest {
         browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
 
-    private static final String TEST_USER_NAME = "adavies";
-    private static final String TEST_USER_FIRST_NAME = "Adeline";
-    private static final String TEST_USER_LAST_NAME = "Davies";
-    private static final String TEST_USER_MAIL = "adavies@example.com";
+    private static String TEST_USER_NAME = "adavies";
 
     @Test
     public void saveChangesDialog() {
@@ -30,39 +25,39 @@ public class UserEditIT extends Integrationtest {
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_CLOSE).click();
 
-        assertTrue(browser.getCurrentUrl().contains("/user/edit?id=")); 
+        assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_ABORT).click();
 
-        assertTrue(browser.getCurrentUrl().contains("/user/edit?id=")); 
+        assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_SUCCESS).click();
 
-        assertTrue(browser.getCurrentUrl().contains("/user/list")); 
+        assertTrue(browser.getCurrentUrl().contains("/user/list"));
     }
 
     @Test
     public void cancelEditDialog() {
         editTestUser();
-        
+
         browser.findElement(UserEdit.CANCEL_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_ABORT).click();
 
-        assertTrue(browser.getCurrentUrl().contains("/user/edit?id=")); 
+        assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
         browser.findElement(UserEdit.CANCEL_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_SUCCESS).click();
 
-        assertTrue(browser.getCurrentUrl().contains("/user/list")); 
+        assertTrue(browser.getCurrentUrl().contains("/user/list"));
     }
 
     @Test
     public void editUser() {
         editTestUser();
 
-        final boolean newActive = false;
+        final boolean newActive = true;
 
         final String newLastName = "Test456";
         final String newFormattedName = "Test 23 336";
@@ -76,11 +71,11 @@ public class UserEditIT extends Integrationtest {
 
         final String newPreferredLanguage = "RU";
         final String newLocale = "ru_RU";
-        final String newProfileURL = "www.gibtsnicht.ehnicht111222.de";
+        final String newProfileURL = "http://www.gibtsnicht.ehnicht111222.de";
         final String newTimezone = "ru/RussischeStadt";
         final String newUserName = "MeterPeterMolaCola";
 
-        browser.fill(new Field(UserEdit.ACTIVE, newActive));
+        browser.findElement(UserEdit.ACTIVE).click();
         browser.fill(new Field(UserEdit.LASTNAME, newLastName));
         browser.fill(new Field(UserEdit.FORMATTEDNAME, newFormattedName));
         browser.fill(new Field(UserEdit.GIVENNAME, newGivenName));
@@ -96,6 +91,8 @@ public class UserEditIT extends Integrationtest {
         browser.fill(new Field(UserEdit.PROFILEURL, newProfileURL));
         browser.fill(new Field(UserEdit.TIMEZONE, newTimezone));
         browser.fill(new Field(UserEdit.USERNAME, newUserName));
+
+        TEST_USER_NAME = newUserName;
 
         browser.click(UserEdit.SUBMIT_BUTTON);
         browser.click(UserEdit.DIALOG_SUCCESS);
