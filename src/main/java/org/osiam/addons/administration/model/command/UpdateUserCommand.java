@@ -34,16 +34,16 @@ public class UpdateUserCommand {
     @NotNull
     private String nickName;
     @NotNull
-    @Pattern(regexp = "$^|^[a-zA-Z]{2}$")
+    @Pattern(regexp = "^$|^[a-zA-Z]{2}$")
     private String preferredLanguage;
     @NotNull
-    @Pattern(regexp = "$^|^[a-z]{2}_[A-Z]{2}$")
+    @Pattern(regexp = "^$|^[a-z]{2}_[A-Z]{2}$")
     private String locale;
     @NotNull
     @URL
     private String profileURL;
     @NotNull
-    @Pattern(regexp = "$^|.*\\/.*")
+    @Pattern(regexp = "^$|.*\\/.*")
     private String timezone;
     @NotNull
     @NotBlank
@@ -342,7 +342,7 @@ public class UpdateUserCommand {
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     public List<EmailCommand> getEmails() {
         return emails;
     }
@@ -350,11 +350,11 @@ public class UpdateUserCommand {
     public void setEmails(List<EmailCommand> emails) {
         this.emails = emails;
     }
-    
+
     public List<PhonenumberCommand> getPhoneNumbers() {
         return phoneNumbers;
     }
-    
+
     public void setPhoneNumbers(List<PhonenumberCommand> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
