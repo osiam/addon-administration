@@ -1,7 +1,6 @@
 package org.osiam.addons.administration.controller.user;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
@@ -74,8 +73,10 @@ public class EditUserController extends GenericController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String handleUserUpdate(
-            @Valid @ModelAttribute(MODEL) UpdateUserCommand command,
+            @ModelAttribute(MODEL) UpdateUserCommand command,
             BindingResult bindingResult) {
+
+        validateCommand(command, bindingResult);
 
         final RedirectBuilder redirect = new RedirectBuilder()
                                             .setPath(CONTROLLER_PATH)
