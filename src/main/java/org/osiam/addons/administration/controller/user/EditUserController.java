@@ -72,17 +72,19 @@ public class EditUserController extends GenericController {
     public String handleUserUpdate(
             @Valid @ModelAttribute(MODEL) UpdateUserCommand command,
             BindingResult bindingResult) {
-        
+
         final RedirectBuilder redirect = new RedirectBuilder()
                                             .setPath(CONTROLLER_PATH)
                                             .addParameter(REQUEST_PARAMETER_ID, command.getId());
-        
+
         try {
             if(!bindingResult.hasErrors()){
                 User user = userService.getUser(command.getId());
                 command.setUser(user);
-    
+
                 userService.replaceUser(command.getId(), command.getAsUser());
+
+                redirect.addParameter("saveSuccess", true);
                 redirect.setPath("list");
                 return redirect.build();
             }
