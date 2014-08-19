@@ -27,7 +27,7 @@
 	<div class="topbar">
 		<div class="container">
 			<span class="pull-right">Logout <span class="glyphicon glyphicon-remove"></span></span>
-		</div>		
+		</div>
 	</div>
 
 	<div id="dialog-message-container" style="display:none;">
@@ -37,7 +37,7 @@
 		<input id="dialog-updateUser-message" type="hidden" th:value="#{msg.user.dialog.updateUser.message}" />
 		<input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.user.dialog.cancelUpdate.message}" />
 	</div>
-	
+
     <form method="POST" action="">
         <div class="">
 
@@ -51,6 +51,36 @@
                 <fieldset th:object="${model}">
                     <!-- CSRF token -->
                     <th:block th:replace="makros :: csrf" />
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="created" th:text="#{edit_user.meta.created}">Created</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.created}" id="created" th:field="*{meta.created}" readonly="readonly"/>
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="lastModified" th:text="#{edit_user.meta.lastModified}">Last modified</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.lastModified}" id="lastModified" th:field="*{meta.lastModified}" readonly="readonly"/>
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="location" th:text="#{edit_user.meta.location}">Location</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.location}" id="location" th:field="*{meta.location}" readonly="readonly"/>
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="resourceType" th:text="#{edit_user.meta.resourceType}">Resource type</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.resourceType}" id="resourceType" th:field="*{meta.resourceType}" readonly="readonly"/>
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="version" th:text="#{edit_user.meta.version}">Version</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.version}" id="version" th:field="*{meta.version}" readonly="readonly"/>
+                    </div>
+
+                    <div class="col-sm-4 form-group" >
+                        <label for="userID" th:text="#{edit_user.id}">Version</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.id}" id="userID" th:field="*{id}" readonly="readonly"/>
+                    </div>
 
                     <div class="col-sm-4 form-group" >
                         <label for="active" th:text="#{edit_user.active}">Is active</label>
@@ -105,7 +135,7 @@
                         <input class="form-control" type="text" th:placeholder="#{edit_user.nickName}" id="nickName" th:field="*{nickName}" />
                         <span th:if="${#fields.hasErrors('*{nickName}')}" th:errors="*{nickName}" class="text-danger" >Nickname Error</span>
                     </div>
-                    
+
                     <div class="col-sm-4 form-group" >
 	                    <label for="userTitle" th:text="#{edit_user.userTitle}">Titel</label>
 	                    <input class="form-control" type="text" th:placeholder="#{edit_user.userTitle}" id="userTitle" th:field="*{title}" />
@@ -141,32 +171,6 @@
                         <input class="form-control" type="text" th:placeholder="#{edit_user.userName}" id="userName" th:field="*{userName}" />
                         <span th:if="${#fields.hasErrors('*{userName}')}" th:errors="*{userName}" class="text-danger" >Username Error</span>
                     </div>
-
-                    <div class="col-sm-4 form-group" >
-                        <label for="created" th:text="#{edit_user.meta.created}">Created</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.created}" id="created" th:field="*{meta.created}" readonly="readonly"/>
-                    </div>
-
-                    <div class="col-sm-4 form-group" >
-                        <label for="lastModified" th:text="#{edit_user.meta.lastModified}">Last modified</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.lastModified}" id="lastModified" th:field="*{meta.lastModified}" readonly="readonly"/>
-                    </div>
-
-                    <div class="col-sm-4 form-group" >
-                        <label for="location" th:text="#{edit_user.meta.location}">Location</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.location}" id="location" th:field="*{meta.location}" readonly="readonly"/>
-                    </div>
-
-                    <div class="col-sm-4 form-group" >
-                        <label for="resourceType" th:text="#{edit_user.meta.resourceType}">Resource type</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.resourceType}" id="resourceType" th:field="*{meta.resourceType}" readonly="readonly"/>
-                    </div>
-
-                    <div class="col-sm-4 form-group" >
-                        <label for="version" th:text="#{edit_user.meta.version}">Version</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.version}" id="version" th:field="*{meta.version}" readonly="readonly"/>
-                    </div>
-
                 </fieldset>
             </div>
             <div class="row">
@@ -179,6 +183,6 @@
             </div>
         </div>
     </form>
-</div>    
+</div>
 </body>
 </html>
