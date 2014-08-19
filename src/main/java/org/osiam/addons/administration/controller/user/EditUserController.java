@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
-import org.osiam.addons.administration.model.command.EmailCommand;
 import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.ExtensionsService;
 import org.osiam.addons.administration.service.UserService;
