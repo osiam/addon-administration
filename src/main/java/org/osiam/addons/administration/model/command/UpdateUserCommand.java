@@ -528,6 +528,16 @@ public class UpdateUserCommand {
                 builder.addEntitlement(entitlement.getAsEntitlement());
             }
         }
+        for(Entry<String, Map<String, String>> extension : getExtensions().entrySet()){
+            final String urn = extension.getKey();
+            Extension.Builder extensionBuilder = new Extension.Builder(urn);
+
+            for(Entry<String, String> field : extension.getValue().entrySet()){
+                extensionBuilder.setField(field.getKey(), field.getValue());
+            }
+
+            builder.addExtension(extensionBuilder.build());
+        }
 
         return builder.build();
     }
