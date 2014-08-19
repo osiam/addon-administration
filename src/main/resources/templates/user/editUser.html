@@ -14,29 +14,29 @@
 
 <header id="header" class="">
   <div class="container">
-  		<h1>Administration</h1>
-  		<div id="logo">
-  			<img src="../../img/osiam_logo.png" alt="OSIAM Logo" width="150px" />
-  		</div>
+          <h1>Administration</h1>
+          <div id="logo">
+              <img src="../../img/osiam_logo.png" alt="OSIAM Logo" width="150px" />
+          </div>
   </div>
 </header>
 
 <div class="topbar"></div>
 
 <div class="container shadow" id="content">
-	<div class="topbar">
-		<div class="container">
-			<span class="pull-right">Logout <span class="glyphicon glyphicon-remove"></span></span>
-		</div>
-	</div>
+    <div class="topbar">
+        <div class="container">
+            <span class="pull-right">Logout <span class="glyphicon glyphicon-remove"></span></span>
+        </div>
+    </div>
 
-	<div id="dialog-message-container" style="display:none;">
-		<input id="dialog-title" type="hidden" th:value="#{msg.user.dialog.title}" />
-		<input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}" />
-		<input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}" />
-		<input id="dialog-updateUser-message" type="hidden" th:value="#{msg.user.dialog.updateUser.message}" />
-		<input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.user.dialog.cancelUpdate.message}" />
-	</div>
+    <div id="dialog-message-container" style="display:none;">
+        <input id="dialog-title" type="hidden" th:value="#{msg.user.dialog.title}" />
+        <input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}" />
+        <input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}" />
+        <input id="dialog-updateUser-message" type="hidden" th:value="#{msg.user.dialog.updateUser.message}" />
+        <input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.user.dialog.cancelUpdate.message}" />
+    </div>
 
     <form method="POST" action="">
         <div class="">
@@ -54,32 +54,32 @@
 
                     <div class="col-sm-4 form-group" >
                         <label for="created" th:text="#{edit_user.meta.created}">Created</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.created}" id="created" th:field="*{meta.created}" readonly="readonly"/>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.created}" id="created" th:value="*{meta.created}" readonly="readonly"/>
                     </div>
 
                     <div class="col-sm-4 form-group" >
                         <label for="lastModified" th:text="#{edit_user.meta.lastModified}">Last modified</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.lastModified}" id="lastModified" th:field="*{meta.lastModified}" readonly="readonly"/>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.lastModified}" id="lastModified" th:value="*{meta.lastModified}" readonly="readonly"/>
                     </div>
 
                     <div class="col-sm-4 form-group" >
                         <label for="location" th:text="#{edit_user.meta.location}">Location</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.location}" id="location" th:field="*{meta.location}" readonly="readonly"/>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.location}" id="location" th:value="*{meta.location}" readonly="readonly"/>
                     </div>
 
                     <div class="col-sm-4 form-group" >
                         <label for="resourceType" th:text="#{edit_user.meta.resourceType}">Resource type</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.resourceType}" id="resourceType" th:field="*{meta.resourceType}" readonly="readonly"/>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.resourceType}" id="resourceType" th:value="*{meta.resourceType}" readonly="readonly"/>
                     </div>
 
                     <div class="col-sm-4 form-group" >
                         <label for="version" th:text="#{edit_user.meta.version}">Version</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.version}" id="version" th:field="*{meta.version}" readonly="readonly"/>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.meta.version}" id="version" th:value="*{meta.version}" readonly="readonly"/>
                     </div>
 
                     <div class="col-sm-4 form-group" >
                         <label for="userID" th:text="#{edit_user.id}">Version</label>
-                        <input class="form-control" type="text" th:placeholder="#{edit_user.id}" id="userID" th:field="*{id}" readonly="readonly"/>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.id}" id="userID" th:value="*{id}" readonly="readonly"/>
                     </div>
 
                     <div class="col-sm-4 form-group" >
@@ -137,10 +137,10 @@
                     </div>
 
                     <div class="col-sm-4 form-group" >
-	                    <label for="userTitle" th:text="#{edit_user.userTitle}">Titel</label>
-	                    <input class="form-control" type="text" th:placeholder="#{edit_user.userTitle}" id="userTitle" th:field="*{title}" />
-	                    <span th:if="${#fields.hasErrors('*{title}')}" th:errors="*{title}" class="text-danger" >Title Error</span>
-                	</div>
+                        <label for="userTitle" th:text="#{edit_user.userTitle}">Titel</label>
+                        <input class="form-control" type="text" th:placeholder="#{edit_user.userTitle}" id="userTitle" th:field="*{title}" />
+                        <span th:if="${#fields.hasErrors('*{title}')}" th:errors="*{title}" class="text-danger" >Title Error</span>
+                    </div>
 
                     <div class="col-sm-4 form-group" >
                         <label for="preferredLanguage" th:text="#{edit_user.preferredLanguage}">Preferred language</label>
