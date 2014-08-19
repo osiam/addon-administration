@@ -175,26 +175,6 @@
 			</div>
 			<button th:id="${'button-remove-addresses-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.addresses}">Remove Address</button>
 		</div>
-		<div id="phoneNumber-template">
-			<div class="col-sm-4 form-group">
-		        <label for="phoneNumber-__ID__-display" th:text="#{edit_user.phoneNumber.display}">Display</label>
-		        <input class="form-control" type="text" id="phoneNumber-__ID__-display" th:placeholder="#{edit_user.phoneNumber.display}" name="phoneNumbers[__ID__].display"/>
-		    </div>
-		    <div class="col-sm-4 form-group">
-		        <label for="phoneNumber-__ID__-value" th:text="#{edit_user.phoneNumber.value}">Value</label>
-		        <input class="form-control required" type="tel" required="required" th:id="phoneNumber-__ID__-value" th:placeholder="#{edit_user.phoneNumber.value}" name="phoneNumbers[__ID__].value" />
-		    </div>
-		    <div class="col-sm-4 form-group">
-		        <label for="phoneNumber-__ID__-primary" th:text="#{edit_user.phoneNumber.primary}">Primary</label>
-		        <input class="form-control" type="checkbox" th:id="phoneNumber-__ID__-primary" name="phoneNumbers[__ID__].primary" value="false" />
-		    </div>
-		    <div class="col-sm-4 form-group">
-		        <label for="phoneNumber-__ID__-type" th:text="#{edit_user.phoneNumber.type}">Type</label>
-		        <input class="form-control required" type="text" th:id="phoneNumber-__ID__-type" th:placeholder="#{edit_user.phoneNumber.type}" name="phoneNumbers[__ID__].type" />
-		        <input type="hidden" value="on" name="_phoneNumbers[__ID__].primary" />
-		    </div>
-		    <button th:id="${'button-remove-phoneNumber-__ID__'}" class="btn btn-md btn-primary" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove phoneNumber</button>
-		</div>
 	</div>
 
 	<form method="POST" action="" th:object="${model}">
@@ -544,6 +524,29 @@
 			<!--/*
 				END address-BLOCK
 			*/-->
+            <!--/*
+                START extension-BLOCK
+            */-->
+            <div>
+                <div th:each="extensionEntry : ${model.user.extensions}" th:with="extension = ${extensionEntry.value}">
+                    <span th:text="${extension.urn}">Extension-URN</span>
+                    <span th:each="fieldEntry : ${extension.fields}" th:class="(${#fields.hasErrors('*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}')}? ' bg-danger' : '')">
+                        <label th:text="${fieldEntry.key}" th:for="${fieldEntry.key}">Extension-Key</label>
+                        <th:block th:switch="${fieldEntry.value.type.name}">
+                            <input th:case="'INTEGER'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="number"/>
+                            <input th:case="'DECIMAL'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="number"/>
+                            <input th:case="'BOOLEAN'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="checkbox" th:value="${fieldEntry.value.value}" />
+                            <input th:case="'DATE_TIME'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="datetime" />
+                            <input th:case="'REFERENCE'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="url" />
+                            <input th:case="*" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="text" />
+                        </th:block>
+                        <span th:if="${#fields.hasErrors('*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}')}" th:errors="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" >Type Error</span>
+                    </span>
+                </div>
+            </div>
+            <!--/*
+                END extension-BLOCK
+            */-->
 			<div class="row">
 				<div class="col-sm-2 col-sm-offset-10 text-right">
 					<button class="btn btn-md btn-primary" type="submit" id="btnSaveChanges" th:text="#{edit_user.update}">Save</button>

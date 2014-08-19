@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
-import org.osiam.addons.administration.model.command.EmailCommand;
 import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
@@ -39,9 +38,6 @@ public class EditUserController extends GenericController {
 
     @Inject
     private UserService userService;
-
-    @Inject
-    private Validator validator;
 
     @Inject
     private Validator validator;

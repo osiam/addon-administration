@@ -376,22 +376,6 @@ public class UpdateUserCommand {
         this.phoneNumbers = phoneNumbers;
     }
 
-    public List<EmailCommand> getEmails() {
-        return emails;
-    }
-
-    public void setEmails(List<EmailCommand> emails) {
-        this.emails = emails;
-    }
-
-    public List<PhoneNumberCommand> getPhoneNumbers() {
-        return phoneNumbers;
-    }
-
-    public void setPhoneNumbers(List<PhoneNumberCommand> phoneNumbers) {
-        this.phoneNumbers = phoneNumbers;
-    }
-
     public void setIms(List<ImCommand> ims) {
         this.ims = ims;
     }
