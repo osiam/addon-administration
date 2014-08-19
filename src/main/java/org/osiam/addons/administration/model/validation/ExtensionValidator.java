@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.osiam.resources.scim.Extension;
 import org.osiam.resources.scim.Extension.Field;
+import org.osiam.resources.scim.ExtensionFieldType;
 import org.springframework.validation.BindingResult;
 
 /**
@@ -31,9 +32,18 @@ public class ExtensionValidator {
         try{
             field.getType().fromString(fieldValue);
         }catch(Exception e){
-            String fieldPath = getFieldPath(urn, fieldKey);
-            bindingResult.rejectValue(fieldPath, e.getMessage());
+            final String fieldPath = getFieldPath(urn, fieldKey);
+            final String message = getMessage(field.getType(), e);
+            final Object[] errorArgs = new Object[]{
+                    urn, fieldKey, fieldValue
+            };
+
+            bindingResult.rejectValue(fieldPath, message, errorArgs, message);
         }
+    }
+
+    private String getMessage(ExtensionFieldType<?> type, Exception e) {
+        return "msg.validation.error.extension." + type.getName().toLowerCase();
     }
 
     private String getFieldPath(String urn, String fieldKey) {
