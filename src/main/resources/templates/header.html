@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:fragment="header">
+
+<header id="header" class="">
+<div class="container">
+        <h1>Administration</h1>
+        <div id="logo">
+            <img src="../../img/osiam_logo.png" th:src="@{/img/osiam_logo.png}" alt="OSIAM Logo" width="150px" />
+        </div>
+        <h2>
+            <a href="user/list.html" th:href="@{/admin/user/list}">User List</a>
+            |
+            <a href="group/list.html" th:href="@{/admin/group/list}">Group List</a>
+        </h2>
+    </div>
+</header>
+
+<div class="topbar"></div>
+
+</html>
