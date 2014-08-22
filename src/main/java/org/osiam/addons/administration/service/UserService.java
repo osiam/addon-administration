@@ -108,7 +108,7 @@ public class UserService {
     }
 
     /**
-     * Replace a user based on the given {@link User}.
+     * Replace a user based on the given {@link User} and revoke his access token.
      *
      * @param id
      *        the user ID

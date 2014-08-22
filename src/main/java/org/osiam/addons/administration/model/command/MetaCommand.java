@@ -6,8 +6,6 @@ import org.osiam.resources.scim.Meta;
 
 public class MetaCommand {
 
-    private Meta meta;
-
     private Date created;
     private Date lastModified;
     private String location;
@@ -15,7 +13,6 @@ public class MetaCommand {
     private String version;
 
     public MetaCommand(Meta meta) {
-        this.meta = meta;
         this.setCreated(meta.getCreated());
         this.setLastModified(meta.getLastModified());
         this.setLocation(meta.getLocation());

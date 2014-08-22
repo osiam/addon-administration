@@ -10,14 +10,13 @@ import org.springframework.web.servlet.ModelAndView;
  * Generic controller with common functionality.
  */
 public abstract class GenericController {
-    private static final String SPRING_BR_PREFIX = BindingResult.MODEL_KEY_PREFIX;
-    
+
     @Inject
     private HttpSession session;
 
     /**
      * Store an object into the session.
-     * 
+     *
      * @param key Under which key should this object stored.
      * @param toStore Object that should be stored.
      */
@@ -27,7 +26,7 @@ public abstract class GenericController {
 
     /**
      * Get the object from the session.
-     * 
+     *
      * @param key The key under which the object will be found.
      * @return The object if one was found under the given key. Otherwise <b>null</b>.
      */
@@ -37,13 +36,13 @@ public abstract class GenericController {
 
     /**
      * Remove the object from the session.
-     * 
+     *
      * @param key The key under which the object will be found.
      */
     public void removeFromSession(String key){
         session.removeAttribute(generateKey(key));
     }
-    
+
     protected void storeBindingResultIntoSession(BindingResult result, String modelName) {
         storeInSession(generateKey(modelName), result);
     }
@@ -51,9 +50,9 @@ public abstract class GenericController {
     protected Object restoreBindingResultFromSession(String modelName) {
         return restoreFromSession(generateKey(modelName));
     }
-    
-    protected void restoreBindingResultFromSession(String modelName, ModelAndView model){
-        model.addObject(SPRING_BR_PREFIX + modelName, restoreBindingResultFromSession(modelName));
+
+    protected void enrichBindingResultFromSession(String modelName, ModelAndView model){
+        model.addObject(BindingResult.MODEL_KEY_PREFIX + modelName, restoreBindingResultFromSession(modelName));
     }
 
     protected void removeBindingResultFromSession(String modelName) {

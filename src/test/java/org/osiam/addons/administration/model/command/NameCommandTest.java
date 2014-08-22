@@ -8,22 +8,22 @@ import static org.junit.Assert.assertEquals;
 public class NameCommandTest {
 
     private Name name;
-    private String familyname = "Molonate";
-    private String formatted = "Halona Molonate";
-    private String givenname = "Halonate";
-    private String honorificprefix = "Dr.";
-    private String honorificsuffix = "Dr. Dr.";
-    private String middlename = "Disalone";
+    private static final String FAMILY_NAME = "Molonate";
+    private static final String FORMATTED = "Halona Molonate";
+    private static final String GIVEN_NAME = "Halonate";
+    private static final String HONORIFIC_PREFIX = "Dr.";
+    private static final String HONORIFIC_SUFFIX = "Dr. Dr.";
+    private static final String MIDDLENAME = "Disalone";
 
     @Before
     public void setUp() {
         this.name = new Name.Builder()
-                .setFamilyName(this.familyname)
-                .setFormatted(this.formatted)
-                .setGivenName(this.givenname)
-                .setHonorificPrefix(this.honorificprefix)
-                .setHonorificSuffix(this.honorificsuffix)
-                .setMiddleName(this.middlename)
+                .setFamilyName(FAMILY_NAME)
+                .setFormatted(FORMATTED)
+                .setGivenName(GIVEN_NAME)
+                .setHonorificPrefix(HONORIFIC_PREFIX)
+                .setHonorificSuffix(HONORIFIC_SUFFIX)
+                .setMiddleName(MIDDLENAME)
                 .build();
     }
 
@@ -31,33 +31,33 @@ public class NameCommandTest {
     public void constructor() {
         NameCommand command = new NameCommand(this.name);
 
-        assertEquals(this.familyname, command.getFamilyname());
-        assertEquals(this.formatted, command.getFormatted());
-        assertEquals(this.givenname, command.getGivenname());
-        assertEquals(this.honorificprefix, command.getHonorificprefix());
-        assertEquals(this.honorificsuffix, command.getHonorificsuffix());
-        assertEquals(this.middlename, command.getMiddlename());
+        assertEquals(FAMILY_NAME, command.getFamilyname());
+        assertEquals(FORMATTED, command.getFormatted());
+        assertEquals(GIVEN_NAME, command.getGivenname());
+        assertEquals(HONORIFIC_PREFIX, command.getHonorificprefix());
+        assertEquals(HONORIFIC_SUFFIX, command.getHonorificsuffix());
+        assertEquals(MIDDLENAME, command.getMiddlename());
     }
 
     @Test
     public void asUpdateUser() {
         NameCommand command = new NameCommand();
 
-        String familyname = "Silamina";
+        String familyName = "Silamina";
         String formatted = "tarentius Silamina";
         String givenname = "tarentius";
         String honorificprefix = "Prof.";
         String honorificsuffix = "Prof. Dr.";
         String middlename = "osiamone";
 
-        command.setFamilyname(familyname);
+        command.setFamilyname(familyName);
         command.setFormatted(formatted);
         command.setGivenname(givenname);
         command.setHonorificprefix(honorificprefix);
         command.setHonorificsuffix(honorificsuffix);
         command.setMiddlename(middlename);
 
-        assertEquals(familyname, command.getFamilyname());
+        assertEquals(familyName, command.getFamilyname());
         assertEquals(formatted, command.getFormatted());
         assertEquals(givenname, command.getGivenname());
         assertEquals(honorificprefix, command.getHonorificprefix());

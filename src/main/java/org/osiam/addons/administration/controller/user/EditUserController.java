@@ -63,7 +63,7 @@ public class EditUserController extends GenericController {
         ModelAndView modelAndView = new ModelAndView("user/editUser");
 
         modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
-        restoreBindingResultFromSession(MODEL, modelAndView);
+        enrichBindingResultFromSession(MODEL, modelAndView);
 
         return modelAndView;
     }
