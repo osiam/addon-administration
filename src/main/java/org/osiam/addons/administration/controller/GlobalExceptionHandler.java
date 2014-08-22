@@ -47,7 +47,7 @@ public class GlobalExceptionHandler implements AccessDeniedHandler {
     public ModelAndView handleUncaught(Exception e) {
         LOG.error("Uncaught exception was thrown.", e);
 
-        ModelAndView mav = new ModelAndView("error");
+        ModelAndView mav = new ModelAndView("adminError");
 
         mav.addObject("exception", e);
         mav.addObject("stacktrace", getStackTrace(e));

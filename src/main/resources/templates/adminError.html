@@ -4,11 +4,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
-        <h1>${error_page.message}</h1>
-        <p>${error_page.support}</p>
-        <label for="url">${error_page.url.failed}</label>
-        <span id="url" th:text="${request.requestURL}">URL</span>
-        <br />
         <label for="exception-message">Exception:</label>
         <span id="exception-message" th:text="${exception.message}"></span>
         <br />
