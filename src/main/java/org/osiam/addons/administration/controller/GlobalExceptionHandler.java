@@ -43,8 +43,8 @@ public class GlobalExceptionHandler implements AccessDeniedHandler {
         response.sendRedirect(LoginController.CONTROLLER_PATH);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleUncaught(Exception e) {
+    @ExceptionHandler(value = {Exception.class, RuntimeException.class})
+    public ModelAndView handleUncaught(HttpServletRequest request, Exception e) {
         LOG.error("Uncaught exception was thrown.", e);
 
         ModelAndView mav = new ModelAndView("adminError");

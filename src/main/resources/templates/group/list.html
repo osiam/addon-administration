@@ -6,6 +6,7 @@
     <script type="text/javascript" src="../../js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}" ></script>
     <script type="text/javascript" src="../../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" ></script>
     <script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}" ></script>
+    <script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}" ></script>
 
     <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" type="text/css" href="../../css/Style.css" th:href="@{/css/Style.css}"/>
@@ -20,6 +21,16 @@
         <div class="container">
             <span class="pull-right">Logout <span class="glyphicon glyphicon-remove"></span></span>
         </div>
+    </div>
+
+    <div id="dialog-message-container" style="display:none;">
+        <div id="dialog-delete-message">
+            <p th:text="#{msg.group.dialog.delete.message}" />
+        </div>
+
+        <input id="dialog-title" type="hidden" th:value="#{msg.group.dialog.title}" />
+        <input id="dialog-success" type="hidden" th:value="#{msg.group.dialog.success}" />
+        <input id="dialog-abort" type="hidden" th:value="#{msg.group.dialog.abort}" />
     </div>
 
     <table class="table table-hover table-striped table-bordered table-condensed">
@@ -72,6 +83,14 @@
                                     <a th:href="@{edit(id = ${group.id})}">
                                         <button th:id="${'action-button-edit-' + groupStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
                                     </a>
+                                </li>
+								<li>
+                                    <form action="" method="GET">
+                                        <input type="hidden" name="action" value="delete" />
+                                        <input type="hidden" name="id" th:value="${group.id}" />
+
+                                        <button th:id="${'action-button-delete-group-' + groupStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
+                                    </form>
                                 </li>
                             </ul>
                         </li>

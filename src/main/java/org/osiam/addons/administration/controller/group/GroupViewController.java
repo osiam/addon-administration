@@ -36,7 +36,7 @@ public class GroupViewController {
     public static final String REQUEST_PARAMETER_ORDER_BY = "orderBy";
     public static final String REQUEST_PARAMETER_ASCENDING = "asc";
     public static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
-    public static final String REQUEST_PARAMETER_USER_ID = "id";
+    public static final String REQUEST_PARAMETER_GROUP_ID = "id";
 
     public static final String MODEL_USER_LIST = "grouplist";
     public static final String MODEL_SESSION_DATA = "sessionData";
@@ -181,6 +181,22 @@ public class GroupViewController {
                 .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
                 .addParameter(REQUEST_PARAMETER_LIMIT, limit)
                 .addParameter(REQUEST_PARAMETER_OFFSET, null)
+                .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
+                .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+                .build();
+    }
+
+    @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=delete")
+    public String handleDeleteAction(
+            @RequestParam(value = REQUEST_PARAMETER_GROUP_ID) final String id) {
+
+        groupService.deleteGroup(id);
+
+        return new RedirectBuilder()
+                .setPath(CONTROLLER_PATH)
+                .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
+                .addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
+                .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
                 .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
                 .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
                 .build();
