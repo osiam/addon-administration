@@ -87,7 +87,18 @@ public interface Element {
 
         DIALOG_SUCCESS(By.xpath("//div[contains(@class, 'modal-dialog')]//button[contains(@class, 'btn-success')]")),
         DIALOG_ABORT(  By.xpath("//div[contains(@class, 'modal-dialog')]//button[contains(@class, 'btn-danger')]")),
-        DIALOG_CLOSE(  By.xpath("//div[contains(@class, 'modal-dialog')]//button[contains(@class, 'close')]"));
+        DIALOG_CLOSE(  By.xpath("//div[contains(@class, 'modal-dialog')]//button[contains(@class, 'close')]")),
+
+        FIRST_EMAIL_DISPLAY(By.id("email-0-display")),
+        FIRST_EMAIL_VALUE(  By.id("email-0-value")),
+        FIRST_MAIL_PRIMARY( By.id("email-0-primary")),
+        FIRST_MAIL_TYPE(    By.id("email-0-type")),
+
+        PHONENUMBER_EMAIL_DISPLAY(By.id("phoneNumber-0-display")),
+        PHONENUMBER_EMAIL_VALUE(  By.id("phoneNumber-0-value")),
+        PHONENUMBER_MAIL_PRIMARY( By.id("phoneNumber-0-primary")),
+        PHONENUMBER_MAIL_TYPE(    By.id("phoneNumber-0-type"));
+
 
         private By by;
 

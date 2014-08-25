@@ -3,8 +3,11 @@ package org.osiam.addons.administration.integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.osiam.addons.administration.Element.UserEdit;
 import org.osiam.addons.administration.selenium.Field;
 
@@ -117,11 +120,50 @@ public class UserEditIT extends Integrationtest {
         assertEquals(newUserName, browser.getValue(UserEdit.USERNAME));
     }
 
+    @Test
+    public void removeAndAddAllMVAttributes() {
+        editTestUser();
+
+        testRemoveAndAddMVAttribute("email", 1);
+        testRemoveAndAddMVAttribute("phoneNumber", 1);
+        testRemoveAndAddMVAttribute("im", 0);
+        testRemoveAndAddMVAttribute("certificate", 0);
+        testRemoveAndAddMVAttribute("entitlement", 0);
+        testRemoveAndAddMVAttribute("address", 1);
+    }
+
+    private void testRemoveAndAddMVAttribute(String containerId, int existingFields) {
+        addMvAttribute(containerId);
+        assertEquals(existingFields + 1, countChildElements(containerId));
+        addMvAttribute(containerId);
+        assertEquals(existingFields + 2, countChildElements(containerId));
+        dropMvAttribute(containerId, existingFields + 2);
+        dropMvAttribute(containerId, existingFields + 1);
+        assertEquals(existingFields + 0, countChildElements(containerId));
+    }
+
     private void editTestUser() {
         String actionLabelXpath = "//td[. = '" + TEST_USER_NAME + "']/..//div[contains(@id, 'action-label')]";
         String editButtonXpath = "//td[. = '" + TEST_USER_NAME + "']/..//button[contains(@id, 'action-button-edit')]";
 
         browser.findElement(By.xpath(actionLabelXpath)).click();
         browser.findElement(By.xpath(editButtonXpath)).click();
+    }
+
+    private void addMvAttribute(String multivalueName) {
+        browser.findElement(By.xpath("//button[contains(@id, 'button-add-" + multivalueName + "')]")).click();
+    }
+
+    private void dropMvAttribute(String containerId, int nth) {
+        browser.findElement(
+                By.xpath("//fieldset[contains(@id, '" + containerId + "')]/div[" + nth
+                        + "]/button[contains(@id, 'button-remove')]"))
+                .click();
+    }
+
+    private int countChildElements(String containerId) {
+        List<WebElement> foundElements = browser.findElements(By.xpath("//fieldset[contains(@id, '" + containerId
+                + "')]//div[contains(@class, 'row')]"));
+        return foundElements.size();
     }
 }

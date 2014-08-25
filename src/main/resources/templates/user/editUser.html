@@ -39,7 +39,7 @@
 		<input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.user.dialog.cancelUpdate.message}" />
 	</div>
 	<div id="templates" style="display:none;">
-		<div id="email-template">
+		<div id="email-template" class="row">
 			<div class="col-sm-4 form-group">
 				<label for="email-ID-display" th:text="#{edit_user.email.display}">Display</label>
 				<input class="form-control" type="text" id="email-ID-display" th:placeholder="#{edit_user.email.display}" name="emails[ID].display"/>
@@ -59,7 +59,7 @@
 			</div>
 			<button th:id="${'button-remove-email-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.email}">Remove email</button>
 		</div>
-		<div id="phoneNumber-template">
+		<div id="phoneNumber-template" class="row">
 			<div class="col-sm-4 form-group">
 				<label for="phoneNumber-ID-display" th:text="#{edit_user.phoneNumber.display}">Display</label>
 				<input class="form-control" type="text" id="phoneNumber-ID-display" th:placeholder="#{edit_user.phoneNumber.display}" name="phoneNumbers[ID].display"/>
@@ -79,7 +79,7 @@
 			</div>
 			<button th:id="${'button-remove-phoneNumber-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove phoneNumber</button>
 		</div>
-		<div id="im-template">
+		<div id="im-template" class="row">
 			<div class="col-sm-4 form-group">
 				<label for="im-ID-display" th:text="#{edit_user.im.display}">Display</label>
 				<input class="form-control" type="text" id="im-ID-display" th:placeholder="#{edit_user.im.display}" name="ims[ID].display"/>
@@ -99,7 +99,7 @@
 			</div>
 			<button th:id="${'button-remove-im-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.im}">Remove Im</button>
 		</div>
-		<div id="certificate-template">
+		<div id="certificate-template" class="row">
 			<div class="col-sm-4 form-group">
 				<label for="certificates-ID-display" th:text="#{edit_user.certificates.display}">Display</label>
 				<input class="form-control" type="text" id="certificates-ID-display" th:placeholder="#{edit_user.certificates.display}" name="certificates[ID].display"/>
@@ -119,7 +119,7 @@
 			</div>
 			<button th:id="${'button-remove-certificates-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.certificates}">Remove certificate</button>
 		</div>
-		<div id="entitlement-template">
+		<div id="entitlement-template" class="row">
 			<div class="col-sm-4 form-group">
 				<label for="entitlements-ID-display" th:text="#{edit_user.entitlements.display}">Display</label>
 				<input class="form-control" type="text" id="entitlements-ID-display" th:placeholder="#{edit_user.entitlements.display}" name="entitlements[ID].display"/>
@@ -139,7 +139,7 @@
 			</div>
 			<button th:id="${'button-remove-entitlements-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.entitlements}">Remove entitlement</button>
 		</div>
-		<div id="address-template">
+		<div id="address-template" class="row">
 			<div class="col-sm-4 form-group">
 				<label for="addresses-ID-country" th:text="#{edit_user.addresses.country}">Country</label>
 				<input class="form-control required" type="text" required="required" th:id="addresses-ID-country" th:placeholder="#{edit_user.addresses.country}" name="addresses[ID].country" />
