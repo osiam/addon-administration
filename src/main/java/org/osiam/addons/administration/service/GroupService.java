@@ -82,7 +82,12 @@ public class GroupService {
         return connector.updateGroup(id, updateGroup, getAccesstoken());
     }
 
+    public Group createGroup(Group group) {
+        return connector.createGroup(group, getAccesstoken());
+    }
+
     private AccessToken getAccesstoken() {
         return sessionData.getAccesstoken();
     }
+
 }

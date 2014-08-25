@@ -28,7 +28,7 @@ public class UpdateGroupCommand {
     }
 
     /**
-     * Creates a new UpdateUserCommand.
+     * Creates a new UpdateGroupCommand.
      */
     public UpdateGroupCommand() {
     }
