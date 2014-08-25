@@ -13,16 +13,7 @@
 </head>
 <body>
 
-<header id="header" class="">
-<div class="container">
-		<h1>Administration</h1>
-		<div id="logo">
-			<img src="../../img/osiam_logo.png" alt="OSIAM Logo" width="150px" />
-		</div>
-</div>
-</header>
-
-<div class="topbar"></div>
+<th:block th:include="header :: header"></th:block>
 
 <div class="container shadow" id="content">
 	<div class="topbar">
@@ -35,7 +26,7 @@
 		<input id="dialog-title" type="hidden" th:value="#{msg.user.dialog.title}" />
 		<input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}" />
 		<input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}" />
-		<input id="dialog-updateUser-message" type="hidden" th:value="#{msg.user.dialog.updateUser.message}" />
+		<input id="dialog-update-message" type="hidden" th:value="#{msg.user.dialog.updateUser.message}" />
 		<input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.user.dialog.cancelUpdate.message}" />
 	</div>
 	<div id="templates" style="display:none;">

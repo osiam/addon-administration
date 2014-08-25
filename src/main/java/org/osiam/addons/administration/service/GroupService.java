@@ -4,9 +4,12 @@ import javax.inject.Inject;
 
 import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.OsiamConnector;
+import org.osiam.client.oauth.AccessToken;
+import org.osiam.client.query.Query;
 import org.osiam.client.query.QueryBuilder;
 import org.osiam.resources.scim.Group;
 import org.osiam.resources.scim.SCIMSearchResult;
+import org.osiam.resources.scim.UpdateGroup;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -44,7 +47,7 @@ public class GroupService {
             qb.descending(orderBy);
         }
 
-        return connector.searchGroups(qb.build(), sessionData.getAccesstoken());
+        return connector.searchGroups(qb.build(), getAccesstoken());
     }
 
     /**
@@ -53,7 +56,33 @@ public class GroupService {
      * @param id The id of the {@link Group}.
      */
     public void deleteGroup(String id) {
-        connector.deleteGroup(id, sessionData.getAccesstoken());
+        connector.deleteGroup(id, getAccesstoken());
     }
 
+    /**
+     * Returns the groupt with the given ID.
+     *
+     * @param id the group Id
+     * @return the requested group
+     * @throws NoSuchGroupException if no group was found for id.
+     */
+    public Group getGroup(String id) {
+        return connector.getGroup(id, getAccesstoken());
+    }
+
+    /**
+     * Updates a group based on the given {@link UpdateGroup}.
+     *
+     * @param id
+     *        the group ID
+     * @param updateGroup
+     *        the {@link UpdateGroup}
+     */
+    public Group updateGroup(String id, UpdateGroup updateGroup) {
+        return connector.updateGroup(id, updateGroup, getAccesstoken());
+    }
+
+    private AccessToken getAccesstoken() {
+        return sessionData.getAccesstoken();
+    }
 }

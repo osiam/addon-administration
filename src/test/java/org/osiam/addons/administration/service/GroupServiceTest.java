@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
@@ -17,6 +20,8 @@ import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
+import org.osiam.resources.scim.Group;
+import org.osiam.resources.scim.UpdateGroup;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GroupServiceTest {
@@ -64,5 +69,25 @@ public class GroupServiceTest {
         toTestSpy.deleteGroup(id);
 
         verify(connector).deleteGroup(eq(id), same(accessToken));
+    }
+
+    @Test
+    public void getGroup() {
+        String id = "groupID";
+
+        Group group = mock(Group.class);
+        doReturn(group).when(connector).getGroup(eq(id), same(accessToken));
+
+        Group result = toTestSpy.getGroup(id);
+        assertEquals(group, result);
+    }
+
+    @Test
+    public void updateGroup() {
+        UpdateGroup updateGroup = new UpdateGroup.Builder().build();
+        String id = "user ID";
+
+        toTestSpy.updateGroup(id, updateGroup);
+        verify(connector, times(1)).updateGroup(eq(id), eq(updateGroup), same(accessToken));
     }
 }
