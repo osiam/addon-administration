@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.osiam.addons.administration.Element.EditList;
 import org.osiam.addons.administration.Element.UserEdit;
 import org.osiam.addons.administration.selenium.Field;
 
@@ -119,7 +120,7 @@ public class UserEditIT extends Integrationtest {
         browser.fill(new Field(UserEdit.HONORIFICPREFIX, newHonorificPrefix));
         browser.fill(new Field(UserEdit.HONORIFICSUFFIX, newHonorificSuffix));
         browser.fill(new Field(UserEdit.MIDDLENAME, newMiddleName));
-        browser.fill(new Field(UserEdit.DISPLAYNAME, newDisplayName));
+        browser.fill(new Field(EditList.DISPLAYNAME, newDisplayName));
         browser.fill(new Field(UserEdit.NICKNAME, newNickName));
         browser.fill(new Field(UserEdit.USERTITLE, newUserTitle));
 
@@ -165,8 +166,8 @@ public class UserEditIT extends Integrationtest {
 
         TEST_USER_NAME = newUserName;
 
-        browser.click(UserEdit.SUBMIT_BUTTON);
-        browser.click(UserEdit.DIALOG_SUCCESS);
+        browser.click(EditList.SUBMIT_BUTTON);
+        browser.click(EditList.DIALOG_SUCCESS);
 
         edit_Test_User();
 
@@ -177,7 +178,7 @@ public class UserEditIT extends Integrationtest {
         assertEquals(newHonorificPrefix, browser.getValue(UserEdit.HONORIFICPREFIX));
         assertEquals(newHonorificSuffix, browser.getValue(UserEdit.HONORIFICSUFFIX));
         assertEquals(newMiddleName, browser.getValue(UserEdit.MIDDLENAME));
-        assertEquals(newDisplayName, browser.getValue(UserEdit.DISPLAYNAME));
+        assertEquals(newDisplayName, browser.getValue(EditList.DISPLAYNAME));
         assertEquals(newNickName, browser.getValue(UserEdit.NICKNAME));
         assertEquals(newUserTitle, browser.getValue(UserEdit.USERTITLE));
 

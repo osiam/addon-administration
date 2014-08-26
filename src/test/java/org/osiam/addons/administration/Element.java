@@ -28,8 +28,40 @@ public interface Element {
         }
     }
 
-    public static enum UserList implements Element {
+    public static enum EditList implements Element {
         FILTER_BUTTON(By.id("filter-button")),
+        
+        LIMIT(By.id("paging-limit")),
+        
+        PAGING_NEXT(By.xpath("//a[@id = 'paging-next' and not(@href = '#')]")),
+        PAGING_PREVIOUS(By.xpath("//a[@id = 'paging-prev' and not(@href = '#')]")),
+        PAGING_LAST(By.xpath("//a[@id = 'paging-last' and not(@href = '#')]")),
+        PAGING_FIRST(By.xpath("//a[@id = 'paging-first' and not(@href = '#')]")),
+        
+        DIALOG_SUCCESS(By.xpath("//div[contains(@role, 'dialog')]//button[contains(@data-bb-handler, 'success')]")),
+        DIALOG_ABORT(By.xpath("//div[contains(@role, 'dialog')]//button[contains(@data-bb-handler, 'danger')]")),
+        DIALOG_CLOSE(By.xpath("//div[contains(@role, 'dialog')]//button[starts-with(@class, 'bootbox-close-button')]")),
+        
+        DISPLAYNAME(By.id("displayName")),
+        
+        GROUP_LIST(By.xpath("//a[@href = '/addon-administration/admin/group/list']")),
+        
+        SUBMIT_BUTTON(By.id("btnSaveChanges")),
+        CANCEL_BUTTON(By.id("btnCancelChanges"));
+        
+        private By by;
+        
+        private EditList(By by) {
+            this.by = by;
+        }
+        
+        @Override
+        public By by() {
+            return this.by;
+        }
+    }
+    
+    public static enum UserList implements Element {
         FILTER_LOGIN(By.id("filter-login")),
         FILTER_GIVEN_NAME(By.id("filter-givenname")),
         FILTER_FAMILY_NAME(By.id("filter-familyname")),
@@ -39,18 +71,7 @@ public interface Element {
         SORT_GIVEN_NAME_ASC(By.id("order-by-givenname-asc")),
         SORT_GIVEN_NAME_DESC(By.id("order-by-givenname-desc")),
         SORT_FAMILY_NAME_ASC(By.id("order-by-familyname-asc")),
-        SORT_FAMILY_NAME_DESC(By.id("order-by-familyname-desc")),
-
-        LIMIT(By.id("paging-limit")),
-
-        PAGING_NEXT(By.xpath("//a[@id = 'paging-next' and not(@href = '#')]")),
-        PAGING_PREVIOUS(By.xpath("//a[@id = 'paging-prev' and not(@href = '#')]")),
-        PAGING_LAST(By.xpath("//a[@id = 'paging-last' and not(@href = '#')]")),
-        PAGING_FIRST(By.xpath("//a[@id = 'paging-first' and not(@href = '#')]")),
-
-        DIALOG_SUCCESS(By.xpath("//div[contains(@role, 'dialog')]//button[contains(@data-bb-handler, 'success')]")),
-        DIALOG_ABORT(By.xpath("//div[contains(@role, 'dialog')]//button[contains(@data-bb-handler, 'danger')]")),
-        DIALOG_CLOSE(By.xpath("//div[contains(@role, 'dialog')]//button[starts-with(@class, 'bootbox-close-button')]"));
+        SORT_FAMILY_NAME_DESC(By.id("order-by-familyname-desc"));
 
         private By by;
 
@@ -72,7 +93,6 @@ public interface Element {
         HONORIFICPREFIX(By.id("honorificprefix")),
         HONORIFICSUFFIX(By.id("honorificsuffix")),
         MIDDLENAME(By.id("middlename")),
-        DISPLAYNAME(By.id("displayName")),
         NICKNAME(By.id("nickName")),
         USERTITLE(By.id("userTitle")),
 
@@ -133,6 +153,58 @@ public interface Element {
         @Override
         public By by() {
             return this.by;
+        }
+    }
+    
+    public static enum GroupList implements Element {
+        GROUP_FILTER(By.id("filter-display-name")),
+        GROUP_SORT_ASC(By.id("order-by-displayname-asc")),
+        GROUP_SORT_DESC(By.id("order-by-displayname-desc"));
+        
+        private By by;
+        
+        private GroupList(By by) {
+            this.by = by;
+        }
+        
+        @Override
+        public By by() {
+            return this.by;
+        } 
+        
+    }
+    
+    public static enum GroupAdd implements Element {
+        ADD_GROUP(By.id("action-button-create")),
+        EXTERNAL_ID(By.id("externalID")),
+        DELETE_GROUP(By.id("action-button-delete-group-0"));
+        
+        private By by;
+
+        private GroupAdd(By by) {
+            this.by = by;
+        }
+        
+        @Override
+        public By by() {
+        return this.by;
+        }
+    }
+    
+    public static enum GroupEdit implements Element {
+        EDIT_GROUP(By.id("action-button-edit-0")),
+        MEMBERSHIP_GROUP(By.id("action-button-member-0")),
+        EXTERNAL_ID_GROUP(By.id("externalId"));
+        
+        private By by;
+
+        private GroupEdit(By by) {
+            this.by = by;
+        }
+        
+        @Override
+        public By by() {
+        return this.by;
         }
     }
 }
