@@ -230,8 +230,6 @@ public class UserEditIT extends Integrationtest {
         browser.click(UserEdit.DIALOG_SUCCESS);
 
         assertTrue(browser.isTextPresent("keine gültige E-Mail-Adresse"));
-        //Platzhalter
-        //Platzhalter
     }
 
     @Test
