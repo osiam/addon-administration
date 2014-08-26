@@ -68,21 +68,49 @@ public class UserEditIT extends Integrationtest {
 
         final boolean newActive = true;
 
-        final String newLastName = "Test456";
-        final String newFormattedName = "Test 23 336";
-        final String newGivenName = "Test123\u00e4";
-        final String newHonorificPrefix = "Dr.";
-        final String newHonorificSuffix = "moon travel";
-        final String newMiddleName = "Hans";
-        final String newDisplayName = "TestHansKlaus17";
-        final String newNickName = "MeterPeterMolaCola";
-        final String newUserTitle = "Dr. Dr. Prof.";
+        final String newLastName          = "Test456";
+        final String newFormattedName     = "Test 23 336";
+        final String newGivenName         = "Test123\u00e4";
+        final String newHonorificPrefix   = "Dr.";
+        final String newHonorificSuffix   = "moon travel";
+        final String newMiddleName        = "Hans";
+        final String newDisplayName       = "TestHansKlaus17";
+        final String newNickName          = "MeterPeterMolaCola";
+        final String newUserTitle         = "Dr. Dr. Prof.";
 
         final String newPreferredLanguage = "RU";
-        final String newLocale = "ru_RU";
-        final String newProfileURL = "http://www.gibtsnicht.ehnicht111222.de";
-        final String newTimezone = "ru/RussischeStadt";
-        final String newUserName = "MeterPeterMolaCola";
+        final String newLocale            = "ru_RU";
+        final String newProfileURL        = "http://www.gibtsnicht.ehnicht111222.de";
+        final String newTimezone          = "ru/RussischeStadt";
+        final String newUserName          = "MeterPeterMolaCola";
+
+        final String newEmailDisplay         = "meine email";
+        final String newEmailValue           = "hans_peter@gibtsnicht.org";
+        final String newEmailType            = "StandartE";
+
+        final String newPhoneDisplay         = "zu hause";
+        final String newPhoneValue           = "0987654321";
+        final String newPhoneType            = "StandartP";
+
+        final String newIMDisplay            = "XMPP";
+        final String newIMValue              = "444555666";
+        final String newIMType               = "StandartI";
+
+        final String newCertificatesDisplay  = "Positiv";
+        final String newCertificatesValue    = "Vitamin C Professor";
+        final String newCertificatesType     = "StandartC";
+
+        final String newEntitlementsDisplay  = "Alles";
+        final String newEntitlementsValue    = "Admin";
+        final String newEntitlementsType     = "StandartE";
+
+        final String newAddressCountry       = "Deutschland";
+        final String newAddressFormatted     = "Deutschlandstraße 20 12345 Ländisch";
+        final String newAddressLocality      = "de_DE";
+        final String newAddressPostalcode    = "12345";
+        final String newAddressRegion        = "Ländisch";
+        final String newAddressStreetaddress = "Deutschlandstraße 20";
+        final String newAddressType          = "StandartA";
 
         browser.findElement(UserEdit.ACTIVE).click();
         browser.fill(new Field(UserEdit.LASTNAME, newLastName));
@@ -100,6 +128,40 @@ public class UserEditIT extends Integrationtest {
         browser.fill(new Field(UserEdit.PROFILEURL, newProfileURL));
         browser.fill(new Field(UserEdit.TIMEZONE, newTimezone));
         browser.fill(new Field(UserEdit.USERNAME, newUserName));
+
+        browser.fill(new Field(UserEdit.FIRST_EMAIL_DISPLAY, newEmailDisplay));
+        browser.fill(new Field(UserEdit.FIRST_EMAIL_VALUE, newEmailValue));
+        browser.fill(new Field(UserEdit.FIRST_MAIL_PRIMARY, newActive));
+        browser.fill(new Field(UserEdit.FIRST_MAIL_TYPE, newEmailType));
+
+        browser.fill(new Field(UserEdit.PHONENUMBER_DISPLAY, newPhoneDisplay));
+        browser.fill(new Field(UserEdit.PHONENUMBER_VALUE, newPhoneValue));
+        browser.fill(new Field(UserEdit.PHONENUMBER_PRIMARY, newActive));
+        browser.fill(new Field(UserEdit.PHONENUMBER_TYPE, newPhoneType));
+
+        browser.fill(new Field(UserEdit.INSTANT_MESSENGER_DISPLAY, newIMDisplay));
+        browser.fill(new Field(UserEdit.INSTANT_MESSENGER_VALUE, newIMValue));
+        browser.fill(new Field(UserEdit.INSTANT_MESSENGER_PRIMARY, newActive ));
+        browser.fill(new Field(UserEdit.INSTANT_MESSENGER_TYPE, newIMType));
+
+        browser.fill(new Field(UserEdit.CERTIFICATES_DISPLAY, newCertificatesDisplay));
+        browser.fill(new Field(UserEdit.CERTIFICATES_VALUE, newCertificatesValue));
+        browser.fill(new Field(UserEdit.CERTIFICATES_PRIMARY, newActive));
+        browser.fill(new Field(UserEdit.CERTIFICATES_TYPE, newCertificatesType));
+
+        browser.fill(new Field(UserEdit.ENTITLEMENTS_DISPLAY, newEntitlementsDisplay));
+        browser.fill(new Field(UserEdit.ENTITLEMENTS_VALUE, newEntitlementsValue));
+        browser.fill(new Field(UserEdit.ENTITLEMENTS_PRIMARY, newActive));
+        browser.fill(new Field(UserEdit.ENTITLEMENTS_TYPE, newEntitlementsType));
+
+        browser.fill(new Field(UserEdit.ADDRESS_COUNTRY, newAddressCountry));
+        browser.fill(new Field(UserEdit.ADDRESS_FORMATTED, newAddressFormatted));
+        browser.fill(new Field(UserEdit.ADDRESS_LOCALITY, newAddressLocality));
+        browser.fill(new Field(UserEdit.ADDRESS_POSTALCODE, newAddressPostalcode));
+        browser.fill(new Field(UserEdit.ADDRESS_REGION, newAddressRegion));
+        browser.fill(new Field(UserEdit.ADDRESS_STREETADDRESS, newAddressStreetaddress));
+        browser.fill(new Field(UserEdit.ADDRESS_PRIMARY, newActive));
+        browser.fill(new Field(UserEdit.ADDRESS_TYPE, newAddressType));
 
         TEST_USER_NAME = newUserName;
 
@@ -124,6 +186,58 @@ public class UserEditIT extends Integrationtest {
         assertEquals(newProfileURL, browser.getValue(UserEdit.PROFILEURL));
         assertEquals(newTimezone, browser.getValue(UserEdit.TIMEZONE));
         assertEquals(newUserName, browser.getValue(UserEdit.USERNAME));
+
+        assertEquals(newEmailDisplay, browser.getValue(UserEdit.FIRST_EMAIL_DISPLAY));
+        assertEquals(newEmailValue, browser.getValue(UserEdit.FIRST_EMAIL_VALUE));
+        assertEquals(newActive, browser.getValue(UserEdit.FIRST_MAIL_PRIMARY));
+        assertEquals(newEmailType, browser.getValue(UserEdit.FIRST_MAIL_TYPE));
+
+        assertEquals(newPhoneDisplay, browser.getValue(UserEdit.PHONENUMBER_DISPLAY));
+        assertEquals(newPhoneValue, browser.getValue(UserEdit.PHONENUMBER_VALUE));
+        assertEquals(newActive, browser.getValue(UserEdit.PHONENUMBER_PRIMARY));
+        assertEquals(newPhoneType, browser.getValue(UserEdit.PHONENUMBER_TYPE));
+
+        assertEquals(newIMDisplay, browser.getValue(UserEdit.INSTANT_MESSENGER_DISPLAY));
+        assertEquals(newIMValue, browser.getValue(UserEdit.INSTANT_MESSENGER_VALUE));
+        assertEquals(newActive, browser.getValue(UserEdit.INSTANT_MESSENGER_PRIMARY));
+        assertEquals(newIMType, browser.getValue(UserEdit.INSTANT_MESSENGER_TYPE));
+
+        assertEquals(newCertificatesDisplay, browser.getValue(UserEdit.CERTIFICATES_DISPLAY));
+        assertEquals(newCertificatesValue, browser.getValue(UserEdit.CERTIFICATES_VALUE));
+        assertEquals(newActive, browser.getValue(UserEdit.CERTIFICATES_PRIMARY));
+        assertEquals(newCertificatesType, browser.getValue(UserEdit.CERTIFICATES_TYPE));
+
+        assertEquals(newEntitlementsDisplay, browser.getValue(UserEdit.ENTITLEMENTS_DISPLAY));
+        assertEquals(newEntitlementsValue, browser.getValue(UserEdit.ENTITLEMENTS_VALUE));
+        assertEquals(newActive, browser.getValue(UserEdit.ENTITLEMENTS_PRIMARY));
+        assertEquals(newEntitlementsType, browser.getValue(UserEdit.ENTITLEMENTS_TYPE));
+
+        assertEquals(newAddressCountry, browser.getValue(UserEdit.ADDRESS_COUNTRY));
+        assertEquals(newAddressFormatted, browser.getValue(UserEdit.ADDRESS_FORMATTED));
+        assertEquals(newAddressLocality, browser.getValue(UserEdit.ADDRESS_LOCALITY));
+        assertEquals(newAddressPostalcode, browser.getValue(UserEdit.ADDRESS_POSTALCODE));
+        assertEquals(newAddressRegion, browser.getValue(UserEdit.ADDRESS_REGION));
+        assertEquals(newAddressStreetaddress, browser.getValue(UserEdit.ADDRESS_STREETADDRESS));
+        assertEquals(newActive, browser.getValue(UserEdit.ADDRESS_PRIMARY));
+        assertEquals(newAddressType, browser.getValue(UserEdit.ADDRESS_TYPE));
+    }
+
+    @Test
+    public void falseMVAttributes() {
+        final String falseEmailValue = "hanspeters_email";
+        final String falsePhoneValue = "meintelefon";
+        final String falseAddressPostalcode = "einszweidreivierfünf";
+
+        browser.fill(new Field(UserEdit.FIRST_EMAIL_VALUE, falseEmailValue));
+        browser.fill(new Field(UserEdit.PHONENUMBER_VALUE, falsePhoneValue));
+        browser.fill(new Field(UserEdit.ADDRESS_POSTALCODE, falseAddressPostalcode));
+
+        browser.click(UserEdit.SUBMIT_BUTTON);
+        browser.click(UserEdit.DIALOG_SUCCESS);
+
+        assertTrue(browser.isTextPresent("keine gültige E-Mail-Adresse"));
+        //Platzhalter
+        //Platzhalter
     }
 
     @Test
