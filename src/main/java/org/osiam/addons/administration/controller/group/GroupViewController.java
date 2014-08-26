@@ -38,7 +38,7 @@ public class GroupViewController {
     public static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
     public static final String REQUEST_PARAMETER_GROUP_ID = "id";
 
-    public static final String MODEL_USER_LIST = "grouplist";
+    public static final String MODEL_GROUP_LIST = "grouplist";
     public static final String MODEL_SESSION_DATA = "sessionData";
     public static final String MODEL_PAGING_LINKS = "paging";
 
@@ -68,7 +68,7 @@ public class GroupViewController {
 
         SCIMSearchResult<Group> groupList = groupService.searchGroup(query, limit, offset, orderBy, ascending);
         PagingLinks pagingLinks = generatePagingLinks(groupList, query, orderBy, ascending);
-        modelAndView.addObject(MODEL_USER_LIST, groupList);
+        modelAndView.addObject(MODEL_GROUP_LIST, groupList);
         modelAndView.addObject(MODEL_SESSION_DATA, session);
         modelAndView.addObject(MODEL_PAGING_LINKS, pagingLinks);
 
