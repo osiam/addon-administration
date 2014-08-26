@@ -1,7 +1,11 @@
 package org.osiam.addons.administration.model.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.Group;
+import org.osiam.resources.scim.MemberRef;
 import org.osiam.resources.scim.UpdateGroup;
 
 /**
@@ -14,6 +18,8 @@ public class UpdateGroupCommand {
     private String displayName;
     private String externalId;
 
+    private List<String> memberIds = new ArrayList<String>();
+
     /**
      * Creates a new UpdateGroupCommand based on the given {@link Group}.
      *
@@ -25,6 +31,12 @@ public class UpdateGroupCommand {
 
         setExternalId(group.getExternalId());
         setDisplayName(group.getDisplayName());
+
+        if(group.getMembers() != null){
+            for(MemberRef ref : group.getMembers()){
+                memberIds.add(ref.getValue());
+            }
+        }
     }
 
     /**
@@ -50,6 +62,14 @@ public class UpdateGroupCommand {
      */
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public List<String> getMemberIds() {
+        return memberIds;
+    }
+
+    public void setMemberIds(List<String> memberIds) {
+        this.memberIds = memberIds;
     }
 
     public String getId() {
@@ -78,6 +98,11 @@ public class UpdateGroupCommand {
 
         builder.updateDisplayName(getDisplayName());
         builder.updateExternalId(getExternalId());
+
+        builder.deleteMembers();
+        for(String member : memberIds){
+            builder.addMember(member);
+        }
 
         return builder.build();
     }

@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="../../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" ></script>
 	<script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}" ></script>
 	<script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}" ></script>
+	<script type="text/javascript" src="../../js/group_membership.js" th:src="@{/js/group_membership.js}" ></script>
 
 	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
 	<link rel="stylesheet" type="text/css" href="../../css/Style.css" th:href="@{/css/Style.css}"/>
@@ -30,7 +31,7 @@
 		<input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.group.dialog.cancelUpdate.message}" />
 	</div>
 
-	<form method="POST" action="" th:object="${model}">
+	<form id="form-edit-group" method="POST" action="" th:object="${model}">
 		<div class="container">
 
 			<h2 th:text="#{edit_group.title}">Edit group</h2>
@@ -56,6 +57,29 @@
 				</div>
 
 			</fieldset>
+
+			<div>
+				<select id="member" multiple="multiple" name="memberIds">
+					<option th:each="memberId : *{memberIds}"
+							th:value="${memberId}"
+							th:text="${userList.get(memberId).userName}">
+						Member
+					</option>
+				</select>
+				<span>
+					<button id="move-to-member" class="only-on-js" type="button" th:text="#{edit_group.member.add}">Add</button>
+					<button id="remove-from-member" class="only-on-js" type="button" th:text="#{edit_group.member.remove}">Remove</button>
+				</span>
+				<select id="outsider" multiple="multiple">
+					<option th:each="userEntry : ${userList}"
+							th:unless="${model.memberIds.contains(userEntry.key)}"
+							th:with="user = ${userEntry.value}"
+							th:text="${user.userName}"
+							th:value="${user.id}">
+						Outsider
+					</option>
+				</select>
+			</div>
 
 			<div class="row">
 				<div class="col-sm-2 col-sm-offset-10 text-right">

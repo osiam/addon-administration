@@ -86,11 +86,6 @@
                                         <button th:id="${'action-button-edit-' + groupStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
                                     </a>
                                 </li>
-                                <li>
-                                    <a th:href="@{edit/member(id = ${group.id})}">
-                                        <button th:id="${'action-button-member-' + groupStat.index}" th:text="#{msg.button.group.editMember}" class="btn-link">Edit Member</button>
-                                    </a>
-                                </li>
 								<li>
                                     <form action="" method="GET">
                                         <input type="hidden" name="action" value="delete" />

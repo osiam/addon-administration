@@ -1,5 +1,8 @@
 package org.osiam.addons.administration.controller.group;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 
@@ -8,9 +11,12 @@ import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.UpdateGroupCommand;
 import org.osiam.addons.administration.service.GroupService;
+import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.exception.SCIMDataValidationException;
 import org.osiam.resources.scim.Group;
+import org.osiam.resources.scim.SCIMSearchResult;
+import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,9 +41,13 @@ public class EditGroupController extends GenericController {
     private static final String SESSION_KEY_COMMAND = "command";
 
     public static final String MODEL = "model";
+    public static final String MODEL_USER_LIST = "userList";
 
     @Inject
     private GroupService groupService;
+
+    @Inject
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleGroupEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
@@ -46,7 +56,10 @@ public class EditGroupController extends GenericController {
         clearSession();
 
         Group group = groupService.getGroup(id);
+        Map<String, User> allUsers = getAllUsers();
+
         modelAndView.addObject(MODEL, new UpdateGroupCommand(group));
+        modelAndView.addObject(MODEL_USER_LIST, allUsers);
 
         return modelAndView;
     }
@@ -54,6 +67,18 @@ public class EditGroupController extends GenericController {
     private void clearSession() {
         removeFromSession(SESSION_KEY_COMMAND);
         removeBindingResultFromSession(MODEL);
+    }
+
+    private Map<String, User> getAllUsers() {
+        SCIMSearchResult<User> result = userService.searchUser("", 0, 0L, "userName", true, "id, userName");
+
+        Map<String, User> idToUserMapping = new HashMap<String, User>();
+
+        for(User user : result.getResources()){
+            idToUserMapping.put(user.getId(), user);
+        }
+
+        return idToUserMapping;
     }
 
     @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
