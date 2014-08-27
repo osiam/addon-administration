@@ -33,8 +33,8 @@
 		<div id="email-template">
 			<div class="row">
 				<div class="col-md-2 form-group">
-					<label for="email-ID-primary" th:text="#{edit_user.email.primary}">Primary</label>
-					<input type="checkbox" th:id="email-ID-primary" name="emails[ID].primary" value="false" />
+					<label for="email-ID-primary" th:text="#{edit_user.email.primary}">Primary</label><br />
+					<input type="checkbox" style="margin:0" th:id="email-ID-primary" name="emails[ID].primary" value="false" />
 				</div>
 				<div class="col-md-10 form-group">
 					<label for="email-ID-display" th:text="#{edit_user.email.display}">Display</label>
@@ -66,8 +66,8 @@
 		
 			<div class="row">
 				<div class="col-md-2 form-group">
-					<label for="phoneNumber-ID-primary" th:text="#{edit_user.phoneNumber.primary}">Primary</label>
-					<input type="checkbox" th:id="phoneNumber-ID-primary" name="phoneNumbers[ID].primary" value="false" />
+					<label for="phoneNumber-ID-primary" th:text="#{edit_user.phoneNumber.primary}">Primary</label><br />
+					<input type="checkbox" style="margin:0" th:id="phoneNumber-ID-primary" name="phoneNumbers[ID].primary" value="false" />
 				</div>
 				<div class="col-md-10 form-group">
 					<label for="phoneNumber-ID-display" th:text="#{edit_user.phoneNumber.display}">Display</label>
@@ -97,8 +97,8 @@
 		<div id="im-template">
 			<div class="row">
 				<div class="col-md-2 form-group">
-					<label for="im-ID-primary" th:text="#{edit_user.im.primary}">Primary</label>
-					<input type="checkbox" th:id="im-ID-primary" name="ims[ID].primary" value="false" />
+					<label for="im-ID-primary" th:text="#{edit_user.im.primary}">Primary</label><br />
+					<input type="checkbox" style="margin:0" th:id="im-ID-primary" name="ims[ID].primary" value="false" />
 				</div>
 				<div class="col-md-10 form-group">
 					<label for="im-ID-display" th:text="#{edit_user.im.display}">Display</label>
@@ -129,8 +129,8 @@
 		<div id="certificate-template">
 			<div class="row">
 				<div class="col-md-2 form-group">
-					<label for="certificates-ID-primary" th:text="#{edit_user.certificates.primary}">Primary</label>
-					<input type="checkbox" th:id="certificates-ID-primary" name="certificates[ID].primary" value="false" />
+					<label for="certificates-ID-primary" th:text="#{edit_user.certificates.primary}">Primary</label><br />
+					<input type="checkbox" style="margin:0" th:id="certificates-ID-primary" name="certificates[ID].primary" value="false" />
 				</div>
 				<div class="col-md-10 form-group">
 					<label for="certificates-ID-display" th:text="#{edit_user.certificates.display}">Display</label>
@@ -159,8 +159,8 @@
 		<div id="entitlement-template">
 			<div class="row">
 				<div class="col-md-2 form-group">
-					<label for="entitlements-ID-primary" th:text="#{edit_user.entitlements.primary}">Primary</label>
-					<input type="checkbox" th:id="entitlements-ID-primary" name="entitlements[ID].primary" value="false" />
+					<label for="entitlements-ID-primary" th:text="#{edit_user.entitlements.primary}">Primary</label><br />
+					<input type="checkbox" style="margin:0" th:id="entitlements-ID-primary" name="entitlements[ID].primary" value="false" />
 				</div>
 				<div class="col-md-10 form-group">
 					<label for="entitlements-ID-display" th:text="#{edit_user.entitlements.display}">Display</label>
@@ -190,8 +190,8 @@
 		
 			<div class="row">
 				<div class="col-md-2 form-group">
-					<label for="addresses-ID-primary" th:text="#{edit_user.addresses.primary}">Primary</label>
-					<input type="checkbox" th:id="addresses-ID-primary" name="addresses[ID].primary" value="false" />
+					<label for="addresses-ID-primary" th:text="#{edit_user.addresses.primary}">Primary</label><br />
+					<input type="checkbox" style="margin:0" th:id="addresses-ID-primary" name="addresses[ID].primary" value="false" />
 				</div>
 				<div class="col-md-6 form-group">
 					<label for="addresses-ID-type" th:text="#{edit_user.addresses.type}">Type</label>
@@ -414,8 +414,8 @@
 						<fieldset th:each="email, stat : *{emails}" th:id="${'email-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-									<label th:for="${'email-' + stat.index + '-primary'}" th:text="#{edit_user.email.primary}">Primary</label>
-									<input type="checkbox" th:id="${'email-' + stat.index + '-primary'}" th:field="*{emails[__${stat.index}__].primary}" />
+									<label th:for="${'email-' + stat.index + '-primary'}" th:text="#{edit_user.email.primary}">Primary</label><br />
+									<input type="checkbox" style="margin:0" th:id="${'email-' + stat.index + '-primary'}" th:field="*{emails[__${stat.index}__].primary}" />
 									<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].primary}')}" th:errors="*{emails[__${stat.index}__].primary}" >Primary Error</span>
 								</div>
 								<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].display}')}? ' bg-danger' : '')">
@@ -458,8 +458,8 @@
 						<fieldset th:each="phoneNumber, stat : *{phoneNumbers}" th:id="${'phoneNumber-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-									<label th:for="${'phoneNumber-' + stat.index + '-primary'}" th:text="#{edit_user.phoneNumber.primary}">Primary</label>
-									<input type="checkbox" th:id="${'phoneNumber-' + stat.index + '-primary'}" th:field="*{phoneNumbers[__${stat.index}__].primary}" />
+									<label th:for="${'phoneNumber-' + stat.index + '-primary'}" th:text="#{edit_user.phoneNumber.primary}">Primary</label><br />
+									<input type="checkbox" style="margin:0" th:id="${'phoneNumber-' + stat.index + '-primary'}" th:field="*{phoneNumbers[__${stat.index}__].primary}" />
 									<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].primary}')}" th:errors="*{phoneNumbers[__${stat.index}__].primary}" >Primary Error</span>
 								</div>
 								<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].display}')}? ' bg-danger' : '')">
@@ -504,8 +504,8 @@
 						<fieldset th:each="im, stat : *{ims}" th:id="${'im-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-									<label th:for="${'im-' + stat.index + '-primary'}" th:text="#{edit_user.im.primary}">Primary</label>
-									<input type="checkbox" th:id="${'im-' + stat.index + '-primary'}" th:field="*{ims[__${stat.index}__].primary}" />
+									<label th:for="${'im-' + stat.index + '-primary'}" th:text="#{edit_user.im.primary}">Primary</label><br />
+									<input style="margin:0" type="checkbox" th:id="${'im-' + stat.index + '-primary'}" th:field="*{ims[__${stat.index}__].primary}" />
 									<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}" th:errors="*{ims[__${stat.index}__].primary}" >Primary Error</span>
 								</div>
 								<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].display}')}? ' bg-danger' : '')">
@@ -550,8 +550,8 @@
 						<fieldset th:each="certificates, stat : *{certificates}" th:id="${'certificates-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-									<label th:for="${'certificates-' + stat.index + '-primary'}" th:text="#{edit_user.certificates.primary}">Primary</label>
-									<input type="checkbox" th:id="${'certificates-' + stat.index + '-primary'}" th:field="*{certificates[__${stat.index}__].primary}" />
+									<label th:for="${'certificates-' + stat.index + '-primary'}" th:text="#{edit_user.certificates.primary}">Primary</label><br />
+									<input type="checkbox" style="margin:0" th:id="${'certificates-' + stat.index + '-primary'}" th:field="*{certificates[__${stat.index}__].primary}" />
 									<span th:if="${#fields.hasErrors('*{certificates[__${stat.index}__].primary}')}" th:errors="*{certificates[__${stat.index}__].primary}" >Primary Error</span>
 								</div>
 								<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].display}')}? ' bg-danger' : '')">
@@ -596,8 +596,8 @@
 						<fieldset th:each="entitlements, stat : *{entitlements}" th:id="${'entitlements-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-									<label th:for="${'entitlements-' + stat.index + '-primary'}" th:text="#{edit_user.entitlements.primary}">Primary</label>
-									<input type="checkbox" th:id="${'entitlements-' + stat.index + '-primary'}" th:field="*{entitlements[__${stat.index}__].primary}" />
+									<label th:for="${'entitlements-' + stat.index + '-primary'}" th:text="#{edit_user.entitlements.primary}">Primary</label><br />
+									<input type="checkbox" style="margin:0" th:id="${'entitlements-' + stat.index + '-primary'}" th:field="*{entitlements[__${stat.index}__].primary}" />
 									<span th:if="${#fields.hasErrors('*{entitlements[__${stat.index}__].primary}')}" th:errors="*{entitlements[__${stat.index}__].primary}" >Primary Error</span>
 								</div>
 								<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].display}')}? ' bg-danger' : '')">
@@ -643,8 +643,8 @@
 							
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-									<label th:for="${'addresses-' + stat.index + '-primary'}" th:text="#{edit_user.addresses.primary}">Primary</label>
-									<input type="checkbox" th:id="${'addresses-' + stat.index + '-primary'}" th:field="*{addresses[__${stat.index}__].primary}" />
+									<label th:for="${'addresses-' + stat.index + '-primary'}" th:text="#{edit_user.addresses.primary}">Primary</label><br />
+									<input type="checkbox" style="margin:0" th:id="${'addresses-' + stat.index + '-primary'}" th:field="*{addresses[__${stat.index}__].primary}" />
 									<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].primary}')}" th:errors="*{addresses[__${stat.index}__].primary}" >Primary Error</span>								
 								</div>
 
