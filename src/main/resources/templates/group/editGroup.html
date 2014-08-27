@@ -60,6 +60,7 @@
 
 			<div class="row">
 				<div class="col-md-4 form-group">
+					<h4 style="margin-bottom:5px">Gruppenmitglieder</h4>
 					<select id="member" multiple="multiple" name="memberIds">
 						<option th:each="memberId : *{memberIds}"
 								th:value="${memberId}"
@@ -70,6 +71,7 @@
 				</div>
 				
 				<div class="col-md-4 form-group">
+					<h4 style="margin-bottom:5px">Externe Benutzer</h4>
 					<select id="outsider" multiple="multiple">
 						<option th:each="userEntry : ${userList}"
 								th:unless="${model.memberIds.contains(userEntry.key)}"
@@ -83,10 +85,10 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4 form-group text-right">
-					<button id="move-to-member" class="only-on-js" type="button" th:text="#{edit_group.member.add}">Add</button>
+					<button id="remove-from-member" class="only-on-js" type="button" th:text="#{edit_group.member.remove}">Remove</button>
 				</div>
 				<div class="col-md-4 form-group">
-					<button id="remove-from-member" class="only-on-js" type="button" th:text="#{edit_group.member.remove}">Remove</button>
+					<button id="move-to-member" class="only-on-js" type="button" th:text="#{edit_group.member.add}">Add</button>
 				</div>
 			</div>
 
