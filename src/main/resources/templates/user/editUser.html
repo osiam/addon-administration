@@ -232,8 +232,8 @@
 					<label for="addresses-ID-formatted" th:text="#{edit_user.addresses.formatted}">Formatted</label>
 					<input class="form-control required" type="text" required="required" th:id="addresses-ID-formatted" th:placeholder="#{edit_user.addresses.formatted}" name="addresses[ID].formatted" />
 				</div>
-				<div class="col-md-4 form-group text-right">
-					<button th:id="${'button-remove-addresses-ID'}" class="btn btn-md btn-primary only-on-js" style="padding-top: 21px;" type="button" th:text="#{edit_user.remove.addresses}">Remove Address</button>
+				<div class="col-md-4 form-group text-right" style="padding-top: 21px;">
+					<button th:id="${'button-remove-addresses-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.addresses}">Remove Address</button>
 				</div>
 			</div>
 			<hr />
@@ -698,8 +698,8 @@
 									<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-formatted'}" th:placeholder="#{edit_user.addresses.formatted}" th:field="*{addresses[__${stat.index}__].formatted}" />
 									<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].formatted}')}" th:errors="*{addresses[__${stat.index}__].formatted}" >Formatted address Error</span>
 								</div>
-								<div class="col-md-8 form-group text-right">
-									<button th:id="${'button-remove-addresses-' + stat.index}" class="btn btn-md btn-primary only-on-js" style="padding-top: 21px;" type="button" th:text="#{edit_user.remove.addresses}">Remove Address</button>
+								<div class="col-md-4 form-group text-right" style="padding-top: 21px;">
+									<button th:id="${'button-remove-addresses-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.addresses}">Remove Address</button>
 								</div>
 							</div>
 							<hr />
