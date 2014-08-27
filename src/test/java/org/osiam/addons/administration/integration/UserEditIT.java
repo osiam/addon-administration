@@ -20,7 +20,7 @@ public class UserEditIT extends Integrationtest {
     private static String TEST_USER_NAME = "adavies";
 
     @Test
-    public void save_changes_dialog_interactions() {
+    public void save_changes_dialog_should_return_to_user_list() {
         editTestUser();
 
         // closing the dialog should return to the edit view
@@ -43,7 +43,7 @@ public class UserEditIT extends Integrationtest {
     }
 
     @Test
-    public void cancel_edit_dialog_interactions() {
+    public void cancel_edit_dialog_should_return_to_user_list() {
         editTestUser();
 
         // aborting the dialog should return to the edit view
