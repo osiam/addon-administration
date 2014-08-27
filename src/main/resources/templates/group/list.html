@@ -79,7 +79,9 @@
                 <nav class="actionNav">
                     <ul>
                         <li class="action">
-                            <div class="btn btn-info btn-sm" th:id="${'action-label-' + groupStat.index}" th:text="#{msg.button.action} + '&gt;'">Actions <span class="glyphicon glyphicon-chevron-right"></span></div>
+                            <div class="btn btn-info btn-sm" th:id="${'action-label-' + groupStat.index}">
+                            	<span th:text="#{msg.button.action} + '&gt;'">Actions</span>
+                            	<span class="glyphicon glyphicon-chevron-right"></span>
 	                            <ul class="btn">
 	                                <li>
 	                                    <a th:href="@{edit(id = ${group.id})}">
@@ -90,11 +92,12 @@
 	                                    <form action="" method="GET">
 	                                        <input type="hidden" name="action" value="delete" />
 	                                        <input type="hidden" name="id" th:value="${group.id}" />
-	
+
 	                                        <button th:id="${'action-button-delete-group-' + groupStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
 	                                    </form>
 	                                </li>
 	                            </ul>
+							</div>
                         </li>
                     </ul>
                 </nav> <!-- End: Action-Menu -->
