@@ -168,353 +168,490 @@
 		</div>
 	</div>
 
-	<form method="POST" action="" th:object="${model}">
-		<div class="container">
+	<form method="POST" action="" th:object="${model}" role="form">
 
 			<h2 th:text="#{edit_user.title}">Edit user</h2>
 			<div th:if="${(param.error != null) and (param.error[0] == 'validation')}"
 				 th:text="#{edit_user.error.validation}" class="alert alert-danger">
 				Validation Error
 			</div>
+			
+			<!-- CSRF token -->
+			<th:block th:replace="makros :: csrf" />			
+			
+			<div class="row">
+				<div class="col-md-8"> <!-- Two first columns -->
+					<div class="row">
+						<div class="col-md-6">					
+							<div th:class="'form-group' + (${#fields.hasErrors('*{active}')}? ' bg-danger' : '')" >
+								<label for="active" th:text="#{edit_user.active}">Is active</label>
+								<input type="checkbox" id="active" th:field="*{active}" />
+								<div th:if="${#fields.hasErrors('*{active}')}" th:errors="*{active}" class="text-danger">Active Flag Error</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div th:class="'form-group' + (${#fields.hasErrors('*{name.honorificprefix}')}? ' bg-danger' : '')" >
+								<label for="honorificprefix" th:text="#{edit_user.name.honorificprefix}">Honorific prefix</label>
+								<input class="form-control" type="text" th:placeholder="#{edit_user.name.honorificprefix}" id="honorificprefix" th:field="*{name.honorificprefix}" />
+								<span th:if="${#fields.hasErrors('*{name.honorificprefix}')}" th:errors="*{name.honorificprefix}" class="text-danger" >Honorific prefix Error</span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div th:class="'form-group' + (${#fields.hasErrors('*{title}')}? ' bg-danger' : '')" >
+								<label for="userTitle" th:text="#{edit_user.userTitle}">Titel</label>
+								<input class="form-control" type="text" th:placeholder="#{edit_user.userTitle}" id="userTitle" th:field="*{title}" />
+								<span th:if="${#fields.hasErrors('*{title}')}" th:errors="*{title}" class="text-danger" >Title Error</span>
+							</div>	
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div th:class="'form-group' + (${#fields.hasErrors('*{name.givenname}')}? ' bg-danger' : '')">
+								<label for="givenname" th:text="#{edit_user.name.givenname}">Givenname</label>
+								<input class="form-control" type="text"
+									th:placeholder="#{edit_user.name.givenname}" id="givenname"
+									th:field="*{name.givenname}" /> <span
+									th:if="${#fields.hasErrors('*{name.givenname}')}"
+									th:errors="*{name.givenname}" class="text-danger">Givenname
+									Error</span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div th:class="'form-group' + (${#fields.hasErrors('*{name.middlename}')}? ' bg-danger' : '')">
+								<label for="middlename" th:text="#{edit_user.name.middlename}">Middelname</label>
+								<input class="form-control" type="text"
+									th:placeholder="#{edit_user.name.middlename}" id="middlename"
+									th:field="*{name.middlename}" /> <span
+									th:if="${#fields.hasErrors('*{name.middlename}')}"
+									th:errors="*{name.middlename}" class="text-danger">Middelname
+									Error</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div th:class="'form-group' + (${#fields.hasErrors('*{name.familyname}')}? ' bg-danger' : '')">
+								<label for="familyname" th:text="#{edit_user.name.familyname}">Familyname</label>
+								<input class="form-control" type="text"
+									th:placeholder="#{edit_user.name.familyname}" id="familyname"
+									th:field="*{name.familyname}" /> <span
+									th:if="${#fields.hasErrors('*{name.familyname}')}"
+									th:errors="*{name.familyname}" class="text-danger">Familyname
+									Error</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div th:class="'form-group' + (${#fields.hasErrors('*{name.formatted}')}? ' bg-danger' : '')" >
+								<label for="formatted" th:text="#{edit_user.name.formatted}">Formatted Name</label>
+								<input class="form-control" type="text" th:placeholder="#{edit_user.name.formatted}" id="formatted" th:field="*{name.formatted}" />
+								<span th:if="${#fields.hasErrors('*{name.formatted}')}" th:errors="*{name.formatted}" class="text-danger" >Formatted Name Error</span>
+							</div>	
+						</div>
+						<div class="col-md-6">
+							<div th:class="'form-group' + (${#fields.hasErrors('*{displayName}')}? ' bg-danger' : '')" >
+								<label for="displayName" th:text="#{edit_user.displayName}">Displayname</label>
+								<input class="form-control" type="text" th:placeholder="#{edit_user.displayName}" id="displayName" th:field="*{displayName}" />
+								<span th:if="${#fields.hasErrors('*{displayName}')}" th:errors="*{displayName}" class="text-danger" >Displayname Error</span>
+							</div>							
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div th:class="'form-group' + (${#fields.hasErrors('*{userName}')}? ' bg-danger' : '')">
+								<label for="userName" th:text="#{edit_user.userName}">Username</label>
+								<input class="form-control" type="text"
+									th:placeholder="#{edit_user.userName}" id="userName"
+									th:field="*{userName}" /> <span
+									th:if="${#fields.hasErrors('*{userName}')}"
+									th:errors="*{userName}" class="text-danger">Username Error</span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div th:class="'form-group' + (${#fields.hasErrors('*{nickName}')}? ' bg-danger' : '')" >
+								<label for="nickName" th:text="#{edit_user.nickName}">Nickname</label>
+								<input class="form-control" type="text" th:placeholder="#{edit_user.nickName}" id="nickName" th:field="*{nickName}" />
+								<span th:if="${#fields.hasErrors('*{nickName}')}" th:errors="*{nickName}" class="text-danger" >Nickname Error</span>
+							</div>						
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div th:class="'form-group' + (${#fields.hasErrors('*{name.honorificsuffix}')}? ' bg-danger' : '')" >
+								<label for="honorificsuffix" th:text="#{edit_user.name.honorificsuffix}">Honorific suffix</label>
+								<input class="form-control" type="text" th:placeholder="#{edit_user.name.honorificsuffix}" id="honorificsuffix" th:field="*{name.honorificsuffix}" />
+								<span th:if="${#fields.hasErrors('*{name.honorificsuffix}')}" th:errors="*{name.honorificsuffix}" class="text-danger" >Honorific suffix Error</span>
+							</div>						
+						</div>
+					</div>
+					<hr />
+					<div class="row">
+						<div class="col-md-6">
+							<div th:class="'col-sm-4' + (${#fields.hasErrors('*{locale}')}? ' bg-danger' : '')" >
+								<label for="locale" th:text="#{edit_user.locale}">Locale</label>
+								<input class="form-control" type="text" th:placeholder="#{edit_user.locale}" id="locale" th:field="*{locale}" />
+								<span th:if="${#fields.hasErrors('*{locale}')}" th:errors="*{locale}" class="text-danger" >Locale Error</span>
+							</div>						
+						</div>
+						<div class="col-md-6">
+							<div th:class="'col-sm-4' + (${#fields.hasErrors('*{timezone}')}? ' bg-danger' : '')" >
+								<label for="timezone" th:text="#{edit_user.timezone}">Timezone</label>
+								<input class="form-control" type="text" th:placeholder="#{edit_user.timezone}" id="timezone" th:field="*{timezone}" />
+								<span th:if="${#fields.hasErrors('*{timezone}')}" th:errors="*{timezone}" class="text-danger" >Timezone Error</span>
+							</div>						
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div th:class="'col-sm-4' + (${#fields.hasErrors('*{preferredLanguage}')}? ' bg-danger' : '')" >
+								<label for="preferredLanguage" th:text="#{edit_user.preferredLanguage}">Preferred language</label>
+								<input class="form-control" type="text" th:placeholder="#{edit_user.preferredLanguage}" id="preferredLanguage" th:field="*{preferredLanguage}" />
+								<span th:if="${#fields.hasErrors('*{preferredLanguage}')}" th:errors="*{preferredLanguage}" class="text-danger" >Preferred language Error</span>
+							</div>						
+						</div>
+					</div>
+					
+					<hr />
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div th:class="'col-sm-4' + (${#fields.hasErrors('*{profileURL}')}? ' bg-danger' : '')" >
+								<label for="profileURL" th:text="#{edit_user.profileURL}">Profile URL</label>
+								<input class="form-control" type="text" th:placeholder="#{edit_user.profileURL}" id="profileURL" th:field="*{profileURL}" />
+								<span th:if="${#fields.hasErrors('*{profileURL}')}" th:errors="*{profileURL}" class="text-danger" >Profile URL Error</span>
+							</div>						
+						</div>
+					</div>
+					
+					<hr />
+					
+					<!--/*
+						START EMAIL-BLOCK
+					*/-->
+					<fieldset id="email-container">
+						<div class="row" th:each="email, stat : *{emails}" th:id="${'email-block-' + stat.index}">
+							<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].primary}')}? ' bg-danger' : '')">
+								<label class="checkbox-inline" style="position:relative; font-weight:bold; cursor:default;" th:for="${'email-' + stat.index + '-primary'}" th:text="#{edit_user.email.primary}">Primary 
+								<input class="" style="left:0; margin-left:0; margin-top:2px;" type="checkbox" th:id="${'email-' + stat.index + '-primary'}" th:field="*{emails[__${stat.index}__].primary}" /></label>
+								<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].primary}')}" th:errors="*{emails[__${stat.index}__].primary}" >Primary Error</span>
+							</div>
+							<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].display}')}? ' bg-danger' : '')">
+								<label th:for="${'email-' + stat.index + '-display'}" th:text="#{edit_user.email.display}">Display</label>
+								<input class="form-control" type="text" th:id="${'email-' + stat.index + '-display'}" th:placeholder="#{edit_user.email.display}" th:field="*{emails[__${stat.index}__].display}" />
+								<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].display}')}" th:errors="*{emails[__${stat.index}__].display}" >Display Error</span>
+							</div>
+						</div>
+						<div class="row">	
+							<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].value}')}? ' bg-danger' : '')">
+								<label th:for="${'email-' + stat.index + '-value'}" th:text="#{edit_user.email.value}">Value</label>
+								<input class="form-control required" type="email" required="required" th:id="${'email-' + stat.index + '-value'}" th:placeholder="#{edit_user.email.value}" th:field="*{emails[__${stat.index}__].value}" />
+								<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].value}')}" th:errors="*{emails[__${stat.index}__].value}" >Value Error</span>
+							</div>
+							<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].type}')}? ' bg-danger' : '')">
+								<label th:for="${'email-' + stat.index + '-type'}" th:text="#{edit_user.email.type}">Type</label>
+								<input class="form-control required" type="text" th:id="${'email-' + stat.index + '-type'}" th:placeholder="#{edit_user.email.type}" th:field="*{emails[__${stat.index}__].type}" />
+								<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].type}')}" th:errors="*{emails[__${stat.index}__].type}" >Type Error</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-md-push-6 text-right">
+								<button th:id="${'button-remove-email-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.email}">Remove E-Mail</button>
+							</div>
+						</div>
+						<hr />
+					</fieldset>
+					
+					<button id="button-add-email" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.email}">Add E-Mail</button>
+					<hr />
+					<!--/*
+						END EMAIL-BLOCK
+					*/-->
+					
+					<!--/*
+						START PHONE-NUMBER-BLOCK
+					*/-->
+					<fieldset id="phoneNumber-container">
+						<div class="row" th:each="phoneNumber, stat : *{phoneNumbers}" th:id="${'phoneNumber-block-' + stat.index}">
+							<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].primary}')}? ' bg-danger' : '')">
+								<label class="checkbox-inline" style="position:relative; font-weight:bold; cursor:default;" th:for="${'phoneNumber-' + stat.index + '-primary'}" th:text="#{edit_user.phoneNumber.primary}">Primary
+								<input class="" style="left:0; margin-left:0; margin-top:2px;" type="checkbox" th:id="${'phoneNumber-' + stat.index + '-primary'}" th:field="*{phoneNumbers[__${stat.index}__].primary}" /></label>
+								<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].primary}')}" th:errors="*{phoneNumbers[__${stat.index}__].primary}" >Primary Error</span>
+							</div>
+							<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].display}')}? ' bg-danger' : '')">
+								<label th:for="${'phoneNumber-' + stat.index + '-display'}" th:text="#{edit_user.phoneNumber.display}">Display</label>
+								<input class="form-control" type="text" th:id="${'phoneNumber-' + stat.index + '-display'}" th:placeholder="#{edit_user.phoneNumber.display}" th:field="*{phoneNumbers[__${stat.index}__].display}" />
+								<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].display}')}" th:errors="*{phoneNumbers[__${stat.index}__].display}" >Display Error</span>
+							</div>
+						</div>
+							
+						<div class="row">	
+							<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].value}')}? ' bg-danger' : '')">
+								<label th:for="${'phoneNumber-' + stat.index + '-value'}" th:text="#{edit_user.phoneNumber.value}">Value</label>
+								<input class="form-control required" type="tel" required="required" th:id="${'phoneNumber-' + stat.index + '-value'}" th:placeholder="#{edit_user.phoneNumber.value}" th:field="*{phoneNumbers[__${stat.index}__].value}" />
+								<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].value}')}" th:errors="*{phoneNumbers[__${stat.index}__].value}" >Value Error</span>
+							</div>
+							<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].type}')}? ' bg-danger' : '')">
+								<label th:for="${'phoneNumber-' + stat.index + '-type'}" th:text="#{edit_user.phoneNumber.type}">Type</label>
+								<input class="form-control required" type="text" th:id="${'phoneNumber-' + stat.index + '-type'}" th:placeholder="#{edit_user.phoneNumber.type}" th:field="*{phoneNumbers[__${stat.index}__].type}" />
+								<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].type}')}" th:errors="*{phoneNumbers[__${stat.index}__].type}" >Type Error</span>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6 col-md-push-6 text-right">
+								<button th:id="${'button-remove-phoneNumber-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove Phone number</button>
+							</div>
+						</div>
+						<hr />
+					</fieldset>
+					
+					<button id="button-add-phoneNumber" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.phoneNumber}">Add Phone number</button>
+					<hr />
+					<!--/*
+						END PHONE-NUMBER-BLOCK
+					*/-->
+					
+					<!--/*
+						START IM-BLOCK
+					*/-->
+					<fieldset id="im-container">
+						<div class="row" th:each="im, stat : *{ims}" th:id="${'im-block-' + stat.index}">
+							<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}? ' bg-danger' : '')">
+								<label class="checkbox-inline" style="position:relative; font-weight:bold; cursor:default;" th:for="${'im-' + stat.index + '-primary'}" th:text="#{edit_user.im.primary}">Primary
+								<input class="" style="left:0; margin-left:0; margin-top:2px;" type="checkbox" th:id="${'im-' + stat.index + '-primary'}" th:field="*{ims[__${stat.index}__].primary}" /></label>
+								<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}" th:errors="*{ims[__${stat.index}__].primary}" >Primary Error</span>
+							</div>
+							<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].display}')}? ' bg-danger' : '')">
+								<label th:for="${'im-' + stat.index + '-display'}" th:text="#{edit_user.im.display}">Display</label>
+								<input class="form-control" type="text" th:id="${'im-' + stat.index + '-display'}" th:placeholder="#{edit_user.im.display}" th:field="*{ims[__${stat.index}__].display}" />
+								<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].display}')}" th:errors="*{ims[__${stat.index}__].display}" >Display Error</span>
+							</div>
+						</div>
+													
+						<div class="row">
+							<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].value}')}? ' bg-danger' : '')">
+								<label th:for="${'im-' + stat.index + '-value'}" th:text="#{edit_user.im.value}">Value</label>
+								<input class="form-control required" type="tel" required="required" th:id="${'im-' + stat.index + '-value'}" th:placeholder="#{edit_user.im.value}" th:field="*{ims[__${stat.index}__].value}" />
+								<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].value}')}" th:errors="*{ims[__${stat.index}__].value}" >Value Error</span>
+							</div>
+							<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].type}')}? ' bg-danger' : '')">
+								<label th:for="${'im-' + stat.index + '-type'}" th:text="#{edit_user.im.type}">Type</label>
+								<input class="form-control required" type="text" th:id="${'im-' + stat.index + '-type'}" th:placeholder="#{edit_user.im.type}" th:field="*{ims[__${stat.index}__].type}" />
+								<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].type}')}" th:errors="*{ims[__${stat.index}__].type}" >Type Error</span>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6 col-md-push-6 text-right">
+								<button th:id="${'button-remove-im-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.im}">Remove Instant Messenger</button>
+							</div>
+						</div>
+						<hr />
+					</fieldset>
 
-			<fieldset>
-				<!-- CSRF token -->
-				<th:block th:replace="makros :: csrf" />
+					<button id="button-add-im" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.im}">Add Instant Messenger</button>
+					<hr />
+					<!--/*
+						END IM-BLOCK
+					*/-->		
+					
+					<!--/*
+						START Certificates-BLOCK
+					*/-->
+					<fieldset id="certificates-container">
+						<div class="row" th:each="certificates, stat : *{certificates}" th:id="${'certificates-block-' + stat.index}">
+							<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].primary}')}? ' bg-danger' : '')">
+								<label class="checkbox-inline" style="position:relative; font-weight:bold; cursor:default;" th:for="${'certificates-' + stat.index + '-primary'}" th:text="#{edit_user.certificates.primary}">Primary
+								<input class="" style="left:0; margin-left:0; margin-top:2px;" type="checkbox" th:id="${'certificates-' + stat.index + '-primary'}" th:field="*{certificates[__${stat.index}__].primary}" /></label>
+								<span th:if="${#fields.hasErrors('*{certificates[__${stat.index}__].primary}')}" th:errors="*{certificates[__${stat.index}__].primary}" >Primary Error</span>
+							</div>
+							<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].display}')}? ' bg-danger' : '')">
+								<label th:for="${'certificates-' + stat.index + '-display'}" th:text="#{edit_user.certificates.display}">Display</label>
+								<input class="form-control" type="text" th:id="${'certificates-' + stat.index + '-display'}" th:placeholder="#{edit_user.certificates.display}" th:field="*{certificates[__${stat.index}__].display}" />
+								<span th:if="${#fields.hasErrors('*{certificates[__${stat.index}__].display}')}" th:errors="*{certificates[__${stat.index}__].display}" >Display Error</span>
+							</div>
+						</div>
+													
+						<div class="row">							
+							<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].value}')}? ' bg-danger' : '')">
+								<label th:for="${'certificates-' + stat.index + '-value'}" th:text="#{edit_user.certificates.value}">Value</label>
+								<input class="form-control required" type="text" required="required" th:id="${'certificates-' + stat.index + '-value'}" th:placeholder="#{edit_user.certificates.value}" th:field="*{certificates[__${stat.index}__].value}" />
+								<span th:if="${#fields.hasErrors('*{certificates[__${stat.index}__].value}')}" th:errors="*{certificates[__${stat.index}__].value}" >Value Error</span>
+							</div>
+							<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].type}')}? ' bg-danger' : '')">
+								<label th:for="${'certificates-' + stat.index + '-type'}" th:text="#{edit_user.certificates.type}">Type</label>
+								<input class="form-control required" type="text" th:id="${'certificates-' + stat.index + '-type'}" th:placeholder="#{edit_user.certificates.type}" th:field="*{certificates[__${stat.index}__].type}" />
+								<span th:if="${#fields.hasErrors('*{certificates[__${stat.index}__].type}')}" th:errors="*{certificates[__${stat.index}__].type}" >Type Error</span>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6 col-md-push-6 text-right">
+								<button th:id="${'button-remove-certificates-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.certificates}">Remove Certificate</button>
+							</div>
+						</div>
+						<hr />	
+					</fieldset>
+					
+					<button id="button-add-certificate" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.certificates}">Add Certificate</button>
+					<hr />
+					<!--/*
+						END Certificates-BLOCK
+					*/-->	
+					
+					<!--/*
+						START Entitlements-BLOCK
+					*/-->
+					<fieldset id="entitlements-container">
+						<div class="row" th:each="entitlements, stat : *{entitlements}" th:id="${'entitlements-block-' + stat.index}">
+							<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].primary}')}? ' bg-danger' : '')">
+								<label class="checkbox-inline" style="position:relative; font-weight:bold; cursor:default;" th:for="${'entitlements-' + stat.index + '-primary'}" th:text="#{edit_user.entitlements.primary}">Primary
+								<input class="" style="left:0; margin-left:0; margin-top:2px;" type="checkbox" th:id="${'entitlements-' + stat.index + '-primary'}" th:field="*{entitlements[__${stat.index}__].primary}" /></label>
+								<span th:if="${#fields.hasErrors('*{entitlements[__${stat.index}__].primary}')}" th:errors="*{entitlements[__${stat.index}__].primary}" >Primary Error</span>
+							</div>
+							<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].display}')}? ' bg-danger' : '')">
+								<label th:for="${'entitlements-' + stat.index + '-display'}" th:text="#{edit_user.entitlements.display}">Display</label>
+								<input class="form-control" type="text" th:id="${'entitlements-' + stat.index + '-display'}" th:placeholder="#{edit_user.entitlements.display}" th:field="*{entitlements[__${stat.index}__].display}" />
+								<span th:if="${#fields.hasErrors('*{entitlements[__${stat.index}__].display}')}" th:errors="*{entitlements[__${stat.index}__].display}" >Display Error</span>
+							</div>
+						</div>
+							
+						<div class="row">							
+							<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].value}')}? ' bg-danger' : '')">
+								<label th:for="${'entitlements-' + stat.index + '-value'}" th:text="#{edit_user.entitlements.value}">Value</label>
+								<input class="form-control required" type="text" required="required" th:id="${'entitlements-' + stat.index + '-value'}" th:placeholder="#{edit_user.entitlements.value}" th:field="*{entitlements[__${stat.index}__].value}" />
+								<span th:if="${#fields.hasErrors('*{entitlements[__${stat.index}__].value}')}" th:errors="*{entitlements[__${stat.index}__].value}" >Value Error</span>
+							</div>
+							<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].type}')}? ' bg-danger' : '')">
+								<label th:for="${'entitlements-' + stat.index + '-type'}" th:text="#{edit_user.entitlements.type}">Type</label>
+								<input class="form-control required" type="text" th:id="${'entitlements-' + stat.index + '-type'}" th:placeholder="#{edit_user.entitlements.type}" th:field="*{entitlements[__${stat.index}__].type}" />
+								<span th:if="${#fields.hasErrors('*{entitlements[__${stat.index}__].type}')}" th:errors="*{entitlements[__${stat.index}__].type}" >Type Error</span>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6 col-md-push-6 text-right">						
+								<button th:id="${'button-remove-entitlements-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.entitlements}">Remove Entitlement</button>
+							</div>
+						</div>
+						<hr />
+					</fieldset>
+					
+					<button id="button-add-entitlement" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.entitlements}">Add Entitlement</button>
+					<hr />
+					<!--/*
+						END entitlement-BLOCK
+					*/-->	
+					
+					<!--/*
+						START address-BLOCK
+					*/-->
+					<fieldset id="addresses-container">
+						<div class="row" th:each="addresses, stat : *{addresses}" th:id="${'addresses-block-' + stat.index}">
+							<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].country}')}? ' bg-danger' : '')">
+								<label th:for="${'addresses-' + stat.index + '-country'}" th:text="#{edit_user.addresses.country}">Country</label>
+								<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-country'}" th:placeholder="#{edit_user.addresses.country}" th:field="*{addresses[__${stat.index}__].country}" />
+								<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].country}')}" th:errors="*{addresses[__${stat.index}__].country}" >Country Error</span>
+							</div>
+							<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].formatted}')}? ' bg-danger' : '')">
+								<label th:for="${'addresses-' + stat.index + '-formatted'}" th:text="#{edit_user.addresses.formatted}">Formatted address</label>
+								<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-formatted'}" th:placeholder="#{edit_user.addresses.formatted}" th:field="*{addresses[__${stat.index}__].formatted}" />
+								<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].formatted}')}" th:errors="*{addresses[__${stat.index}__].formatted}" >Formatted address Error</span>
+							</div>
+							<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].locality}')}? ' bg-danger' : '')">
+								<label th:for="${'addresses-' + stat.index + '-locality'}" th:text="#{edit_user.addresses.locality}">Locality</label>
+								<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-locality'}" th:placeholder="#{edit_user.addresses.locality}" th:field="*{addresses[__${stat.index}__].locality}" />
+								<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].locality}')}" th:errors="*{addresses[__${stat.index}__].locality}" >Locality Error</span>
+							</div>
+							<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].postalcode}')}? ' bg-danger' : '')">
+								<label th:for="${'addresses-' + stat.index + '-postalcode'}" th:text="#{edit_user.addresses.postalcode}">Postalcode</label>
+								<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-postalcode'}" th:placeholder="#{edit_user.addresses.postalcode}" th:field="*{addresses[__${stat.index}__].postalcode}" />
+								<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].postalcode}')}" th:errors="*{addresses[__${stat.index}__].postalcode}" >Postalcode Error</span>
+							</div>
+							<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].region}')}? ' bg-danger' : '')">
+								<label th:for="${'addresses-' + stat.index + '-region'}" th:text="#{edit_user.addresses.region}">Region</label>
+								<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-region'}" th:placeholder="#{edit_user.addresses.region}" th:field="*{addresses[__${stat.index}__].region}" />
+								<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].region}')}" th:errors="*{addresses[__${stat.index}__].region}" >Region Error</span>
+							</div>
+							<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].streetaddress}')}? ' bg-danger' : '')">
+								<label th:for="${'addresses-' + stat.index + '-streetaddress'}" th:text="#{edit_user.addresses.streetaddress}">Streetaddress</label>
+								<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-streetaddress'}" th:placeholder="#{edit_user.addresses.streetaddress}" th:field="*{addresses[__${stat.index}__].streetaddress}" />
+								<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].streetaddress}')}" th:errors="*{addresses[__${stat.index}__].streetaddress}" >Streetaddress Error</span>
+							</div>
+							<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].primary}')}? ' bg-danger' : '')">
+								<label th:for="${'addresses-' + stat.index + '-primary'}" th:text="#{edit_user.addresses.primary}">Primary</label>
+								<input class="form-control" type="checkbox" th:id="${'addresses-' + stat.index + '-primary'}" th:field="*{addresses[__${stat.index}__].primary}" />
+								<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].primary}')}" th:errors="*{addresses[__${stat.index}__].primary}" >Primary Error</span>
+							</div>
+							<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].type}')}? ' bg-danger' : '')">
+								<label th:for="${'addresses-' + stat.index + '-type'}" th:text="#{edit_user.addresses.type}">Type</label>
+								<input class="form-control required" type="text" th:id="${'addresses-' + stat.index + '-type'}" th:placeholder="#{edit_user.addresses.type}" th:field="*{addresses[__${stat.index}__].type}" />
+								<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].type}')}" th:errors="*{addresses[__${stat.index}__].type}" >Type Error</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-md-push-6 text-right">						
+								<button th:id="${'button-remove-addresses-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.addresses}">Remove Address</button>
+							</div>
+						</div>
+						<hr />
+					</fieldset>
+					
+					<button id="button-add-address" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.addresses}">Add Address</button>
+					<hr />
+					<!--/*
+						END address-BLOCK
+					*/-->																
+					
+				</div>
+				
+				
+				
+				<div class="col-md-4"> <!-- right column  -->
+					<div class="form-group" >
+						<label for="created" th:text="#{edit_user.meta.created}">Created</label>
+						<input class="form-control" type="text" th:placeholder="#{edit_user.meta.created}" id="created" th:value="*{meta.created}" readonly="readonly"/>
+					</div>		
+					
+					<div class="form-group" >
+						<label for="lastModified" th:text="#{edit_user.meta.lastModified}">Last modified</label>
+						<input class="form-control" type="text" th:placeholder="#{edit_user.meta.lastModified}" id="lastModified" th:value="*{meta.lastModified}" readonly="readonly"/>
+					</div>	
+					
+					<div class="form-group" >
+						<label for="location" th:text="#{edit_user.meta.location}">Location</label>
+						<input class="form-control" type="text" th:placeholder="#{edit_user.meta.location}" id="location" th:value="*{meta.location}" readonly="readonly"/>
+					</div>		
 
-				<div class="col-sm-4 form-group" >
-					<label for="created" th:text="#{edit_user.meta.created}">Created</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.meta.created}" id="created" th:value="*{meta.created}" readonly="readonly"/>
+					<div class="form-group" >
+						<label for="resourceType" th:text="#{edit_user.meta.resourceType}">Resource type</label>
+						<input class="form-control" type="text" th:placeholder="#{edit_user.meta.resourceType}" id="resourceType" th:value="*{meta.resourceType}" readonly="readonly"/>
+					</div>		
+					
+					<div class="form-group" >
+						<label for="version" th:text="#{edit_user.meta.version}">Version</label>
+						<input class="form-control" type="text" th:placeholder="#{edit_user.meta.version}" id="version" th:value="*{meta.version}" readonly="readonly"/>
+					</div>	
+					
+					<div class="form-group" >
+						<label for="userID" th:text="#{edit_user.id}">Version</label>
+						<input class="form-control" type="text" th:placeholder="#{edit_user.id}" id="userID" th:value="*{id}" readonly="readonly"/>
+					</div>															
 				</div>
+			</div>
+			
 
-				<div class="col-sm-4 form-group" >
-					<label for="lastModified" th:text="#{edit_user.meta.lastModified}">Last modified</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.meta.lastModified}" id="lastModified" th:value="*{meta.lastModified}" readonly="readonly"/>
-				</div>
 
-				<div class="col-sm-4 form-group" >
-					<label for="location" th:text="#{edit_user.meta.location}">Location</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.meta.location}" id="location" th:value="*{meta.location}" readonly="readonly"/>
-				</div>
-
-				<div class="col-sm-4 form-group" >
-					<label for="resourceType" th:text="#{edit_user.meta.resourceType}">Resource type</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.meta.resourceType}" id="resourceType" th:value="*{meta.resourceType}" readonly="readonly"/>
-				</div>
-
-				<div class="col-sm-4 form-group" >
-					<label for="version" th:text="#{edit_user.meta.version}">Version</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.meta.version}" id="version" th:value="*{meta.version}" readonly="readonly"/>
-				</div>
-
-				<div class="col-sm-4 form-group" >
-					<label for="userID" th:text="#{edit_user.id}">Version</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.id}" id="userID" th:value="*{id}" readonly="readonly"/>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{active}')}? ' bg-danger' : '')" >
-					<label for="active" th:text="#{edit_user.active}">Is active</label>
-					<input type="checkbox" id="active" th:field="*{active}" />
-					<div th:if="${#fields.hasErrors('*{active}')}" th:errors="*{active}" class="text-danger">Active Flag Error</div>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{name.familyname}')}? ' bg-danger' : '')" >
-					<label for="familyname" th:text="#{edit_user.name.familyname}">Familyname</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.name.familyname}" id="familyname" th:field="*{name.familyname}" />
-					<span th:if="${#fields.hasErrors('*{name.familyname}')}" th:errors="*{name.familyname}" class="text-danger">Familyname Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{name.formatted}')}? ' bg-danger' : '')" >
-					<label for="formatted" th:text="#{edit_user.name.formatted}">Formatted Name</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.name.formatted}" id="formatted" th:field="*{name.formatted}" />
-					<span th:if="${#fields.hasErrors('*{name.formatted}')}" th:errors="*{name.formatted}" class="text-danger" >Formatted Name Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{name.givenname}')}? ' bg-danger' : '')" >
-					<label for="givenname" th:text="#{edit_user.name.givenname}">Givenname</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.name.givenname}" id="givenname" th:field="*{name.givenname}" />
-					<span th:if="${#fields.hasErrors('*{name.givenname}')}" th:errors="*{name.givenname}" class="text-danger" >Givenname Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{name.honorificprefix}')}? ' bg-danger' : '')" >
-					<label for="honorificprefix" th:text="#{edit_user.name.honorificprefix}">Honorific prefix</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.name.honorificprefix}" id="honorificprefix" th:field="*{name.honorificprefix}" />
-					<span th:if="${#fields.hasErrors('*{name.honorificprefix}')}" th:errors="*{name.honorificprefix}" class="text-danger" >Honorific prefix Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{name.honorificsuffix}')}? ' bg-danger' : '')" >
-					<label for="honorificsuffix" th:text="#{edit_user.name.honorificsuffix}">Honorific suffix</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.name.honorificsuffix}" id="honorificsuffix" th:field="*{name.honorificsuffix}" />
-					<span th:if="${#fields.hasErrors('*{name.honorificsuffix}')}" th:errors="*{name.honorificsuffix}" class="text-danger" >Honorific suffix Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{name.middlename}')}? ' bg-danger' : '')" >
-					<label for="middlename" th:text="#{edit_user.name.middlename}">Middelname</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.name.middlename}" id="middlename" th:field="*{name.middlename}" />
-					<span th:if="${#fields.hasErrors('*{name.middlename}')}" th:errors="*{name.middlename}" class="text-danger" >Middelname Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{displayName}')}? ' bg-danger' : '')" >
-					<label for="displayName" th:text="#{edit_user.displayName}">Displayname</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.displayName}" id="displayName" th:field="*{displayName}" />
-					<span th:if="${#fields.hasErrors('*{displayName}')}" th:errors="*{displayName}" class="text-danger" >Displayname Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{nickName}')}? ' bg-danger' : '')" >
-					<label for="nickName" th:text="#{edit_user.nickName}">Nickname</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.nickName}" id="nickName" th:field="*{nickName}" />
-					<span th:if="${#fields.hasErrors('*{nickName}')}" th:errors="*{nickName}" class="text-danger" >Nickname Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{title}')}? ' bg-danger' : '')" >
-					<label for="userTitle" th:text="#{edit_user.userTitle}">Titel</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.userTitle}" id="userTitle" th:field="*{title}" />
-					<span th:if="${#fields.hasErrors('*{title}')}" th:errors="*{title}" class="text-danger" >Title Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{preferredLanguage}')}? ' bg-danger' : '')" >
-					<label for="preferredLanguage" th:text="#{edit_user.preferredLanguage}">Preferred language</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.preferredLanguage}" id="preferredLanguage" th:field="*{preferredLanguage}" />
-					<span th:if="${#fields.hasErrors('*{preferredLanguage}')}" th:errors="*{preferredLanguage}" class="text-danger" >Preferred language Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{locale}')}? ' bg-danger' : '')" >
-					<label for="locale" th:text="#{edit_user.locale}">Locale</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.locale}" id="locale" th:field="*{locale}" />
-					<span th:if="${#fields.hasErrors('*{locale}')}" th:errors="*{locale}" class="text-danger" >Locale Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{profileURL}')}? ' bg-danger' : '')" >
-					<label for="profileURL" th:text="#{edit_user.profileURL}">Profile URL</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.profileURL}" id="profileURL" th:field="*{profileURL}" />
-					<span th:if="${#fields.hasErrors('*{profileURL}')}" th:errors="*{profileURL}" class="text-danger" >Profile URL Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{timezone}')}? ' bg-danger' : '')" >
-					<label for="timezone" th:text="#{edit_user.timezone}">Timezone</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.timezone}" id="timezone" th:field="*{timezone}" />
-					<span th:if="${#fields.hasErrors('*{timezone}')}" th:errors="*{timezone}" class="text-danger" >Timezone Error</span>
-				</div>
-
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{userName}')}? ' bg-danger' : '')" >
-					<label for="userName" th:text="#{edit_user.userName}">Username</label>
-					<input class="form-control" type="text" th:placeholder="#{edit_user.userName}" id="userName" th:field="*{userName}" />
-					<span th:if="${#fields.hasErrors('*{userName}')}" th:errors="*{userName}" class="text-danger" >Username Error</span>
-				</div>
-
-			</fieldset>
-
-			<!--/*
-				START EMAIL-BLOCK
-			*/-->
-			<fieldset id="email-container">
-				<div class="row" th:each="email, stat : *{emails}" th:id="${'email-block-' + stat.index}">
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].display}')}? ' bg-danger' : '')">
-						<label th:for="${'email-' + stat.index + '-display'}" th:text="#{edit_user.email.display}">Display</label>
-						<input class="form-control" type="text" th:id="${'email-' + stat.index + '-display'}" th:placeholder="#{edit_user.email.display}" th:field="*{emails[__${stat.index}__].display}" />
-						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].display}')}" th:errors="*{emails[__${stat.index}__].display}" >Display Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].value}')}? ' bg-danger' : '')">
-						<label th:for="${'email-' + stat.index + '-value'}" th:text="#{edit_user.email.value}">Value</label>
-						<input class="form-control required" type="email" required="required" th:id="${'email-' + stat.index + '-value'}" th:placeholder="#{edit_user.email.value}" th:field="*{emails[__${stat.index}__].value}" />
-						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].value}')}" th:errors="*{emails[__${stat.index}__].value}" >Value Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-						<label th:for="${'email-' + stat.index + '-primary'}" th:text="#{edit_user.email.primary}">Primary</label>
-						<input class="form-control" type="checkbox" th:id="${'email-' + stat.index + '-primary'}" th:field="*{emails[__${stat.index}__].primary}" />
-						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].primary}')}" th:errors="*{emails[__${stat.index}__].primary}" >Primary Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].type}')}? ' bg-danger' : '')">
-						<label th:for="${'email-' + stat.index + '-type'}" th:text="#{edit_user.email.type}">Type</label>
-						<input class="form-control required" type="text" th:id="${'email-' + stat.index + '-type'}" th:placeholder="#{edit_user.email.type}" th:field="*{emails[__${stat.index}__].type}" />
-						<span th:if="${#fields.hasErrors('*{emails[__${stat.index}__].type}')}" th:errors="*{emails[__${stat.index}__].type}" >Type Error</span>
-					</div>
-					<button th:id="${'button-remove-email-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.email}">Remove E-Mail</button>
-				</div>
-				<button id="button-add-email" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.email}">Add E-Mail</button>
-			</fieldset>
-			<!--/*
-				END EMAIL-BLOCK
-			*/-->
-			 <!--/*
-				START PHONE-NUMBER-BLOCK
-			*/-->
-			<fieldset id="phoneNumber-container">
-				<div class="row" th:each="phoneNumber, stat : *{phoneNumbers}" th:id="${'phoneNumber-block-' + stat.index}">
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].display}')}? ' bg-danger' : '')">
-						<label th:for="${'phoneNumber-' + stat.index + '-display'}" th:text="#{edit_user.phoneNumber.display}">Display</label>
-						<input class="form-control" type="text" th:id="${'phoneNumber-' + stat.index + '-display'}" th:placeholder="#{edit_user.phoneNumber.display}" th:field="*{phoneNumbers[__${stat.index}__].display}" />
-						<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].display}')}" th:errors="*{phoneNumbers[__${stat.index}__].display}" >Display Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].value}')}? ' bg-danger' : '')">
-						<label th:for="${'phoneNumber-' + stat.index + '-value'}" th:text="#{edit_user.phoneNumber.value}">Value</label>
-						<input class="form-control required" type="tel" required="required" th:id="${'phoneNumber-' + stat.index + '-value'}" th:placeholder="#{edit_user.phoneNumber.value}" th:field="*{phoneNumbers[__${stat.index}__].value}" />
-						<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].value}')}" th:errors="*{phoneNumbers[__${stat.index}__].value}" >Value Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-						<label th:for="${'phoneNumber-' + stat.index + '-primary'}" th:text="#{edit_user.phoneNumber.primary}">Primary</label>
-						<input class="form-control" type="checkbox" th:id="${'phoneNumber-' + stat.index + '-primary'}" th:field="*{phoneNumbers[__${stat.index}__].primary}" />
-						<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].primary}')}" th:errors="*{phoneNumbers[__${stat.index}__].primary}" >Primary Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].type}')}? ' bg-danger' : '')">
-						<label th:for="${'phoneNumber-' + stat.index + '-type'}" th:text="#{edit_user.phoneNumber.type}">Type</label>
-						<input class="form-control required" type="text" th:id="${'phoneNumber-' + stat.index + '-type'}" th:placeholder="#{edit_user.phoneNumber.type}" th:field="*{phoneNumbers[__${stat.index}__].type}" />
-						<span th:if="${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].type}')}" th:errors="*{phoneNumbers[__${stat.index}__].type}" >Type Error</span>
-					</div>
-					<button th:id="${'button-remove-phoneNumber-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.phoneNumber}">Remove Phone number</button>
-				</div>
-				<button id="button-add-phoneNumber" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.phoneNumber}">Add Phone number</button>
-			</fieldset>
-			<!--/*
-				END PHONE-NUMBER-BLOCK
-			*/-->
-			<!--/*
-				START IM-BLOCK
-			*/-->
-			<fieldset id="im-container">
-				<div class="row" th:each="im, stat : *{ims}" th:id="${'im-block-' + stat.index}">
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].display}')}? ' bg-danger' : '')">
-						<label th:for="${'im-' + stat.index + '-display'}" th:text="#{edit_user.instanceMessager.display}">Display</label>
-						<input class="form-control" type="text" th:id="${'im-' + stat.index + '-display'}" th:placeholder="#{edit_user.instanceMessager.display}" th:field="*{ims[__${stat.index}__].display}" />
-						<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].display}')}" th:errors="*{ims[__${stat.index}__].display}" >Display Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].value}')}? ' bg-danger' : '')">
-						<label th:for="${'im-' + stat.index + '-value'}" th:text="#{edit_user.instanceMessager.value}">Value</label>
-						<input class="form-control required" type="tel" required="required" th:id="${'im-' + stat.index + '-value'}" th:placeholder="#{edit_user.instanceMessager.value}" th:field="*{ims[__${stat.index}__].value}" />
-						<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].value}')}" th:errors="*{ims[__${stat.index}__].value}" >Value Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-						<label th:for="${'im-' + stat.index + '-primary'}" th:text="#{edit_user.instanceMessager.primary}">Primary</label>
-						<input class="form-control" type="checkbox" th:id="${'im-' + stat.index + '-primary'}" th:field="*{ims[__${stat.index}__].primary}" />
-						<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}" th:errors="*{ims[__${stat.index}__].primary}" >Primary Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].type}')}? ' bg-danger' : '')">
-						<label th:for="${'im-' + stat.index + '-type'}" th:text="#{edit_user.instanceMessager.type}">Type</label>
-						<input class="form-control required" type="text" th:id="${'im-' + stat.index + '-type'}" th:placeholder="#{edit_user.instanceMessager.type}" th:field="*{ims[__${stat.index}__].type}" />
-						<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].type}')}" th:errors="*{ims[__${stat.index}__].type}" >Type Error</span>
-					</div>
-					<button th:id="${'button-remove-im-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.im}">Remove Instant Messenger</button>
-				</div>
-				<button id="button-add-im" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.im}">Add Instant Messenger</button>
-			</fieldset>
-			<!--/*
-				END IM-BLOCK
-			*/-->
-			<!--/*
-				START Certificates-BLOCK
-			*/-->
-			<fieldset id="certificates-container">
-				<div class="row" th:each="certificates, stat : *{certificates}" th:id="${'certificates-block-' + stat.index}">
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].display}')}? ' bg-danger' : '')">
-						<label th:for="${'certificates-' + stat.index + '-display'}" th:text="#{edit_user.certificates.display}">Display</label>
-						<input class="form-control" type="text" th:id="${'certificates-' + stat.index + '-display'}" th:placeholder="#{edit_user.certificates.display}" th:field="*{certificates[__${stat.index}__].display}" />
-						<span th:if="${#fields.hasErrors('*{certificates[__${stat.index}__].display}')}" th:errors="*{certificates[__${stat.index}__].display}" >Display Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].value}')}? ' bg-danger' : '')">
-						<label th:for="${'certificates-' + stat.index + '-value'}" th:text="#{edit_user.certificates.value}">Value</label>
-						<input class="form-control required" type="text" required="required" th:id="${'certificates-' + stat.index + '-value'}" th:placeholder="#{edit_user.certificates.value}" th:field="*{certificates[__${stat.index}__].value}" />
-						<span th:if="${#fields.hasErrors('*{certificates[__${stat.index}__].value}')}" th:errors="*{certificates[__${stat.index}__].value}" >Value Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-						<label th:for="${'certificates-' + stat.index + '-primary'}" th:text="#{edit_user.certificates.primary}">Primary</label>
-						<input class="form-control" type="checkbox" th:id="${'certificates-' + stat.index + '-primary'}" th:field="*{certificates[__${stat.index}__].primary}" />
-						<span th:if="${#fields.hasErrors('*{certificates[__${stat.index}__].primary}')}" th:errors="*{certificates[__${stat.index}__].primary}" >Primary Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].type}')}? ' bg-danger' : '')">
-						<label th:for="${'certificates-' + stat.index + '-type'}" th:text="#{edit_user.certificates.type}">Type</label>
-						<input class="form-control required" type="text" th:id="${'certificates-' + stat.index + '-type'}" th:placeholder="#{edit_user.certificates.type}" th:field="*{certificates[__${stat.index}__].type}" />
-						<span th:if="${#fields.hasErrors('*{certificates[__${stat.index}__].type}')}" th:errors="*{certificates[__${stat.index}__].type}" >Type Error</span>
-					</div>
-					<button th:id="${'button-remove-certificates-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.certificates}">Remove Certificate</button>
-				</div>
-				<button id="button-add-certificate" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.certificates}">Add Certificate</button>
-			</fieldset>
-			<!--/*
-				END Certificates-BLOCK
-			*/-->
-			<!--/*
-				START Entitlements-BLOCK
-			*/-->
-			<fieldset id="entitlements-container">
-				<div class="row" th:each="entitlements, stat : *{entitlements}" th:id="${'entitlements-block-' + stat.index}">
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].display}')}? ' bg-danger' : '')">
-						<label th:for="${'entitlements-' + stat.index + '-display'}" th:text="#{edit_user.entitlements.display}">Display</label>
-						<input class="form-control" type="text" th:id="${'entitlements-' + stat.index + '-display'}" th:placeholder="#{edit_user.entitlements.display}" th:field="*{entitlements[__${stat.index}__].display}" />
-						<span th:if="${#fields.hasErrors('*{entitlements[__${stat.index}__].display}')}" th:errors="*{entitlements[__${stat.index}__].display}" >Display Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].value}')}? ' bg-danger' : '')">
-						<label th:for="${'entitlements-' + stat.index + '-value'}" th:text="#{edit_user.entitlements.value}">Value</label>
-						<input class="form-control required" type="text" required="required" th:id="${'entitlements-' + stat.index + '-value'}" th:placeholder="#{edit_user.entitlements.value}" th:field="*{entitlements[__${stat.index}__].value}" />
-						<span th:if="${#fields.hasErrors('*{entitlements[__${stat.index}__].value}')}" th:errors="*{entitlements[__${stat.index}__].value}" >Value Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-						<label th:for="${'entitlements-' + stat.index + '-primary'}" th:text="#{edit_user.entitlements.primary}">Primary</label>
-						<input class="form-control" type="checkbox" th:id="${'entitlements-' + stat.index + '-primary'}" th:field="*{entitlements[__${stat.index}__].primary}" />
-						<span th:if="${#fields.hasErrors('*{entitlements[__${stat.index}__].primary}')}" th:errors="*{entitlements[__${stat.index}__].primary}" >Primary Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].type}')}? ' bg-danger' : '')">
-						<label th:for="${'entitlements-' + stat.index + '-type'}" th:text="#{edit_user.entitlements.type}">Type</label>
-						<input class="form-control required" type="text" th:id="${'entitlements-' + stat.index + '-type'}" th:placeholder="#{edit_user.entitlements.type}" th:field="*{entitlements[__${stat.index}__].type}" />
-						<span th:if="${#fields.hasErrors('*{entitlements[__${stat.index}__].type}')}" th:errors="*{entitlements[__${stat.index}__].type}" >Type Error</span>
-					</div>
-					<button th:id="${'button-remove-entitlements-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.entitlements}">Remove Entitlement</button>
-				</div>
-				<button id="button-add-entitlement" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.entitlements}">Add Entitlement</button>
-			</fieldset>
-			<!--/*
-				END entitlement-BLOCK
-			*/-->
-			 <!--/*
-				START address-BLOCK
-			*/-->
-			<fieldset id="addresses-container">
-				<div class="row" th:each="addresses, stat : *{addresses}" th:id="${'addresses-block-' + stat.index}">
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].country}')}? ' bg-danger' : '')">
-						<label th:for="${'addresses-' + stat.index + '-country'}" th:text="#{edit_user.addresses.country}">Country</label>
-						<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-country'}" th:placeholder="#{edit_user.addresses.country}" th:field="*{addresses[__${stat.index}__].country}" />
-						<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].country}')}" th:errors="*{addresses[__${stat.index}__].country}" >Country Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].formatted}')}? ' bg-danger' : '')">
-						<label th:for="${'addresses-' + stat.index + '-formatted'}" th:text="#{edit_user.addresses.formatted}">Formatted address</label>
-						<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-formatted'}" th:placeholder="#{edit_user.addresses.formatted}" th:field="*{addresses[__${stat.index}__].formatted}" />
-						<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].formatted}')}" th:errors="*{addresses[__${stat.index}__].formatted}" >Formatted address Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].locality}')}? ' bg-danger' : '')">
-						<label th:for="${'addresses-' + stat.index + '-locality'}" th:text="#{edit_user.addresses.locality}">Locality</label>
-						<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-locality'}" th:placeholder="#{edit_user.addresses.locality}" th:field="*{addresses[__${stat.index}__].locality}" />
-						<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].locality}')}" th:errors="*{addresses[__${stat.index}__].locality}" >Locality Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].postalcode}')}? ' bg-danger' : '')">
-						<label th:for="${'addresses-' + stat.index + '-postalcode'}" th:text="#{edit_user.addresses.postalcode}">Postalcode</label>
-						<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-postalcode'}" th:placeholder="#{edit_user.addresses.postalcode}" th:field="*{addresses[__${stat.index}__].postalcode}" />
-						<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].postalcode}')}" th:errors="*{addresses[__${stat.index}__].postalcode}" >Postalcode Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].region}')}? ' bg-danger' : '')">
-						<label th:for="${'addresses-' + stat.index + '-region'}" th:text="#{edit_user.addresses.region}">Region</label>
-						<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-region'}" th:placeholder="#{edit_user.addresses.region}" th:field="*{addresses[__${stat.index}__].region}" />
-						<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].region}')}" th:errors="*{addresses[__${stat.index}__].region}" >Region Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].streetaddress}')}? ' bg-danger' : '')">
-						<label th:for="${'addresses-' + stat.index + '-streetaddress'}" th:text="#{edit_user.addresses.streetaddress}">Streetaddress</label>
-						<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-streetaddress'}" th:placeholder="#{edit_user.addresses.streetaddress}" th:field="*{addresses[__${stat.index}__].streetaddress}" />
-						<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].streetaddress}')}" th:errors="*{addresses[__${stat.index}__].streetaddress}" >Streetaddress Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-						<label th:for="${'addresses-' + stat.index + '-primary'}" th:text="#{edit_user.addresses.primary}">Primary</label>
-						<input class="form-control" type="checkbox" th:id="${'addresses-' + stat.index + '-primary'}" th:field="*{addresses[__${stat.index}__].primary}" />
-						<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].primary}')}" th:errors="*{addresses[__${stat.index}__].primary}" >Primary Error</span>
-					</div>
-					<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].type}')}? ' bg-danger' : '')">
-						<label th:for="${'addresses-' + stat.index + '-type'}" th:text="#{edit_user.addresses.type}">Type</label>
-						<input class="form-control required" type="text" th:id="${'addresses-' + stat.index + '-type'}" th:placeholder="#{edit_user.addresses.type}" th:field="*{addresses[__${stat.index}__].type}" />
-						<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].type}')}" th:errors="*{addresses[__${stat.index}__].type}" >Type Error</span>
-					</div>
-					<button th:id="${'button-remove-addresses-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.addresses}">Remove Address</button>
-				</div>
-				<button id="button-add-address" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.addresses}">Add Address</button>
-			</fieldset>
-			<!--/*
-				END address-BLOCK
-			*/-->
             <!--/*
                 START extension-BLOCK
             */-->
@@ -546,7 +683,7 @@
 					</a>
 				</div>
 			</div>
-		</div>
+
 	</form>
 </div>
 </body>
