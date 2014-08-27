@@ -12,6 +12,7 @@ import org.osiam.addons.administration.mail.EmailSender;
 import org.osiam.addons.administration.model.session.UserlistSession;
 import org.osiam.addons.administration.paging.PagingBuilder;
 import org.osiam.addons.administration.paging.PagingLinks;
+import org.osiam.addons.administration.service.ExtensionsService;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.scim.SCIMSearchResult;
@@ -67,6 +68,8 @@ public class UserViewController {
             @RequestParam(value = REQUEST_PARAMETER_ASCENDING, required = false) Boolean ascending) {
 
         ModelAndView modelAndView = new ModelAndView("user/list");
+        ExtensionsService eService = new ExtensionsService();
+        eService.basicPOC();
 
         final String attributes = "id, userName, active, name.givenName, name.familyName";
 
