@@ -1,17 +1,15 @@
 package org.osiam.addons.administration.config;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.OsiamConnector;
+import org.osiam.client.query.Query;
 import org.osiam.client.query.QueryBuilder;
-import org.osiam.resources.scim.GroupRef;
 import org.osiam.resources.scim.SCIMSearchResult;
 import org.osiam.resources.scim.User;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,17 +41,33 @@ public class AdminAccessDecisionManager implements AccessDecisionManager {
             throw new AccessDeniedException("There is no accesstoken in session!");
         }
 
-        //groups.display eq "vr_bewerber" OR groups.display eq "vr_anwaerterStipendiat" OR groups.display eq "vr_stipendiat" OR groups.display eq "vr_anwaerterAltstipendiat"
-//        List<GroupRef> userGroups = connector.getCurrentUser(session.getAccesstoken()).getGroups();
+        checkForAdminGroup();
+    }
 
+    private void checkForAdminGroup() {
+        if (adminGroups == null || adminGroups.length == 0) {
+            return;
+        }
+
+        String queryFilter = buildQueryFilter();
+        Query query = new QueryBuilder()
+                            .count(1)
+                            .filter(queryFilter)
+                         .build();
+
+        SCIMSearchResult<User> result = connector.searchUsers(query, session.getAccesstoken());
+
+        if(result.getTotalResults() != 1) {
+            throw new AccessDeniedException("The user not a member of an admin group.");
+        }
+    }
+
+    private String buildQueryFilter() {
         StringBuilder queryString = new StringBuilder();
         queryString.append("userName eq ");
         queryString.append("\"");
         queryString.append(session.getAccesstoken().getUserName());
-        queryString.append("\"");
-        if (adminGroups.length > 0) {
-            queryString.append(" AND ");
-        }
+        queryString.append("\" AND (");
 
         Iterator<String> groupIterator = Arrays.asList(adminGroups).iterator();
         while (groupIterator.hasNext()) {
@@ -65,12 +79,9 @@ public class AdminAccessDecisionManager implements AccessDecisionManager {
                 queryString.append(" OR ");
             }
         }
+        queryString.append(")");
 
-        SCIMSearchResult<User> a = connector.searchUsers(new QueryBuilder().filter(queryString.toString()).build(), session.getAccesstoken());
-
-        if(a.getTotalResults() != 1) {
-            throw new AccessDeniedException("No permissions to user admin gui");
-        }
+        return queryString.toString();
     }
 
     @Override
