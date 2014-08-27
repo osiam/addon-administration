@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}" ></script>
 	<script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}" ></script>
 	<script type="text/javascript" src="../../js/multivalue.js" th:src="@{/js/multivalue.js}" ></script>
+	<script type="text/javascript" src="../../js/extension.js" th:src="@{/js/extension.js}" ></script>
 	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
 	<link rel="stylesheet" type="text/css" href="../../css/Style.css" th:href="@{/css/Style.css}"/>
 </head>
@@ -41,7 +42,7 @@
 					<input class="form-control" type="text" id="email-ID-display" th:placeholder="#{edit_user.email.display}" name="emails[ID].display"/>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-6 form-group">
 					<label for="email-ID-value" th:text="#{edit_user.email.value}">Value</label>
@@ -53,7 +54,7 @@
 					<input type="hidden" value="on" name="_emails[ID].primary" />
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-6 col-md-push-6 text-right">
 					<button th:id="${'button-remove-email-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.email}">Remove email</button>
@@ -61,9 +62,9 @@
 			</div>
 			<hr />
 		</div>
-		
+
 		<div id="phoneNumber-template">
-		
+
 			<div class="row">
 				<div class="col-md-2 form-group">
 					<label for="phoneNumber-ID-primary" th:text="#{edit_user.phoneNumber.primary}">Primary</label><br />
@@ -74,7 +75,7 @@
 					<input class="form-control" type="text" id="phoneNumber-ID-display" th:placeholder="#{edit_user.phoneNumber.display}" name="phoneNumbers[ID].display"/>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-6 form-group">
 					<label for="phoneNumber-ID-value" th:text="#{edit_user.phoneNumber.value}">Value</label>
@@ -93,7 +94,7 @@
 			</div>
 			<hr />
 		</div>
-		
+
 		<div id="im-template">
 			<div class="row">
 				<div class="col-md-2 form-group">
@@ -105,7 +106,7 @@
 					<input class="form-control" type="text" id="im-ID-display" th:placeholder="#{edit_user.im.display}" name="ims[ID].display"/>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-6 form-group">
 					<label for="im-ID-value" th:text="#{edit_user.im.value}">Value</label>
@@ -117,7 +118,7 @@
 					<input type="hidden" value="on" name="_ims[ID].primary" />
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-6 col-md-push-6 text-right">
 					<button th:id="${'button-remove-im-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.im}">Remove Im</button>
@@ -125,7 +126,7 @@
 			</div>
 			<hr />
 		</div>
-		
+
 		<div id="certificate-template">
 			<div class="row">
 				<div class="col-md-2 form-group">
@@ -155,7 +156,7 @@
 			</div>
 			<hr />
 		</div>
-		
+
 		<div id="entitlement-template">
 			<div class="row">
 				<div class="col-md-2 form-group">
@@ -185,9 +186,9 @@
 			</div>
 			<hr />
 		</div>
-		
+
 		<div id="address-template">
-		
+
 			<div class="row">
 				<div class="col-md-2 form-group">
 					<label for="addresses-ID-primary" th:text="#{edit_user.addresses.primary}">Primary</label><br />
@@ -640,12 +641,12 @@
 					*/-->
 					<div id="addresses-container">
 						<fieldset th:each="addresses, stat : *{addresses}" th:id="${'addresses-block-' + stat.index}">
-							
+
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].primary}')}? ' bg-danger' : '')">
 									<label th:for="${'addresses-' + stat.index + '-primary'}" th:text="#{edit_user.addresses.primary}">Primary</label><br />
 									<input type="checkbox" style="margin:0" th:id="${'addresses-' + stat.index + '-primary'}" th:field="*{addresses[__${stat.index}__].primary}" />
-									<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].primary}')}" th:errors="*{addresses[__${stat.index}__].primary}" >Primary Error</span>								
+									<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].primary}')}" th:errors="*{addresses[__${stat.index}__].primary}" >Primary Error</span>
 								</div>
 
 								<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].type}')}? ' bg-danger' : '')">
@@ -654,7 +655,7 @@
 									<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].type}')}" th:errors="*{addresses[__${stat.index}__].type}" >Type Error</span>
 								</div>
 							</div>
-							
+
 							<div class="row">
 								<div th:class="'col-md-8 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].streetaddress}')}? ' bg-danger' : '')">
 									<label th:for="${'addresses-' + stat.index + '-streetaddress'}" th:text="#{edit_user.addresses.streetaddress}">Streetaddress</label>
@@ -662,7 +663,7 @@
 									<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].streetaddress}')}" th:errors="*{addresses[__${stat.index}__].streetaddress}" >Streetaddress Error</span>
 								</div>
 							</div>
-							
+
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].postalcode}')}? ' bg-danger' : '')">
 									<label th:for="${'addresses-' + stat.index + '-postalcode'}" th:text="#{edit_user.addresses.postalcode}">Postalcode</label>
@@ -670,14 +671,14 @@
 									<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].postalcode}')}" th:errors="*{addresses[__${stat.index}__].postalcode}" >Postalcode Error</span>
 
 								</div>
-								
+
 								<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].locality}')}? ' bg-danger' : '')">
 									<label th:for="${'addresses-' + stat.index + '-locality'}" th:text="#{edit_user.addresses.locality}">Locality</label>
 									<input class="form-control required" type="text" required="required" th:id="${'addresses-' + stat.index + '-locality'}" th:placeholder="#{edit_user.addresses.locality}" th:field="*{addresses[__${stat.index}__].locality}" />
 									<span th:if="${#fields.hasErrors('*{addresses[__${stat.index}__].locality}')}" th:errors="*{addresses[__${stat.index}__].locality}" >Locality Error</span>
 								</div>
 							</div>
-							
+
 							<div class="row">
 								<div th:class="'col-md-8 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].region}')}? ' bg-danger' : '')">
 									<label th:for="${'addresses-' + stat.index + '-region'}" th:text="#{edit_user.addresses.region}">Region</label>
@@ -711,14 +712,14 @@
 					<!--/*
 						END address-BLOCK
 					*/-->
-					
+
 					<!--/*
 		                START extension-BLOCK
 		            */-->
 
-	                <div th:each="extensionEntry : ${model.user.extensions}" th:with="extension = ${extensionEntry.value}">
+	                <div th:each="extensionEntry, stat : ${model.user.extensions}" th:with="extension = ${extensionEntry.value}">
 	                    <h3 th:text="${extension.urn}" style="margin-bottom:10px">Extension-URN</h3>
-	                    
+
 	                    <div th:each="fieldEntry : ${extension.fields}" th:class="(${#fields.hasErrors('*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}')}? ' bg-danger' : '')">
 	                       	<div class="row">
 	                       		<div class="col-md-2">
@@ -737,11 +738,14 @@
 	                       		</div>
 	                        </div>
 	                    </div>
+	             		<div class="col-md-8 form-group text-right only-on-js">
+	                    	<button th:id="${'button-remove-extensions-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" >Remove Extension</button>
+	                    </div>
 	                </div>
 
 		            <!--/*
 		                END extension-BLOCK
-		            */-->					
+		            */-->
 
 				</div>
 
@@ -750,7 +754,7 @@
 				<div class="col-md-3"> <!-- right column  -->
 					<div class="form-group" >
 						<strong th:text="#{edit_user.meta.created}">Created</strong><br />
-						<span th:text="*{meta.created}" id="created"></span>										
+						<span th:text="*{meta.created}" id="created"></span>
 						<!-- <input class="form-control" type="text" th:placeholder="#{edit_user.meta.created}" id="created" th:value="*{meta.created}" readonly="readonly"/>-->
 					</div>
 
