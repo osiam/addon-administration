@@ -8,14 +8,14 @@ $(function(){
 			buttons : {
 				success : {
 					label : $('#dialog-success').val(),
-					className : "btn-success",
+					className : "btn-primary",
 					callback : function() {
 						button.closest("form").submit();
 					}
 				},
 				danger : {
 					label : $('#dialog-abort').val(),
-					className : "btn-danger"
+					className : "btn-primary"
 				}
 			}
 		});
@@ -36,14 +36,14 @@ $(function(){
 			buttons : {
 				success : {
 					label : $('#dialog-success').val(),
-					className : "btn-success",
+					className : "btn-primary",
 					callback : function() {
 						window.location = continueLocation;
 					}
 				},
 				danger : {
 					label : $('#dialog-abort').val(),
-					className : "btn-danger",
+					className : "btn-primary",
 					callback : function() {
 						$(button).parent().attr('href', continueLocation);
 					}
@@ -64,7 +64,7 @@ $(function(){
 			buttons : {
 				success : {
 					label : $('#dialog-success').val(),
-					className : "btn-success",
+					className : "btn-primary",
 					callback : function() {
 						var sendMail = $('div[role="dialog"] #send-mail').is(':checked');
 
@@ -74,7 +74,7 @@ $(function(){
 				},
 				danger : {
 					label : $('#dialog-abort').val(),
-					className : "btn-danger"
+					className : "btn-primary"
 				}
 			}
 		});
@@ -91,14 +91,14 @@ $(function(){
 			buttons : {
 				success : {
 					label : $('#dialog-success').val(),
-					className : "btn-success",
+					className : "btn-primary",
 					callback : function() {
 						button.parent().submit();
 					}
 				},
 				danger : {
 					label : $('#dialog-abort').val(),
-					className : "btn-danger"
+					className : "btn-primary"
 				}
 			}
 		});
@@ -116,7 +116,7 @@ $(function(){
 			buttons : {
 				success : {
 					label : $('#dialog-success').val(),
-					className : "btn-success",
+					className : "btn-primary",
 					callback : function() {
 						var sendMail = $('div[role="dialog"] #send-mail').is(':checked');
 
@@ -126,7 +126,7 @@ $(function(){
 				},
 				danger : {
 					label : $('#dialog-abort').val(),
-					className : "btn-danger"
+					className : "btn-primary"
 				}
 			}
 		});
