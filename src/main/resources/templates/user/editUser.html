@@ -30,27 +30,39 @@
 		<input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.user.dialog.cancelUpdate.message}" />
 	</div>
 	<div id="templates" style="display:none;">
-		<div id="email-template" class="row">
-			<div class="col-sm-4 form-group">
-				<label for="email-ID-display" th:text="#{edit_user.email.display}">Display</label>
-				<input class="form-control" type="text" id="email-ID-display" th:placeholder="#{edit_user.email.display}" name="emails[ID].display"/>
+		<div id="email-template">
+			<div class="row">
+				<div class="col-md-2 form-group">
+					<label class="checkbox-inline" style="position:relative; font-weight:bold; cursor:default;" for="email-ID-primary" th:text="#{edit_user.email.primary}">Primary
+					<input class="" style="left:0; margin-left:0; margin-top:2px;" type="checkbox" th:id="email-ID-primary" name="emails[ID].primary" value="false" /></label>
+				</div>
+				<div class="col-md-10 form-group">
+					<label for="email-ID-display" th:text="#{edit_user.email.display}">Display</label>
+					<input class="form-control" type="text" id="email-ID-display" th:placeholder="#{edit_user.email.display}" name="emails[ID].display"/>
+				</div>
 			</div>
-			<div class="col-sm-4 form-group">
-				<label for="email-ID-value" th:text="#{edit_user.email.value}">Value</label>
-				<input class="form-control required" type="email" required="required" th:id="email-ID-value" th:placeholder="#{edit_user.email.value}" name="emails[ID].value" />
+			
+			<div class="row">
+				<div class="col-md-6 form-group">
+					<label for="email-ID-value" th:text="#{edit_user.email.value}">Value</label>
+					<input class="form-control required" type="email" required="required" th:id="email-ID-value" th:placeholder="#{edit_user.email.value}" name="emails[ID].value" />
+				</div>
+				<div class="col-md-6 form-group">
+					<label for="email-ID-type" th:text="#{edit_user.email.type}">Type</label>
+					<input class="form-control required" type="text" th:id="email-ID-type" th:placeholder="#{edit_user.email.type}" name="emails[ID].type" />
+					<input type="hidden" value="on" name="_emails[ID].primary" />
+				</div>
 			</div>
-			<div class="col-sm-4 form-group">
-				<label for="email-ID-primary" th:text="#{edit_user.email.primary}">Primary</label>
-				<input class="form-control" type="checkbox" th:id="email-ID-primary" name="emails[ID].primary" value="false" />
+			
+			<div class="row">
+				<div class="col-md-6 col-md-push-6 text-right">
+					<button th:id="${'button-remove-email-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.email}">Remove email</button>
+				</div>
 			</div>
-			<div class="col-sm-4 form-group">
-				<label for="email-ID-type" th:text="#{edit_user.email.type}">Type</label>
-				<input class="form-control required" type="text" th:id="email-ID-type" th:placeholder="#{edit_user.email.type}" name="emails[ID].type" />
-				<input type="hidden" value="on" name="_emails[ID].primary" />
-			</div>
-			<button th:id="${'button-remove-email-ID'}" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.remove.email}">Remove email</button>
+			<hr />
 		</div>
-		<div id="phoneNumber-template" class="row">
+		
+		<div id="phoneNumber-template">
 			<div class="col-sm-4 form-group">
 				<label for="phoneNumber-ID-display" th:text="#{edit_user.phoneNumber.display}">Display</label>
 				<input class="form-control" type="text" id="phoneNumber-ID-display" th:placeholder="#{edit_user.phoneNumber.display}" name="phoneNumbers[ID].display"/>
@@ -296,14 +308,14 @@
 					<hr />
 					<div class="row">
 						<div class="col-md-6">
-							<div th:class="'col-sm-4' + (${#fields.hasErrors('*{locale}')}? ' bg-danger' : '')" >
+							<div th:class="'' + (${#fields.hasErrors('*{locale}')}? ' bg-danger' : '')" >
 								<label for="locale" th:text="#{edit_user.locale}">Locale</label>
 								<input class="form-control" type="text" th:placeholder="#{edit_user.locale}" id="locale" th:field="*{locale}" />
 								<span th:if="${#fields.hasErrors('*{locale}')}" th:errors="*{locale}" class="text-danger" >Locale Error</span>
 							</div>
 						</div>
 						<div class="col-md-6">
-							<div th:class="'col-sm-4' + (${#fields.hasErrors('*{timezone}')}? ' bg-danger' : '')" >
+							<div th:class="'' + (${#fields.hasErrors('*{timezone}')}? ' bg-danger' : '')" >
 								<label for="timezone" th:text="#{edit_user.timezone}">Timezone</label>
 								<input class="form-control" type="text" th:placeholder="#{edit_user.timezone}" id="timezone" th:field="*{timezone}" />
 								<span th:if="${#fields.hasErrors('*{timezone}')}" th:errors="*{timezone}" class="text-danger" >Timezone Error</span>
@@ -313,7 +325,7 @@
 
 					<div class="row">
 						<div class="col-md-6">
-							<div th:class="'col-sm-4' + (${#fields.hasErrors('*{preferredLanguage}')}? ' bg-danger' : '')" >
+							<div th:class="'' + (${#fields.hasErrors('*{preferredLanguage}')}? ' bg-danger' : '')" >
 								<label for="preferredLanguage" th:text="#{edit_user.preferredLanguage}">Preferred language</label>
 								<input class="form-control" type="text" th:placeholder="#{edit_user.preferredLanguage}" id="preferredLanguage" th:field="*{preferredLanguage}" />
 								<span th:if="${#fields.hasErrors('*{preferredLanguage}')}" th:errors="*{preferredLanguage}" class="text-danger" >Preferred language Error</span>
@@ -325,7 +337,7 @@
 
 					<div class="row">
 						<div class="col-md-6">
-							<div th:class="'col-sm-4' + (${#fields.hasErrors('*{profileURL}')}? ' bg-danger' : '')" >
+							<div th:class="'' + (${#fields.hasErrors('*{profileURL}')}? ' bg-danger' : '')" >
 								<label for="profileURL" th:text="#{edit_user.profileURL}">Profile URL</label>
 								<input class="form-control" type="text" th:placeholder="#{edit_user.profileURL}" id="profileURL" th:field="*{profileURL}" />
 								<span th:if="${#fields.hasErrors('*{profileURL}')}" th:errors="*{profileURL}" class="text-danger" >Profile URL Error</span>
