@@ -32,7 +32,7 @@
 	</div>
 
 	<form id="form-edit-group" method="POST" action="" th:object="${model}">
-		<div class="container">
+		
 
 			<h2 th:text="#{edit_group.title}">Edit group</h2>
 			<div th:if="${(param.error != null) and (param.error[0] == 'validation')}"
@@ -40,56 +40,65 @@
 				Validation Error
 			</div>
 
-			<fieldset>
+			<div class="row">
 				<!-- CSRF token -->
 				<th:block th:replace="makros :: csrf" />
 
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{displayName}')}? ' bg-danger' : '')" >
+				<div th:class="'col-md-4 form-group' + (${#fields.hasErrors('*{displayName}')}? ' bg-danger' : '')" >
 					<label for="displayName" th:text="#{edit_group.displayName}">Display name</label>
 					<input class="form-control" type="text" th:placeholder="#{edit_group.displayName}" id="displayName" th:field="*{displayName}" />
 					<div th:if="${#fields.hasErrors('*{displayName}')}" th:errors="*{displayName}" class="text-danger">Display name</div>
 				</div>
 
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{externalId}')}? ' bg-danger' : '')" >
+				<div th:class="'col-md-4 form-group' + (${#fields.hasErrors('*{externalId}')}? ' bg-danger' : '')" >
 					<label for="externalId" th:text="#{edit_group.externalId}">External Id</label>
 					<input class="form-control" type="text" th:placeholder="#{edit_group.externalId}" id="externalId" th:field="*{externalId}" />
 					<span th:if="${#fields.hasErrors('*{externalId}')}" th:errors="*{externalId}" class="text-danger">External Id</span>
 				</div>
 
-			</fieldset>
-
-			<div>
-				<select id="member" multiple="multiple" name="memberIds">
-					<option th:each="memberId : *{memberIds}"
-							th:value="${memberId}"
-							th:text="${userList.get(memberId).userName}">
-						Member
-					</option>
-				</select>
-				<span>
-					<button id="move-to-member" class="only-on-js" type="button" th:text="#{edit_group.member.add}">Add</button>
-					<button id="remove-from-member" class="only-on-js" type="button" th:text="#{edit_group.member.remove}">Remove</button>
-				</span>
-				<select id="outsider" multiple="multiple">
-					<option th:each="userEntry : ${userList}"
-							th:unless="${model.memberIds.contains(userEntry.key)}"
-							th:with="user = ${userEntry.value}"
-							th:text="${user.userName}"
-							th:value="${user.id}">
-						Outsider
-					</option>
-				</select>
 			</div>
 
 			<div class="row">
-				<div class="col-sm-2 col-sm-offset-10 text-right">
+				<div class="col-md-4 form-group">
+					<select id="member" multiple="multiple" name="memberIds">
+						<option th:each="memberId : *{memberIds}"
+								th:value="${memberId}"
+								th:text="${userList.get(memberId).userName}">
+							Member
+						</option>
+					</select>
+				</div>
+				
+				<div class="col-md-4 form-group">
+					<select id="outsider" multiple="multiple">
+						<option th:each="userEntry : ${userList}"
+								th:unless="${model.memberIds.contains(userEntry.key)}"
+								th:with="user = ${userEntry.value}"
+								th:text="${user.userName}"
+								th:value="${user.id}">
+							Outsider
+						</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 form-group text-right">
+					<button id="move-to-member" class="only-on-js" type="button" th:text="#{edit_group.member.add}">Add</button>
+				</div>
+				<div class="col-md-4 form-group">
+					<button id="remove-from-member" class="only-on-js" type="button" th:text="#{edit_group.member.remove}">Remove</button>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12 text-right">
 					<button class="btn btn-md btn-primary" type="submit" id="btnSaveChanges" th:text="#{edit_group.update}">Save</button>
 					<a th:href="@{list}">
 						<button class="btn btn-md btn-primary" type="button" id="btnCancelChanges" th:text="#{edit_group.cancel}">Back</button>
 					</a>
 				</div>
 			</div>
-		</div>
+
 	</form>
 </div>
 </body>
