@@ -32,7 +32,7 @@
         <input id="dialog-success" type="hidden" th:value="#{msg.group.dialog.success}" />
         <input id="dialog-abort" type="hidden" th:value="#{msg.group.dialog.abort}" />
     </div>
-	<div th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.list.saveSuccess}">
+	<div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.list.saveSuccess}">
         Successful saved
     </div>
     <table class="table table-hover table-striped table-bordered table-condensed">
