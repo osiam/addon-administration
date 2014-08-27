@@ -134,7 +134,7 @@ public class UserListIT extends Integrationtest {
     }
 
     @Test
-    public void userDeactivation() {
+    public void user_deactivation_dialog_interactions() {
         String username = "hsimpson";
 
         // abort deactivation
@@ -151,7 +151,7 @@ public class UserListIT extends Integrationtest {
     }
 
     @Test
-    public void userActivation() {
+    public void user_activation_dialog_interaction() {
         String username = "jcambell";
 
         // abort activation

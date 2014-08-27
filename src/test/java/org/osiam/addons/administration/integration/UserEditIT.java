@@ -20,18 +20,22 @@ public class UserEditIT extends Integrationtest {
     private static String TEST_USER_NAME = "adavies";
 
     @Test
-    public void saveChangesDialog() {
+    public void save_changes_dialog_interactions() {
         editTestUser();
+
+        // closing the dialog should return to the edit view
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_CLOSE).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
+        // aborting the dialog should return to the edit view
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_ABORT).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
+        // submitting the dialog should return to the user list
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_SUCCESS).click();
 
@@ -39,14 +43,16 @@ public class UserEditIT extends Integrationtest {
     }
 
     @Test
-    public void cancelEditDialog() {
+    public void cancel_edit_dialog_interactions() {
         editTestUser();
 
+        // aborting the dialog should return to the edit view
         browser.findElement(UserEdit.CANCEL_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_ABORT).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
+        // canceling the dialog should return to the user list view5
         browser.findElement(UserEdit.CANCEL_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_SUCCESS).click();
 
@@ -54,7 +60,7 @@ public class UserEditIT extends Integrationtest {
     }
 
     @Test
-    public void editUser() {
+    public void edit_user_view_displays_previously_saved_changes() {
         editTestUser();
 
         final boolean newActive = true;
