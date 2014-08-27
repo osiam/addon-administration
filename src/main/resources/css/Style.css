@@ -45,7 +45,7 @@ table {
     text-align:left;
 }
 
-li.action div.btn ul {
+li.action ul {
     background-color: white;
     border: 1px solid #ccc;
     left: 77px;
@@ -55,7 +55,7 @@ li.action div.btn ul {
     visibility: hidden;
 }
 
-li.action div.btn:hover > ul {
+li.action:hover > ul {
     visibility: visible;
 }
 

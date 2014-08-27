@@ -79,7 +79,7 @@
                 <nav class="actionNav">
                     <ul>
                         <li class="action">
-                            <div class="btn btn-info btn-sm" th:id="${'action-label-' + groupStat.index}" th:text="#{msg.button.action} + '&gt;'">Actions <span class="glyphicon glyphicon-chevron-right"></span>
+                            <div class="btn btn-info btn-sm" th:id="${'action-label-' + groupStat.index}" th:text="#{msg.button.action} + '&gt;'">Actions <span class="glyphicon glyphicon-chevron-right"></span></div>
 	                            <ul class="btn">
 	                                <li>
 	                                    <a th:href="@{edit(id = ${group.id})}">
@@ -95,7 +95,6 @@
 	                                    </form>
 	                                </li>
 	                            </ul>
-	                    	</div>
                         </li>
                     </ul>
                 </nav> <!-- End: Action-Menu -->
