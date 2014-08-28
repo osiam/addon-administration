@@ -113,7 +113,7 @@ public class EditUserController extends GenericController {
         User user = userService.getUser(command.getId());
         command.setUser(user);
 
-        validateCommand(command, bindingResult);
+        validateCommand(command, extensionService.getExtensionsMap(), bindingResult);
 
         final RedirectBuilder redirect = new RedirectBuilder()
                                             .setPath(CONTROLLER_PATH)
@@ -147,9 +147,9 @@ public class EditUserController extends GenericController {
      * @param command the command object
      * @param bindingResult the binding result for that command
      */
-    private void validateCommand(UpdateUserCommand command, BindingResult bindingResult) {
+    private void validateCommand(UpdateUserCommand command, Map<String, Extension> allExtensions, BindingResult bindingResult) {
         command.purge();
-        command.validate(bindingResult);
+        command.validate(allExtensions, bindingResult);
         validator.validate(command, bindingResult);
     }
 }

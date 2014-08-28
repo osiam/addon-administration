@@ -141,7 +141,6 @@ public class UpdateUserCommand {
         enrichExtensions(allExtensions);
         if(user.getExtensions() != null){
             for(Extension extension : user.getExtensions().values()){
-                this.extensions.put(extension.getUrn(), new TreeMap<String, String>());
                 for(Entry<String, Field> field : extension.getFields().entrySet()){
                     this.extensions.get(extension.getUrn()).put(field.getKey(), field.getValue().getValue());
                 }
@@ -588,14 +587,14 @@ public class UpdateUserCommand {
         }
     }
 
-    public void validate(BindingResult bindingResult) {
-        validateExtensions(bindingResult);
+    public void validate(Map<String, Extension> allExtensions, BindingResult bindingResult) {
+        validateExtensions(allExtensions, bindingResult);
     }
 
-    private void validateExtensions(BindingResult bindingResult) {
+    private void validateExtensions(Map<String, Extension> allExtensions, BindingResult bindingResult) {
         ExtensionValidator validator = new ExtensionValidator(
                 "extensions",
-                getUser().getExtensions(),
+                allExtensions,
                 bindingResult);
 
         for(Entry<String, SortedMap<String, String>> extension : getExtensions().entrySet()){
