@@ -141,7 +141,6 @@ public class UpdateUserCommand {
         enrichExtensions(allExtensions);
         if(user.getExtensions() != null){
             for(Extension extension : user.getExtensions().values()){
-                this.extensions.put(extension.getUrn(), new TreeMap<String, String>());
                 for(Entry<String, Field> field : extension.getFields().entrySet()){
                     this.extensions.get(extension.getUrn()).put(field.getKey(), field.getValue().getValue());
                 }
