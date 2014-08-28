@@ -1,11 +1,13 @@
 package org.osiam.addons.administration.model.command;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -73,7 +75,7 @@ public class UpdateUserCommand {
     @Valid
     private List<EntitlementCommand> entitlements = new ArrayList<EntitlementCommand>();
 
-    private Map<String, Map<String, String>> extensions = new HashMap<String, Map<String,String>>();
+    private SortedMap<String, SortedMap<String, String>> extensions = new TreeMap<String, SortedMap<String,String>>();
 
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
@@ -81,7 +83,7 @@ public class UpdateUserCommand {
      * @param user
      *        the user
      */
-    public UpdateUserCommand(User user, List<Extension> allExtensions) {
+    public UpdateUserCommand(User user, Collection<Extension> allExtensions) {
         this.user = user;
         setId(user.getId());
 
@@ -139,7 +141,7 @@ public class UpdateUserCommand {
         enrichExtensions(allExtensions);
         if(user.getExtensions() != null){
             for(Extension extension : user.getExtensions().values()){
-                this.extensions.put(extension.getUrn(), new HashMap<String, String>());
+                this.extensions.put(extension.getUrn(), new TreeMap<String, String>());
                 for(Entry<String, Field> field : extension.getFields().entrySet()){
                     this.extensions.get(extension.getUrn()).put(field.getKey(), field.getValue().getValue());
                 }
@@ -438,23 +440,23 @@ public class UpdateUserCommand {
         this.meta = meta;
     }
 
-    public Map<String, Map<String, String>> getExtensions() {
+    public SortedMap<String, SortedMap<String, String>> getExtensions() {
         return extensions;
     }
 
-    public void setExtensions(Map<String, Map<String, String>> extensions) {
+    public void setExtensions(SortedMap<String, SortedMap<String, String>> extensions) {
         this.extensions = extensions;
     }
 
-    public void enrichExtensions(List<Extension> allExtensions) {
+    public void enrichExtensions(Collection<Extension> allExtensions) {
         for(Extension extension : allExtensions){
 
             if(!this.extensions.containsKey(extension.getUrn())){
-                this.extensions.put(extension.getUrn(), new HashMap<String, String>());
+                this.extensions.put(extension.getUrn(), new TreeMap<String, String>());
             }
 
             for(Entry<String, Field> field : extension.getFields().entrySet()){
-                Map<String, String> localExtension = this.extensions.get(extension.getUrn());
+                SortedMap<String, String> localExtension = this.extensions.get(extension.getUrn());
 
                 if(!localExtension.containsKey(field.getKey())){
                     localExtension.put(field.getKey(), "");
@@ -531,7 +533,7 @@ public class UpdateUserCommand {
                 builder.addEntitlement(entitlement.getAsEntitlement());
             }
         }
-        for(Entry<String, Map<String, String>> extension : getExtensions().entrySet()){
+        for(Entry<String, SortedMap<String, String>> extension : getExtensions().entrySet()){
             final String urn = extension.getKey();
             Extension.Builder extensionBuilder = new Extension.Builder(urn);
 
@@ -577,9 +579,9 @@ public class UpdateUserCommand {
         }
 
         //remove empty extensions
-        Iterator<Entry<String, Map<String, String>>> iter = extensions.entrySet().iterator();
+        Iterator<Entry<String, SortedMap<String, String>>> iter = extensions.entrySet().iterator();
         while(iter.hasNext()){
-            Entry<String, Map<String, String>> extension = iter.next();
+            Entry<String, SortedMap<String, String>> extension = iter.next();
             if(extension.getValue().isEmpty()){
                 iter.remove();
             }
@@ -596,7 +598,7 @@ public class UpdateUserCommand {
                 getUser().getExtensions(),
                 bindingResult);
 
-        for(Entry<String, Map<String, String>> extension : getExtensions().entrySet()){
+        for(Entry<String, SortedMap<String, String>> extension : getExtensions().entrySet()){
             final String urn = extension.getKey();
             for(Entry<String, String> field : extension.getValue().entrySet()){
                 final String key = field.getKey();

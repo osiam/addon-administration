@@ -1,6 +1,9 @@
 package org.osiam.addons.administration.controller.user;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -13,6 +16,7 @@ import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.exception.SCIMDataValidationException;
 import org.osiam.resources.scim.Extension;
+import org.osiam.resources.scim.Extension.Field;
 import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -39,7 +43,7 @@ public class EditUserController extends GenericController {
     private static final String SESSION_KEY_COMMAND = "command";
 
     public static final String MODEL = "model";
-    public static final String MODEL_ALL_EXTENSIONS = "allExtensions";
+    public static final String MODEL_ALL_TYPES = "allFieldTypes";
 
     @Inject
     private UserService userService;
@@ -56,13 +60,27 @@ public class EditUserController extends GenericController {
 
         clearSession();
 
-        List<Extension> allExtension = extensionService.getExtensions();
+        List<Extension> extensions = extensionService.getExtensions();
 
         User user = userService.getUser(id);
-        modelAndView.addObject(MODEL, new UpdateUserCommand(user, allExtension));
-        modelAndView.addObject(MODEL_ALL_EXTENSIONS, allExtension);
+        modelAndView.addObject(MODEL, new UpdateUserCommand(user, extensions));
+        modelAndView.addObject(MODEL_ALL_TYPES, extractFieldTypes(extensions));
 
         return modelAndView;
+    }
+
+    private Map<String, Map<String, String>> extractFieldTypes(List<Extension> extensions) {
+        Map<String, Map<String, String>> result = new HashMap<String, Map<String,String>>();
+
+        for(Extension extension : extensions){
+            result.put(extension.getUrn(), new HashMap<String, String>());
+
+            for(Entry<String, Field> entry : extension.getFields().entrySet()){
+                result.get(extension.getUrn()).put(entry.getKey(), entry.getValue().getType().getName());
+            }
+        }
+
+        return result;
     }
 
     private void clearSession() {
@@ -80,7 +98,7 @@ public class EditUserController extends GenericController {
         cmd.enrichExtensions(extensionService.getExtensions());
 
         modelAndView.addObject(MODEL, cmd);
-        modelAndView.addObject(MODEL_ALL_EXTENSIONS, extensionService.getExtensions());
+        modelAndView.addObject(MODEL_ALL_TYPES, extractFieldTypes(extensionService.getExtensions()));
 
         enrichBindingResultFromSession(MODEL, modelAndView);
 

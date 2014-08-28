@@ -59,6 +59,17 @@ public class ExtensionsService {
         return parseToListOfExtenions(content);
     }
 
+    public Map<String, Extension> getExtensionsMap() {
+        List<Extension> extensions = getExtensions();
+        Map<String, Extension> result = new HashMap<String, Extension>();
+
+        for(Extension e : extensions){
+            result.put(e.getUrn(), e);
+        }
+
+        return result;
+    }
+
     private String requestExtensionTypes() {
         WebTarget target = buildWebTarget();
 
