@@ -81,7 +81,7 @@ public class UpdateUserCommand {
      * @param user
      *        the user
      */
-    public UpdateUserCommand(User user) {
+    public UpdateUserCommand(User user, List<Extension> allExtensions) {
         this.user = user;
         setId(user.getId());
 
@@ -135,6 +135,8 @@ public class UpdateUserCommand {
                 this.entitlements.add(new EntitlementCommand(entitlement));
             }
         }
+
+        enrichExtensions(allExtensions);
         if(user.getExtensions() != null){
             for(Extension extension : user.getExtensions().values()){
                 this.extensions.put(extension.getUrn(), new HashMap<String, String>());
@@ -444,6 +446,23 @@ public class UpdateUserCommand {
         this.extensions = extensions;
     }
 
+    public void enrichExtensions(List<Extension> allExtensions) {
+        for(Extension extension : allExtensions){
+
+            if(!this.extensions.containsKey(extension.getUrn())){
+                this.extensions.put(extension.getUrn(), new HashMap<String, String>());
+            }
+
+            for(Entry<String, Field> field : extension.getFields().entrySet()){
+                Map<String, String> localExtension = this.extensions.get(extension.getUrn());
+
+                if(!localExtension.containsKey(field.getKey())){
+                    localExtension.put(field.getKey(), "");
+                }
+            }
+        }
+    }
+
     /**
      * Returns a SCIM {@link UpdateUser} based on this command.
      *
@@ -533,12 +552,36 @@ public class UpdateUserCommand {
         removeEmptyElements(getCertificates().iterator());
         removeEmptyElements(getAddresses().iterator());
         removeEmptyElements(getEntitlements().iterator());
+        removeEmptyExtensions();
     }
 
     private void removeEmptyElements(Iterator<? extends Emptiable> elements) {
         while(elements.hasNext()){
             if(elements.next().isEmpty()){
                 elements.remove();
+            }
+        }
+    }
+
+    private void removeEmptyExtensions() {
+        //remove empty fields
+        for(Map<String, String> extension : extensions.values()){
+            Iterator<Entry<String, String>> iter = extension.entrySet().iterator();
+            while(iter.hasNext()){
+                Entry<String, String> field = iter.next();
+
+                if(field.getValue() == null || field.getValue().equals("")){
+                    iter.remove();
+                }
+            }
+        }
+
+        //remove empty extensions
+        Iterator<Entry<String, Map<String, String>>> iter = extensions.entrySet().iterator();
+        while(iter.hasNext()){
+            Entry<String, Map<String, String>> extension = iter.next();
+            if(extension.getValue().isEmpty()){
+                iter.remove();
             }
         }
     }

@@ -717,7 +717,7 @@
 		                START extension-BLOCK
 		            */-->
 
-	                <div th:each="extensionEntry, stat : ${model.user.extensions}" th:with="extension = ${extensionEntry.value}">
+					<div th:each="extension, stat : ${allExtensions}">
 	                    <h3 th:text="${extension.urn}" style="margin-bottom:10px">Extension-URN</h3>
 
 	                    <div th:each="fieldEntry : ${extension.fields}" th:class="(${#fields.hasErrors('*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}')}? ' bg-danger' : '')">

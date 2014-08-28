@@ -1,9 +1,19 @@
 package org.osiam.addons.administration.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
@@ -23,31 +33,33 @@ import org.glassfish.jersey.client.RequestEntityProcessing;
 import org.osiam.client.exception.ConnectionInitializationException;
 import org.osiam.client.exception.OAuthErrorMessage;
 import org.osiam.client.exception.UnauthorizedException;
-import org.osiam.resources.helper.UserDeserializer;
 import org.osiam.resources.scim.Extension;
-import org.osiam.resources.scim.User;
+import org.osiam.resources.scim.Extension.Builder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
 @Component
 public class ExtensionsService {
-//    @Value("${org.osiam.resourceServerEndpoint}")
-    private String resourceServerEndpoint = "http://pc-bn-020.lan.tarent.de:8080/osiam-resource-server";
+    @Value("${org.osiam.resourceServerEndpoint}")
+    private String resourceServerEndpoint;
 
-    ObjectMapper mapper;
+    private final Pattern urnFieldPattern = Pattern.compile("^([^\\|]*)\\|(.*)$");
+
+    private ObjectMapper mapper;
 
     public ExtensionsService() {
         mapper = new ObjectMapper();
-        SimpleModule userDeserializerModule = new SimpleModule("userDeserializerModule", Version.unknownVersion())
-                .addDeserializer(User.class, new UserDeserializer(User.class));
-        mapper.registerModule(userDeserializerModule);
     }
 
-    public void basicPOC() {
+    public List<Extension> getExtensions() {
+        String content = requestExtensionTypes();
+        return parseToListOfExtenions(content);
+    }
+
+    private String requestExtensionTypes() {
         WebTarget target = buildWebTarget();
 
         StatusType status;
@@ -64,7 +76,7 @@ public class ExtensionsService {
         }
 
         checkAndHandleResponse(content, status);
-
+        return content;
     }
 
     private void checkAndHandleResponse(String content, StatusType status) {
@@ -111,25 +123,73 @@ public class ExtensionsService {
     }
 
     private List<Extension> parseToListOfExtenions(String content) {
-        Map<String,String> map = null;
+        Map<String, String> map = null;
 
         try {
-             map = mapper.readValue(content,  new TypeReference<HashMap<String,String>>(){});
+            map = mapper.readValue(content, new TypeReference<HashMap<String, String>>() {});
         } catch (Exception e) {
-
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
-        if(map == null) {
-
+        if (map == null) {
+            throw new RuntimeException();
         }
-        System.out.println(map);
 
-        return null;
+        // urnFieldPattern
+
+        Map<String, Builder> extensionBuilder = new HashMap<String, Extension.Builder>();
+
+        for (Entry<String, String> tempEntry : map.entrySet()) {
+            Matcher m = urnFieldPattern.matcher(tempEntry.getKey());
+            m.matches();
+
+            final String fieldName = m.group(2);
+            final String urn = m.group(1);
+
+            if(!extensionBuilder.containsKey(urn)){
+                extensionBuilder.put(urn, new Extension.Builder(urn));
+            }
+
+            Builder builder = extensionBuilder.get(urn);
+
+            switch (tempEntry.getValue()) {
+            case "STRING":
+                builder.setField(fieldName, "null");
+                break;
+            case "INTEGER":
+                builder.setField(fieldName, BigInteger.ZERO);
+                break;
+            case "DECIMAL":
+                builder.setField(fieldName, BigDecimal.ZERO);
+                break;
+            case "BOOLEAN":
+                builder.setField(fieldName, false);
+                break;
+            case "DATE_TIME":
+                builder.setField(fieldName, new Date(0L));
+                break;
+            case "BINARY":
+                builder.setField(fieldName, ByteBuffer.wrap(new byte[] {}));
+                break;
+            case "REFERENCE":
+                try {
+                    builder.setField(fieldName, new URI("http://www.osiam.org"));
+                } catch (URISyntaxException e) {
+                    throw new IllegalStateException(e);
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Type " + tempEntry.getValue() + " does not exist");
+            }
+        }
+
+        List<Extension> result = new ArrayList<Extension>();
+
+        for(Builder builder : extensionBuilder.values()){
+            result.add(builder.build());
+        }
+
+        return result;
     }
 
-    public List<Extension> getExtensions() {
-
-        return null;
-    }
 }

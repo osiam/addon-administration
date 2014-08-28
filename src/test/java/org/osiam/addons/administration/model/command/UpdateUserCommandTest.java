@@ -2,8 +2,12 @@ package org.osiam.addons.administration.model.command;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.osiam.resources.scim.Extension;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 
@@ -35,7 +39,7 @@ public class UpdateUserCommandTest {
 
     @Test
     public void constructor() {
-        UpdateUserCommand command = new UpdateUserCommand(user);
+        UpdateUserCommand command = new UpdateUserCommand(user, new ArrayList<Extension>(0));
 
         assertEquals(this.userName, command.getUserName());
         assertEquals(this.isActive, command.getActive());
@@ -50,7 +54,7 @@ public class UpdateUserCommandTest {
 
     @Test
     public void asUpdateUser() {
-        UpdateUserCommand command = new UpdateUserCommand(user);
+        UpdateUserCommand command = new UpdateUserCommand(user, new ArrayList<Extension>(0));
 
         String userName = "updatali";
         Boolean isActive = true;

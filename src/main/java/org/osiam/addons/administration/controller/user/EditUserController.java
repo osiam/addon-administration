@@ -1,14 +1,18 @@
 package org.osiam.addons.administration.controller.user;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.UpdateUserCommand;
+import org.osiam.addons.administration.service.ExtensionsService;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.exception.SCIMDataValidationException;
+import org.osiam.resources.scim.Extension;
 import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -35,9 +39,13 @@ public class EditUserController extends GenericController {
     private static final String SESSION_KEY_COMMAND = "command";
 
     public static final String MODEL = "model";
+    public static final String MODEL_ALL_EXTENSIONS = "allExtensions";
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private ExtensionsService extensionService;
 
     @Inject
     private Validator validator;
@@ -48,8 +56,11 @@ public class EditUserController extends GenericController {
 
         clearSession();
 
+        List<Extension> allExtension = extensionService.getExtensions();
+
         User user = userService.getUser(id);
-        modelAndView.addObject(MODEL, new UpdateUserCommand(user));
+        modelAndView.addObject(MODEL, new UpdateUserCommand(user, allExtension));
+        modelAndView.addObject(MODEL_ALL_EXTENSIONS, allExtension);
 
         return modelAndView;
     }
@@ -65,7 +76,12 @@ public class EditUserController extends GenericController {
 
         ModelAndView modelAndView = new ModelAndView("user/editUser");
 
-        modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
+        UpdateUserCommand cmd = (UpdateUserCommand)restoreFromSession(SESSION_KEY_COMMAND);
+        cmd.enrichExtensions(extensionService.getExtensions());
+
+        modelAndView.addObject(MODEL, cmd);
+        modelAndView.addObject(MODEL_ALL_EXTENSIONS, extensionService.getExtensions());
+
         enrichBindingResultFromSession(MODEL, modelAndView);
 
         return modelAndView;
