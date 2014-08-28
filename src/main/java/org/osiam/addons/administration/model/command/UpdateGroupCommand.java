@@ -97,7 +97,11 @@ public class UpdateGroupCommand {
         UpdateGroup.Builder builder = new UpdateGroup.Builder();
 
         builder.updateDisplayName(getDisplayName());
-        builder.updateExternalId(getExternalId());
+        if(getExternalId() != null && getExternalId().equals("")) {
+            builder.deleteExternalId();
+        } else {
+            builder.updateExternalId(getExternalId());
+        }
 
         builder.deleteMembers();
         for(String member : memberIds){

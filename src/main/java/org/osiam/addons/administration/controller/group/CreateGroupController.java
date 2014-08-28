@@ -7,17 +7,15 @@ import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.CreateGroupCommand;
-import org.osiam.addons.administration.model.command.UpdateGroupCommand;
 import org.osiam.addons.administration.service.GroupService;
 import org.osiam.addons.administration.util.RedirectBuilder;
+import org.osiam.client.exception.ConflictException;
 import org.osiam.resources.exception.SCIMDataValidationException;
-import org.osiam.resources.scim.Group;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -81,8 +79,10 @@ public class CreateGroupController extends GenericController {
                 redirect.setPath(GroupViewController.CONTROLLER_PATH);
                 return redirect.build();
             }
-        } catch(SCIMDataValidationException e) {
+        } catch (SCIMDataValidationException e) {
             LOG.warn("Could not add group.", e);
+        } catch (ConflictException e) {
+            LOG.warn("Could not create group. Displayname already taken", e);
         }
 
         storeInSession(SESSION_KEY_COMMAND, command);
