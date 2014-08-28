@@ -768,10 +768,10 @@
                     <h3 th:text="${extensionUrn}">Extension-URN</h3>
 
                     <div th:each="fieldEntry : ${extension}" th:class="'col-md-4' + (${#fields.hasErrors('*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}')}? ' bg-danger' : '')">
-                      		<div class="col-md-5">
+                      	<div class="col-md-5">
 	                        <label th:text="${fieldEntry.key}" th:for="${fieldEntry.key}">Extension-Key</label>
-                      		</div>
-                      		<div class="col-md-7">
+                      	</div>
+                      	<div class="col-md-7">
 	                        <th:block th:switch="${allFieldTypes.get(extensionUrn).get(fieldEntry.key)}">
 	                            <input th:case="'INTEGER'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="number"/>
 	                            <input th:case="'DECIMAL'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="number"/>
@@ -781,10 +781,10 @@
 	                            <input th:case="*" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="text" />
 	                        </th:block>
 	                        <div th:if="${#fields.hasErrors('*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}')}" th:errors="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" >Type Error</div>
-                      		</div>
+                      	</div>
                     </div>
                     <div class="col-md-12 form-group text-right only-on-js">
-	                    	<button th:id="${'button-remove-extensions-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" >Remove Extension</button>
+						<button class="btn btn-md btn-primary only-on-js" th:id="${'button-remove-extensions-' + stat.index}" th:text="#{edit_user.extension.clear}" type="button">Clear Extension</button>
                     </div>
                 </div>
 
