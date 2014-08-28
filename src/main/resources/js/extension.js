@@ -1,6 +1,5 @@
-$(function(){
-    $("button[id^='button-remove-extensions-']").click(function(){
-        var myBlock = $(this).parent().parent();
-        myBlock.remove();
-    });
+$(function() {
+	$("button[id^='button-clear-extensions-']").click(function() {
+		$(this).parent().parent().find("input").val("");
+	});
 });
