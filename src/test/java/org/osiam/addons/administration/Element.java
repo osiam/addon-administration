@@ -44,8 +44,6 @@ public interface Element {
         
         DISPLAYNAME(By.id("displayName")),
         
-        GROUP_LIST(By.xpath("//a[@href = '/addon-administration/admin/group/list']")),
-        
         SUBMIT_BUTTON(By.id("btnSaveChanges")),
         CANCEL_BUTTON(By.id("btnCancelChanges"));
         
@@ -157,9 +155,12 @@ public interface Element {
     }
     
     public static enum GroupList implements Element {
-        GROUP_FILTER(By.id("filter-display-name")),
-        GROUP_SORT_ASC(By.id("order-by-displayname-asc")),
-        GROUP_SORT_DESC(By.id("order-by-displayname-desc"));
+        GROUP_LIST(By.xpath("//a[@href = '/admin/group/list']")),
+        ADD_GROUP(By.id("action-button-create")),
+        FILTER_GROUP(By.id("filter-display-name")),
+        SORT_GROUP_ASC(By.id("order-by-displayname-asc")),
+        SORT_GROUP_DESC(By.id("order-by-displayname-desc")),
+        DELETE_GROUP(By.id("action-button-delete-group-0"));
         
         private By by;
         
@@ -172,23 +173,6 @@ public interface Element {
             return this.by;
         } 
         
-    }
-    
-    public static enum GroupAdd implements Element {
-        ADD_GROUP(By.id("action-button-create")),
-        EXTERNAL_ID(By.id("externalID")),
-        DELETE_GROUP(By.id("action-button-delete-group-0"));
-        
-        private By by;
-
-        private GroupAdd(By by) {
-            this.by = by;
-        }
-        
-        @Override
-        public By by() {
-        return this.by;
-        }
     }
     
     public static enum GroupEdit implements Element {
