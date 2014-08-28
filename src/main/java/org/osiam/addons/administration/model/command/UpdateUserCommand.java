@@ -1,7 +1,7 @@
 package org.osiam.addons.administration.model.command;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -141,6 +141,7 @@ public class UpdateUserCommand {
         enrichExtensions(allExtensions);
         if(user.getExtensions() != null){
             for(Extension extension : user.getExtensions().values()){
+                this.extensions.put(extension.getUrn(), new TreeMap<String, String>());
                 for(Entry<String, Field> field : extension.getFields().entrySet()){
                     this.extensions.get(extension.getUrn()).put(field.getKey(), field.getValue().getValue());
                 }
