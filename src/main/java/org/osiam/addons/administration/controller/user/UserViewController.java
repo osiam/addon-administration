@@ -68,8 +68,6 @@ public class UserViewController {
             @RequestParam(value = REQUEST_PARAMETER_ASCENDING, required = false) Boolean ascending) {
 
         ModelAndView modelAndView = new ModelAndView("user/list");
-        ExtensionsService eService = new ExtensionsService();
-        eService.basicPOC();
 
         final String attributes = "id, userName, active, name.givenName, name.familyName";
 
