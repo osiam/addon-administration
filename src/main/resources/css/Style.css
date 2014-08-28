@@ -196,3 +196,15 @@ box-shadow: 0px 0px 3px 0px rgba(180,180,180,1);
 #form-edit-group select {
     width: 100%;
 }
+
+.addedExtension {
+    border-bottom: 1px solid rgb(238, 238, 238);
+    float: left;
+    margin: 0 1% 20px;
+    width: 48%;
+}
+
+.addedExtension input[type="text"],
+.addedExtension select {
+    width: 100%;
+}
