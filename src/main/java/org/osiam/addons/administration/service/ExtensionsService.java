@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -30,6 +31,7 @@ import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.RequestEntityProcessing;
+import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.exception.ConnectionInitializationException;
 import org.osiam.client.exception.OAuthErrorMessage;
 import org.osiam.client.exception.UnauthorizedException;
@@ -45,6 +47,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ExtensionsService {
     @Value("${org.osiam.resourceServerEndpoint}")
     private String resourceServerEndpoint;
+
+    private static final String BEARER = "Bearer ";
+    private static final int CONNECT_TIMEOUT = 2500;
+    private static final int READ_TIMEOUT = 5000;
+
+    @Inject
+    private GeneralSessionData sessionData;
 
     private final Pattern urnFieldPattern = Pattern.compile("^([^\\|]*)\\|(.*)$");
 
@@ -78,6 +87,7 @@ public class ExtensionsService {
         try {
             Response response = target.path("/osiam/Extensiontypes")
                     .request(MediaType.APPLICATION_JSON)
+                    .header("Authorization", BEARER + sessionData.getAccesstoken().getToken())
                     .get();
 
             status = response.getStatusInfo();
@@ -126,8 +136,8 @@ public class ExtensionsService {
         Client client = ClientBuilder.newClient(new ClientConfig()
                 .connectorProvider(new ApacheConnectorProvider())
                 .property(ClientProperties.REQUEST_ENTITY_PROCESSING, RequestEntityProcessing.BUFFERED)
-                .property(ClientProperties.CONNECT_TIMEOUT, 0000) // TODO timeout
-                .property(ClientProperties.READ_TIMEOUT, 0000) // TODO timeout
+                .property(ClientProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT)
+                .property(ClientProperties.READ_TIMEOUT, READ_TIMEOUT)
                 .property(ApacheClientProperties.CONNECTION_MANAGER, new PoolingHttpClientConnectionManager()));
 
         return client.target(resourceServerEndpoint);
