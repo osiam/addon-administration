@@ -80,6 +80,30 @@ public class EditGroupIT extends Integrationtest {
         browser.click(GroupList.DELETE_GROUP);
         browser.click(EditList.DIALOG_SUCCESS);
         assertFalse(browser.isTextPresent(newGroup));
+        
+        editTestGroup("test_group05");
+        
+        browser.findElement(GroupEdit.EXTERN_USER).click();
+        
+        browser.click(GroupEdit.ADD_USER_GROUP);
+        
+        browser.click(EditList.SUBMIT_BUTTON);
+        browser.click(EditList.DIALOG_SUCCESS);
+        
+        editTestGroup("test_group05");
+
+        assertEquals("adavies", browser.getValue(GroupEdit.GROUP_USER));
+
+        browser.findElement(GroupEdit.GROUP_USER).click();
+        
+        browser.click(GroupEdit.REMOVE_USER_GROUP);
+        
+        browser.click(EditList.SUBMIT_BUTTON);
+        browser.click(EditList.DIALOG_SUCCESS);
+        
+        editTestGroup("test_group05");
+        
+        assertFalse(GroupEdit.GROUP_USER.equals("adavies"));
     }
     
     private void editTestGroup(String testGroup) {
