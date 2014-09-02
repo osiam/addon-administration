@@ -12,7 +12,6 @@ import org.osiam.addons.administration.mail.EmailSender;
 import org.osiam.addons.administration.model.session.UserlistSession;
 import org.osiam.addons.administration.paging.PagingBuilder;
 import org.osiam.addons.administration.paging.PagingLinks;
-import org.osiam.addons.administration.service.ExtensionsService;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.scim.SCIMSearchResult;
@@ -239,6 +238,23 @@ public class UserViewController {
                 emailSender.sendActivateMail(user);
             }
         }
+
+        return new RedirectBuilder()
+            .setPath(CONTROLLER_PATH)
+            .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
+            .addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
+            .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+            .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
+            .addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+            .build();
+    }
+
+    @RequestMapping(params = REQUEST_PARAMETER_ACTION + "=delete")
+    public String handleUserDeletion(
+            @RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id,
+            HttpServletRequest request){
+
+            userService.deleteUser(id);
 
         return new RedirectBuilder()
             .setPath(CONTROLLER_PATH)

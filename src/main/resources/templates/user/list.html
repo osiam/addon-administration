@@ -39,11 +39,13 @@
                 <input id="send-mail" type="checkbox" />
             </p>
         </div>
+        <input id="dialog-delete-message" type="hidden" th:value="#{msg.user.dialog.delete.message}"/>
 
         <input id="dialog-title" type="hidden" th:value="#{msg.user.dialog.title}" />
         <input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}" />
         <input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}" />
     </div>
+
     <div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.list.saveSuccess}">
         Successful saved
     </div>
@@ -134,6 +136,14 @@
 	                                        <input type="hidden" name="id" th:value="${user.id}" />
 
 	                                        <button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate</button>
+	                                    </form>
+	                                </li>
+	                                <li>
+	                                    <form action="" method="GET">
+	                                        <input type="hidden" name="action" value="delete" />
+	                                        <input type="hidden" name="id" th:value="${user.id}" />
+
+	                                        <button th:id="${'action-button-delete-' + userStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
 	                                    </form>
 	                                </li>
 	                            </ul>

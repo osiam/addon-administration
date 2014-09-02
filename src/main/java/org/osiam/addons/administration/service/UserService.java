@@ -108,6 +108,16 @@ public class UserService {
     }
 
     /**
+     * Delete the user by the given userId.
+     *
+     * @param id
+     *        the user ID
+     */
+    public void deleteUser(String id) {
+        connector.deleteUser(id, sessionData.getAccesstoken());
+    }
+
+    /**
      * Replace a user based on the given {@link User} and revoke his access token.
      *
      * @param id

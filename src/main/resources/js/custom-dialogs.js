@@ -133,4 +133,29 @@ $(function(){
 
 		return false;
 	});
+
+
+	$("button[id^='action-button-delete-']").click(function(){
+		var button = $(this);
+
+		bootbox.dialog({
+			message : $('#dialog-delete-message').val(),
+			title : $('#dialog-title').val(),
+			buttons : {
+				success : {
+					label : $('#dialog-success').val(),
+					className : "btn-primary",
+					callback : function() {
+						button.parent().submit();
+					}
+				},
+				danger : {
+					label : $('#dialog-abort').val(),
+					className : "btn-primary"
+				}
+			}
+		});
+
+		return false;
+	});
 });
