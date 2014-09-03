@@ -1,80 +1,90 @@
 package org.osiam.addons.administration.model.command;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.osiam.resources.scim.Email;
-import org.osiam.resources.scim.Name;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 
 public class UpdateUserCommandTest {
 
     private User user;
-    private Name name;
-    private String primaryMail = "primary@osiam.org";
-    private String secondaryMail = "secondary@osiam.org";
+    private String userName = "maglino";
+    private Boolean isActive = false;
+    private String title = "Weltraumpräsident";
+    private String displayName = "Peter";
+    private String nickName = "Peat";
+    private String preferredLanguage = "DE";
+    private String locale = "de_DE";
+    private String profileUrl = "myProfile.gibtsNielmals.com";
+    private String timezone = "Mond/DieDunkleSeite";
+    
 
     @Before
     public void setUp() {
-        name = new Name.Builder().setGivenName("Joe").setFamilyName("Random").build();
-        user = new User.Builder().setName(name)
-                .addEmail(new Email.Builder().setValue(primaryMail).setPrimary(true).build())
-                .addEmail(new Email.Builder().setValue(secondaryMail).setPrimary(false).build())
-                .build();
+        user = new User.Builder(this.userName)
+            .setActive(this.isActive)
+            .setTitle(this.title)
+            .setDisplayName(this.displayName)
+            .setNickName(this.nickName)
+            .setPreferredLanguage(this.preferredLanguage)
+            .setLocale(this.locale)
+            .setProfileUrl(this.profileUrl)
+            .setTimezone(this.timezone)
+            .build();
     }
 
     @Test
     public void constructor() {
         UpdateUserCommand command = new UpdateUserCommand(user);
-        assertEquals(primaryMail, command.getEmail());
-        assertEquals(name.getFamilyName(), command.getLastName());
-        assertEquals(name.getGivenName(), command.getFirstName());
+
+        assertEquals(this.userName, command.getUserName());
+        assertEquals(this.isActive, command.isActive());
+        assertEquals(this.title, command.getTitle());
+        assertEquals(this.displayName, command.getDisplayName());
+        assertEquals(this.nickName, command.getNickName());
+        assertEquals(this.preferredLanguage, command.getPreferredLanguage());
+        assertEquals(this.locale, command.getLocale());
+        assertEquals(this.profileUrl, command.getProfileURL());
+        assertEquals(this.timezone, command.getTimezone());
     }
 
     @Test
     public void asUpdateUser() {
         UpdateUserCommand command = new UpdateUserCommand(user);
 
-        String newEmail = "primary_new@osiam.org";
-        String newFirstName = "Marissa";
-        String newLastName = "Müller";
-        command.setEmail(newEmail);
-        command.setFirstName(newFirstName);
-        command.setLastName(newLastName);
+        String userName = "updatali";
+        Boolean isActive = true;
+        String title = "Weltraumpräsidentin";
+        String displayName = "Hans";
+        String nickName = "MasterOfDisaster";
+        String preferredLanguage = "EN";
+        String locale = "df_GF";
+        String profileUrl = "myProfile.gibtsImmerNochNicht.com";
+        String timezone = "Mond/DieHelleSeite";
+
+        command.setUserName(userName);
+        command.setActive(isActive);
+        command.setTitle(title);
+        command.setDisplayName(displayName);
+        command.setNickName(nickName);
+        command.setPreferredLanguage(preferredLanguage);
+        command.setLocale(locale);
+        command.setProfileURL(profileUrl);
+        command.setTimezone(timezone);
 
         UpdateUser updateUser = command.getAsUpdateUser();
         User resultingUser = updateUser.getScimConformUpdateUser();
 
-        assertEquals(newFirstName, resultingUser.getName().getGivenName());
-        assertEquals(newLastName, resultingUser.getName().getFamilyName());
-        assertEquals(2, resultingUser.getEmails().size());
-        Email resultingEmail = null;
-        for (Email mail : resultingUser.getEmails()) {
-            if (!"delete".equals(mail.getOperation())) {
-                resultingEmail = mail;
-            }
-        }
-        assertTrue(resultingEmail.isPrimary());
-        assertEquals(newEmail, resultingEmail.getValue());
-    }
-
-    @Test
-    public void asUpdateUser_noPreviousEmail() {
-        user = new User.Builder().build();
-
-        UpdateUserCommand command = new UpdateUserCommand(user);
-
-        String newEmail = "primary_new@osiam.org";
-        command.setEmail(newEmail);
-
-        UpdateUser updateUser = command.getAsUpdateUser();
-        User resultingUser = updateUser.getScimConformUpdateUser();
-
-        assertEquals(1, resultingUser.getEmails().size());
-        assertTrue(resultingUser.getEmails().get(0).isPrimary());
-        assertEquals(newEmail, resultingUser.getEmails().get(0).getValue());
+        assertEquals(userName, resultingUser.getUserName());
+        assertEquals(isActive, resultingUser.isActive());
+        assertEquals(title, resultingUser.getTitle());
+        assertEquals(displayName, resultingUser.getDisplayName());
+        assertEquals(nickName, resultingUser.getNickName());
+        assertEquals(preferredLanguage, resultingUser.getPreferredLanguage());
+        assertEquals(locale, resultingUser.getLocale());
+        assertEquals(profileUrl, resultingUser.getProfileUrl());
+        assertEquals(timezone, resultingUser.getTimezone());
     }
 }

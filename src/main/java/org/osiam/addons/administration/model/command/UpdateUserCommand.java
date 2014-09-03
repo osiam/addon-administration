@@ -1,44 +1,75 @@
 package org.osiam.addons.administration.model.command;
 
-import org.osiam.resources.helper.SCIMHelper;
-import org.osiam.resources.scim.Email;
-import org.osiam.resources.scim.Name;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 
-import com.google.common.base.Optional;
-
 /**
  * Command object for the user update view.
- * 
- * @author Timo Kanera, tarent solutions GmbH
  */
 public class UpdateUserCommand {
 
     private User user;
 
     private String id;
-    private String firstName;
-    private String lastName;
-    private String email;
+    private Boolean active;
+    @NotNull
+    private String title;
+    @NotNull
+    private String displayName;
+    @NotNull
+    private String nickName;
+    @NotNull
+    @Pattern(regexp = "$^|^[a-zA-Z]{2}$")
+    private String preferredLanguage;
+    @NotNull
+    @Pattern(regexp = "$^|^[a-z]{2}_[A-Z]{2}$")
+    private String locale;
+    @NotNull
+    @URL
+    private String profileURL;
+    @NotNull
+    @Pattern(regexp = "$^|.*\\/.*")
+    private String timezone;
+    @NotNull
+    @NotBlank
+    private String userName;
+    @Valid
+    private NameCommand name = new NameCommand();
+    @Valid
+    private MetaCommand meta = new MetaCommand();
 
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
-     * 
+     *
      * @param user
      *        the user
      */
     public UpdateUserCommand(User user) {
         this.user = user;
         setId(user.getId());
-        if (user.getName() != null) {
-            setFirstName(user.getName().getGivenName());
-            setLastName(user.getName().getFamilyName());
-        }
-        Optional<Email> primaryEmail = SCIMHelper.getPrimaryOrFirstEmail(user);
-        if (primaryEmail.isPresent()) {
-            setEmail(primaryEmail.get().getValue());
-        }
+
+        setActive(user.isActive());
+        setTitle(user.getTitle());
+        setDisplayName(user.getDisplayName());
+        setNickName(user.getNickName());
+        setPreferredLanguage(user.getPreferredLanguage());
+        setLocale(user.getLocale());
+        setProfileURL(user.getProfileUrl());
+        setTimezone(user.getTimezone());
+        setUserName(user.getUserName());
+
+        if(user.getName() != null)
+            setName(new NameCommand(user.getName()));
+
+        if(user.getMeta() != null)
+            setMeta(new MetaCommand(user.getMeta()));
     }
 
     /**
@@ -48,65 +79,197 @@ public class UpdateUserCommand {
     }
 
     /**
-     * Returns the first name.
-     * 
-     * @return the first name
+     * Returns the displayname.
+     *
+     * @return the the displayname
      */
-    public String getFirstName() {
-        return firstName;
+    public String getDisplayName() {
+        return displayName;
     }
 
     /**
-     * Sets the first name.
-     * 
-     * @param firstName
-     *        the first name to set
+     * Sets the displayname.
+     *
+     * @param displayName
+     *        the displayname to set
      */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     /**
-     * Returns the last name.
-     * 
-     * @return the last name
+     * Returns the locale.
+     *
+     * @return the the locale
      */
-    public String getLastName() {
-        return lastName;
+    public String getLocale() {
+        return locale;
     }
 
     /**
-     * Sets the last name.
-     * 
-     * @param lastName
-     *        the last name to set
+     * Sets the locale.
+     *
+     * @param locale
+     *        the locale to set
      */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLocale(String locale) {
+        this.locale = locale;
     }
 
     /**
-     * Returns the e-mail address.
-     * 
-     * @return the the e-mail address
+     * Returns the nickname.
+     *
+     * @return the the nickname
      */
-    public String getEmail() {
-        return email;
+    public String getNickName() {
+        return nickName;
     }
 
     /**
-     * Sets the e-mail address.
-     * 
-     * @param email
-     *        the e-mail address to set
+     * Sets the nickname.
+     *
+     * @param nickName
+     *        the nickname to set
      */
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    /**
+     * Returns the preferredlanguage.
+     *
+     * @return the the preferredlanguage
+     */
+    public String getPreferredLanguage() {
+        return preferredLanguage;
+    }
+
+    /**
+     * Sets the preferredlanguage.
+     *
+     * @param preferredLanguage
+     *        the preferredlanguage to set
+     */
+    public void setPreferredLanguage(String preferredLanguage) {
+        this.preferredLanguage = preferredLanguage;
+    }
+
+    /**
+     * Returns the profileurl.
+     *
+     * @return the the profileurl
+     */
+    public String getProfileURL() {
+        return profileURL;
+    }
+
+    /**
+     * Sets the profileurl.
+     *
+     * @param profileURL
+     *        the profileurl to set
+     */
+    public void setProfileURL(String profileURL) {
+        this.profileURL = profileURL;
+    }
+
+    /**
+     * Returns the timezone.
+     *
+     * @return the the timezone
+     */
+    public String getTimezone() {
+        return timezone;
+    }
+
+    /**
+     * Sets the timezone.
+     *
+     * @param timezone
+     *        the timezone to set
+     */
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    /**
+     * Returns the title.
+     *
+     * @return the the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Sets the title.
+     *
+     * @param title
+     *        the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Returns the username.
+     *
+     * @return the the username
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * Sets the username.
+     *
+     * @param userName
+     *        the username to set
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * Returns the active.
+     *
+     * @return the the active
+     */
+    public Boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Returns the active.
+     *
+     * @return the the active
+     */
+    public Boolean getActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active.
+     *
+     * @param active
+     *        the active to set
+     */
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    /**
+     * Returns the user.
+     *
+     * @return the the user
+     */
+    public User getUser() {
+        return user;
     }
 
     /**
      * Returns the user ID.
-     * 
+     *
      * @return the user ID
      */
     public String getId() {
@@ -115,7 +278,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the user ID.
-     * 
+     *
      * @param id
      *        the user ID to set
      */
@@ -125,7 +288,7 @@ public class UpdateUserCommand {
 
     /**
      * Sets the user.
-     * 
+     *
      * @param user
      *        the {@link User} to set.
      */
@@ -134,21 +297,69 @@ public class UpdateUserCommand {
     }
 
     /**
+     * Returns the name object.
+     *
+     * @return the name object
+     */
+
+    public NameCommand getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name object.
+     *
+     * @param name
+     *        the name object to set
+     */
+    public void setName(NameCommand name) {
+        this.name = name;
+    }
+
+    public MetaCommand getMeta() {
+        return meta;
+    }
+
+    public void setMeta(MetaCommand meta) {
+        this.meta = meta;
+    }
+
+    /**
      * Returns a SCIM {@link UpdateUser} based on this command.
-     * 
+     *
      * @return the requested {@link UpdateUser}
      */
     public UpdateUser getAsUpdateUser() {
-        Name name = new Name.Builder().setGivenName(getFirstName()).setFamilyName(getLastName()).build();
-        UpdateUser.Builder builder = new UpdateUser.Builder().updateName(name);
+        UpdateUser.Builder builder = new UpdateUser.Builder();
 
-        Optional<Email> previousEmail = SCIMHelper.getPrimaryOrFirstEmail(user);
-        if (previousEmail.isPresent()) {
-            builder.updateEmail(previousEmail.get(), new Email.Builder(previousEmail.get()).setValue(getEmail())
-                    .build());
-        } else {
-            builder.addEmail(new Email.Builder().setPrimary(true).setValue(getEmail()).build());
+        if(isActive() != null) {
+            builder.updateActive(isActive());
         }
+        builder.updateName(getName().getAsName());
+        builder.updateTitle(getTitle());
+        builder.updateDisplayName(getDisplayName());
+        builder.updateNickName(getNickName());
+        builder.updatePreferredLanguage(getPreferredLanguage());
+        builder.updateLocale(getLocale());
+        builder.updateProfileUrl(getProfileURL());
+        builder.updateTimezone(getTimezone());
+        builder.updateUserName(getUserName());
+
+        return builder.build();
+    }
+
+    public User getAsUser(){
+        User.Builder builder = new User.Builder(getUserName());
+
+        builder.setName(getName().getAsName());
+        builder.setTitle(getTitle());
+        builder.setDisplayName(getDisplayName());
+        builder.setActive(isActive());
+        builder.setNickName(getNickName());
+        builder.setPreferredLanguage(getPreferredLanguage());
+        builder.setLocale(getLocale());
+        builder.setProfileUrl(getProfileURL());
+        builder.setTimezone(getTimezone());
 
         return builder.build();
     }

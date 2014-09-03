@@ -3,6 +3,9 @@ package org.osiam.addons.administration.controller;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
+
 /**
  * Generic controller with common functionality.
  */
@@ -13,7 +16,7 @@ public abstract class GenericController {
 
     /**
      * Store an object into the session.
-     * 
+     *
      * @param key Under which key should this object stored.
      * @param toStore Object that should be stored.
      */
@@ -23,7 +26,7 @@ public abstract class GenericController {
 
     /**
      * Get the object from the session.
-     * 
+     *
      * @param key The key under which the object will be found.
      * @return The object if one was found under the given key. Otherwise <b>null</b>.
      */
@@ -33,11 +36,27 @@ public abstract class GenericController {
 
     /**
      * Remove the object from the session.
-     * 
+     *
      * @param key The key under which the object will be found.
      */
     public void removeFromSession(String key){
         session.removeAttribute(generateKey(key));
+    }
+
+    protected void storeBindingResultIntoSession(BindingResult result, String modelName) {
+        storeInSession(generateKey(modelName), result);
+    }
+
+    protected Object restoreBindingResultFromSession(String modelName) {
+        return restoreFromSession(generateKey(modelName));
+    }
+
+    protected void enrichBindingResultFromSession(String modelName, ModelAndView model){
+        model.addObject(BindingResult.MODEL_KEY_PREFIX + modelName, restoreBindingResultFromSession(modelName));
+    }
+
+    protected void removeBindingResultFromSession(String modelName) {
+        removeFromSession(generateKey(modelName));
     }
 
     private String generateKey(String key) {

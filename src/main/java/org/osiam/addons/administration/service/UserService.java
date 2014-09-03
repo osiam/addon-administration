@@ -24,9 +24,9 @@ public class UserService {
 
     /**
      * Search for existing Users.
-     * 
+     *
      * @see OsiamConnector#searchUsers(Query, AccessToken)
-     * 
+     *
      * @param query
      *        Containing the query to execute.
      * @param limit
@@ -60,7 +60,7 @@ public class UserService {
 
     /**
      * Returns the user with the given ID.
-     * 
+     *
      * @param id
      *        the user ID
      * @return the requested user
@@ -73,7 +73,7 @@ public class UserService {
 
     /**
      * Updates a user based on the given {@link UpdateUser}.
-     * 
+     *
      * @param id
      *        the user ID
      * @param updateUser
@@ -85,7 +85,7 @@ public class UserService {
 
     /**
      * Deactivate the user by the given userId.
-     * 
+     *
      * @param id
      *        the user ID
      */
@@ -97,7 +97,7 @@ public class UserService {
 
     /**
      * Activate the user by the given userId.
-     * 
+     *
      * @param id
      *        the user ID
      */
@@ -105,5 +105,18 @@ public class UserService {
         UpdateUser updateUser = new UpdateUser.Builder().updateActive(true).build();
 
         connector.updateUser(id, updateUser, sessionData.getAccesstoken());
+    }
+
+    /**
+     * Replace a user based on the given {@link User} and revoke his access token.
+     *
+     * @param id
+     *        the user ID
+     * @param User
+     *        the {@link User}
+     */
+    public void replaceUser(String id, User newUser) {
+        connector.replaceUser(id, newUser, sessionData.getAccesstoken());
+        connector.revokeAllAccessTokens(id, sessionData.getAccesstoken());
     }
 }
