@@ -10,7 +10,7 @@ import org.osiam.resources.scim.PhoneNumber.Type;
 /**
  * Command object for the user update view.
  */
-public class PhonenumberCommand implements Emptieable {
+public class PhonenumberCommand implements Emptiable {
 
     @NotNull
     @NotEmpty

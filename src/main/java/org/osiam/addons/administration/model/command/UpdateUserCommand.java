@@ -511,7 +511,7 @@ public class UpdateUserCommand {
         removeEmptyElements(getEntitlements().iterator());
     }
 
-    private void removeEmptyElements(Iterator<? extends Emptieable> elements) {
+    private void removeEmptyElements(Iterator<? extends Emptiable> elements) {
         while(elements.hasNext()){
             if(elements.next().isEmpty()){
                 elements.remove();

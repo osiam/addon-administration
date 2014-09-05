@@ -10,7 +10,7 @@ import org.osiam.resources.scim.Entitlement.Type;
 /**
  * Command object for the user update view.
  */
-public class EntitlementCommand implements Emptieable {
+public class EntitlementCommand implements Emptiable {
 
     @NotNull
     @NotEmpty

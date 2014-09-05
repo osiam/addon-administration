@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.Im;
 import org.osiam.resources.scim.Im.Type;
 
-public class ImCommand implements Emptieable {
+public class ImCommand implements Emptiable {
     @NotNull
     @NotEmpty
     @NotBlank

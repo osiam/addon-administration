@@ -10,7 +10,7 @@ import org.osiam.resources.scim.Email.Type;
 /**
  * Command object for the user update view.
  */
-public class EmailCommand implements Emptieable {
+public class EmailCommand implements Emptiable {
 
     @NotNull
     @NotEmpty

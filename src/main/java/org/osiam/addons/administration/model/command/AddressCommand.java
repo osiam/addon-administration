@@ -3,7 +3,7 @@ package org.osiam.addons.administration.model.command;
 import org.osiam.resources.scim.Address;
 import org.osiam.resources.scim.Address.Type;
 
-public class AddressCommand implements Emptieable {
+public class AddressCommand implements Emptiable {
 
     private Boolean primary;
 

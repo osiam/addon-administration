@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.X509Certificate;
 import org.osiam.resources.scim.X509Certificate.Type;
 
-public class X509CertificateCommand implements Emptieable {
+public class X509CertificateCommand implements Emptiable {
     @NotNull
     @NotEmpty
     @NotBlank
