@@ -172,6 +172,11 @@
             <option th:selected="${sessionData.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
         </select>
     </form>
+    <span>
+    	<a th:href="@{create}">
+		    <button id="action-button-create" th:text="#{msg.button.create}" class="btn-link">Create</button>
+		</a>
+    </span>
 </div>
 </body>
 </html>

@@ -71,6 +71,10 @@ public class UserService {
         return connector.getUser(id, sessionData.getAccesstoken());
     }
 
+    public User createUser(User createUser) {
+        return connector.createUser(createUser, sessionData.getAccesstoken());
+    }
+
     /**
      * Updates a user based on the given {@link UpdateUser}.
      *
