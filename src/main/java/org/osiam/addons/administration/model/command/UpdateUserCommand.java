@@ -371,11 +371,11 @@ public class UpdateUserCommand {
         this.emails = emails;
     }
 
-    public List<PhonenumberCommand> getPhoneNumbers() {
+    public List<PhoneNumberCommand> getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(List<PhonenumberCommand> phoneNumbers) {
+    public void setPhoneNumbers(List<PhoneNumberCommand> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 
