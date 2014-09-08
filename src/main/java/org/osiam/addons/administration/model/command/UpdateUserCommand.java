@@ -56,7 +56,7 @@ public class UpdateUserCommand {
     @Valid
     private List<EmailCommand> emails = new ArrayList<EmailCommand>();
     @Valid
-    private List<PhonenumberCommand> phoneNumbers = new ArrayList<PhonenumberCommand>();
+    private List<PhoneNumberCommand> phoneNumbers = new ArrayList<PhoneNumberCommand>();
     @Valid
     private List<ImCommand> ims = new ArrayList<ImCommand>();
     @Valid
@@ -103,7 +103,7 @@ public class UpdateUserCommand {
         }
         if (user.getPhoneNumbers() != null) {
             for (PhoneNumber number : user.getPhoneNumbers()) {
-                this.phoneNumbers.add(new PhonenumberCommand(number));
+                this.phoneNumbers.add(new PhoneNumberCommand(number));
             }
         }
         if (user.getIms() != null) {
@@ -351,11 +351,11 @@ public class UpdateUserCommand {
         this.emails = emails;
     }
 
-    public List<PhonenumberCommand> getPhoneNumbers() {
+    public List<PhoneNumberCommand> getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(List<PhonenumberCommand> phoneNumbers) {
+    public void setPhoneNumbers(List<PhoneNumberCommand> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 
@@ -462,7 +462,7 @@ public class UpdateUserCommand {
                 builder.addEmail(email.getAsEmail());
             }
         }
-        for (PhonenumberCommand number : getPhoneNumbers()) {
+        for (PhoneNumberCommand number : getPhoneNumbers()) {
             if (!number.isEmpty()) {
                 builder.addPhoneNumber(number.getAsPhoneNumber());
             }

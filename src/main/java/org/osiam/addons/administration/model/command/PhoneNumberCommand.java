@@ -10,7 +10,7 @@ import org.osiam.resources.scim.PhoneNumber.Type;
 /**
  * Command object for the user update view.
  */
-public class PhonenumberCommand implements Emptiable {
+public class PhoneNumberCommand implements Emptiable {
 
     @NotNull
     @NotEmpty
@@ -27,10 +27,10 @@ public class PhonenumberCommand implements Emptiable {
     @NotNull
     private Boolean primary;
 
-    public PhonenumberCommand() {
+    public PhoneNumberCommand() {
     }
 
-    public PhonenumberCommand(PhoneNumber phoneNumber) {
+    public PhoneNumberCommand(PhoneNumber phoneNumber) {
         setDisplay(phoneNumber.getDisplay());
         setPrimary(phoneNumber.isPrimary());
         setValue(phoneNumber.getValue());
