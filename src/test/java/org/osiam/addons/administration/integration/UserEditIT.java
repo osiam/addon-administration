@@ -24,7 +24,7 @@ public class UserEditIT extends Integrationtest {
 
     @Test
     public void save_changes_dialog_should_return_to_user_list() {
-        editTestUser();
+        edit_Test_User();
 
         // closing the dialog should return to the edit view
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
@@ -47,7 +47,7 @@ public class UserEditIT extends Integrationtest {
 
     @Test
     public void cancel_edit_dialog_should_return_to_user_list() {
-        editTestUser();
+        edit_Test_User();
 
         // aborting the dialog should return to the edit view
         browser.findElement(UserEdit.CANCEL_BUTTON).click();
@@ -64,7 +64,7 @@ public class UserEditIT extends Integrationtest {
 
     @Test
     public void edit_user_view_displays_previously_saved_changes() {
-        editTestUser();
+        edit_Test_User();
 
         final boolean newActive = true;
 
@@ -168,7 +168,7 @@ public class UserEditIT extends Integrationtest {
         browser.click(UserEdit.SUBMIT_BUTTON);
         browser.click(UserEdit.DIALOG_SUCCESS);
 
-        editTestUser();
+        edit_Test_User();
 
         assertEquals(newActive, browser.findElement(UserEdit.ACTIVE).isSelected());
         assertEquals(newLastName, browser.getValue(UserEdit.LASTNAME));
@@ -223,7 +223,7 @@ public class UserEditIT extends Integrationtest {
     }
 
     @Test
-    public void falseMVAttributes() {
+    public void false_Multi_Value_Attributes() {
         final String falseEmailValue = "hanspeters_email";
         final String falsePhoneValue = "meintelefon";
         final String falseAddressPostalcode = "einszweidreivierfünf";
@@ -239,28 +239,28 @@ public class UserEditIT extends Integrationtest {
     }
 
     @Test
-    public void removeAndAddAllMVAttributes() {
-        editTestUser();
+    public void remove_And_Add_All_Multi_Value_Attributes() {
+        edit_Test_User();
 
-        testRemoveAndAddMVAttribute("email", 1);
-        testRemoveAndAddMVAttribute("phoneNumber", 1);
-        testRemoveAndAddMVAttribute("im", 0);
-        testRemoveAndAddMVAttribute("certificate", 0);
-        testRemoveAndAddMVAttribute("entitlement", 0);
-        testRemoveAndAddMVAttribute("address", 1);
+        test_Remove_And_Add_Multi_Value_Attribute("email", 1);
+        test_Remove_And_Add_Multi_Value_Attribute("phoneNumber", 1);
+        test_Remove_And_Add_Multi_Value_Attribute("im", 0);
+        test_Remove_And_Add_Multi_Value_Attribute("certificate", 0);
+        test_Remove_And_Add_Multi_Value_Attribute("entitlement", 0);
+        test_Remove_And_Add_Multi_Value_Attribute("address", 1);
     }
 
-    private void testRemoveAndAddMVAttribute(String containerId, int existingFields) {
-        addMvAttribute(containerId);
-        assertEquals(existingFields + 1, countChildElements(containerId));
-        addMvAttribute(containerId);
-        assertEquals(existingFields + 2, countChildElements(containerId));
-        dropMvAttribute(containerId, existingFields + 2);
-        dropMvAttribute(containerId, existingFields + 1);
-        assertEquals(existingFields + 0, countChildElements(containerId));
+    private void test_Remove_And_Add_Multi_Value_Attribute(String containerId, int existingFields) {
+        add_Multi_Value_Attribute(containerId);
+        assertEquals(existingFields + 1, count_Child_Elements(containerId));
+        add_Multi_Value_Attribute(containerId);
+        assertEquals(existingFields + 2, count_Child_Elements(containerId));
+        drop_Multi_Value_Attribute(containerId, existingFields + 2);
+        drop_Multi_Value_Attribute(containerId, existingFields + 1);
+        assertEquals(existingFields + 0, count_Child_Elements(containerId));
     }
 
-    private void editTestUser() {
+    private void edit_Test_User() {
         String actionLabelXpath = "//td[. = '" + TEST_USER_NAME + "']/..//div[contains(@id, 'action-label')]";
         String editButtonXpath = "//td[. = '" + TEST_USER_NAME + "']/..//button[contains(@id, 'action-button-edit')]";
 
@@ -268,18 +268,18 @@ public class UserEditIT extends Integrationtest {
         browser.findElement(By.xpath(editButtonXpath)).click();
     }
 
-    private void addMvAttribute(String multivalueName) {
+    private void add_Multi_Value_Attribute(String multivalueName) {
         browser.findElement(By.xpath("//button[contains(@id, 'button-add-" + multivalueName + "')]")).click();
     }
 
-    private void dropMvAttribute(String containerId, int nth) {
+    private void drop_Multi_Value_Attribute(String containerId, int nth) {
         browser.findElement(
                 By.xpath("//fieldset[contains(@id, '" + containerId + "')]/div[" + nth
                         + "]/button[contains(@id, 'button-remove')]"))
                 .click();
     }
 
-    private int countChildElements(String containerId) {
+    private int count_Child_Elements(String containerId) {
         List<WebElement> foundElements = browser.findElements(By.xpath("//fieldset[contains(@id, '" + containerId
                 + "')]//div[contains(@class, 'row')]"));
         return foundElements.size();
