@@ -68,49 +68,49 @@ public class UserEditIT extends Integrationtest {
 
         final boolean newActive = true;
 
-        final String newLastName          = "Test456";
-        final String newFormattedName     = "Test 23 336";
-        final String newGivenName         = "Test123\u00e4";
-        final String newHonorificPrefix   = "Dr.";
-        final String newHonorificSuffix   = "moon travel";
-        final String newMiddleName        = "Hans";
-        final String newDisplayName       = "TestHansKlaus17";
-        final String newNickName          = "MeterPeterMolaCola";
-        final String newUserTitle         = "Dr. Dr. Prof.";
+        final String newLastName = "Test456";
+        final String newFormattedName = "Test 23 336";
+        final String newGivenName = "Test123\u00e4";
+        final String newHonorificPrefix = "Dr.";
+        final String newHonorificSuffix = "moon travel";
+        final String newMiddleName = "Hans";
+        final String newDisplayName = "TestHansKlaus17";
+        final String newNickName = "MeterPeterMolaCola";
+        final String newUserTitle = "Dr. Dr. Prof.";
 
         final String newPreferredLanguage = "RU";
-        final String newLocale            = "ru_RU";
-        final String newProfileURL        = "http://www.gibtsnicht.ehnicht111222.de";
-        final String newTimezone          = "ru/RussischeStadt";
-        final String newUserName          = "MeterPeterMolaCola";
+        final String newLocale = "ru_RU";
+        final String newProfileURL = "http://www.gibtsnicht.ehnicht111222.de";
+        final String newTimezone = "ru/RussischeStadt";
+        final String newUserName = "MeterPeterMolaCola";
 
-        final String newEmailDisplay         = "meine email";
-        final String newEmailValue           = "hans_peter@gibtsnicht.org";
-        final String newEmailType            = "StandartE";
+        final String newEmailDisplay = "meine email";
+        final String newEmailValue = "hans_peter@gibtsnicht.org";
+        final String newEmailType = "StandartE";
 
-        final String newPhoneDisplay         = "zu hause";
-        final String newPhoneValue           = "0987654321";
-        final String newPhoneType            = "StandartP";
+        final String newPhoneDisplay = "zu hause";
+        final String newPhoneValue = "0987654321";
+        final String newPhoneType = "StandartP";
 
-        final String newIMDisplay            = "XMPP";
-        final String newIMValue              = "444555666";
-        final String newIMType               = "StandartI";
+        final String newIMDisplay = "XMPP";
+        final String newIMValue = "444555666";
+        final String newIMType = "StandartI";
 
-        final String newCertificatesDisplay  = "Positiv";
-        final String newCertificatesValue    = "Vitamin C Professor";
-        final String newCertificatesType     = "StandartC";
+        final String newCertificatesDisplay = "Positiv";
+        final String newCertificatesValue = "Vitamin C Professor";
+        final String newCertificatesType = "StandartC";
 
-        final String newEntitlementsDisplay  = "Alles";
-        final String newEntitlementsValue    = "Admin";
-        final String newEntitlementsType     = "StandartE";
+        final String newEntitlementsDisplay = "Alles";
+        final String newEntitlementsValue = "Admin";
+        final String newEntitlementsType = "StandartE";
 
-        final String newAddressCountry       = "Deutschland";
-        final String newAddressFormatted     = "Deutschlandstraße 20 12345 Ländisch";
-        final String newAddressLocality      = "de_DE";
-        final String newAddressPostalcode    = "12345";
-        final String newAddressRegion        = "Ländisch";
+        final String newAddressCountry = "Deutschland";
+        final String newAddressFormatted = "Deutschlandstraße 20 12345 Ländisch";
+        final String newAddressLocality = "de_DE";
+        final String newAddressPostalcode = "12345";
+        final String newAddressRegion = "Ländisch";
         final String newAddressStreetaddress = "Deutschlandstraße 20";
-        final String newAddressType          = "StandartA";
+        final String newAddressType = "StandartA";
 
         browser.findElement(UserEdit.ACTIVE).click();
         browser.fill(new Field(UserEdit.LASTNAME, newLastName));
