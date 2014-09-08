@@ -39,10 +39,13 @@ public class PhonenumberCommand implements Emptiable {
             setType(phoneNumber.getType().getValue());
         }
     }
-    
+
     @Override
     public boolean isEmpty(){
-        return getPrimary() == null && getDisplay() == null && getType() == null && getValue() == null;
+        return (getDisplay() == null || getDisplay().isEmpty()) &&
+                getPrimary() == null &&
+                getType() == null &&
+                getValue() == null;
     }
 
     public PhoneNumber getAsPhoneNumber() {
