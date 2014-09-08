@@ -118,12 +118,12 @@ public class AddressCommand implements Emptiable {
     @Override
     public boolean isEmpty() {
          return getPrimary() == null &&
-                getCountry() == null &&
-                getFormatted() == null &&
-                getLocality() == null &&
-                getPostalcode() == null &&
-                getRegion() == null &&
-                getStreetaddress() == null &&
-                getType() == null;
+                (getCountry() == null || getCountry().isEmpty()) &&
+                (getFormatted() == null || getFormatted().isEmpty()) &&
+                (getLocality() == null || getLocality().isEmpty()) &&
+                (getPostalcode() == null || getPostalcode().isEmpty()) &&
+                (getRegion() == null || getRegion().isEmpty()) &&
+                (getStreetaddress() == null || getStreetaddress().isEmpty()) &&
+                (getType() == null || getType().isEmpty());
     }
 }
