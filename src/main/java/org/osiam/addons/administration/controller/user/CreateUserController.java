@@ -35,9 +35,6 @@ public class CreateUserController extends GenericController {
     @Inject
     private UserService userService;
 
-    @Value("${org.osiam.administration.createUser.defaultPassword:password}")
-    private String defaultPassword;
-
     @Value("${org.osiam.administration.createUser.defaultActive:true}")
     private boolean defaultActive;
 
@@ -62,7 +59,6 @@ public class CreateUserController extends GenericController {
 
         try {
             if (!bindingResult.hasErrors()) {
-                command.setPassword(defaultPassword);
                 command.setActive(defaultActive);
 
                 User createdUser = userService.createUser(command.getAsUser());
