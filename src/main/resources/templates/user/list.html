@@ -76,7 +76,12 @@
                         <a id="order-by-familyname-desc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
                     </span>
                 </th>
-                <th></th>
+                <th>
+                    <a th:href="@{create}"  class="btn btn-info btn-sm">
+                        <span>Create</span>
+                        <span class="glyphicon glyphicon glyphicon-plus"></span>
+                    </a>
+                </th>
             </tr>
         </thead>
 
@@ -172,11 +177,6 @@
             <option th:selected="${sessionData.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
         </select>
     </form>
-    <span>
-    	<a th:href="@{create}">
-		    <button id="action-button-create" th:text="#{msg.button.create}" class="btn-link">Create</button>
-		</a>
-    </span>
 </div>
 </body>
 </html>
