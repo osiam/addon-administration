@@ -258,6 +258,7 @@ public class UserViewController {
 
         return new RedirectBuilder()
             .setPath(CONTROLLER_PATH)
+            .addParameter("deleteSuccess", true)
             .addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
             .addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
             .addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
