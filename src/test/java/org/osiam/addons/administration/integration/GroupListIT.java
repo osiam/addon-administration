@@ -12,7 +12,7 @@ import org.osiam.addons.administration.Element.GroupList;
 import org.osiam.addons.administration.selenium.Field;
 
 public class GroupListIT extends Integrationtest {
-    String firstGroup = "test_group01";
+    String firstGroup = "admin";
     
     @Override
     public void setup() {

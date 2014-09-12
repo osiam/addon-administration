@@ -43,7 +43,7 @@ public class UserDeleteIT extends Integrationtest{
 
     private void deleteButton(String username) {
         String actionLabelXpath =
-            "//table//td[contains(., '" + username + "')]/..//label";
+            "//table//td[contains(., '" + username + "')]/..//span";
 
         String deleteButtonXpath =
                 "//table//td[contains(., '" + username
