@@ -3,7 +3,6 @@ package org.osiam.addons.administration.model.command;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;

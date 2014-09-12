@@ -2,7 +2,6 @@ package org.osiam.addons.administration.model.command;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.Group;
-import org.osiam.resources.scim.UpdateGroup;
 
 /**
  * Command object for the group create view.

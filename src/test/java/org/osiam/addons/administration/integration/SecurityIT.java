@@ -1,6 +1,7 @@
 package org.osiam.addons.administration.integration;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.osiam.addons.administration.controller.AdminController;

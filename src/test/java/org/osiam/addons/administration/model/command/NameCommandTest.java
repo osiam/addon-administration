@@ -1,9 +1,10 @@
 package org.osiam.addons.administration.model.command;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.osiam.resources.scim.Name;
-import static org.junit.Assert.assertEquals;
 
 public class NameCommandTest {
 

@@ -1,12 +1,12 @@
 package org.osiam.addons.administration.model.command;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.osiam.resources.scim.Meta;
-
-import static org.junit.Assert.assertEquals;
 
 public class MetaCommandTest {
 
