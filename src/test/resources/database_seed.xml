@@ -259,21 +259,21 @@
     <scim_extension internal_id="100082" urn="urn:org.osiam:scim:extensions:auth-server"/>
     <scim_extension internal_id="100083" urn="urn:org:osiam:test:extensions:vehicle"/>
 
-<scim_extension_field internal_id="100082" is_required="true" name="gender" type="STRING"
-                      extension_internal_id="100081"/>
-<scim_extension_field internal_id="100083" is_required="false" name="size" type="STRING"
-                      extension_internal_id="100081"/>
-<scim_extension_field internal_id="100084" is_required="true" name="birth" type="STRING"
-                      extension_internal_id="100081"/>
-<scim_extension_field internal_id="100085" is_required="true" name="newsletter" type="STRING"
-                      extension_internal_id="100081"/>
-<scim_extension_field internal_id="100086" is_required="false" name="married" type="STRING"
-                      extension_internal_id="100081"/>
-<scim_extension_field internal_id="100087" is_required="false" name="origin" type="STRING"
-                      extension_internal_id="100082"/>
-<scim_extension_field internal_id="100088" is_required="false" name="car" type="STRING"
-                      extension_internal_id="100083"/>
-<scim_extension_field internal_id="100089" is_required="false" name="license_plate" type="STRING"
-                      extension_internal_id="100083"/>
+	<scim_extension_field internal_id="100082" is_required="true" name="gender" type="STRING"
+	                      extension_internal_id="100081"/>
+	<scim_extension_field internal_id="100083" is_required="false" name="size" type="STRING"
+	                      extension_internal_id="100081"/>
+	<scim_extension_field internal_id="100084" is_required="true" name="birth" type="STRING"
+	                      extension_internal_id="100081"/>
+	<scim_extension_field internal_id="100085" is_required="true" name="newsletter" type="STRING"
+	                      extension_internal_id="100081"/>
+	<scim_extension_field internal_id="100086" is_required="false" name="married" type="STRING"
+	                      extension_internal_id="100081"/>
+	<scim_extension_field internal_id="100087" is_required="false" name="origin" type="STRING"
+	                      extension_internal_id="100082"/>
+	<scim_extension_field internal_id="100088" is_required="false" name="car" type="STRING"
+	                      extension_internal_id="100083"/>
+	<scim_extension_field internal_id="100089" is_required="false" name="license_plate" type="STRING"
+	                      extension_internal_id="100083"/>
 
 </dataset>
