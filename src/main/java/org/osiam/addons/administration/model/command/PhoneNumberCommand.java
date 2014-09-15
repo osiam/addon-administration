@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.PhoneNumber;
 import org.osiam.resources.scim.PhoneNumber.Type;
 
+import com.google.common.base.Strings;
+
 /**
  * Command object for the user update view.
  */
@@ -42,10 +44,10 @@ public class PhoneNumberCommand implements Emptiable {
 
     @Override
     public boolean isEmpty(){
-        return (getDisplay() == null || getDisplay().isEmpty()) &&
-                getPrimary() == null &&
-                getType() == null &&
-                getValue() == null;
+        return getPrimary() == null &&
+                Strings.isNullOrEmpty(getDisplay()) &&
+                Strings.isNullOrEmpty(getType()) &&
+                Strings.isNullOrEmpty(getValue());
     }
 
     public PhoneNumber getAsPhoneNumber() {

@@ -3,6 +3,8 @@ package org.osiam.addons.administration.model.command;
 import org.osiam.resources.scim.Address;
 import org.osiam.resources.scim.Address.Type;
 
+import com.google.common.base.Strings;
+
 public class AddressCommand implements Emptiable {
 
     private Boolean primary;
@@ -117,13 +119,13 @@ public class AddressCommand implements Emptiable {
 
     @Override
     public boolean isEmpty() {
-         return getPrimary() == null &&
-                (getCountry() == null || getCountry().isEmpty()) &&
-                (getFormatted() == null || getFormatted().isEmpty()) &&
-                (getLocality() == null || getLocality().isEmpty()) &&
-                (getPostalcode() == null || getPostalcode().isEmpty()) &&
-                (getRegion() == null || getRegion().isEmpty()) &&
-                (getStreetaddress() == null || getStreetaddress().isEmpty()) &&
-                (getType() == null || getType().isEmpty());
+        return getPrimary() == null &&
+                Strings.isNullOrEmpty(getCountry()) &&
+                Strings.isNullOrEmpty(getFormatted()) &&
+                Strings.isNullOrEmpty(getLocality()) &&
+                Strings.isNullOrEmpty(getPostalcode()) &&
+                Strings.isNullOrEmpty(getRegion()) &&
+                Strings.isNullOrEmpty(getStreetaddress()) &&
+                Strings.isNullOrEmpty(getType());
     }
 }
