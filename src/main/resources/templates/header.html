@@ -9,7 +9,7 @@
         </div>
         <ul> 
         	<!-- Please write <li>s next to each other (not in separate lines) as it prevents a layout bug in FF -->
-            <li><a href="user/list.html" th:href="@{/admin/user/list}">User List</a></li><li><a href="group/list.html" th:href="@{/admin/group/list}">Group List</a></li>
+            <li><a href="user/list.html" th:href="@{/admin/user/list}" th:text="#{msg.list.userList}">User List</a></li><li><a href="group/list.html" th:href="@{/admin/group/list}" th:text="#{msg.list.groupList}">Group List</a></li>
         </ul>
     </div>
 </header>

@@ -51,7 +51,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div >
-								<label for="username" >Username</label>
+								<label for="username" th:text="#{add_user.userName}">Username</label>
 								<input class="form-control" type="text" id="username" th:field="*{userName}" />
 							</div>
 						</div>
@@ -59,7 +59,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div >
-								<label for="password" >Password</label>
+								<label for="password" th:text="#{add_user.userPassword}">Password</label>
 								<input class="form-control" type="password" id="password" th:field="*{password}" />
 							</div>
 						</div>
