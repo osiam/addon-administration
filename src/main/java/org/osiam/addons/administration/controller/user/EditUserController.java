@@ -104,10 +104,14 @@ public class EditUserController extends GenericController {
         return redirect.build();
     }
 
+    /**
+     * We must validate for our own, because we need to purge the command
+     * before we can validate it.
+     *
+     * @param command the command object
+     * @param bindingResult the binding result for that command
+     */
     private void validateCommand(UpdateUserCommand command, BindingResult bindingResult) {
-        //we must validate for our own, because we need to purge the command
-        //before we can validate it
-
         command.purge();
         validator.validate(command, bindingResult);
     }
