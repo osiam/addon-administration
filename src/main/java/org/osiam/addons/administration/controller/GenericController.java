@@ -3,7 +3,10 @@ package org.osiam.addons.administration.controller;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -13,6 +16,18 @@ public abstract class GenericController {
 
     @Inject
     private HttpSession session;
+
+    /**
+     * 
+     * @param binder Binds the web request parameters to JavaBean object
+     * Trims the request parameters
+     * false set them to empty
+     * true set them to null
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
+    }
 
     /**
      * Store an object into the session.
