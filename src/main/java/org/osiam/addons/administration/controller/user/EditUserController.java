@@ -94,9 +94,11 @@ public class EditUserController extends GenericController {
                 return redirect.build();
             }
         } catch(SCIMDataValidationException e) {
-            LOG.warn("Could not update user.", e);
+            // just log the exception and fall through to error handling
+            LOG.warn("Validation failed. Unable to update user.", e);
         }
-
+        
+        // validation failed - store error information in session and return to edit view
         storeInSession(SESSION_KEY_COMMAND, command);
         storeBindingResultIntoSession(bindingResult, MODEL);
         redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");

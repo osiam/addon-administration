@@ -23,18 +23,22 @@ public class UserEditIT extends Integrationtest {
     private static String TEST_USER_NAME = "adavies";
 
     @Test
-    public void saveChangesDialog() {
-        editTestUser();
+    public void save_changes_dialog_should_return_to_user_list() {
+        edit_Test_User();
+
+        // closing the dialog should return to the edit view
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_CLOSE).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
+        // aborting the dialog should return to the edit view
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_ABORT).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
+        // submitting the dialog should return to the user list
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_SUCCESS).click();
 
@@ -42,14 +46,16 @@ public class UserEditIT extends Integrationtest {
     }
 
     @Test
-    public void cancelEditDialog() {
-        editTestUser();
+    public void cancel_edit_dialog_should_return_to_user_list() {
+        edit_Test_User();
 
+        // aborting the dialog should return to the edit view
         browser.findElement(UserEdit.CANCEL_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_ABORT).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
+        // canceling the dialog should return to the user list view5
         browser.findElement(UserEdit.CANCEL_BUTTON).click();
         browser.findElement(UserEdit.DIALOG_SUCCESS).click();
 
@@ -57,54 +63,54 @@ public class UserEditIT extends Integrationtest {
     }
 
     @Test
-    public void editUser() {
-        editTestUser();
+    public void edit_user_view_displays_previously_saved_changes() {
+        edit_Test_User();
 
         final boolean newActive = true;
 
-        final String newLastName          = "Test456";
-        final String newFormattedName     = "Test 23 336";
-        final String newGivenName         = "Test123\u00e4";
-        final String newHonorificPrefix   = "Dr.";
-        final String newHonorificSuffix   = "moon travel";
-        final String newMiddleName        = "Hans";
-        final String newDisplayName       = "TestHansKlaus17";
-        final String newNickName          = "MeterPeterMolaCola";
-        final String newUserTitle         = "Dr. Dr. Prof.";
+        final String newLastName = "Test456";
+        final String newFormattedName = "Test 23 336";
+        final String newGivenName = "Test123\u00e4";
+        final String newHonorificPrefix = "Dr.";
+        final String newHonorificSuffix = "moon travel";
+        final String newMiddleName = "Hans";
+        final String newDisplayName = "TestHansKlaus17";
+        final String newNickName = "MeterPeterMolaCola";
+        final String newUserTitle = "Dr. Dr. Prof.";
 
         final String newPreferredLanguage = "RU";
-        final String newLocale            = "ru_RU";
-        final String newProfileURL        = "http://www.gibtsnicht.ehnicht111222.de";
-        final String newTimezone          = "ru/RussischeStadt";
-        final String newUserName          = "MeterPeterMolaCola";
+        final String newLocale = "ru_RU";
+        final String newProfileURL = "http://www.gibtsnicht.ehnicht111222.de";
+        final String newTimezone = "ru/RussischeStadt";
+        final String newUserName = "MeterPeterMolaCola";
 
-        final String newEmailDisplay         = "meine email";
-        final String newEmailValue           = "hans_peter@gibtsnicht.org";
-        final String newEmailType            = "StandartE";
+        final String newEmailDisplay = "meine email";
+        final String newEmailValue = "hans_peter@gibtsnicht.org";
+        final String newEmailType = "StandartE";
 
-        final String newPhoneDisplay         = "zu hause";
-        final String newPhoneValue           = "0987654321";
-        final String newPhoneType            = "StandartP";
+        final String newPhoneDisplay = "zu hause";
+        final String newPhoneValue = "0987654321";
+        final String newPhoneType = "StandartP";
 
-        final String newIMDisplay            = "XMPP";
-        final String newIMValue              = "444555666";
-        final String newIMType               = "StandartI";
+        final String newIMDisplay = "XMPP";
+        final String newIMValue = "444555666";
+        final String newIMType = "StandartI";
 
-        final String newCertificatesDisplay  = "Positiv";
-        final String newCertificatesValue    = "Vitamin C Professor";
-        final String newCertificatesType     = "StandartC";
+        final String newCertificatesDisplay = "Positiv";
+        final String newCertificatesValue = "Vitamin C Professor";
+        final String newCertificatesType = "StandartC";
 
-        final String newEntitlementsDisplay  = "Alles";
-        final String newEntitlementsValue    = "Admin";
-        final String newEntitlementsType     = "StandartE";
+        final String newEntitlementsDisplay = "Alles";
+        final String newEntitlementsValue = "Admin";
+        final String newEntitlementsType = "StandartE";
 
-        final String newAddressCountry       = "Deutschland";
-        final String newAddressFormatted     = "Deutschlandstraße 20 12345 Ländisch";
-        final String newAddressLocality      = "de_DE";
-        final String newAddressPostalcode    = "12345";
-        final String newAddressRegion        = "Ländisch";
+        final String newAddressCountry = "Deutschland";
+        final String newAddressFormatted = "Deutschlandstraße 20 12345 Ländisch";
+        final String newAddressLocality = "de_DE";
+        final String newAddressPostalcode = "12345";
+        final String newAddressRegion = "Ländisch";
         final String newAddressStreetaddress = "Deutschlandstraße 20";
-        final String newAddressType          = "StandartA";
+        final String newAddressType = "StandartA";
 
         browser.findElement(UserEdit.ACTIVE).click();
         browser.fill(new Field(UserEdit.LASTNAME, newLastName));
@@ -162,7 +168,7 @@ public class UserEditIT extends Integrationtest {
         browser.click(UserEdit.SUBMIT_BUTTON);
         browser.click(UserEdit.DIALOG_SUCCESS);
 
-        editTestUser();
+        edit_Test_User();
 
         assertEquals(newActive, browser.findElement(UserEdit.ACTIVE).isSelected());
         assertEquals(newLastName, browser.getValue(UserEdit.LASTNAME));
@@ -217,7 +223,7 @@ public class UserEditIT extends Integrationtest {
     }
 
     @Test
-    public void falseMVAttributes() {
+    public void false_Multi_Value_Attributes() {
         final String falseEmailValue = "hanspeters_email";
         final String falsePhoneValue = "meintelefon";
         final String falseAddressPostalcode = "einszweidreivierfünf";
@@ -233,28 +239,28 @@ public class UserEditIT extends Integrationtest {
     }
 
     @Test
-    public void removeAndAddAllMVAttributes() {
-        editTestUser();
+    public void remove_And_Add_All_Multi_Value_Attributes() {
+        edit_Test_User();
 
-        testRemoveAndAddMVAttribute("email", 1);
-        testRemoveAndAddMVAttribute("phoneNumber", 1);
-        testRemoveAndAddMVAttribute("im", 0);
-        testRemoveAndAddMVAttribute("certificate", 0);
-        testRemoveAndAddMVAttribute("entitlement", 0);
-        testRemoveAndAddMVAttribute("address", 1);
+        test_Remove_And_Add_Multi_Value_Attribute("email", 1);
+        test_Remove_And_Add_Multi_Value_Attribute("phoneNumber", 1);
+        test_Remove_And_Add_Multi_Value_Attribute("im", 0);
+        test_Remove_And_Add_Multi_Value_Attribute("certificate", 0);
+        test_Remove_And_Add_Multi_Value_Attribute("entitlement", 0);
+        test_Remove_And_Add_Multi_Value_Attribute("address", 1);
     }
 
-    private void testRemoveAndAddMVAttribute(String containerId, int existingFields) {
-        addMvAttribute(containerId);
-        assertEquals(existingFields + 1, countChildElements(containerId));
-        addMvAttribute(containerId);
-        assertEquals(existingFields + 2, countChildElements(containerId));
-        dropMvAttribute(containerId, existingFields + 2);
-        dropMvAttribute(containerId, existingFields + 1);
-        assertEquals(existingFields + 0, countChildElements(containerId));
+    private void test_Remove_And_Add_Multi_Value_Attribute(String containerId, int existingFields) {
+        add_Multi_Value_Attribute(containerId);
+        assertEquals(existingFields + 1, count_Child_Elements(containerId));
+        add_Multi_Value_Attribute(containerId);
+        assertEquals(existingFields + 2, count_Child_Elements(containerId));
+        drop_Multi_Value_Attribute(containerId, existingFields + 2);
+        drop_Multi_Value_Attribute(containerId, existingFields + 1);
+        assertEquals(existingFields + 0, count_Child_Elements(containerId));
     }
 
-    private void editTestUser() {
+    private void edit_Test_User() {
         String actionLabelXpath = "//td[. = '" + TEST_USER_NAME + "']/..//div[contains(@id, 'action-label')]";
         String editButtonXpath = "//td[. = '" + TEST_USER_NAME + "']/..//button[contains(@id, 'action-button-edit')]";
 
@@ -262,18 +268,18 @@ public class UserEditIT extends Integrationtest {
         browser.findElement(By.xpath(editButtonXpath)).click();
     }
 
-    private void addMvAttribute(String multivalueName) {
+    private void add_Multi_Value_Attribute(String multivalueName) {
         browser.findElement(By.xpath("//button[contains(@id, 'button-add-" + multivalueName + "')]")).click();
     }
 
-    private void dropMvAttribute(String containerId, int nth) {
+    private void drop_Multi_Value_Attribute(String containerId, int nth) {
         browser.findElement(
                 By.xpath("//fieldset[contains(@id, '" + containerId + "')]/div[" + nth
                         + "]/button[contains(@id, 'button-remove')]"))
                 .click();
     }
 
-    private int countChildElements(String containerId) {
+    private int count_Child_Elements(String containerId) {
         List<WebElement> foundElements = browser.findElements(By.xpath("//fieldset[contains(@id, '" + containerId
                 + "')]//div[contains(@class, 'row')]"));
         return foundElements.size();

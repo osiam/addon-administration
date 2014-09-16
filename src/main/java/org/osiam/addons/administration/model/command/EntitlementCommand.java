@@ -7,10 +7,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.Entitlement;
 import org.osiam.resources.scim.Entitlement.Type;
 
+import com.google.common.base.Strings;
+
 /**
  * Command object for the user update view.
  */
-public class EntitlementCommand implements Emptieable {
+public class EntitlementCommand implements Emptiable {
 
     @NotNull
     @NotEmpty
@@ -39,10 +41,13 @@ public class EntitlementCommand implements Emptieable {
             setType(entitlement.getType().getValue());
         }
     }
-    
+
     @Override
     public boolean isEmpty(){
-        return getPrimary() == null && getDisplay() == null && getType() == null && getValue() == null;
+        return getPrimary() == null &&
+                Strings.isNullOrEmpty(getDisplay()) &&
+                Strings.isNullOrEmpty(getType()) &&
+                Strings.isNullOrEmpty(getValue());
     }
 
     public Entitlement getAsEntitlement() {

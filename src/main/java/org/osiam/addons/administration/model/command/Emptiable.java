@@ -1,6 +1,6 @@
 package org.osiam.addons.administration.model.command;
 
-public interface Emptieable {
+public interface Emptiable {
 
     /**
      * Check if the object is empty.

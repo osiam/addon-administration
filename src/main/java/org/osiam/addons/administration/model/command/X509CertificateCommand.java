@@ -7,7 +7,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.X509Certificate;
 import org.osiam.resources.scim.X509Certificate.Type;
 
-public class X509CertificateCommand implements Emptieable {
+import com.google.common.base.Strings;
+
+public class X509CertificateCommand implements Emptiable {
     @NotNull
     @NotEmpty
     @NotBlank
@@ -79,6 +81,9 @@ public class X509CertificateCommand implements Emptieable {
 
     @Override
     public boolean isEmpty(){
-        return getPrimary() == null && getDisplay() == null && getType() == null && getValue() == null;
+        return getPrimary() == null &&
+                Strings.isNullOrEmpty(getDisplay()) &&
+                Strings.isNullOrEmpty(getType()) &&
+                Strings.isNullOrEmpty(getValue());
     }
 }

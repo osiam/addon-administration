@@ -7,10 +7,8 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.osiam.resources.scim.Address;
 import org.osiam.resources.scim.Email;
@@ -58,7 +56,7 @@ public class UpdateUserCommand {
     @Valid
     private List<EmailCommand> emails = new ArrayList<EmailCommand>();
     @Valid
-    private List<PhonenumberCommand> phoneNumbers = new ArrayList<PhonenumberCommand>();
+    private List<PhoneNumberCommand> phoneNumbers = new ArrayList<PhoneNumberCommand>();
     @Valid
     private List<ImCommand> ims = new ArrayList<ImCommand>();
     @Valid
@@ -105,7 +103,7 @@ public class UpdateUserCommand {
         }
         if (user.getPhoneNumbers() != null) {
             for (PhoneNumber number : user.getPhoneNumbers()) {
-                this.phoneNumbers.add(new PhonenumberCommand(number));
+                this.phoneNumbers.add(new PhoneNumberCommand(number));
             }
         }
         if (user.getIms() != null) {
@@ -293,15 +291,6 @@ public class UpdateUserCommand {
      *
      * @return the the active
      */
-    public Boolean isActive() {
-        return active;
-    }
-
-    /**
-     * Returns the active.
-     *
-     * @return the the active
-     */
     public Boolean getActive() {
         return active;
     }
@@ -362,11 +351,11 @@ public class UpdateUserCommand {
         this.emails = emails;
     }
 
-    public List<PhonenumberCommand> getPhoneNumbers() {
+    public List<PhoneNumberCommand> getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(List<PhonenumberCommand> phoneNumbers) {
+    public void setPhoneNumbers(List<PhoneNumberCommand> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 
@@ -438,8 +427,8 @@ public class UpdateUserCommand {
     public UpdateUser getAsUpdateUser() {
         UpdateUser.Builder builder = new UpdateUser.Builder();
 
-        if(isActive() != null) {
-            builder.updateActive(isActive());
+        if(getActive() != null) {
+            builder.updateActive(getActive());
         }
         builder.updateName(getName().getAsName());
         builder.updateTitle(getTitle());
@@ -461,7 +450,7 @@ public class UpdateUserCommand {
         builder.setName(getName().getAsName());
         builder.setTitle(getTitle());
         builder.setDisplayName(getDisplayName());
-        builder.setActive(isActive());
+        builder.setActive(getActive());
         builder.setNickName(getNickName());
         builder.setPreferredLanguage(getPreferredLanguage());
         builder.setLocale(getLocale());
@@ -473,7 +462,7 @@ public class UpdateUserCommand {
                 builder.addEmail(email.getAsEmail());
             }
         }
-        for (PhonenumberCommand number : getPhoneNumbers()) {
+        for (PhoneNumberCommand number : getPhoneNumbers()) {
             if (!number.isEmpty()) {
                 builder.addPhoneNumber(number.getAsPhoneNumber());
             }
@@ -511,7 +500,7 @@ public class UpdateUserCommand {
         removeEmptyElements(getEntitlements().iterator());
     }
 
-    private void removeEmptyElements(Iterator<? extends Emptieable> elements) {
+    private void removeEmptyElements(Iterator<? extends Emptiable> elements) {
         while(elements.hasNext()){
             if(elements.next().isEmpty()){
                 elements.remove();

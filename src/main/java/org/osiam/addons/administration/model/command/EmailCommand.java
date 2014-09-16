@@ -7,33 +7,35 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.Email;
 import org.osiam.resources.scim.Email.Type;
 
+import com.google.common.base.Strings;
+
 /**
  * Command object for the user update view.
  */
-public class EmailCommand implements Emptieable {
+public class EmailCommand implements Emptiable {
 
     @NotNull
     @NotEmpty
     @NotBlank
     private String type;
-    
+
     @NotNull
     @org.hibernate.validator.constraints.Email
     private String value;
-    
+
     private String display;
-    
+
     @NotNull
     private Boolean primary;
-    
+
     public EmailCommand() {
     }
-    
+
     public EmailCommand(Email email) {
         setDisplay(email.getDisplay());
         setPrimary(email.isPrimary());
         setValue(email.getValue());
- 
+
         if(email.getType() != null) {
             setType(email.getType().getValue());
         }
@@ -41,9 +43,12 @@ public class EmailCommand implements Emptieable {
 
     @Override
     public boolean isEmpty() {
-        return getPrimary() == null && getDisplay() == null && getType() == null && getValue() == null;
+        return getPrimary() == null &&
+                Strings.isNullOrEmpty(getDisplay()) &&
+                Strings.isNullOrEmpty(getType()) &&
+                Strings.isNullOrEmpty(getValue());
     }
-    
+
     public Email getAsEmail(){
         return new Email.Builder()
             .setDisplay(getDisplay())

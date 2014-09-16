@@ -7,7 +7,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.Im;
 import org.osiam.resources.scim.Im.Type;
 
-public class ImCommand implements Emptieable {
+import com.google.common.base.Strings;
+
+public class ImCommand implements Emptiable {
     @NotNull
     @NotEmpty
     @NotBlank
@@ -35,10 +37,13 @@ public class ImCommand implements Emptieable {
             setType(im.getType().getValue());
         }
     }
-    
+
     @Override
     public boolean isEmpty(){
-        return getPrimary() == null && getDisplay() == null && getType() == null && getValue() == null;
+        return getPrimary() == null &&
+                Strings.isNullOrEmpty(getDisplay()) &&
+                Strings.isNullOrEmpty(getType()) &&
+                Strings.isNullOrEmpty(getValue());
     }
 
     public Im getAsIm() {
