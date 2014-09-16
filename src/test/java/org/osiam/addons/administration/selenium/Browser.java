@@ -7,6 +7,7 @@ import java.util.Set;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -33,7 +34,7 @@ public class Browser implements WebDriver {
 
     /**
      * Set the base-url. This url is used by {@link Browser#gotoPage(String)}!
-     * 
+     *
      * @param baseURL
      *        The base-url of the administration-servlet.
      * @return this
@@ -47,7 +48,7 @@ public class Browser implements WebDriver {
     /**
      * Go to a specific sub-page of the administration-servlet. This function requires that the base-url was previously
      * set by {@link Browser#setBaseURL(String)}.
-     * 
+     *
      * @param page
      *        Where should be navigated.
      * @return this
@@ -63,7 +64,7 @@ public class Browser implements WebDriver {
 
     /**
      * Login via OAuth2-Mechanism from Osiam.
-     * 
+     *
      * @param username
      *        Username that should be used.
      * @param password
@@ -91,7 +92,7 @@ public class Browser implements WebDriver {
 
     /**
      * Click on the given element.
-     * 
+     *
      * @param element
      *        Element which should be clicked.
      * @return this
@@ -104,7 +105,7 @@ public class Browser implements WebDriver {
 
     /**
      * Return the element if it was found. This method use the implicit wait mechanism!
-     * 
+     *
      * @param element
      * @return this
      */
@@ -118,7 +119,7 @@ public class Browser implements WebDriver {
             	}
 
             	return findElement(element.by());
-            } catch (NoSuchElementException | ElementNotVisibleException e) {
+            } catch (NoSuchElementException | StaleElementReferenceException | ElementNotVisibleException e) {
                 try {
                     Thread.sleep(250);
                 } catch (InterruptedException e1) {
@@ -133,7 +134,7 @@ public class Browser implements WebDriver {
 
     /**
      * Return the element if it was found. This method don't use the implicit wait mechanism!
-     * 
+     *
      * @param element
      * @return this
      */
@@ -151,7 +152,7 @@ public class Browser implements WebDriver {
 
     /**
      * Get the value of the given element.
-     * 
+     *
      * @param element
      * @return The value of the element.
      */
@@ -168,7 +169,7 @@ public class Browser implements WebDriver {
 
     /**
      * Fill all fields on the current page.
-     * 
+     *
      * @param fields
      *        Fields that should be filled.
      * @return this
@@ -206,7 +207,7 @@ public class Browser implements WebDriver {
 
     /**
      * Is the access for the current page denied?
-     * 
+     *
      * @return True if it so. Otherwise false.
      */
     public boolean isAccessDenied() {
@@ -215,7 +216,7 @@ public class Browser implements WebDriver {
 
     /**
      * Is the current page an error page?
-     * 
+     *
      * @return True if it so. Otherwise false.
      */
     public boolean isErrorPage() {
@@ -224,7 +225,7 @@ public class Browser implements WebDriver {
 
     /**
      * Is the current page the login page?
-     * 
+     *
      * @return True if it so. Otherwise false.
      */
     public boolean isLoginPage() {
@@ -233,7 +234,7 @@ public class Browser implements WebDriver {
 
     /**
      * Check if the given text is shown on the current page.
-     * 
+     *
      * @param text
      *        Text to check.
      * @return True if the text is present. Otherwise false.
