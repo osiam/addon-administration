@@ -61,7 +61,7 @@ public class EditUserController extends GenericController {
     @Inject
     private Validator validator;
 
-    @Value("${org.osiam.administration.extensions}")
+    @Value("${org.osiam.administration.extensions:}")
     private String[] extensionNames;
 
     @RequestMapping(method = RequestMethod.GET)
@@ -112,6 +112,7 @@ public class EditUserController extends GenericController {
 
         modelAndView.addObject(MODEL, cmd);
         modelAndView.addObject(MODEL_ALL_TYPES, extractFieldTypes(extensionService.getExtensions()));
+        modelAndView.addObject(MODEL_EXTENSION_NAMES, customPropertyToMap(extensionNames));
 
         enrichBindingResultFromSession(MODEL, modelAndView);
 
