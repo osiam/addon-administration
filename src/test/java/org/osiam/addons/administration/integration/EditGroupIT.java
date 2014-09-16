@@ -13,13 +13,10 @@ import org.osiam.addons.administration.Element.GroupList;
 import org.osiam.addons.administration.selenium.Field;
 
 public class EditGroupIT extends Integrationtest {
-    String editGroup = "\u00c4pfel";
-    String editExternalId = "300";
-    String newGroup = "TestGroup";
-    String newExternalId ="205";
-    String testGroup = "test_group03";
-    //Action-Menu-Button
-    String actionLabelXpath = "//td['" + newGroup + "']/..//div[contains(@id, 'action-label')]";
+    private final String TEST_GROUP_NAME = "test_group03";
+
+    private final String NEW_GROUP_NAME = "TestGroup";
+    private final String NEW_EXTERNAL_ID ="205";
 
     @Override
     public void setup() {
@@ -31,119 +28,125 @@ public class EditGroupIT extends Integrationtest {
     }
 
     @Test
-    public void GroupEdit() {
-        editTestGroup(testGroup);
+    public void editGroup() {
+        gotoEditGroupView(TEST_GROUP_NAME);
 
-        browser.fill(new Field(EditList.DISPLAYNAME, ""));
-
-        browser.click(EditList.SUBMIT_BUTTON);
-        browser.click(EditList.DIALOG_SUCCESS);
-
-        assertTrue(browser.isTextPresent("Die Eingabe darf nicht leer sein!") || browser.isTextPresent("The value can\u02c8t be empty!"));
-
-        browser.fill(new Field(EditList.DISPLAYNAME, editGroup));
-        browser.fill(new Field(GroupEdit.EXTERNAL_ID_GROUP, editExternalId));
-
-        browser.click(EditList.SUBMIT_BUTTON);
-        browser.click(EditList.DIALOG_SUCCESS);
-
-        editTestGroup(editGroup);
-
-        assertEquals(editGroup, browser.getValue(EditList.DISPLAYNAME));
-        assertEquals(editExternalId, browser.getValue(GroupEdit.EXTERNAL_ID_GROUP));
-
-        browser.click(EditList.CANCEL_BUTTON);
-        browser.click(EditList.DIALOG_SUCCESS);
+        checkEmptyValidation();
+        checkSuccessfulEdit();
     }
 
-    @Test
-    public void GroupAddDelete() {
-        //new Group
-        String deleteGroup = "0";
+    private void checkSuccessfulEdit() {
+        final String newGroupName = "\u00c4pfel";
+        final String newExternalId = "300";
 
-        browser.click(GroupList.ADD_GROUP);
-
-        browser.fill(new Field(EditList.DISPLAYNAME, newGroup));
+        browser.fill(new Field(EditList.DISPLAYNAME, newGroupName));
         browser.fill(new Field(GroupEdit.EXTERNAL_ID_GROUP, newExternalId));
 
-        browser.click(EditList.SUBMIT_BUTTON);
-        browser.click(EditList.DIALOG_SUCCESS);
+        saveEditChanges();
 
-        editTestGroup(newGroup);
+        gotoEditGroupView(newGroupName);
 
-        assertEquals(newGroup, browser.getValue(EditList.DISPLAYNAME));
+        assertEquals(newGroupName, browser.getValue(EditList.DISPLAYNAME));
         assertEquals(newExternalId, browser.getValue(GroupEdit.EXTERNAL_ID_GROUP));
 
         browser.click(EditList.CANCEL_BUTTON);
         browser.click(EditList.DIALOG_SUCCESS);
+    }
 
-        browser.findElement(By.xpath(actionLabelXpath)).click();
+    private void checkEmptyValidation() {
+        browser.fill(new Field(EditList.DISPLAYNAME, ""));
 
-        deleteGroup(deleteGroup);
+        saveEditChanges();
 
-        browser.click(EditList.DIALOG_ABORT);
-
-        assertTrue(browser.isTextPresent(newGroup));
-
-        deleteGroup(deleteGroup);
-
-        browser.click(EditList.DIALOG_SUCCESS);
-        assertFalse(browser.isTextPresent(newGroup));
+        assertTrue(browser.isTextPresent("Die Eingabe darf nicht leer sein!") || browser.isTextPresent("The value can\u02c8t be empty!"));
     }
 
     @Test
-    public void GroupUserAddRemove() {
-        final String testGroup = "test_group05";
-        //dcooper
-        final String userValue = "d6f323e2-c717-4ab6-af9c-e639b50a948c";
-
-        editTestGroup(testGroup);
-
-        selectExternUser(userValue);
-
-        browser.click(GroupEdit.ADD_USER_GROUP);
-
-        browser.click(EditList.SUBMIT_BUTTON);
-        browser.click(EditList.DIALOG_SUCCESS);
-
-        editTestGroup(testGroup);
-
-        assertTrue(isUserGroup(userValue));
-
-        selectGroupUser(userValue);
-
-        browser.click(GroupEdit.REMOVE_USER_GROUP);
-
-        browser.click(EditList.SUBMIT_BUTTON);
-        browser.click(EditList.DIALOG_SUCCESS);
-
-        editTestGroup(testGroup);
-
-        assertFalse(isUserGroup(userValue));
+    public void addAndDeleteGroup() {
+        createNewGroup();
+        deleteNewGroup();
     }
 
-    private void editTestGroup(String testGroup) {
-        String actionLabelXpath = "//td[. = '" + testGroup + "']/..//div[contains(@id, 'action-label')]";
-        String editButtonXpath = "//td[. = '" + testGroup + "']/..//button[contains(@id, 'action-button-edit')]";
+    private void createNewGroup() {
+        browser.click(GroupList.ADD_GROUP);
+
+        browser.fill(new Field(EditList.DISPLAYNAME, NEW_GROUP_NAME));
+        browser.fill(new Field(GroupEdit.EXTERNAL_ID_GROUP, NEW_EXTERNAL_ID));
+
+        saveEditChanges();
+
+        gotoEditGroupView(NEW_GROUP_NAME);
+
+        assertEquals(NEW_GROUP_NAME, browser.getValue(EditList.DISPLAYNAME));
+        assertEquals(NEW_EXTERNAL_ID, browser.getValue(GroupEdit.EXTERNAL_ID_GROUP));
+
+        browser.click(EditList.CANCEL_BUTTON);
+        browser.click(EditList.DIALOG_SUCCESS);
+    }
+
+    private void deleteNewGroup() {
+        clickDeleteGroup(NEW_GROUP_NAME);
+
+        browser.click(EditList.DIALOG_ABORT);
+        assertTrue(browser.isTextPresent(NEW_GROUP_NAME));
+
+        clickDeleteGroup(NEW_GROUP_NAME);
+
+        browser.click(EditList.DIALOG_SUCCESS);
+        assertFalse(browser.isTextPresent(NEW_GROUP_NAME));
+    }
+
+    @Test
+    public void addAndRemoveGroupMember() {
+        final String testGroup = "test_group05";
+        //dcooper
+        final String userId = "d6f323e2-c717-4ab6-af9c-e639b50a948c";
+
+        gotoEditGroupView(testGroup);
+        addUserToMemberlist(userId);
+        saveEditChanges();
+
+        gotoEditGroupView(testGroup);
+        assertTrue(isUserGroupMember(userId));
+
+        removeUserFromMembers(userId);
+        saveEditChanges();
+        gotoEditGroupView(testGroup);
+
+        assertFalse(isUserGroupMember(userId));
+    }
+
+    private void saveEditChanges() {
+        browser.click(EditList.SUBMIT_BUTTON);
+        browser.click(EditList.DIALOG_SUCCESS);
+    }
+
+    private void gotoEditGroupView(String groupName) {
+        String actionLabelXpath = "//td[. = '" + groupName + "']/..//div[contains(@id, 'action-label')]";
+        String editButtonXpath = "//td[. = '" + groupName + "']/..//button[contains(@id, 'action-button-edit')]";
 
         browser.findElement(By.xpath(actionLabelXpath)).click();
         browser.findElement(By.xpath(editButtonXpath)).click();
     }
 
-    private void deleteGroup(String id) {
-        browser.findElement(By.id("action-label-" + id)).click();
+    private void clickDeleteGroup(String groupName) {
+        String actionLabelXpath = "//td[. = '" + groupName + "']/..//div[contains(@id, 'action-label')]";
+        String editButtonXpath = "//td[. = '" + groupName + "']/..//button[contains(@id, 'action-button-delete')]";
 
-        browser.findElement(By.id("action-button-delete-group-" + id)).click();
+        browser.findElement(By.xpath(actionLabelXpath)).click();
+        browser.findElement(By.xpath(editButtonXpath)).click();
     }
 
-    private void selectGroupUser(String userValue) {
+    private void removeUserFromMembers(String userValue) {
         browser.findElement(By.xpath("//select[contains(@id, 'member')]/..//option[contains(@value, '" + userValue + "')]")).click();
+        browser.click(GroupEdit.REMOVE_USER_GROUP);
     }
-    private void selectExternUser(String userValue) {
+    private void addUserToMemberlist(String userValue) {
         browser.findElement(By.xpath("//select[contains(@id, 'outsider')]/..//option[contains(@value, '" + userValue + "')]")).click();
+        browser.click(GroupEdit.ADD_USER_GROUP);
     }
 
-    private boolean isUserGroup(String userValue) {
+    private boolean isUserGroupMember(String userValue) {
         try {
             browser.findElement(By.xpath("//select[contains(@id, 'member')]/..//option[contains(@value, '" + userValue + "')]"));
         } catch (NoSuchElementException e) {
