@@ -808,8 +808,8 @@
                     <h3 th:text="${extensionUrn}">Extension-URN</h3>
 
                     <div th:each="fieldEntry : ${extension}" th:class="'col-md-4' + (${#fields.hasErrors('*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}')}? ' bg-danger' : '')">
-                      	<div class="col-md-5">
-	                        <label th:text="${fieldEntry.key}" th:for="${fieldEntry.key}">Extension-Key</label>
+                      	<div class="col-md-5" th:with="key = ${extensionUrn + '::' + fieldEntry.key}">
+	                        <label th:text="${#maps.containsKey(extensionNames, key)} ?  ${extensionNames['__${key}__']} : ${fieldEntry.key}"   th:for="${fieldEntry.key}">Extension-Key</label>
                       	</div>
                       	<div class="col-md-7">
 	                        <th:block th:switch="${allFieldTypes.get(extensionUrn).get(fieldEntry.key)}">

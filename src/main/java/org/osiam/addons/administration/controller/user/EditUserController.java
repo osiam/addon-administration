@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -18,6 +20,7 @@ import org.osiam.resources.exception.SCIMDataValidationException;
 import org.osiam.resources.scim.Extension;
 import org.osiam.resources.scim.Extension.Field;
 import org.osiam.resources.scim.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
@@ -44,6 +47,7 @@ public class EditUserController extends GenericController {
 
     public static final String MODEL = "model";
     public static final String MODEL_ALL_TYPES = "allFieldTypes";
+    public static final String MODEL_EXTENSION_NAMES = "extensionNames";
 
     @Inject
     private UserService userService;
@@ -57,6 +61,9 @@ public class EditUserController extends GenericController {
     @Inject
     private Validator validator;
 
+    @Value("${org.osiam.administration.extensions}")
+    private String[] extensionNames;
+
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleUserEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
         ModelAndView modelAndView = new ModelAndView("user/editUser");
@@ -68,9 +75,11 @@ public class EditUserController extends GenericController {
         User user = userService.getUser(id);
         modelAndView.addObject(MODEL, new UpdateUserCommand(user, extensions));
         modelAndView.addObject(MODEL_ALL_TYPES, extractFieldTypes(extensions));
+        modelAndView.addObject(MODEL_EXTENSION_NAMES, customPropertyToMap(extensionNames));
 
         return modelAndView;
     }
+
 
     private Map<String, Map<String, String>> extractFieldTypes(List<Extension> extensions) {
         Map<String, Map<String, String>> result = new HashMap<String, Map<String,String>>();
@@ -91,6 +100,7 @@ public class EditUserController extends GenericController {
         removeBindingResultFromSession(MODEL);
     }
 
+
     @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
     public ModelAndView handleUserEditFailure(
             @RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
@@ -107,6 +117,7 @@ public class EditUserController extends GenericController {
 
         return modelAndView;
     }
+
 
     @RequestMapping(method = RequestMethod.POST)
     public String handleUserUpdate(
@@ -154,5 +165,21 @@ public class EditUserController extends GenericController {
         command.purge();
         command.validate(allExtensions, bindingResult);
         validator.validate(command, bindingResult);
+    }
+
+
+    private HashMap<String, String> customPropertyToMap(String[] arrayToConvert) {
+        HashMap<String, String> returnMap = new HashMap<String, String>();
+        Pattern splitPattern = Pattern.compile("^([^=]*)=(.*)$");
+
+        for (String tempProperty : arrayToConvert) {
+            Matcher matcher = splitPattern.matcher(tempProperty);
+
+            if(matcher.matches()) {
+                returnMap.put(matcher.group(1), matcher.group(2));
+            }
+        }
+
+        return returnMap;
     }
 }
