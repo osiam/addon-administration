@@ -1,7 +1,6 @@
 package org.osiam.addons.administration.controller.user;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
@@ -13,6 +12,7 @@ import org.osiam.resources.exception.SCIMDataValidationException;
 import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +38,9 @@ public class EditUserController extends GenericController {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private Validator validator;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleUserEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
@@ -70,8 +73,10 @@ public class EditUserController extends GenericController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String handleUserUpdate(
-            @Valid @ModelAttribute(MODEL) UpdateUserCommand command,
+            @ModelAttribute(MODEL) UpdateUserCommand command,
             BindingResult bindingResult) {
+
+        validateCommand(command, bindingResult);
 
         final RedirectBuilder redirect = new RedirectBuilder()
                                             .setPath(CONTROLLER_PATH)
@@ -99,5 +104,17 @@ public class EditUserController extends GenericController {
         redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
         return redirect.build();
+    }
+
+    /**
+     * We must validate for our own, because we need to purge the command
+     * before we can validate it.
+     *
+     * @param command the command object
+     * @param bindingResult the binding result for that command
+     */
+    private void validateCommand(UpdateUserCommand command, BindingResult bindingResult) {
+        command.purge();
+        validator.validate(command, bindingResult);
     }
 }
