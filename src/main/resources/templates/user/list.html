@@ -62,23 +62,50 @@
                 <th>
                     <span th:text="#{msg.user.login}">Login</span>
                     <span class="sortingArrows">
-                        <a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-                        <a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+                        <a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">
+                            <img th:src="@{/img/arrow_up.png}" src="../../img/arrow_up.png" alt="" />
+                        </a>
+                        <a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">
+                            <img th:src="@{/img/arrow_down.png}" src="../../img/arrow_down.png" alt="" />
+                        </a>
                     </span>
                 </th>
                 <th>
                     <span th:text="#{msg.user.name.given}">Given Name</span>
                     <span class="sortingArrows">
-                        <a id="order-by-givenname-asc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-                        <a id="order-by-givenname-desc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+                        <a id="order-by-givenname-asc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}">
+                            <img th:src="@{/img/arrow_up.png}" src="../../img/arrow_up.png" alt="" />
+                        </a>
+                        <a id="order-by-givenname-desc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}">
+                            <img th:src="@{/img/arrow_down.png}" src="../../img/arrow_down.png" alt="" />
+                        </a>
                     </span>
                 </th>
                 <th>
                     <span th:text="#{msg.user.name.family}">Family Name</span>
                     <span class="sortingArrows">
-                        <a id="order-by-familyname-asc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-                        <a id="order-by-familyname-desc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+                        <a id="order-by-familyname-asc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}">
+                            <img th:src="@{/img/arrow_up.png}" src="../../img/arrow_up.png" alt="" />
+                        </a>
+                        <a id="order-by-familyname-desc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}">
+                            <img th:src="@{/img/arrow_down.png}" src="../../img/arrow_down.png" alt="" />
+                        </a>
                     </span>
+                </th>
+                <th>
+                    <span th:text="#{msg.user.group}">Group</span>
+
+                    <!--/*  Sorting by Group is not supported yet...
+
+                    <span class="sortingArrows">
+                        <a id="order-by-group-asc" th:href="@{'' (action='sort', orderBy='groups.display', asc=true)}">
+                        	<img th:src="@{/img/arrow_up.png}" src="../../img/arrow_up.png" alt="" />
+                        </a>
+                        <a id="order-by-group-desc" th:href="@{'' (action='sort', orderBy='groups.display', asc=false)}">
+                        	<img th:src="@{/img/arrow_down.png}" src="../../img/arrow_down.png" alt="" />
+                        </a>
+                    </span>
+                    */-->
                 </th>
                 <th>
                     <a th:href="@{create}" class="btn btn-info btn-sm">
@@ -102,6 +129,7 @@
                     <td><input id="filter-login" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
                     <td><input id="filter-givenname" name="query.name.givenName" type="text" th:value="*{get('query.name.givenName')}" /></td>
                     <td><input id="filter-familyname" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
+                    <td><input id="filter-group" name="query.groups.display" type="text" th:value="*{get('query.groups.display')}" /></td>
                     <td>
                         <button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default btn-sm" type="submit">Filter <span class="glyphicon glyphicon-filter"></span></button>
                     </td>
@@ -116,47 +144,52 @@
                 <td th:text="${user.name} != null ? ${user.name.givenName} : '-'">Given Name</td>
                 <td th:text="${user.name} != null ? ${user.name.familyName} : '-'">Family Name</td>
                 <td>
+					<ul th:if="${not #lists.isEmpty(user.groups)}">
+						<li th:each="group : ${user.groups}" th:text="${group.display + (groupStat.index lt (user.groups.size() - 1) ? ', ' : '')}" style="display:inline;">Group</li>
+					</ul>
+				</td>
+                <td>
                 <!-- Start: Action-Menu	-->
                 <nav class="actionNav">
                     <ul>
                         <li class="action">
                             <div class="btn btn-info btn-sm" th:id="${'action-label-' + userStat.index}">
-								<span th:text="#{msg.button.action}">Actions</span>
-								<span class="glyphicon glyphicon-chevron-right"></span>
-	                            <ul class="btn">
-	                                <li>
-	                                    <a th:href="@{edit(id = ${user.id})}">
-	                                        <button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
-	                                    </a>
-	                                </li>
-	                                <li th:if="${user.active}">
-	                                    <form action="" method="GET">
-	                                        <input type="hidden" name="action" value="deactivate" />
-	                                        <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
-	                                        <input type="hidden" name="id" th:value="${user.id}" />
+                                <span th:text="#{msg.button.action}">Actions</span>
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                <ul class="btn">
+                                    <li>
+                                        <a th:href="@{edit(id = ${user.id})}">
+                                            <button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
+                                        </a>
+                                    </li>
+                                    <li th:if="${user.active}">
+                                        <form action="" method="GET">
+                                            <input type="hidden" name="action" value="deactivate" />
+                                            <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
+                                            <input type="hidden" name="id" th:value="${user.id}" />
 
-	                                        <button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn-link" type="submit">Deactivate</button>
-	                                    </form>
-	                                </li>
-	                                <li th:unless="${user.active}">
-	                                    <form action="" method="GET">
-	                                        <input type="hidden" name="action" value="activate" />
-	                                        <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
-	                                        <input type="hidden" name="id" th:value="${user.id}" />
+                                            <button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn-link" type="submit">Deactivate</button>
+                                        </form>
+                                    </li>
+                                    <li th:unless="${user.active}">
+                                        <form action="" method="GET">
+                                            <input type="hidden" name="action" value="activate" />
+                                            <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
+                                            <input type="hidden" name="id" th:value="${user.id}" />
 
-	                                        <button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate</button>
-	                                    </form>
-	                                </li>
-	                                <li>
-	                                    <form action="" method="GET">
-	                                        <input type="hidden" name="action" value="delete" />
-	                                        <input type="hidden" name="id" th:value="${user.id}" />
+                                            <button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate</button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="" method="GET">
+                                            <input type="hidden" name="action" value="delete" />
+                                            <input type="hidden" name="id" th:value="${user.id}" />
 
-	                                        <button th:id="${'action-button-delete-' + userStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
-	                                    </form>
-	                                </li>
-	                            </ul>
-							</div>
+                                            <button th:id="${'action-button-delete-' + userStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </nav> <!-- End: Action-Menu -->
