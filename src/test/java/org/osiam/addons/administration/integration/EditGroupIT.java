@@ -13,7 +13,7 @@ import org.osiam.addons.administration.Element.GroupList;
 import org.osiam.addons.administration.selenium.Field;
 
 public class EditGroupIT extends Integrationtest {
-    String editGroup = "Äpfel";
+    String editGroup = "\u00c4pfel";
     String editExternalId = "300";
     String newGroup = "TestGroup";
     String newExternalId ="205";

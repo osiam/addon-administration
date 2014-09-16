@@ -14,7 +14,7 @@ public class UpdateUserCommandTest {
     private User user;
     private String userName = "maglino";
     private Boolean isActive = false;
-    private String title = "Weltraumpräsident";
+    private String title = "Weltraumpr\u00e4sident";
     private String displayName = "Peter";
     private String nickName = "Peat";
     private String preferredLanguage = "DE";
@@ -57,7 +57,7 @@ public class UpdateUserCommandTest {
 
         String userName = "updatali";
         Boolean isActive = true;
-        String title = "Weltraumpräsidentin";
+        String title = "Weltraumpr\u00e4sidentin";
         String displayName = "Hans";
         String nickName = "MasterOfDisaster";
         String preferredLanguage = "EN";
