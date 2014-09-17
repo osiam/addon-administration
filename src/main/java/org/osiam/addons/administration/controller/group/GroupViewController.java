@@ -129,7 +129,9 @@ public class GroupViewController {
 
         for (Entry<String, String> param : allParameters.entrySet()) {
             if (param.getKey().startsWith(REQUEST_PARAMETER_QUERY_PREFIX)) {
-                result.put(param.getKey(), param.getValue());
+                if(param.getValue() != null){
+                    result.put(param.getKey(), param.getValue().trim());
+                }
             }
         }
 
