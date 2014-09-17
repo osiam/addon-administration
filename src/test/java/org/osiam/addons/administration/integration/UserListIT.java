@@ -86,7 +86,35 @@ public class UserListIT extends Integrationtest {
     @Test
     public void paging() {
         browser.fill(new Field(EditList.LIMIT, "5")); // set limit to 5
+        int userCount = pageForward();
+        pageBackward();
+
+        browser.click(EditList.PAGING_LAST);
+        assertFalse(browser.isErrorPage());
+        browser.click(EditList.PAGING_FIRST);
+        assertFalse(browser.isErrorPage());
+
+        clickFirstPagingNumber();
+        assertFalse(browser.isErrorPage());
+        browser.fill(new Field(EditList.LIMIT, "0")); // set limit to
+                                                      // "unlimited"
+        assertEquals(getDisplayedUser(), userCount);
+    }
+
+    private void pageBackward() {
+        while (true) {
+            try {
+                browser.click(EditList.PAGING_PREVIOUS);
+            } catch (NoSuchElementException e) {
+                break;
+            }
+            assertFalse(browser.isErrorPage());
+        }
+    }
+
+    private int pageForward() {
         int userCount = 0;
+
         while (true) {
             try {
                 userCount += getDisplayedUser();
@@ -96,23 +124,7 @@ public class UserListIT extends Integrationtest {
             }
             assertFalse(browser.isErrorPage());
         }
-        while (true) {
-            try {
-                browser.click(EditList.PAGING_PREVIOUS);
-            } catch (NoSuchElementException e) {
-                break;
-            }
-            assertFalse(browser.isErrorPage());
-        }
-        browser.click(EditList.PAGING_LAST);
-        assertFalse(browser.isErrorPage());
-        browser.click(EditList.PAGING_FIRST);
-        assertFalse(browser.isErrorPage());
-        clickFirstPagingNumber();
-        assertFalse(browser.isErrorPage());
-        browser.fill(new Field(EditList.LIMIT, "0")); // set limit to
-                                                      // "unlimited"
-        assertEquals(getDisplayedUser(), userCount);
+        return userCount;
     }
 
     @Test

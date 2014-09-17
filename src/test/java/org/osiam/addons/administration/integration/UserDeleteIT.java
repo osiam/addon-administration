@@ -22,26 +22,21 @@ public class UserDeleteIT extends Integrationtest{
         String username = "kmorris";
         String testGroup = "test_group08";
 
-        deleteButton(username);
-
+        clickDeleteButton(username);
         browser.click(EditList.DIALOG_ABORT);
 
         assertTrue(isUserVisible(username));
 
-        deleteButton(username);
-
+        clickDeleteButton(username);
         browser.click(EditList.DIALOG_SUCCESS);
 
         assertFalse(isUserVisible(username));
 
-        browser.click(GroupList.GROUP_LIST);
-
-        editTestGroup(testGroup);
-
+        gotoEditGroup(testGroup);
         assertFalse(isUserVisible(username));
     }
 
-    private void deleteButton(String username) {
+    private void clickDeleteButton(String username) {
         String actionLabelXpath =
             "//table//td[contains(., '" + username + "')]/..//span";
 
@@ -57,9 +52,11 @@ public class UserDeleteIT extends Integrationtest{
         return browser.isTextPresent(username);
     }
 
-    private void editTestGroup(String testGroup) {
-        String actionLabelXpath = "//td[. = '" + testGroup + "']/..//div[contains(@id, 'action-label')]";
-        String editButtonXpath = "//td[. = '" + testGroup + "']/..//button[contains(@id, 'action-button-edit')]";
+    private void gotoEditGroup(String groupName) {
+        browser.click(GroupList.GROUP_LIST);
+
+        String actionLabelXpath = "//td[. = '" + groupName + "']/..//div[contains(@id, 'action-label')]";
+        String editButtonXpath = "//td[. = '" + groupName + "']/..//button[contains(@id, 'action-button-edit')]";
 
         browser.findElement(By.xpath(actionLabelXpath)).click();
         browser.findElement(By.xpath(editButtonXpath)).click();

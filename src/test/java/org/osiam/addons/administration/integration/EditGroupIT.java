@@ -13,10 +13,10 @@ import org.osiam.addons.administration.Element.GroupList;
 import org.osiam.addons.administration.selenium.Field;
 
 public class EditGroupIT extends Integrationtest {
-    private final String TEST_GROUP_NAME = "test_group03";
+    private static final String TEST_GROUP_NAME = "test_group03";
 
-    private final String NEW_GROUP_NAME = "TestGroup";
-    private final String NEW_EXTERNAL_ID ="205";
+    private static final String NEW_GROUP_NAME = "TestGroup";
+    private static final String NEW_EXTERNAL_ID ="205";
 
     @Override
     public void setup() {
@@ -28,7 +28,7 @@ public class EditGroupIT extends Integrationtest {
     }
 
     @Test
-    public void editGroup() {
+    public void edit_group() {
         gotoEditGroupView(TEST_GROUP_NAME);
 
         checkEmptyValidation();
@@ -62,7 +62,7 @@ public class EditGroupIT extends Integrationtest {
     }
 
     @Test
-    public void addAndDeleteGroup() {
+    public void add_and_delete_group() {
         createNewGroup();
         deleteNewGroup();
     }
@@ -97,7 +97,7 @@ public class EditGroupIT extends Integrationtest {
     }
 
     @Test
-    public void addAndRemoveGroupMember() {
+    public void add_and_remove_group_member() {
         final String testGroup = "test_group05";
         //dcooper
         final String userId = "d6f323e2-c717-4ab6-af9c-e639b50a948c";
