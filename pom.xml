@@ -32,10 +32,10 @@
 
     <properties>
         <java.version>1.7</java.version>
-        <spring.version>4.0.4.RELEASE</spring.version>
+        <spring.version>4.1.0.RELEASE</spring.version>
         <h2.version>1.3.170</h2.version>
-        <org.hibernate-version>4.3.5.Final</org.hibernate-version>
-        <selnium.version>2.42.2</selnium.version>
+        <org.hibernate-version>4.3.6.Final</org.hibernate-version>
+        <selenium.version>2.43.1</selenium.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <sonar.core.codeCoveragePlugin>cobertura</sonar.core.codeCoveragePlugin>
@@ -59,7 +59,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.1.1.RELEASE</version>
+        <version>1.1.6.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -163,7 +163,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>${selnium.version}</version>
+            <version>${selenium.version}</version>
             <scope>test</scope>
         </dependency>
 
