@@ -1,6 +1,7 @@
 package org.osiam.addons.administration.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -61,6 +62,16 @@ public class UserEditIT extends Integrationtest {
         browser.findElement(UserEdit.DIALOG_SUCCESS).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/list"));
+    }
+
+ 	@Test
+    public void testExtensionName() {
+        editTestUser();
+
+        assertTrue(browser.isTextPresent("Authentication"));
+        assertTrue(browser.isTextPresent("Vehicle"));
+        assertFalse(browser.isTextPresent("origin"));
+        assertFalse(browser.isTextPresent("car"));
     }
 
     @Test
@@ -284,5 +295,30 @@ public class UserEditIT extends Integrationtest {
         List<WebElement> foundElements = browser.findElements(By.xpath("//fieldset[contains(@id, '" + containerId
                 + "')]//div[contains(@class, 'row')]"));
         return foundElements.size();
+    }
+
+	@Test
+    public void trimInputUser() {
+        final String spaceDisplayName = " Trimmer ";
+        final String spaceHonorificPrefix ="Dr. ";
+        final String spaceHonorificSuffix = " Dr.";
+        final String trimDisplayName = "Trimmer";
+        final String trimHonorificPrefix ="Dr.";
+        final String trimHonorificSuffix = "Dr.";
+        
+        editTestUser();
+        
+        browser.fill(new Field(EditList.DISPLAYNAME, spaceDisplayName));
+        browser.fill(new Field(UserEdit.HONORIFICPREFIX, spaceHonorificPrefix));
+        browser.fill(new Field(UserEdit.HONORIFICSUFFIX, spaceHonorificSuffix));
+
+        browser.click(EditList.SUBMIT_BUTTON);
+        browser.click(EditList.DIALOG_SUCCESS);
+        
+        editTestUser();
+
+        assertEquals(trimDisplayName, browser.getValue(EditList.DISPLAYNAME));
+        assertEquals(trimHonorificPrefix, browser.getValue(UserEdit.HONORIFICPREFIX));
+        assertEquals(trimHonorificSuffix, browser.getValue(UserEdit.HONORIFICSUFFIX));
     }
 }
