@@ -93,6 +93,7 @@ public class EditGroupIT extends Integrationtest {
         clickDeleteGroup(NEW_GROUP_NAME);
 
         browser.click(EditList.DIALOG_SUCCESS);
+        assertTrue(browser.isTextPresent("Das ausgew\u00e4hlte Objekt wurde erfolgreich gel\u00f6scht") || browser.isTextPresent("The selected option was deleted"));
         assertFalse(browser.isTextPresent(NEW_GROUP_NAME));
     }
 
