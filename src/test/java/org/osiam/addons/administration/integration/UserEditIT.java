@@ -66,7 +66,7 @@ public class UserEditIT extends Integrationtest {
 
  	@Test
     public void testExtensionName() {
-        editTestUser();
+ 	   edit_Test_User();
 
         assertTrue(browser.isTextPresent("Authentication"));
         assertTrue(browser.isTextPresent("Vehicle"));
@@ -305,17 +305,17 @@ public class UserEditIT extends Integrationtest {
         final String trimDisplayName = "Trimmer";
         final String trimHonorificPrefix ="Dr.";
         final String trimHonorificSuffix = "Dr.";
-        
-        editTestUser();
-        
+
+        edit_Test_User();
+
         browser.fill(new Field(EditList.DISPLAYNAME, spaceDisplayName));
         browser.fill(new Field(UserEdit.HONORIFICPREFIX, spaceHonorificPrefix));
         browser.fill(new Field(UserEdit.HONORIFICSUFFIX, spaceHonorificSuffix));
 
         browser.click(EditList.SUBMIT_BUTTON);
         browser.click(EditList.DIALOG_SUCCESS);
-        
-        editTestUser();
+
+        edit_Test_User();
 
         assertEquals(trimDisplayName, browser.getValue(EditList.DISPLAYNAME));
         assertEquals(trimHonorificPrefix, browser.getValue(UserEdit.HONORIFICPREFIX));

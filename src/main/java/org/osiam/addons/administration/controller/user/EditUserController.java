@@ -51,9 +51,6 @@ public class EditUserController extends GenericController {
 
     @Inject
     private UserService userService;
-    
-    @Inject
-    private Validator validator;
 
     @Inject
     private ExtensionsService extensionService;
@@ -146,7 +143,7 @@ public class EditUserController extends GenericController {
             // just log the exception and fall through to error handling
             LOG.warn("Validation failed. Unable to update user.", e);
         }
-        
+
         // validation failed - store error information in session and return to edit view
         storeInSession(SESSION_KEY_COMMAND, command);
         storeBindingResultIntoSession(bindingResult, MODEL);
