@@ -1,5 +1,5 @@
 $(function(){
-    $(".only-on-js").css({"visibility":"visible"});
+    $(".only-on-js").show();
 
     $("#button-add-email").click(function(){
         var allEmailBlocks = $("[id^='email-block-']");

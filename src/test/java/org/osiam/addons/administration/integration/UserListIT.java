@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.osiam.addons.administration.Element;
+import org.osiam.addons.administration.Element.EditList;
 import org.osiam.addons.administration.Element.UserList;
 import org.osiam.addons.administration.selenium.Field;
 
@@ -25,7 +26,7 @@ public class UserListIT extends Integrationtest {
 
     @Test
     public void apply_empty_filter() {
-        browser.click(UserList.FILTER_BUTTON);
+        browser.click(EditList.FILTER_BUTTON);
 
         assertTrue(isUserVisible(ADMIN_USERNAME));
     }
@@ -33,7 +34,7 @@ public class UserListIT extends Integrationtest {
     @Test
     public void apply_single_filter() {
         browser.fill(new Field(UserList.FILTER_LOGIN, ADMIN_USERNAME));
-        browser.click(UserList.FILTER_BUTTON);
+        browser.click(EditList.FILTER_BUTTON);
 
         assertTrue(isUserVisible(ADMIN_USERNAME));
         assertFalse(isUserVisible("adavies")); // an another user
@@ -44,7 +45,7 @@ public class UserListIT extends Integrationtest {
         browser.fill(
                 new Field(UserList.FILTER_GIVEN_NAME, "Adeline"),
                 new Field(UserList.FILTER_FAMILY_NAME, "Davies"));
-        browser.click(UserList.FILTER_BUTTON);
+        browser.click(EditList.FILTER_BUTTON);
 
         assertFalse(isUserVisible(ADMIN_USERNAME));
         assertTrue(isUserVisible("adavies")); // an another user
@@ -54,7 +55,7 @@ public class UserListIT extends Integrationtest {
     public void apply_no_result_filter() {
         browser.fill(
                 new Field(UserList.FILTER_LOGIN, "DoesNotExist"));
-        browser.click(UserList.FILTER_BUTTON);
+        browser.click(EditList.FILTER_BUTTON);
 
         assertEquals(0, getDisplayedUser());
     }
@@ -83,26 +84,26 @@ public class UserListIT extends Integrationtest {
     @Test
     public void limit() {
         // default limit: 20
-        assertEquals("20", browser.findSelectedOption(UserList.LIMIT).getText());
+        assertEquals("20", browser.findSelectedOption(EditList.LIMIT).getText());
 
         // change limit seticfied
         assertTrue("Precondition is not satisfied! For this testcase the dataset must be contains more than 5 users!",
                 getDisplayedUser() > 5);
 
-        browser.fill(new Field(UserList.LIMIT, "5"));
+        browser.fill(new Field(EditList.LIMIT, "5"));
         assertTrue(getDisplayedUser() <= 5);
-        assertEquals("5", browser.findSelectedOption(UserList.LIMIT).getText());
+        assertEquals("5", browser.findSelectedOption(EditList.LIMIT).getText());
     }
 
     @Test
     public void paging() {
-        browser.fill(new Field(UserList.LIMIT, "5")); // set limit to 5
+        browser.fill(new Field(EditList.LIMIT, "5")); // set limit to 5
         int userCount = 0;
 
         while (true) {
             try {
                 userCount += getDisplayedUser();
-                browser.click(UserList.PAGING_NEXT);
+                browser.click(EditList.PAGING_NEXT);
             } catch (NoSuchElementException e) {
                 break;
             }
@@ -112,7 +113,7 @@ public class UserListIT extends Integrationtest {
 
         while (true) {
             try {
-                browser.click(UserList.PAGING_PREVIOUS);
+                browser.click(EditList.PAGING_PREVIOUS);
             } catch (NoSuchElementException e) {
                 break;
             }
@@ -120,16 +121,16 @@ public class UserListIT extends Integrationtest {
             assertFalse(browser.isErrorPage());
         }
 
-        browser.click(UserList.PAGING_LAST);
+        browser.click(EditList.PAGING_LAST);
         assertFalse(browser.isErrorPage());
 
-        browser.click(UserList.PAGING_FIRST);
+        browser.click(EditList.PAGING_FIRST);
         assertFalse(browser.isErrorPage());
 
         clickFirstPagingNumber();
         assertFalse(browser.isErrorPage());
 
-        browser.fill(new Field(UserList.LIMIT, "0")); // set limit to "unlimited"
+        browser.fill(new Field(EditList.LIMIT, "0")); // set limit to "unlimited"
         assertEquals(getDisplayedUser(), userCount);
     }
 
@@ -138,15 +139,15 @@ public class UserListIT extends Integrationtest {
         String username = "hsimpson";
 
         // abort deactivation
-        handleDeactivationDialog(username, UserList.DIALOG_ABORT);
+        handleDeactivationDialog(username, EditList.DIALOG_ABORT);
         assertTrue(isUserActive(username));
 
         // abort deactivation via closing dialog
-        handleDeactivationDialog(username, UserList.DIALOG_CLOSE);
+        handleDeactivationDialog(username, EditList.DIALOG_CLOSE);
         assertTrue(isUserActive(username));
 
         // deactivate user
-        handleDeactivationDialog(username, UserList.DIALOG_SUCCESS);
+        handleDeactivationDialog(username, EditList.DIALOG_SUCCESS);
         assertFalse(isUserActive(username));
     }
 
@@ -155,15 +156,15 @@ public class UserListIT extends Integrationtest {
         String username = "jcambell";
 
         // abort activation
-        handleActivationDialog(username, UserList.DIALOG_ABORT);
+        handleActivationDialog(username, EditList.DIALOG_ABORT);
         assertTrue(isUserDeactive(username));
 
         // abort activation via closing dialog
-        handleActivationDialog(username, UserList.DIALOG_CLOSE);
+        handleActivationDialog(username, EditList.DIALOG_CLOSE);
         assertTrue(isUserDeactive(username));
 
         // activate user
-        handleActivationDialog(username, UserList.DIALOG_SUCCESS);
+        handleActivationDialog(username, EditList.DIALOG_SUCCESS);
         assertFalse(isUserDeactive(username));
     }
 

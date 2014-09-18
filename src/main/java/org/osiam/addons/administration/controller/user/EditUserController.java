@@ -1,14 +1,22 @@
 package org.osiam.addons.administration.controller.user;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.UpdateUserCommand;
+import org.osiam.addons.administration.service.ExtensionsService;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.exception.SCIMDataValidationException;
+import org.osiam.resources.scim.Extension;
+import org.osiam.resources.scim.Extension.Field;
 import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -35,9 +43,13 @@ public class EditUserController extends GenericController {
     private static final String SESSION_KEY_COMMAND = "command";
 
     public static final String MODEL = "model";
+    public static final String MODEL_ALL_TYPES = "allFieldTypes";
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private ExtensionsService extensionService;
 
     @Inject
     private Validator validator;
@@ -48,10 +60,27 @@ public class EditUserController extends GenericController {
 
         clearSession();
 
+        List<Extension> extensions = extensionService.getExtensions();
+
         User user = userService.getUser(id);
-        modelAndView.addObject(MODEL, new UpdateUserCommand(user));
+        modelAndView.addObject(MODEL, new UpdateUserCommand(user, extensions));
+        modelAndView.addObject(MODEL_ALL_TYPES, extractFieldTypes(extensions));
 
         return modelAndView;
+    }
+
+    private Map<String, Map<String, String>> extractFieldTypes(List<Extension> extensions) {
+        Map<String, Map<String, String>> result = new HashMap<String, Map<String,String>>();
+
+        for(Extension extension : extensions){
+            result.put(extension.getUrn(), new HashMap<String, String>());
+
+            for(Entry<String, Field> entry : extension.getFields().entrySet()){
+                result.get(extension.getUrn()).put(entry.getKey(), entry.getValue().getType().getName());
+            }
+        }
+
+        return result;
     }
 
     private void clearSession() {
@@ -65,7 +94,12 @@ public class EditUserController extends GenericController {
 
         ModelAndView modelAndView = new ModelAndView("user/editUser");
 
-        modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
+        UpdateUserCommand cmd = (UpdateUserCommand)restoreFromSession(SESSION_KEY_COMMAND);
+        cmd.enrichExtensions(extensionService.getExtensions());
+
+        modelAndView.addObject(MODEL, cmd);
+        modelAndView.addObject(MODEL_ALL_TYPES, extractFieldTypes(extensionService.getExtensions()));
+
         enrichBindingResultFromSession(MODEL, modelAndView);
 
         return modelAndView;
@@ -76,7 +110,10 @@ public class EditUserController extends GenericController {
             @ModelAttribute(MODEL) UpdateUserCommand command,
             BindingResult bindingResult) {
 
-        validateCommand(command, bindingResult);
+        User user = userService.getUser(command.getId());
+        command.setUser(user);
+
+        validateCommand(command, extensionService.getExtensionsMap(), bindingResult);
 
         final RedirectBuilder redirect = new RedirectBuilder()
                                             .setPath(CONTROLLER_PATH)
@@ -84,9 +121,6 @@ public class EditUserController extends GenericController {
 
         try {
             if(!bindingResult.hasErrors()){
-                User user = userService.getUser(command.getId());
-                command.setUser(user);
-
                 userService.replaceUser(command.getId(), command.getAsUser());
 
                 redirect.addParameter("saveSuccess", true);
@@ -113,8 +147,9 @@ public class EditUserController extends GenericController {
      * @param command the command object
      * @param bindingResult the binding result for that command
      */
-    private void validateCommand(UpdateUserCommand command, BindingResult bindingResult) {
+    private void validateCommand(UpdateUserCommand command, Map<String, Extension> allExtensions, BindingResult bindingResult) {
         command.purge();
+        command.validate(allExtensions, bindingResult);
         validator.validate(command, bindingResult);
     }
 }

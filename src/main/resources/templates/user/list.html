@@ -14,16 +14,7 @@
 </head>
 <body>
 
-<header id="header" class="">
-<div class="container">
-        <h1>Administration</h1>
-        <div id="logo">
-            <img src="../../img/osiam_logo.png" alt="OSIAM Logo" width="150px" />
-        </div>
-</div>
-</header>
-
-<div class="topbar"></div>
+<th:block th:include="header :: header"></th:block>
 
 <div class="container shadow" id="content">
     <div class="topbar">
@@ -53,7 +44,7 @@
         <input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}" />
         <input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}" />
     </div>
-    <div th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.list.saveSuccess}">
+    <div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.list.saveSuccess}">
         Successful saved
     </div>
     <table class="table table-hover table-striped table-bordered table-condensed">
@@ -106,7 +97,7 @@
                 </form>
             </tr>
             <!-- End: Filter-Row -->
-            <tr th:each="user : ${userlist.resources}" th:class="${user.active} ? 'success' : 'danger'">
+            <tr th:each="user : ${userlist.resources}" th:class="${user.active} ? ' ' : 'danger'">
                 <td>
                     <input th:id="${'user-checkbox-' + userStat.index}" type="checkbox" class="checkbox" />
                 </td>
@@ -118,32 +109,35 @@
                 <nav class="actionNav">
                     <ul>
                         <li class="action">
-                            <div class="btn btn-info btn-sm" th:id="${'action-label-' + userStat.index}" th:text="#{msg.button.action} + '&gt;'">Actions <span class="glyphicon glyphicon-chevron-right"></span></div>
-                            <ul class="btn">
-                                <li>
-                                    <a th:href="@{edit(id = ${user.id})}">
-                                        <button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
-                                    </a>
-                                </li>
-                                <li th:if="${user.active}">
-                                    <form action="" method="GET">
-                                        <input type="hidden" name="action" value="deactivate" />
-                                        <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
-                                        <input type="hidden" name="id" th:value="${user.id}" />
+                            <div class="btn btn-info btn-sm" th:id="${'action-label-' + userStat.index}">
+								<span th:text="#{msg.button.action}">Actions</span>
+								<span class="glyphicon glyphicon-chevron-right"></span>
+	                            <ul class="btn">
+	                                <li>
+	                                    <a th:href="@{edit(id = ${user.id})}">
+	                                        <button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
+	                                    </a>
+	                                </li>
+	                                <li th:if="${user.active}">
+	                                    <form action="" method="GET">
+	                                        <input type="hidden" name="action" value="deactivate" />
+	                                        <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
+	                                        <input type="hidden" name="id" th:value="${user.id}" />
 
-                                        <button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn-link" type="submit">Deactivate</button>
-                                    </form>
-                                </li>
-                                <li th:unless="${user.active}">
-                                    <form action="" method="GET">
-                                        <input type="hidden" name="action" value="activate" />
-                                        <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
-                                        <input type="hidden" name="id" th:value="${user.id}" />
+	                                        <button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn-link" type="submit">Deactivate</button>
+	                                    </form>
+	                                </li>
+	                                <li th:unless="${user.active}">
+	                                    <form action="" method="GET">
+	                                        <input type="hidden" name="action" value="activate" />
+	                                        <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
+	                                        <input type="hidden" name="id" th:value="${user.id}" />
 
-                                        <button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate</button>
-                                    </form>
-                                </li>
-                            </ul>
+	                                        <button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate</button>
+	                                    </form>
+	                                </li>
+	                            </ul>
+							</div>
                         </li>
                     </ul>
                 </nav> <!-- End: Action-Menu -->
@@ -168,9 +162,6 @@
             <option th:selected="${sessionData.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
         </select>
     </form>
-
-
-
 </div>
 </body>
 </html>

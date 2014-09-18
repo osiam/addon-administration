@@ -1,8 +1,13 @@
 package org.osiam.addons.administration.model.command;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -10,14 +15,18 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
+import org.osiam.addons.administration.model.validation.ExtensionValidator;
 import org.osiam.resources.scim.Address;
 import org.osiam.resources.scim.Email;
 import org.osiam.resources.scim.Entitlement;
+import org.osiam.resources.scim.Extension;
+import org.osiam.resources.scim.Extension.Field;
 import org.osiam.resources.scim.Im;
 import org.osiam.resources.scim.PhoneNumber;
 import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 import org.osiam.resources.scim.X509Certificate;
+import org.springframework.validation.BindingResult;
 
 /**
  * Command object for the user update view.
@@ -34,16 +43,16 @@ public class UpdateUserCommand {
     @NotNull
     private String nickName;
     @NotNull
-    @Pattern(regexp = "$^|^[a-zA-Z]{2}$")
+    @Pattern(regexp = "^$|^[a-zA-Z]{2}$")
     private String preferredLanguage;
     @NotNull
-    @Pattern(regexp = "$^|^[a-z]{2}_[A-Z]{2}$")
+    @Pattern(regexp = "^$|^[a-z]{2}_[A-Z]{2}$")
     private String locale;
     @NotNull
     @URL
     private String profileURL;
     @NotNull
-    @Pattern(regexp = "$^|.*\\/.*")
+    @Pattern(regexp = "^$|.*\\/.*")
     private String timezone;
     @NotNull
     @NotBlank
@@ -66,13 +75,15 @@ public class UpdateUserCommand {
     @Valid
     private List<EntitlementCommand> entitlements = new ArrayList<EntitlementCommand>();
 
+    private SortedMap<String, SortedMap<String, String>> extensions = new TreeMap<String, SortedMap<String,String>>();
+
     /**
      * Creates a new UpdateUserCommand based on the given {@link User}.
      *
      * @param user
      *        the user
      */
-    public UpdateUserCommand(User user) {
+    public UpdateUserCommand(User user, Collection<Extension> allExtensions) {
         this.user = user;
         setId(user.getId());
 
@@ -124,6 +135,15 @@ public class UpdateUserCommand {
         if(user.getEntitlements() != null) {
             for (Entitlement entitlement : user.getEntitlements()) {
                 this.entitlements.add(new EntitlementCommand(entitlement));
+            }
+        }
+
+        enrichExtensions(allExtensions);
+        if(user.getExtensions() != null){
+            for(Extension extension : user.getExtensions().values()){
+                for(Entry<String, Field> field : extension.getFields().entrySet()){
+                    this.extensions.get(extension.getUrn()).put(field.getKey(), field.getValue().getValue());
+                }
             }
         }
     }
@@ -351,11 +371,11 @@ public class UpdateUserCommand {
         this.emails = emails;
     }
 
-    public List<PhoneNumberCommand> getPhoneNumbers() {
+    public List<PhonenumberCommand> getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(List<PhoneNumberCommand> phoneNumbers) {
+    public void setPhoneNumbers(List<PhonenumberCommand> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 
@@ -417,6 +437,31 @@ public class UpdateUserCommand {
 
     public void setMeta(MetaCommand meta) {
         this.meta = meta;
+    }
+
+    public SortedMap<String, SortedMap<String, String>> getExtensions() {
+        return extensions;
+    }
+
+    public void setExtensions(SortedMap<String, SortedMap<String, String>> extensions) {
+        this.extensions = extensions;
+    }
+
+    public void enrichExtensions(Collection<Extension> allExtensions) {
+        for(Extension extension : allExtensions){
+
+            if(!this.extensions.containsKey(extension.getUrn())){
+                this.extensions.put(extension.getUrn(), new TreeMap<String, String>());
+            }
+
+            for(Entry<String, Field> field : extension.getFields().entrySet()){
+                SortedMap<String, String> localExtension = this.extensions.get(extension.getUrn());
+
+                if(!localExtension.containsKey(field.getKey())){
+                    localExtension.put(field.getKey(), "");
+                }
+            }
+        }
     }
 
     /**
@@ -487,6 +532,16 @@ public class UpdateUserCommand {
                 builder.addEntitlement(entitlement.getAsEntitlement());
             }
         }
+        for(Entry<String, SortedMap<String, String>> extension : getExtensions().entrySet()){
+            final String urn = extension.getKey();
+            Extension.Builder extensionBuilder = new Extension.Builder(urn);
+
+            for(Entry<String, String> field : extension.getValue().entrySet()){
+                extensionBuilder.setField(field.getKey(), field.getValue());
+            }
+
+            builder.addExtension(extensionBuilder.build());
+        }
 
         return builder.build();
     }
@@ -498,12 +553,57 @@ public class UpdateUserCommand {
         removeEmptyElements(getCertificates().iterator());
         removeEmptyElements(getAddresses().iterator());
         removeEmptyElements(getEntitlements().iterator());
+        removeEmptyExtensions();
     }
 
     private void removeEmptyElements(Iterator<? extends Emptiable> elements) {
         while(elements.hasNext()){
             if(elements.next().isEmpty()){
                 elements.remove();
+            }
+        }
+    }
+
+    private void removeEmptyExtensions() {
+        //remove empty fields
+        for(Map<String, String> extension : extensions.values()){
+            Iterator<Entry<String, String>> iter = extension.entrySet().iterator();
+            while(iter.hasNext()){
+                Entry<String, String> field = iter.next();
+
+                if(field.getValue() == null || field.getValue().equals("")){
+                    iter.remove();
+                }
+            }
+        }
+
+        //remove empty extensions
+        Iterator<Entry<String, SortedMap<String, String>>> iter = extensions.entrySet().iterator();
+        while(iter.hasNext()){
+            Entry<String, SortedMap<String, String>> extension = iter.next();
+            if(extension.getValue().isEmpty()){
+                iter.remove();
+            }
+        }
+    }
+
+    public void validate(Map<String, Extension> allExtensions, BindingResult bindingResult) {
+        validateExtensions(allExtensions, bindingResult);
+    }
+
+    private void validateExtensions(Map<String, Extension> allExtensions, BindingResult bindingResult) {
+        ExtensionValidator validator = new ExtensionValidator(
+                "extensions",
+                allExtensions,
+                bindingResult);
+
+        for(Entry<String, SortedMap<String, String>> extension : getExtensions().entrySet()){
+            final String urn = extension.getKey();
+            for(Entry<String, String> field : extension.getValue().entrySet()){
+                final String key = field.getKey();
+                final String value = field.getValue();
+
+                validator.validate(urn, key, value);
             }
         }
     }

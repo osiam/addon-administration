@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -12,8 +12,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -21,7 +21,7 @@ time, mark, audio, video {
 }
 
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -45,7 +45,7 @@ table {
     text-align:left;
 }
 
-li.action ul {
+li.action div.btn ul {
     background-color: white;
     border: 1px solid #ccc;
     left: 77px;
@@ -55,8 +55,9 @@ li.action ul {
     visibility: hidden;
 }
 
-li.action:hover > ul {
+li.action div.btn:hover > ul {
     visibility: visible;
+    z-index: 1000;
 }
 
 
@@ -99,7 +100,7 @@ nav ul li ul{
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 1000;    
+    z-index: 1000;
 }
 
 #header h1 {
@@ -113,6 +114,14 @@ nav ul li ul{
     float: right;
     height: 50px;
     line-height: 45px;
+}
+
+#header li {
+    border-right: 1px solid;
+    display: inline;
+    line-height: 30px;
+    margin-right: 5px;
+    padding: 0 8px 0 0;
 }
 
 .topbar {
@@ -142,6 +151,10 @@ box-shadow: 0px 0px 3px 0px rgba(180,180,180,1);
 }
 
 
+.only-on-js {
+	display: none;
+}
+
 /******* table sorter ***********/
 .sortingArrows {
     display: inline-block;
@@ -161,4 +174,44 @@ box-shadow: 0px 0px 3px 0px rgba(180,180,180,1);
 
 .resultsPerPage {
     display: inline;
+}
+
+/****************** misc *****************/
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, 
+.col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, 
+.col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, 
+.col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, 
+.col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, 
+.col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, 
+.col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, 
+.col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, 
+.col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, 
+.col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, 
+.col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, 
+.col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+	padding-bottom:10px;
+}
+
+#form-edit-group select {
+    width: 100%;
+}
+
+.addedExtension {
+    border-bottom: 1px solid rgb(238, 238, 238);
+}
+
+.addedExtension h3 {
+    padding: 10px 0 20px 13px;
+}
+
+.addedExtension input[type="text"],
+.addedExtension input[type="datetype"],
+.addedExtension input[type="number"],
+.addedExtension select {
+    width: 100%;
+}
+
+.addedExtension div[class*="col-"] div[class*="col-"] {
+    padding-left: 0;
 }

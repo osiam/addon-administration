@@ -3,19 +3,19 @@ $(function(){
 		var button = $(this);
 
 		bootbox.dialog({
-			message : $('#dialog-updateUser-message').val(),
+			message : $('#dialog-update-message').val(),
 			title : $('#dialog-title').val(),
 			buttons : {
 				success : {
 					label : $('#dialog-success').val(),
-					className : "btn-success",
+					className : "btn-primary",
 					callback : function() {
 						button.closest("form").submit();
 					}
 				},
 				danger : {
 					label : $('#dialog-abort').val(),
-					className : "btn-danger"
+					className : "btn-primary"
 				}
 			}
 		});
@@ -36,14 +36,14 @@ $(function(){
 			buttons : {
 				success : {
 					label : $('#dialog-success').val(),
-					className : "btn-success",
+					className : "btn-primary",
 					callback : function() {
 						window.location = continueLocation;
 					}
 				},
 				danger : {
 					label : $('#dialog-abort').val(),
-					className : "btn-danger",
+					className : "btn-primary",
 					callback : function() {
 						$(button).parent().attr('href', continueLocation);
 					}
@@ -64,7 +64,7 @@ $(function(){
 			buttons : {
 				success : {
 					label : $('#dialog-success').val(),
-					className : "btn-success",
+					className : "btn-primary",
 					callback : function() {
 						var sendMail = $('div[role="dialog"] #send-mail').is(':checked');
 
@@ -74,7 +74,31 @@ $(function(){
 				},
 				danger : {
 					label : $('#dialog-abort').val(),
-					className : "btn-danger"
+					className : "btn-primary"
+				}
+			}
+		});
+
+		return false;
+	});
+
+	$("button[id^='action-button-delete-group-']").click(function(){
+		var button = $(this);
+
+		bootbox.dialog({
+			message : $('#dialog-delete-message').html(),
+			title : $('#dialog-title').val(),
+			buttons : {
+				success : {
+					label : $('#dialog-success').val(),
+					className : "btn-primary",
+					callback : function() {
+						button.parent().submit();
+					}
+				},
+				danger : {
+					label : $('#dialog-abort').val(),
+					className : "btn-primary"
 				}
 			}
 		});
@@ -92,17 +116,17 @@ $(function(){
 			buttons : {
 				success : {
 					label : $('#dialog-success').val(),
-					className : "btn-success",
+					className : "btn-primary",
 					callback : function() {
 						var sendMail = $('div[role="dialog"] #send-mail').is(':checked');
-						
+
 						button.parent().find('input[name="sendMail"]').val(sendMail);
 						button.parent().submit();
 					}
 				},
 				danger : {
 					label : $('#dialog-abort').val(),
-					className : "btn-danger"
+					className : "btn-primary"
 				}
 			}
 		});
