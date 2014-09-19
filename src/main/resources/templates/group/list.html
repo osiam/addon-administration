@@ -102,6 +102,11 @@
 											<button th:id="${'action-button-delete-group-' + groupStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
 										</form>
 									</li>
+									<li>
+										<a th:href="@{user(id = ${group.id})}">
+											<button th:id="${'action-button-edit-user-membership-' + groupStat.index}" th:text="#{msg.group.user_membership}" class="btn-link">Edit User Membership</button>
+										</a>
+									</li>
 								</ul>
 							</div>
 						</li>
