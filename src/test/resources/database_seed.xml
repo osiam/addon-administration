@@ -186,6 +186,7 @@
     <scim_group displayname="admin" internal_id="100074"/>
 
 	<scim_group_scim_id groups_internal_id="100052" members_internal_id="100046"/>
+	<scim_group_scim_id groups_internal_id="100068" members_internal_id="100009"/>
 	<scim_group_scim_id groups_internal_id="100074" members_internal_id="100001"/>
 
     <scim_email multi_value_id="100091" value="adavies@example.com" is_primary="false" type="work"

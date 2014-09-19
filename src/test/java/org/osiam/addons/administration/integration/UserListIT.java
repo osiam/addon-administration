@@ -42,7 +42,8 @@ public class UserListIT extends Integrationtest {
     public void apply_multi_filter() {
         //Also tests trimming in filter fields
         browser.fill(new Field(UserList.FILTER_GIVEN_NAME, "  Adeline  "),
-                new Field(UserList.FILTER_FAMILY_NAME, "  Davies  "));
+                new Field(UserList.FILTER_FAMILY_NAME, "  Davies  "),
+                new Field(UserList.FILTER_GROUP_NAME, " test_group08 "));
         browser.click(EditList.FILTER_BUTTON);
         assertFalse(isUserVisible(ADMIN_USERNAME));
         assertTrue(isUserVisible("adavies")); // an another user

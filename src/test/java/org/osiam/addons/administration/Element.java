@@ -63,6 +63,7 @@ public interface Element {
         FILTER_LOGIN(By.id("filter-login")),
         FILTER_GIVEN_NAME(By.id("filter-givenname")),
         FILTER_FAMILY_NAME(By.id("filter-familyname")),
+        FILTER_GROUP_NAME(By.id("filter-group")),
 
         SORT_LOGIN_ASC(By.id("order-by-login-asc")),
         SORT_LOGIN_DESC(By.id("order-by-login-desc")),
