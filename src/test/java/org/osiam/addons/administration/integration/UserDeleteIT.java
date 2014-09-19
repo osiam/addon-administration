@@ -10,55 +10,55 @@ import org.osiam.addons.administration.Element.GroupList;
 
 public class UserDeleteIT extends Integrationtest{
 
-    @Override
-    public void setup() {
-        super.setup();
+	@Override
+	public void setup() {
+		super.setup();
 
-        browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
-    }
+		browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
+	}
 
-    @Test
-    public void deleteUser() {
-        String username = "kmorris";
-        String testGroup = "test_group08";
+	@Test
+	public void deleteUser() {
+		String username = "kmorris";
+		String testGroup = "test_group08";
 
-        clickDeleteButton(username);
-        browser.click(EditList.DIALOG_ABORT);
+		clickDeleteButton(username);
+		browser.click(EditList.DIALOG_ABORT);
 
-        assertTrue(isUserVisible(username));
+		assertTrue(isUserVisible(username));
 
-        clickDeleteButton(username);
-        browser.click(EditList.DIALOG_SUCCESS);
+		clickDeleteButton(username);
+		browser.click(EditList.DIALOG_SUCCESS);
 
-        assertFalse(isUserVisible(username));
+		assertFalse(isUserVisible(username));
 
-        gotoEditGroup(testGroup);
-        assertFalse(isUserVisible(username));
-    }
+		gotoEditGroup(testGroup);
+		assertFalse(isUserVisible(username));
+	}
 
-    private void clickDeleteButton(String username) {
-        String actionLabelXpath =
-            "//table//td[contains(., '" + username + "')]/..//span";
+	private void clickDeleteButton(String username) {
+		String actionLabelXpath =
+			"//table//td[contains(., '" + username + "')]/..//span";
 
-        String deleteButtonXpath =
-                "//table//td[contains(., '" + username
-                + "')]/..//button[starts-with(@id, 'action-button-delete-')]";
+		String deleteButtonXpath =
+				"//table//td[contains(., '" + username
+				+ "')]/..//button[starts-with(@id, 'action-button-delete-')]";
 
-        browser.findElement(By.xpath(actionLabelXpath)).click();
-        browser.findElement(By.xpath(deleteButtonXpath)).click();
-    }
+		browser.findElement(By.xpath(actionLabelXpath)).click();
+		browser.findElement(By.xpath(deleteButtonXpath)).click();
+	}
 
-    private boolean isUserVisible(String username) {
-        return browser.isTextPresent(username);
-    }
+	private boolean isUserVisible(String username) {
+		return browser.isTextPresent(username);
+	}
 
-    private void gotoEditGroup(String groupName) {
-        browser.click(GroupList.GROUP_LIST);
+	private void gotoEditGroup(String groupName) {
+		browser.click(GroupList.GROUP_LIST);
 
-        String actionLabelXpath = "//td[. = '" + groupName + "']/..//div[contains(@id, 'action-label')]";
-        String editButtonXpath = "//td[. = '" + groupName + "']/..//button[contains(@id, 'action-button-edit')]";
+		String actionLabelXpath = "//td[. = '" + groupName + "']/..//div[contains(@id, 'action-label')]";
+		String editButtonXpath = "//td[. = '" + groupName + "']/..//button[contains(@id, 'action-button-edit')]";
 
-        browser.findElement(By.xpath(actionLabelXpath)).click();
-        browser.findElement(By.xpath(editButtonXpath)).click();
-    }
+		browser.findElement(By.xpath(actionLabelXpath)).click();
+		browser.findElement(By.xpath(editButtonXpath)).click();
+	}
 }

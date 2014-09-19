@@ -24,71 +24,71 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(CreateGroupController.CONTROLLER_PATH)
 public class CreateGroupController extends GenericController {
-    private static final Logger LOG = Logger.getLogger(CreateGroupController.class);
+	private static final Logger LOG = Logger.getLogger(CreateGroupController.class);
 
-    public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/group/create";
+	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/group/create";
 
-    public static final String REQUEST_PARAMETER_ERROR = "error";
+	public static final String REQUEST_PARAMETER_ERROR = "error";
 
-    private static final String SESSION_KEY_COMMAND = "command";
+	private static final String SESSION_KEY_COMMAND = "command";
 
-    public static final String MODEL = "model";
+	public static final String MODEL = "model";
 
-    @Inject
-    private GroupService groupService;
+	@Inject
+	private GroupService groupService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handleCreateGroup() {
-        ModelAndView modelAndView = new ModelAndView("group/createGroup");
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView handleCreateGroup() {
+		ModelAndView modelAndView = new ModelAndView("group/createGroup");
 
-        clearSession();
+		clearSession();
 
-        modelAndView.addObject(MODEL, new CreateGroupCommand());
+		modelAndView.addObject(MODEL, new CreateGroupCommand());
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    private void clearSession() {
-        removeFromSession(SESSION_KEY_COMMAND);
-        removeBindingResultFromSession(MODEL);
-    }
+	private void clearSession() {
+		removeFromSession(SESSION_KEY_COMMAND);
+		removeBindingResultFromSession(MODEL);
+	}
 
-    @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
-    public ModelAndView handleCreateGroupFailure() {
-        ModelAndView modelAndView = new ModelAndView("group/createGroup");
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
+	public ModelAndView handleCreateGroupFailure() {
+		ModelAndView modelAndView = new ModelAndView("group/createGroup");
 
-        modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
-        enrichBindingResultFromSession(MODEL, modelAndView);
+		modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
+		enrichBindingResultFromSession(MODEL, modelAndView);
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String handleCreateGroup(
-            @Valid @ModelAttribute(MODEL) CreateGroupCommand command,
-            BindingResult bindingResult) {
+	@RequestMapping(method = RequestMethod.POST)
+	public String handleCreateGroup(
+			@Valid @ModelAttribute(MODEL) CreateGroupCommand command,
+			BindingResult bindingResult) {
 
-        final RedirectBuilder redirect = new RedirectBuilder()
-                                            .setPath(CONTROLLER_PATH);
+		final RedirectBuilder redirect = new RedirectBuilder()
+											.setPath(CONTROLLER_PATH);
 
-        try {
-            if(!bindingResult.hasErrors()){
-                groupService.createGroup(command.getAsGroup());
+		try {
+			if(!bindingResult.hasErrors()){
+				groupService.createGroup(command.getAsGroup());
 
-                redirect.addParameter("saveSuccess", true);
-                redirect.setPath(GroupViewController.CONTROLLER_PATH);
-                return redirect.build();
-            }
-        } catch (SCIMDataValidationException e) {
-            LOG.warn("Could not add group.", e);
-        } catch (ConflictException e) {
-            LOG.warn("Could not create group. Displayname already taken", e);
-        }
+				redirect.addParameter("saveSuccess", true);
+				redirect.setPath(GroupViewController.CONTROLLER_PATH);
+				return redirect.build();
+			}
+		} catch (SCIMDataValidationException e) {
+			LOG.warn("Could not add group.", e);
+		} catch (ConflictException e) {
+			LOG.warn("Could not create group. Displayname already taken", e);
+		}
 
-        storeInSession(SESSION_KEY_COMMAND, command);
-        storeBindingResultIntoSession(bindingResult, MODEL);
-        redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+		storeInSession(SESSION_KEY_COMMAND, command);
+		storeBindingResultIntoSession(bindingResult, MODEL);
+		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
-        return redirect.build();
-    }
+		return redirect.build();
+	}
 }

@@ -20,9 +20,9 @@
 <th:block th:include="header :: header"></th:block>
 
 <div class="container shadow" id="content">
-    <div th:replace="makros :: topbar">
-        Topbar ...
-    </div>
+	<div th:replace="makros :: topbar">
+		Topbar ...
+	</div>
 
 	<div id="dialog-message-container" style="display:none;">
 		<input id="dialog-title" type="hidden" th:value="#{msg.user.dialog.title}" />
@@ -36,7 +36,7 @@
 
 			<h2 th:text="#{create_user.title}">Create user</h2>
 			<div th:if="${(param.error != null) and (param.error[0] == 'validation')}"
-				 th:text="#{create_user.error.validation}" class="alert alert-danger">
+				th:text="#{create_user.error.validation}" class="alert alert-danger">
 				Validation Error
 			</div>
 

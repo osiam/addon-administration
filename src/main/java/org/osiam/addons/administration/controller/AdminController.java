@@ -15,24 +15,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(AdminController.CONTROLLER_PATH)
 public class AdminController {
 
-    public static final String CONTROLLER_PATH = "/admin";
+	public static final String CONTROLLER_PATH = "/admin";
 
-    @Inject
-    private UserService userService;
+	@Inject
+	private UserService userService;
 
-    @RequestMapping
-    public String handleOverview() {
-        return new RedirectBuilder()
-                .setPath(UserViewController.CONTROLLER_PATH)
-                .build();
-    }
+	@RequestMapping
+	public String handleOverview() {
+		return new RedirectBuilder()
+				.setPath(UserViewController.CONTROLLER_PATH)
+				.build();
+	}
 
 
-    @RequestMapping("/logout")
-    public String handleFilterAction() {
-        userService.logoutCurrentUser();
-        return new RedirectBuilder()
-            .setPath(UserViewController.CONTROLLER_PATH)
-            .build();
-    }
+	@RequestMapping("/logout")
+	public String handleFilterAction() {
+		userService.logoutCurrentUser();
+		return new RedirectBuilder()
+			.setPath(UserViewController.CONTROLLER_PATH)
+			.build();
+	}
 }

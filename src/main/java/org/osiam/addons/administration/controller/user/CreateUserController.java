@@ -27,60 +27,60 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(CreateUserController.CONTROLLER_PATH)
 public class CreateUserController extends GenericController {
 
-    private static final Logger LOG = Logger.getLogger(CreateUserController.class);
-    public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/create";
-    public static final String MODEL = "model";
-    private static final String SESSION_KEY_COMMAND = "command";
+	private static final Logger LOG = Logger.getLogger(CreateUserController.class);
+	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/create";
+	public static final String MODEL = "model";
+	private static final String SESSION_KEY_COMMAND = "command";
 
-    @Inject
-    private UserService userService;
+	@Inject
+	private UserService userService;
 
-    @Value("${org.osiam.administration.createUser.defaultActive:true}")
-    private boolean defaultActive;
+	@Value("${org.osiam.administration.createUser.defaultActive:true}")
+	private boolean defaultActive;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handleCreateUser() {
-        ModelAndView modelAndView = new ModelAndView("user/createUser");
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView handleCreateUser() {
+		ModelAndView modelAndView = new ModelAndView("user/createUser");
 
-        clearSession();
+		clearSession();
 
-        modelAndView.addObject(MODEL, new CreateUserCommand());
+		modelAndView.addObject(MODEL, new CreateUserCommand());
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String handleCreateGroup(
-            @Valid @ModelAttribute(MODEL) CreateUserCommand command,
-            BindingResult bindingResult) {
+	@RequestMapping(method = RequestMethod.POST)
+	public String handleCreateGroup(
+			@Valid @ModelAttribute(MODEL) CreateUserCommand command,
+			BindingResult bindingResult) {
 
-        final RedirectBuilder redirect = new RedirectBuilder()
-                .setPath(CONTROLLER_PATH);
+		final RedirectBuilder redirect = new RedirectBuilder()
+				.setPath(CONTROLLER_PATH);
 
-        try {
-            if (!bindingResult.hasErrors()) {
-                command.setActive(defaultActive);
+		try {
+			if (!bindingResult.hasErrors()) {
+				command.setActive(defaultActive);
 
-                User createdUser = userService.createUser(command.getAsUser());
+				User createdUser = userService.createUser(command.getAsUser());
 
-                redirect.setPath(EditUserController.CONTROLLER_PATH);
-                redirect.addParameter("id", createdUser.getId());
-                return redirect.build();
-            }
-        } catch (SCIMDataValidationException e) {
-            LOG.warn("Could not create user.", e);
-        } catch (ConflictException e) {
-            LOG.warn("Could not create user.", e);
-        }
+				redirect.setPath(EditUserController.CONTROLLER_PATH);
+				redirect.addParameter("id", createdUser.getId());
+				return redirect.build();
+			}
+		} catch (SCIMDataValidationException e) {
+			LOG.warn("Could not create user.", e);
+		} catch (ConflictException e) {
+			LOG.warn("Could not create user.", e);
+		}
 
-        storeInSession(SESSION_KEY_COMMAND, command);
-        storeBindingResultIntoSession(bindingResult, MODEL);
+		storeInSession(SESSION_KEY_COMMAND, command);
+		storeBindingResultIntoSession(bindingResult, MODEL);
 
-        return redirect.build();
-    }
+		return redirect.build();
+	}
 
-    private void clearSession() {
-        removeFromSession(SESSION_KEY_COMMAND);
-        removeBindingResultFromSession(MODEL);
-    }
+	private void clearSession() {
+		removeFromSession(SESSION_KEY_COMMAND);
+		removeBindingResultFromSession(MODEL);
+	}
 }

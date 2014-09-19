@@ -22,7 +22,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
 /**
- * This class is responsible for booting up the integration-tests. 
+ * This class is responsible for booting up the integration-tests.
  * This:
  *  - starts a tomcat including the addon-administration-servlet.
  *  - fill the osiam-database with test data.
@@ -41,19 +41,19 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 @Ignore
 public class Integrationtest {
 
-    public static final String ADMIN_USERNAME = "marissa";
-    public static final String ADMIN_PASSWORD = "koala";
+	public static final String ADMIN_USERNAME = "marissa";
+	public static final String ADMIN_PASSWORD = "koala";
 
-    @Value("http://localhost:${local.server.port}/")
-    protected String baseURL;
+	@Value("http://localhost:${local.server.port}/")
+	protected String baseURL;
 
-    @Inject
-    protected Browser browser;
+	@Inject
+	protected Browser browser;
 
-    @Before
-    public void setup() {
-        browser.setBaseURL(baseURL);
-        browser.manage().deleteAllCookies();
-    }
+	@Before
+	public void setup() {
+		browser.setBaseURL(baseURL);
+		browser.manage().deleteAllCookies();
+	}
 
 }

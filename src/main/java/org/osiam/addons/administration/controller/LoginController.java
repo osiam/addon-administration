@@ -17,28 +17,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(LoginController.CONTROLLER_PATH)
 public class LoginController {
 
-    public static final String CONTROLLER_PATH = "/";
+	public static final String CONTROLLER_PATH = "/";
 
-    @Inject
-    private OsiamConnector connector;
+	@Inject
+	private OsiamConnector connector;
 
-    @Inject
-    private GeneralSessionData session;
+	@Inject
+	private GeneralSessionData session;
 
-    @RequestMapping
-    public String handleRedirectoToLogin() {
-        return new RedirectBuilder()
-                .setDestination(connector.getAuthorizationUri(Scope.ALL).toString())
-                .build();
-    }
+	@RequestMapping
+	public String handleRedirectoToLogin() {
+		return new RedirectBuilder()
+				.setDestination(connector.getAuthorizationUri(Scope.ALL).toString())
+				.build();
+	}
 
-    @RequestMapping(params = "code")
-    public String handleLoggedIn(
-            @RequestParam(value = "code", required = true) String code) {
+	@RequestMapping(params = "code")
+	public String handleLoggedIn(
+			@RequestParam(value = "code", required = true) String code) {
 
-        session.setAccesstoken(connector.retrieveAccessToken(code));
-        return new RedirectBuilder()
-                .setPath(AdminController.CONTROLLER_PATH)
-                .build();
-    }
+		session.setAccesstoken(connector.retrieveAccessToken(code));
+		return new RedirectBuilder()
+				.setPath(AdminController.CONTROLLER_PATH)
+				.build();
+	}
 }

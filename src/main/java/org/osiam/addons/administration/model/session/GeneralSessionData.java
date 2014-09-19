@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class GeneralSessionData {
 
-    private AccessToken accesstoken;
+	private AccessToken accesstoken;
 
-    public AccessToken getAccesstoken() {
-        return accesstoken;
-    }
+	public AccessToken getAccesstoken() {
+		return accesstoken;
+	}
 
-    public void setAccesstoken(AccessToken at) {
-        this.accesstoken = at;
-    }
+	public void setAccesstoken(AccessToken at) {
+		this.accesstoken = at;
+	}
 }

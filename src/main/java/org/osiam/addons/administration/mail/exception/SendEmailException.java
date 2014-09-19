@@ -28,22 +28,22 @@ import org.springframework.http.HttpStatus;
 
 public class SendEmailException extends OsiamException {
 
-    private static final long serialVersionUID = -292158452140136468L;
+	private static final long serialVersionUID = -292158452140136468L;
 
-    public SendEmailException() {
-        super();
-    }
+	public SendEmailException() {
+		super();
+	}
 
-    public SendEmailException(String message, Throwable cause) {
-        super(message, cause);
-    }
+	public SendEmailException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-    public SendEmailException(String message, String key, Throwable cause) {
-        super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value(), cause);
-    }
+	public SendEmailException(String message, String key, Throwable cause) {
+		super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value(), cause);
+	}
 
-    public SendEmailException(String message, String key) {
-        super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value());
-    }
+	public SendEmailException(String message, String key) {
+		super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value());
+	}
 
 }
