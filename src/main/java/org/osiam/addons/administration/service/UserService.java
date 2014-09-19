@@ -72,6 +72,13 @@ public class UserService {
         return connector.getUser(id, sessionData.getAccesstoken());
     }
 
+    /**
+     * Revoke the current access token
+     */
+    public void logoutCurrentUser() {
+    	connector.revokeAccessToken(sessionData.getAccesstoken());
+    }
+
     public User createUser(User createUser) {
         return connector.createUser(createUser, sessionData.getAccesstoken());
     }

@@ -90,11 +90,20 @@
         </ul>
 
         <!--/*
-            ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! 
+            ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token!
             For more information look at the following page:
 
                 http://docs.spring.io/spring-security/site/docs/3.2.0.CI-SNAPSHOT/reference/html/csrf.html
         */-->
         <input th:fragment="csrf()" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+
+        <!-- /*
+        */-->
+        <div th:fragment="topbar" class="topbar">
+            <div class="container">
+                <a th:href="@{/admin/logout}" class="pull-right tn btn-info btn-xs"><span th:text="#{msg.logout}">Logout</span> <span class="glyphicon glyphicon-remove"></span></a>
+            </div>
+        </div>
     </body>
 </html>

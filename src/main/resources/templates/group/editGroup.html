@@ -17,11 +17,9 @@
 <th:block th:include="header :: header"></th:block>
 
 <div class="container shadow" id="content">
-	<div class="topbar">
-		<div class="container">
-			<span class="pull-right">Logout <span class="glyphicon glyphicon-remove"></span></span>
-		</div>
-	</div>
+    <div th:replace="makros :: topbar">
+        Topbar ...
+    </div>
 
 	<div id="dialog-message-container" style="display:none;">
 		<input id="dialog-title" type="hidden" th:value="#{msg.group.dialog.title}" />
@@ -32,7 +30,7 @@
 	</div>
 
 	<form id="form-edit-group" method="POST" action="" th:object="${model}">
-		
+
 
 			<h2 th:text="#{edit_group.title}">Edit group</h2>
 			<div th:if="${(param.error != null) and (param.error[0] == 'validation')}"
@@ -69,7 +67,7 @@
 						</option>
 					</select>
 				</div>
-				
+
 				<div class="col-md-4 form-group">
 					<h4 style="margin-bottom:5px">Externe Benutzer</h4>
 					<select id="outsider" multiple="multiple">
