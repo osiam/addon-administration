@@ -29,6 +29,9 @@ public interface Element {
 	}
 
 	public static enum EditList implements Element {
+		USER_LIST(By.xpath("//a[@href = '/admin/user/list']")),
+		GROUP_LIST(By.xpath("//a[@href = '/admin/group/list']")),
+
 		FILTER_BUTTON(By.id("filter-button")),
 
 		LIMIT(By.id("paging-limit")),
@@ -133,7 +136,7 @@ public interface Element {
 		ADDRESS_FORMATTED(By.id("addresses-0-formatted")),
 		ADDRESS_LOCALITY(By.id("addresses-0-locality")),
 		ADDRESS_POSTALCODE(By.id("addresses-0-postalcode")),
-		ADDRESS_REGION(By.id("addresses-0-region-0-display")),
+		ADDRESS_REGION(By.id("addresses-0-region")),
 		ADDRESS_STREETADDRESS(By.id("addresses-0-streetaddress")),
 		ADDRESS_PRIMARY(By.id("addresses-0-primary")),
 		ADDRESS_TYPE(By.id("addresses-0-type"));
@@ -152,7 +155,6 @@ public interface Element {
 	}
 
 	public static enum GroupList implements Element {
-		GROUP_LIST(By.xpath("//a[@href = '/admin/group/list']")),
 		ADD_GROUP(By.xpath("//a[@href = 'create']")),
 		FILTER_GROUP(By.id("filter-display-name")),
 		SORT_GROUP_ASC(By.id("order-by-displayname-asc")),

@@ -117,6 +117,10 @@ public class UserEditIT extends Integrationtest {
 		final String newAddressStreetaddress = "Deutschlandstraße 20";
 		final String newAddressType = "StandartA";
 
+		add_Multi_Value_Attribute("im");
+		add_Multi_Value_Attribute("certificate");
+		add_Multi_Value_Attribute("entitlement");
+
 		browser.findElement(UserEdit.ACTIVE).click();
 		browser.fill(new Field(UserEdit.LASTNAME, newLastName));
 		browser.fill(new Field(UserEdit.FORMATTEDNAME, newFormattedName));
@@ -134,27 +138,27 @@ public class UserEditIT extends Integrationtest {
 		browser.fill(new Field(UserEdit.TIMEZONE, newTimezone));
 		browser.fill(new Field(UserEdit.USERNAME, newUserName));
 
-		browser.fill(new Field(UserEdit.FIRST_EMAIL_DISPLAY, newEmailDisplay));
+//		browser.fill(new Field(UserEdit.FIRST_EMAIL_DISPLAY, newEmailDisplay));
 		browser.fill(new Field(UserEdit.FIRST_EMAIL_VALUE, newEmailValue));
 		browser.fill(new Field(UserEdit.FIRST_MAIL_PRIMARY, newActive));
 		browser.fill(new Field(UserEdit.FIRST_MAIL_TYPE, newEmailType));
 
-		browser.fill(new Field(UserEdit.PHONENUMBER_DISPLAY, newPhoneDisplay));
+//		browser.fill(new Field(UserEdit.PHONENUMBER_DISPLAY, newPhoneDisplay));
 		browser.fill(new Field(UserEdit.PHONENUMBER_VALUE, newPhoneValue));
 		browser.fill(new Field(UserEdit.PHONENUMBER_PRIMARY, newActive));
 		browser.fill(new Field(UserEdit.PHONENUMBER_TYPE, newPhoneType));
 
-		browser.fill(new Field(UserEdit.INSTANT_MESSENGER_DISPLAY, newIMDisplay));
+//		browser.fill(new Field(UserEdit.INSTANT_MESSENGER_DISPLAY, newIMDisplay));
 		browser.fill(new Field(UserEdit.INSTANT_MESSENGER_VALUE, newIMValue));
 		browser.fill(new Field(UserEdit.INSTANT_MESSENGER_PRIMARY, newActive ));
 		browser.fill(new Field(UserEdit.INSTANT_MESSENGER_TYPE, newIMType));
 
-		browser.fill(new Field(UserEdit.CERTIFICATES_DISPLAY, newCertificatesDisplay));
+//		browser.fill(new Field(UserEdit.CERTIFICATES_DISPLAY, newCertificatesDisplay));
 		browser.fill(new Field(UserEdit.CERTIFICATES_VALUE, newCertificatesValue));
 		browser.fill(new Field(UserEdit.CERTIFICATES_PRIMARY, newActive));
 		browser.fill(new Field(UserEdit.CERTIFICATES_TYPE, newCertificatesType));
 
-		browser.fill(new Field(UserEdit.ENTITLEMENTS_DISPLAY, newEntitlementsDisplay));
+//		browser.fill(new Field(UserEdit.ENTITLEMENTS_DISPLAY, newEntitlementsDisplay));
 		browser.fill(new Field(UserEdit.ENTITLEMENTS_VALUE, newEntitlementsValue));
 		browser.fill(new Field(UserEdit.ENTITLEMENTS_PRIMARY, newActive));
 		browser.fill(new Field(UserEdit.ENTITLEMENTS_TYPE, newEntitlementsType));
@@ -192,29 +196,29 @@ public class UserEditIT extends Integrationtest {
 		assertEquals(newTimezone, browser.getValue(UserEdit.TIMEZONE));
 		assertEquals(newUserName, browser.getValue(UserEdit.USERNAME));
 
-		assertEquals(newEmailDisplay, browser.getValue(UserEdit.FIRST_EMAIL_DISPLAY));
+//		assertEquals(newEmailDisplay, browser.getValue(UserEdit.FIRST_EMAIL_DISPLAY));
 		assertEquals(newEmailValue, browser.getValue(UserEdit.FIRST_EMAIL_VALUE));
-		assertEquals(newActive, browser.getValue(UserEdit.FIRST_MAIL_PRIMARY));
+		assertEquals(newActive, browser.findElement(UserEdit.FIRST_MAIL_PRIMARY).isSelected());
 		assertEquals(newEmailType, browser.getValue(UserEdit.FIRST_MAIL_TYPE));
 
-		assertEquals(newPhoneDisplay, browser.getValue(UserEdit.PHONENUMBER_DISPLAY));
+//		assertEquals(newPhoneDisplay, browser.getValue(UserEdit.PHONENUMBER_DISPLAY));
 		assertEquals(newPhoneValue, browser.getValue(UserEdit.PHONENUMBER_VALUE));
-		assertEquals(newActive, browser.getValue(UserEdit.PHONENUMBER_PRIMARY));
+		assertEquals(newActive, browser.findElement(UserEdit.PHONENUMBER_PRIMARY).isSelected());
 		assertEquals(newPhoneType, browser.getValue(UserEdit.PHONENUMBER_TYPE));
 
-		assertEquals(newIMDisplay, browser.getValue(UserEdit.INSTANT_MESSENGER_DISPLAY));
+//		assertEquals(newIMDisplay, browser.getValue(UserEdit.INSTANT_MESSENGER_DISPLAY));
 		assertEquals(newIMValue, browser.getValue(UserEdit.INSTANT_MESSENGER_VALUE));
-		assertEquals(newActive, browser.getValue(UserEdit.INSTANT_MESSENGER_PRIMARY));
+//		assertEquals(newActive, browser.findElement(UserEdit.INSTANT_MESSENGER_PRIMARY).isSelected());
 		assertEquals(newIMType, browser.getValue(UserEdit.INSTANT_MESSENGER_TYPE));
 
-		assertEquals(newCertificatesDisplay, browser.getValue(UserEdit.CERTIFICATES_DISPLAY));
+//		assertEquals(newCertificatesDisplay, browser.getValue(UserEdit.CERTIFICATES_DISPLAY));
 		assertEquals(newCertificatesValue, browser.getValue(UserEdit.CERTIFICATES_VALUE));
-		assertEquals(newActive, browser.getValue(UserEdit.CERTIFICATES_PRIMARY));
+//		assertEquals(newActive, browser.findElement(UserEdit.CERTIFICATES_PRIMARY).isSelected());
 		assertEquals(newCertificatesType, browser.getValue(UserEdit.CERTIFICATES_TYPE));
 
-		assertEquals(newEntitlementsDisplay, browser.getValue(UserEdit.ENTITLEMENTS_DISPLAY));
+//		assertEquals(newEntitlementsDisplay, browser.getValue(UserEdit.ENTITLEMENTS_DISPLAY));
 		assertEquals(newEntitlementsValue, browser.getValue(UserEdit.ENTITLEMENTS_VALUE));
-		assertEquals(newActive, browser.getValue(UserEdit.ENTITLEMENTS_PRIMARY));
+//		assertEquals(newActive, browser.findElement(UserEdit.ENTITLEMENTS_PRIMARY).isSelected());
 		assertEquals(newEntitlementsType, browser.getValue(UserEdit.ENTITLEMENTS_TYPE));
 
 		assertEquals(newAddressCountry, browser.getValue(UserEdit.ADDRESS_COUNTRY));
@@ -223,7 +227,7 @@ public class UserEditIT extends Integrationtest {
 		assertEquals(newAddressPostalcode, browser.getValue(UserEdit.ADDRESS_POSTALCODE));
 		assertEquals(newAddressRegion, browser.getValue(UserEdit.ADDRESS_REGION));
 		assertEquals(newAddressStreetaddress, browser.getValue(UserEdit.ADDRESS_STREETADDRESS));
-		assertEquals(newActive, browser.getValue(UserEdit.ADDRESS_PRIMARY));
+		assertEquals(newActive, browser.findElement(UserEdit.ADDRESS_PRIMARY).isSelected());
 		assertEquals(newAddressType, browser.getValue(UserEdit.ADDRESS_TYPE));
 	}
 
@@ -240,24 +244,26 @@ public class UserEditIT extends Integrationtest {
 		browser.click(UserEdit.SUBMIT_BUTTON);
 		browser.click(EditList.DIALOG_SUCCESS);
 
-		assertTrue(browser.isTextPresent("keine gültige E-Mail-Adresse"));
+		assertTrue(browser.isTextPresent("keine gültige E-Mail-Adresse") || browser.isTextPresent("not a well-formed email address"));
 	}
 
 	@Test
 	public void remove_And_Add_All_Multi_Value_Attributes() {
-		test_Remove_And_Add_Multi_Value_Attribute("email", 1);
-		test_Remove_And_Add_Multi_Value_Attribute("phoneNumber", 1);
-		test_Remove_And_Add_Multi_Value_Attribute("im", 0);
-		test_Remove_And_Add_Multi_Value_Attribute("certificate", 0);
-		test_Remove_And_Add_Multi_Value_Attribute("entitlement", 0);
-		test_Remove_And_Add_Multi_Value_Attribute("address", 1);
+		test_Remove_And_Add_Multi_Value_Attribute("email", "email-block-", 1);
+		test_Remove_And_Add_Multi_Value_Attribute("phoneNumber", "phoneNumber-block-", 1);
+		test_Remove_And_Add_Multi_Value_Attribute("im", "im-block-", 0);
+		test_Remove_And_Add_Multi_Value_Attribute("certificate", "certificates-block-", 0);
+		test_Remove_And_Add_Multi_Value_Attribute("entitlement", "entitlement-block-", 0);
+		test_Remove_And_Add_Multi_Value_Attribute("address", "address-block-", 1);
 	}
 
-	private void test_Remove_And_Add_Multi_Value_Attribute(String containerId, int existingFields) {
-		add_Multi_Value_Attribute(containerId);
+	private void test_Remove_And_Add_Multi_Value_Attribute(String multivalueName, String containerId, int existingFields) {
+		add_Multi_Value_Attribute(multivalueName);
 		assertEquals(existingFields + 1, count_Child_Elements(containerId));
-		add_Multi_Value_Attribute(containerId);
+
+		add_Multi_Value_Attribute(multivalueName);
 		assertEquals(existingFields + 2, count_Child_Elements(containerId));
+
 		drop_Multi_Value_Attribute(containerId, existingFields + 2);
 		drop_Multi_Value_Attribute(containerId, existingFields + 1);
 		assertEquals(existingFields + 0, count_Child_Elements(containerId));
@@ -277,14 +283,12 @@ public class UserEditIT extends Integrationtest {
 
 	private void drop_Multi_Value_Attribute(String containerId, int nth) {
 		browser.findElement(
-				By.xpath("//fieldset[contains(@id, '" + containerId + "')]/div[" + nth
-						+ "]/button[contains(@id, 'button-remove')]"))
+				By.xpath("//div[contains(@id, '" + containerId + nth + "')]//button"))
 				.click();
 	}
 
 	private int count_Child_Elements(String containerId) {
-		List<WebElement> foundElements = browser.findElements(By.xpath("//fieldset[contains(@id, '" + containerId
-				+ "')]//div[contains(@class, 'row')]"));
+		List<WebElement> foundElements = browser.findElements(By.xpath("//div[contains(@id, '" + containerId + "')]"));
 		return foundElements.size();
 	}
 

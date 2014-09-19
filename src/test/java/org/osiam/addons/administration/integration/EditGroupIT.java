@@ -24,7 +24,7 @@ public class EditGroupIT extends Integrationtest {
 
 		browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
 
-		browser.click(GroupList.GROUP_LIST);
+		browser.click(EditList.GROUP_LIST);
 	}
 
 	@Test

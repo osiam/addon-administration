@@ -53,7 +53,7 @@ public class UserDeleteIT extends Integrationtest{
 	}
 
 	private void gotoEditGroup(String groupName) {
-		browser.click(GroupList.GROUP_LIST);
+		browser.click(EditList.GROUP_LIST);
 
 		String actionLabelXpath = "//td[. = '" + groupName + "']/..//div[contains(@id, 'action-label')]";
 		String editButtonXpath = "//td[. = '" + groupName + "']/..//button[contains(@id, 'action-button-edit')]";

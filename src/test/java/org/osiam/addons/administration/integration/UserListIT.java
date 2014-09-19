@@ -155,15 +155,15 @@ public class UserListIT extends Integrationtest {
 		String id = "8";
 		// abort activation
 		actionButton(id);
-		handleActivationDialog(username, EditList.DIALOG_ABORT);
+		handleActivationDialog(id, username, EditList.DIALOG_ABORT);
 		assertTrue(isUserDeactive(username));
 		// abort activation via closing dialog
 		actionButton(id);
-		handleActivationDialog(username, EditList.DIALOG_CLOSE);
+		handleActivationDialog(id, username, EditList.DIALOG_CLOSE);
 		assertTrue(isUserDeactive(username));
 		// activate user
 		actionButton(id);
-		handleActivationDialog(username, EditList.DIALOG_SUCCESS);
+		handleActivationDialog(id, username, EditList.DIALOG_SUCCESS);
 		assertTrue(isUserActive(username, id));
 	}
 
@@ -190,9 +190,10 @@ public class UserListIT extends Integrationtest {
 		browser.findElement(elementToClick).click();
 	}
 
-	private void handleActivationDialog(String username, Element elementToClick) {
+	private void handleActivationDialog(String id, String username, Element elementToClick) {
 		String deactivateButtonXpath = "//table//td[contains(., '" + username
 				+ "')]/..//button[starts-with(@id, 'action-button-activate-')]";
+		actionButton(id);
 		browser.findElement(By.xpath(deactivateButtonXpath)).click();
 		browser.findElement(elementToClick).click();
 	}
