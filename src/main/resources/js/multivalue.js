@@ -111,32 +111,32 @@ $(function(){
 
     function applyRemoveActions(){
         $("button[id^='button-remove-email-']").click(function(){
-            var myBlock = $(this).parent();
+            var myBlock = $(this).parent().parent().parent();
             myBlock.remove();
         });
 
         $("button[id^='button-remove-phoneNumber-']").click(function(){
-            var myBlock = $(this).parent();
+            var myBlock = $(this).parent().parent().parent();
             myBlock.remove();
         });
 
         $("button[id^='button-remove-im-']").click(function(){
-            var myBlock = $(this).parent();
+            var myBlock = $(this).parent().parent().parent();
             myBlock.remove();
         });
 
         $("button[id^='button-remove-certificates-']").click(function(){
-            var myBlock = $(this).parent();
+            var myBlock = $(this).parent().parent().parent();
             myBlock.remove();
         });
 
         $("button[id^='button-remove-entitlements-']").click(function(){
-            var myBlock = $(this).parent();
+            var myBlock = $(this).parent().parent().parent();
             myBlock.remove();
         });
 
         $("button[id^='button-remove-addresses-']").click(function(){
-            var myBlock = $(this).parent();
+            var myBlock = $(this).parent().parent().parent();
             myBlock.remove();
         });
     }
