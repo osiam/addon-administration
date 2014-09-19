@@ -12,125 +12,122 @@ import org.osiam.addons.administration.Element.GroupList;
 import org.osiam.addons.administration.selenium.Field;
 
 public class GroupListIT extends Integrationtest {
-    String firstGroup = "test_group01";
-    
-    @Override
-    public void setup() {
-        super.setup();
+	private static final String FIRST_GROUP_NAME = "admin";
 
-        browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
-    }
-    
-    @Test
-    public void apply_empty_filter() {
-        browser.click(GroupList.GROUP_LIST);
-        
-        browser.click(EditList.FILTER_BUTTON);
+	@Override
+	public void setup() {
+		super.setup();
 
-        assertTrue(isGroupVisible(firstGroup));
-    }
+		browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
+		browser.click(GroupList.GROUP_LIST);
+	}
 
-    @Test
-    public void apply_filter() {
-        browser.click(GroupList.GROUP_LIST);
-        
-        browser.fill(new Field(GroupList.FILTER_GROUP, firstGroup));
-        browser.click(EditList.FILTER_BUTTON);
+	@Test
+	public void apply_empty_filter() {
+		browser.click(EditList.FILTER_BUTTON);
 
-        assertTrue(isGroupVisible(firstGroup));
-        assertFalse(isGroupVisible("test_group02")); // an another user
-    }
-    
-    @Test
-    public void apply_no_result_filter() {
-        browser.click(GroupList.GROUP_LIST);
-        
-        browser.fill(
-                new Field(GroupList.FILTER_GROUP, "DoesNotExist"));
-        browser.click(EditList.FILTER_BUTTON);
+		assertTrue(isGroupVisible(FIRST_GROUP_NAME));
+	}
 
-        assertEquals(0, getDisplayedGroup());
-    }
+	@Test
+	public void apply_filter() {
+		browser.fill(new Field(GroupList.FILTER_GROUP, FIRST_GROUP_NAME));
+		browser.click(EditList.FILTER_BUTTON);
 
-    @Test
-    public void order() {
-        browser.click(GroupList.GROUP_LIST);
-        
-        browser.click(GroupList.SORT_GROUP_ASC);
-        assertTrue(isGroupAtPosition(firstGroup, 0));
+		assertTrue(isGroupVisible(FIRST_GROUP_NAME));
+		assertFalse(isGroupVisible("test_group02")); // an another user
+	}
 
-        browser.click(GroupList.SORT_GROUP_DESC);
-        assertTrue(isGroupAtPosition("test_group10", 0));
-    }
-    
-    @Test
-    public void limit() {
-        browser.click(GroupList.GROUP_LIST);
-        
-        // default limit: 20
-        assertEquals("20", browser.findSelectedOption(EditList.LIMIT).getText());
+	@Test
+	public void apply_no_result_filter() {
+		browser.fill(
+				new Field(GroupList.FILTER_GROUP, "DoesNotExist"));
+		browser.click(EditList.FILTER_BUTTON);
 
-        // change limit seticfied
-        assertTrue("Precondition is not satisfied! For this testcase the dataset must be contains more than 5 users!",
-                getDisplayedGroup() > 5);
+		assertEquals(0, getDisplayedGroup());
+	}
 
-        browser.fill(new Field(EditList.LIMIT, "5"));
-        assertTrue(getDisplayedGroup() <= 5);
-        assertEquals("5", browser.findSelectedOption(EditList.LIMIT).getText());
-    }
-    
-    @Test
-    public void paging() {
-        browser.click(GroupList.GROUP_LIST);
-        
-        browser.fill(new Field(EditList.LIMIT, "5")); // set limit to 5
-        int groupCount = 0;
+	@Test
+	public void order() {
+		browser.click(GroupList.SORT_GROUP_ASC);
+		assertTrue(isGroupAtPosition(FIRST_GROUP_NAME, 0));
 
-        while (true) {
-            try {
-                groupCount += getDisplayedGroup();
-                browser.click(EditList.PAGING_NEXT);
-            } catch (NoSuchElementException e) {
-                break;
-            }
+		browser.click(GroupList.SORT_GROUP_DESC);
+		assertTrue(isGroupAtPosition("test_group10", 0));
+	}
 
-            assertFalse(browser.isErrorPage());
-        }
+	@Test
+	public void limit() {
+		// default limit: 20
+		assertEquals("20", browser.findSelectedOption(EditList.LIMIT).getText());
 
-        while (true) {
-            try {
-                browser.click(EditList.PAGING_PREVIOUS);
-            } catch (NoSuchElementException e) {
-                break;
-            }
+		// change limit seticfied
+		assertTrue("Precondition is not satisfied! For this testcase the dataset must be contains more than 5 users!",
+				getDisplayedGroup() > 5);
 
-            assertFalse(browser.isErrorPage());
-        }
+		browser.fill(new Field(EditList.LIMIT, "5"));
+		assertTrue(getDisplayedGroup() <= 5);
+		assertEquals("5", browser.findSelectedOption(EditList.LIMIT).getText());
+	}
 
-        browser.click(EditList.PAGING_LAST);
-        assertFalse(browser.isErrorPage());
+	@Test
+	public void paging() {
+		browser.fill(new Field(EditList.LIMIT, "5")); // set limit to 5
+		int groupCount = 0;
 
-        browser.click(EditList.PAGING_FIRST);
-        assertFalse(browser.isErrorPage());
+		groupCount = navigateForward(groupCount);
+		navigateBackward();
 
-        browser.fill(new Field(EditList.LIMIT, "0")); // set limit to "unlimited"
-        assertEquals(getDisplayedGroup(), groupCount);
-    }
-    
-    private int getDisplayedGroup() {
-        String userRowsXpath = "//table//tr//li[contains(@class, 'action')]";
+		browser.click(EditList.PAGING_LAST);
+		assertFalse(browser.isErrorPage());
 
-        return browser.findElements(By.xpath(userRowsXpath)).size();
-    }
+		browser.click(EditList.PAGING_FIRST);
+		assertFalse(browser.isErrorPage());
 
-    private boolean isGroupVisible(String group) {
-        return browser.isTextPresent(group);
-    }
-    
-    private boolean isGroupAtPosition(String group, Integer position) {
-        // the row #2 is the first user-row!
-        String rowXpath = "//table//tr[" + (2 - position) + "]//td[contains(., '" + group + "')]";
+		browser.fill(new Field(EditList.LIMIT, "0")); // set limit to "unlimited"
+		assertEquals(getDisplayedGroup(), groupCount);
+	}
 
-        return browser.findElements(By.xpath(rowXpath)).size() == 1;
-    }
+	private void navigateBackward() {
+		while (true) {
+			try {
+				browser.click(EditList.PAGING_PREVIOUS);
+			} catch (NoSuchElementException e) {
+				break;
+			}
+
+			assertFalse(browser.isErrorPage());
+		}
+	}
+
+	private int navigateForward(int groupCount) {
+		while (true) {
+			try {
+				groupCount += getDisplayedGroup();
+				browser.click(EditList.PAGING_NEXT);
+			} catch (NoSuchElementException e) {
+				break;
+			}
+
+			assertFalse(browser.isErrorPage());
+		}
+		return groupCount;
+	}
+
+	private int getDisplayedGroup() {
+		String userRowsXpath = "//table//tr//li[contains(@class, 'action')]";
+
+		return browser.findElements(By.xpath(userRowsXpath)).size();
+	}
+
+	private boolean isGroupVisible(String group) {
+		return browser.isTextPresent(group);
+	}
+
+	private boolean isGroupAtPosition(String group, Integer position) {
+		// the row #2 is the first user-row!
+		String rowXpath = "//table//tr[" + (2 - position) + "]//td[contains(., '" + group + "')]";
+
+		return browser.findElements(By.xpath(rowXpath)).size() == 1;
+	}
 }

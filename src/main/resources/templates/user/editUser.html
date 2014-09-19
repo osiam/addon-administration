@@ -7,9 +7,11 @@
 	<script type="text/javascript" src="../../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" ></script>
 	<script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}" ></script>
 	<script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}" ></script>
+	<script type="text/javascript" src="../../js/bootstrap-datetimepicker.min.js" th:src="@{/js/bootstrap-datetimepicker.min.js}" ></script>
 	<script type="text/javascript" src="../../js/multivalue.js" th:src="@{/js/multivalue.js}" ></script>
 	<script type="text/javascript" src="../../js/extension.js" th:src="@{/js/extension.js}" ></script>
 	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap-datetimepicker.min.css" th:href="@{/css/bootstrap-datetimepicker.min.css}"/>
 	<link rel="stylesheet" type="text/css" href="../../css/Style.css" th:href="@{/css/Style.css}"/>
 </head>
 <body>
@@ -17,10 +19,8 @@
 <th:block th:include="header :: header"></th:block>
 
 <div class="container shadow" id="content">
-	<div class="topbar">
-		<div class="container">
-			<span class="pull-right">Logout <span class="glyphicon glyphicon-remove"></span></span>
-		</div>
+	<div th:replace="makros :: topbar">
+		Topbar ...
 	</div>
 
 	<div id="dialog-message-container" style="display:none;">
@@ -98,23 +98,23 @@
 		<div id="im-template">
 			<div class="row">
 				<div class="col-md-2 form-group">
-					<label for="im-ID-primary" th:text="#{edit_user.im.primary}">Primary</label><br />
+					<label for="im-ID-primary" th:text="#{edit_user.instanceMessager.primary}">Primary</label><br />
 					<input type="checkbox" style="margin:0" th:id="im-ID-primary" name="ims[ID].primary" value="false" />
 				</div>
 				<div class="col-md-10 form-group">
-					<label for="im-ID-display" th:text="#{edit_user.im.display}">Display</label>
-					<input class="form-control" type="text" id="im-ID-display" th:placeholder="#{edit_user.im.display}" name="ims[ID].display"/>
+					<label for="im-ID-display" th:text="#{edit_user.instanceMessager.display}">Display</label>
+					<input class="form-control" type="text" id="im-ID-display" th:placeholder="#{edit_user.instanceMessager.display}" name="ims[ID].display"/>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-md-6 form-group">
-					<label for="im-ID-value" th:text="#{edit_user.im.value}">Value</label>
-					<input class="form-control required" type="tel" required="required" th:id="im-ID-value" th:placeholder="#{edit_user.im.value}" name="ims[ID].value" />
+					<label for="im-ID-value" th:text="#{edit_user.instanceMessager.value}">Value</label>
+					<input class="form-control required" type="tel" required="required" th:id="im-ID-value" th:placeholder="#{edit_user.instanceMessager.value}" name="ims[ID].value" />
 				</div>
 				<div class="col-md-6 form-group">
-					<label for="im-ID-type" th:text="#{edit_user.im.type}">Type</label>
-					<input class="form-control required" type="text" th:id="im-ID-type" th:placeholder="#{edit_user.im.type}" name="ims[ID].type" />
+					<label for="im-ID-type" th:text="#{edit_user.instanceMessager.type}">Type</label>
+					<input class="form-control required" type="text" th:id="im-ID-type" th:placeholder="#{edit_user.instanceMessager.type}" name="ims[ID].type" />
 					<input type="hidden" value="on" name="_ims[ID].primary" />
 				</div>
 			</div>
@@ -245,7 +245,7 @@
 
 			<h2 th:text="#{edit_user.title}">Edit user</h2>
 			<div th:if="${(param.error != null) and (param.error[0] == 'validation')}"
-				 th:text="#{edit_user.error.validation}" class="alert alert-danger">
+				th:text="#{edit_user.error.validation}" class="alert alert-danger">
 				Validation Error
 			</div>
 
@@ -505,26 +505,26 @@
 						<fieldset th:each="im, stat : *{ims}" th:id="${'im-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}? ' bg-danger' : '')">
-									<label th:for="${'im-' + stat.index + '-primary'}" th:text="#{edit_user.im.primary}">Primary</label><br />
+									<label th:for="${'im-' + stat.index + '-primary'}" th:text="#{edit_user.instanceMessager.primary}">Primary</label><br />
 									<input style="margin:0" type="checkbox" th:id="${'im-' + stat.index + '-primary'}" th:field="*{ims[__${stat.index}__].primary}" />
 									<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}" th:errors="*{ims[__${stat.index}__].primary}" >Primary Error</span>
 								</div>
 								<div th:class="'col-md-10 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].display}')}? ' bg-danger' : '')">
-									<label th:for="${'im-' + stat.index + '-display'}" th:text="#{edit_user.im.display}">Display</label>
-									<input class="form-control" type="text" th:id="${'im-' + stat.index + '-display'}" th:placeholder="#{edit_user.im.display}" th:field="*{ims[__${stat.index}__].display}" />
+									<label th:for="${'im-' + stat.index + '-display'}" th:text="#{edit_user.instanceMessager.display}">Display</label>
+									<input class="form-control" type="text" th:id="${'im-' + stat.index + '-display'}" th:placeholder="#{edit_user.instanceMessager.display}" th:field="*{ims[__${stat.index}__].display}" />
 									<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].display}')}" th:errors="*{ims[__${stat.index}__].display}" >Display Error</span>
 								</div>
 							</div>
 
 							<div class="row">
 								<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].value}')}? ' bg-danger' : '')">
-									<label th:for="${'im-' + stat.index + '-value'}" th:text="#{edit_user.im.value}">Value</label>
-									<input class="form-control required" type="tel" required="required" th:id="${'im-' + stat.index + '-value'}" th:placeholder="#{edit_user.im.value}" th:field="*{ims[__${stat.index}__].value}" />
+									<label th:for="${'im-' + stat.index + '-value'}" th:text="#{edit_user.instanceMessager.value}">Value</label>
+									<input class="form-control required" type="tel" required="required" th:id="${'im-' + stat.index + '-value'}" th:placeholder="#{edit_user.instanceMessager.value}" th:field="*{ims[__${stat.index}__].value}" />
 									<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].value}')}" th:errors="*{ims[__${stat.index}__].value}" >Value Error</span>
 								</div>
 								<div th:class="'col-md-6 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].type}')}? ' bg-danger' : '')">
-									<label th:for="${'im-' + stat.index + '-type'}" th:text="#{edit_user.im.type}">Type</label>
-									<input class="form-control required" type="text" th:id="${'im-' + stat.index + '-type'}" th:placeholder="#{edit_user.im.type}" th:field="*{ims[__${stat.index}__].type}" />
+									<label th:for="${'im-' + stat.index + '-type'}" th:text="#{edit_user.instanceMessager.type}">Type</label>
+									<input class="form-control required" type="text" th:id="${'im-' + stat.index + '-type'}" th:placeholder="#{edit_user.instanceMessager.type}" th:field="*{ims[__${stat.index}__].type}" />
 									<span th:if="${#fields.hasErrors('*{ims[__${stat.index}__].type}')}" th:errors="*{ims[__${stat.index}__].type}" >Type Error</span>
 								</div>
 							</div>
@@ -755,42 +755,82 @@
 					</div>
 				</div>
 			</div>
+			<hr />
+			<div class="row">
+
+					<!--/*
+						START extension-BLOCK
+					*/-->
+
+					<div th:each="extension, stat : ${allExtensions}" class="addedExtension container">
+						<h3 th:text="${extension.urn}" style="margin-bottom:10px">Extension-URN</h3>
+
+						<div th:each="fieldEntry : ${extension.fields}" th:class="(${#fields.hasErrors('*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}')}? ' bg-danger row' : 'row')">
+
+								   <div class="col-md-4">
+									<label th:text="${fieldEntry.key}" th:for="${fieldEntry.key}">Extension-Key</label>
+								   </div>
+								   <div class="col-md-6">
+									<th:block th:switch="${fieldEntry.value.type.name}">
+										<input th:case="'INTEGER'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="number"/>
+										<input th:case="'DECIMAL'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="number"/>
+										<input th:case="'BOOLEAN'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="checkbox" th:value="${fieldEntry.value.value}" />
+										<input th:case="'DATE_TIME'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="datetime" />
+										<input th:case="'REFERENCE'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="url" />
+										<input th:case="*" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="text" />
+									</th:block>
+									<div th:if="${#fields.hasErrors('*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}')}" th:errors="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" >Type Error</div>
+								   </div>
+
+						</div>
+						<div class="row">
+							 <div class="col-md-10 form-group text-right only-on-js">
+								<button th:id="${'button-clear-extensions-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" >Clear Extension</button>
+							</div>
+						</div>
+					</div>
+
+					<!--/*
+						END extension-BLOCK
+					*/-->
+
+			</div>
 
 
-				<!--/*
-	                START extension-BLOCK
-	            */-->
+			<!--/*
+				START extension-BLOCK
+			*/-->
 
-				<div class="addedExtension row"
-					 th:each="extensionEntry, stat : *{extensions}"
-					 th:with="extensionUrn = ${extensionEntry.key}, extension = ${extensionEntry.value}">
+			<div class="addedExtension row"
+				th:each="extensionEntry, stat : *{extensions}"
+				th:with="extensionUrn = ${extensionEntry.key}, extension = ${extensionEntry.value}">
 
-                    <h3 th:text="${extensionUrn}">Extension-URN</h3>
+				   <h3 th:text="${extensionUrn}">Extension-URN</h3>
 
-                    <div th:each="fieldEntry : ${extension}" th:class="'col-md-4' + (${#fields.hasErrors('*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}')}? ' bg-danger' : '')">
-                      	<div class="col-md-5">
-	                        <label th:text="${fieldEntry.key}" th:for="${fieldEntry.key}">Extension-Key</label>
-                      	</div>
-                      	<div class="col-md-7">
-	                        <th:block th:switch="${allFieldTypes.get(extensionUrn).get(fieldEntry.key)}">
-	                            <input th:case="'INTEGER'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="number"/>
-	                            <input th:case="'DECIMAL'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="number"/>
-	                            <input th:case="'BOOLEAN'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="checkbox" th:value="${fieldEntry.value}" />
-	                            <input th:case="'DATE_TIME'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="datetime" />
-	                            <input th:case="'REFERENCE'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="url" />
-	                            <input th:case="*" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="text" />
-	                        </th:block>
-	                        <div th:if="${#fields.hasErrors('*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}')}" th:errors="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" >Type Error</div>
-                      	</div>
-                    </div>
-                    <div class="col-md-12 form-group text-right only-on-js">
-						<button class="btn btn-md btn-primary only-on-js" th:id="${'button-clear-extensions-' + stat.index}" th:text="#{edit_user.extension.clear}" type="button">Clear Extension</button>
-                    </div>
-                </div>
+				   <div th:each="fieldEntry : ${extension}" th:class="'col-md-4' + (${#fields.hasErrors('*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}')}? ' bg-danger' : '')">
+						 <div class="col-md-5" th:with="key = ${extensionUrn + '::' + fieldEntry.key}">
+						<label th:text="${#maps.containsKey(extensionNames, key)} ?  ${extensionNames['__${key}__']} : ${fieldEntry.key}"   th:for="${fieldEntry.key}">Extension-Key</label>
+						 </div>
+						 <div class="col-md-7">
+						<th:block th:switch="${allFieldTypes.get(extensionUrn).get(fieldEntry.key)}">
+							<input th:case="'INTEGER'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="number"/>
+							<input th:case="'DECIMAL'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="number"/>
+							<input th:case="'BOOLEAN'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="checkbox" th:value="${fieldEntry.value}" />
+							<input th:case="'DATE_TIME'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="datetime" />
+							<input th:case="'REFERENCE'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="url" />
+							<input th:case="*" th:id="${fieldEntry.key}" th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="text" />
+						</th:block>
+						<div th:if="${#fields.hasErrors('*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}')}" th:errors="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" >Type Error</div>
+						 </div>
+				   </div>
+				   <div class="col-md-12 form-group text-right only-on-js">
+					<button class="btn btn-md btn-primary only-on-js" th:id="${'button-clear-extensions-' + stat.index}" th:text="#{edit_user.extension.clear}" type="button">Clear Extension</button>
+				   </div>
+			   </div>
 
-	            <!--/*
-	                END extension-BLOCK
-	            */-->
+			<!--/*
+				END extension-BLOCK
+			*/-->
 
 
 			<div class="row">

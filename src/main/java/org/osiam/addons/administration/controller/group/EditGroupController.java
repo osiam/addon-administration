@@ -31,93 +31,93 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(EditGroupController.CONTROLLER_PATH)
 public class EditGroupController extends GenericController {
-    private static final Logger LOG = Logger.getLogger(EditGroupController.class);
+	private static final Logger LOG = Logger.getLogger(EditGroupController.class);
 
-    public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/group/edit";
+	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/group/edit";
 
-    public static final String REQUEST_PARAMETER_ID = "id";
-    public static final String REQUEST_PARAMETER_ERROR = "error";
+	public static final String REQUEST_PARAMETER_ID = "id";
+	public static final String REQUEST_PARAMETER_ERROR = "error";
 
-    private static final String SESSION_KEY_COMMAND = "command";
+	private static final String SESSION_KEY_COMMAND = "command";
 
-    public static final String MODEL = "model";
-    public static final String MODEL_USER_LIST = "userList";
+	public static final String MODEL = "model";
+	public static final String MODEL_USER_LIST = "userList";
 
-    @Inject
-    private GroupService groupService;
+	@Inject
+	private GroupService groupService;
 
-    @Inject
-    private UserService userService;
+	@Inject
+	private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handleGroupEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
-        ModelAndView modelAndView = new ModelAndView("group/editGroup");
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView handleGroupEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
+		ModelAndView modelAndView = new ModelAndView("group/editGroup");
 
-        clearSession();
+		clearSession();
 
-        Group group = groupService.getGroup(id);
-        Map<String, User> allUsers = getAllUsers();
+		Group group = groupService.getGroup(id);
+		Map<String, User> allUsers = getAllUsers();
 
-        modelAndView.addObject(MODEL, new UpdateGroupCommand(group));
-        modelAndView.addObject(MODEL_USER_LIST, allUsers);
+		modelAndView.addObject(MODEL, new UpdateGroupCommand(group));
+		modelAndView.addObject(MODEL_USER_LIST, allUsers);
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    private void clearSession() {
-        removeFromSession(SESSION_KEY_COMMAND);
-        removeBindingResultFromSession(MODEL);
-    }
+	private void clearSession() {
+		removeFromSession(SESSION_KEY_COMMAND);
+		removeBindingResultFromSession(MODEL);
+	}
 
-    private Map<String, User> getAllUsers() {
-        SCIMSearchResult<User> result = userService.searchUser("", 0, 0L, "userName", true, "id, userName");
+	private Map<String, User> getAllUsers() {
+		SCIMSearchResult<User> result = userService.searchUser("", 0, 0L, "userName", true, "id, userName");
 
-        Map<String, User> idToUserMapping = new HashMap<String, User>();
+		Map<String, User> idToUserMapping = new HashMap<String, User>();
 
-        for(User user : result.getResources()){
-            idToUserMapping.put(user.getId(), user);
-        }
+		for(User user : result.getResources()){
+			idToUserMapping.put(user.getId(), user);
+		}
 
-        return idToUserMapping;
-    }
+		return idToUserMapping;
+	}
 
-    @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
-    public ModelAndView handleGroupEditFailure(
-            @RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
+	public ModelAndView handleGroupEditFailure(
+			@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
 
-        ModelAndView modelAndView = new ModelAndView("group/editGroup");
+		ModelAndView modelAndView = new ModelAndView("group/editGroup");
 
-        modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
-        enrichBindingResultFromSession(MODEL, modelAndView);
+		modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
+		enrichBindingResultFromSession(MODEL, modelAndView);
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String handleGroupUpdate(
-            @Valid @ModelAttribute(MODEL) UpdateGroupCommand command,
-            BindingResult bindingResult) {
+	@RequestMapping(method = RequestMethod.POST)
+	public String handleGroupUpdate(
+			@Valid @ModelAttribute(MODEL) UpdateGroupCommand command,
+			BindingResult bindingResult) {
 
-        final RedirectBuilder redirect = new RedirectBuilder()
-                                            .setPath(CONTROLLER_PATH)
-                                            .addParameter(REQUEST_PARAMETER_ID, command.getId());
+		final RedirectBuilder redirect = new RedirectBuilder()
+											.setPath(CONTROLLER_PATH)
+											.addParameter(REQUEST_PARAMETER_ID, command.getId());
 
-        try {
-            if(!bindingResult.hasErrors()){
-                groupService.updateGroup(command.getId(), command.getAsUpdateGroup());
+		try {
+			if(!bindingResult.hasErrors()){
+				groupService.updateGroup(command.getId(), command.getAsUpdateGroup());
 
-                redirect.addParameter("saveSuccess", true);
-                redirect.setPath(GroupViewController.CONTROLLER_PATH);
-                return redirect.build();
-            }
-        } catch(SCIMDataValidationException e) {
-            LOG.warn("Could not update group.", e);
-        }
+				redirect.addParameter("saveSuccess", true);
+				redirect.setPath(GroupViewController.CONTROLLER_PATH);
+				return redirect.build();
+			}
+		} catch(SCIMDataValidationException e) {
+			LOG.warn("Could not update group.", e);
+		}
 
-        storeInSession(SESSION_KEY_COMMAND, command);
-        storeBindingResultIntoSession(bindingResult, MODEL);
-        redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+		storeInSession(SESSION_KEY_COMMAND, command);
+		storeBindingResultIntoSession(bindingResult, MODEL);
+		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
-        return redirect.build();
-    }
+		return redirect.build();
+	}
 }

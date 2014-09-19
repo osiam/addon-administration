@@ -245,11 +245,11 @@ th {
   .table td {
     background-color: #fff !important;
   }
-  
+
 .table > thead > tr > th {
     background-color: #d1d1d1 !important;
   }
-  
+
   .btn > .caret,
   .dropup > .btn > .caret {
     border-top-color: #000 !important;
@@ -1398,8 +1398,8 @@ pre code {
   overflow-y: scroll;
 }
 .container {
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 20px;
+  padding-left: 20px;
   margin-right: auto;
   margin-left: auto;
 }

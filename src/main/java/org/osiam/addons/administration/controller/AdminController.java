@@ -1,6 +1,9 @@
 package org.osiam.addons.administration.controller;
 
+import javax.inject.Inject;
+
 import org.osiam.addons.administration.controller.user.UserViewController;
+import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +15,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(AdminController.CONTROLLER_PATH)
 public class AdminController {
 
-    public static final String CONTROLLER_PATH = "/admin";
+	public static final String CONTROLLER_PATH = "/admin";
 
-    @RequestMapping
-    public String handleOverview() {
-        return new RedirectBuilder()
-                .setPath(UserViewController.CONTROLLER_PATH)
-                .build();
-    }
+	@Inject
+	private UserService userService;
+
+	@RequestMapping
+	public String handleOverview() {
+		return new RedirectBuilder()
+				.setPath(UserViewController.CONTROLLER_PATH)
+				.build();
+	}
+
+
+	@RequestMapping("/logout")
+	public String handleFilterAction() {
+		userService.logoutCurrentUser();
+		return new RedirectBuilder()
+			.setPath(UserViewController.CONTROLLER_PATH)
+			.build();
+	}
 }

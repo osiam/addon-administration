@@ -45,172 +45,172 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class ExtensionsService {
-    @Value("${org.osiam.resourceServerEndpoint}")
-    private String resourceServerEndpoint;
+	@Value("${org.osiam.resourceServerEndpoint}")
+	private String resourceServerEndpoint;
 
-    private static final String BEARER = "Bearer ";
-    private static final int CONNECT_TIMEOUT = 2500;
-    private static final int READ_TIMEOUT = 5000;
+	private static final String BEARER = "Bearer ";
+	private static final int CONNECT_TIMEOUT = 2500;
+	private static final int READ_TIMEOUT = 5000;
 
-    @Inject
-    private GeneralSessionData sessionData;
+	@Inject
+	private GeneralSessionData sessionData;
 
-    private final Pattern urnFieldPattern = Pattern.compile("^([^\\|]*)\\|(.*)$");
+	private final Pattern urnFieldPattern = Pattern.compile("^([^\\|]*)\\|(.*)$");
 
-    private ObjectMapper mapper;
+	private ObjectMapper mapper;
 
-    public ExtensionsService() {
-        mapper = new ObjectMapper();
-    }
+	public ExtensionsService() {
+		mapper = new ObjectMapper();
+	}
 
-    public List<Extension> getExtensions() {
-        String content = requestExtensionTypes();
-        return parseToListOfExtenions(content);
-    }
+	public List<Extension> getExtensions() {
+		String content = requestExtensionTypes();
+		return parseToListOfExtenions(content);
+	}
 
-    public Map<String, Extension> getExtensionsMap() {
-        List<Extension> extensions = getExtensions();
-        Map<String, Extension> result = new HashMap<String, Extension>();
+	public Map<String, Extension> getExtensionsMap() {
+		List<Extension> extensions = getExtensions();
+		Map<String, Extension> result = new HashMap<String, Extension>();
 
-        for(Extension e : extensions){
-            result.put(e.getUrn(), e);
-        }
+		for(Extension e : extensions){
+			result.put(e.getUrn(), e);
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    private String requestExtensionTypes() {
-        WebTarget target = buildWebTarget();
+	private String requestExtensionTypes() {
+		WebTarget target = buildWebTarget();
 
-        StatusType status;
-        String content;
-        try {
-            Response response = target.path("/osiam/Extensiontypes")
-                    .request(MediaType.APPLICATION_JSON)
-                    .header("Authorization", BEARER + sessionData.getAccesstoken().getToken())
-                    .get();
+		StatusType status;
+		String content;
+		try {
+			Response response = target.path("/osiam/Extensiontypes")
+					.request(MediaType.APPLICATION_JSON)
+					.header("Authorization", BEARER + sessionData.getAccesstoken().getToken())
+					.get();
 
-            status = response.getStatusInfo();
-            content = response.readEntity(String.class);
-        } catch (ProcessingException e) {
-            throw new NullPointerException();
-        }
+			status = response.getStatusInfo();
+			content = response.readEntity(String.class);
+		} catch (ProcessingException e) {
+			throw new NullPointerException();
+		}
 
-        checkAndHandleResponse(content, status);
-        return content;
-    }
+		checkAndHandleResponse(content, status);
+		return content;
+	}
 
-    private void checkAndHandleResponse(String content, StatusType status) {
-        if (status.getStatusCode() == Status.OK.getStatusCode()) {
-            return;
-        }
+	private void checkAndHandleResponse(String content, StatusType status) {
+		if (status.getStatusCode() == Status.OK.getStatusCode()) {
+			return;
+		}
 
-        final String errorMessage = extractErrorMessage(content, status);
+		final String errorMessage = extractErrorMessage(content, status);
 
-        if (status.getStatusCode() == Status.BAD_REQUEST.getStatusCode()) {
-            throw new ConnectionInitializationException(errorMessage);
-        } else if (status.getStatusCode() == Status.UNAUTHORIZED.getStatusCode()) {
-            throw new UnauthorizedException(errorMessage);
-        } else {
-            throw new ConnectionInitializationException(errorMessage);
-        }
-    }
+		if (status.getStatusCode() == Status.BAD_REQUEST.getStatusCode()) {
+			throw new ConnectionInitializationException(errorMessage);
+		} else if (status.getStatusCode() == Status.UNAUTHORIZED.getStatusCode()) {
+			throw new UnauthorizedException(errorMessage);
+		} else {
+			throw new ConnectionInitializationException(errorMessage);
+		}
+	}
 
-    private String extractErrorMessage(String content, StatusType status) {
-        try {
-            OAuthErrorMessage error = new ObjectMapper().readValue(content, OAuthErrorMessage.class);
-            return error.getDescription();
-        } catch (IOException e) {
-            String errorMessage = String.format("Could not deserialize the error response for the HTTP status '%s'.",
-                    status.getReasonPhrase());
+	private String extractErrorMessage(String content, StatusType status) {
+		try {
+			OAuthErrorMessage error = new ObjectMapper().readValue(content, OAuthErrorMessage.class);
+			return error.getDescription();
+		} catch (IOException e) {
+			String errorMessage = String.format("Could not deserialize the error response for the HTTP status '%s'.",
+					status.getReasonPhrase());
 
-            if (content != null) {
-                errorMessage += String.format(" Original response: %s", content);
-            }
+			if (content != null) {
+				errorMessage += String.format(" Original response: %s", content);
+			}
 
-            return errorMessage;
-        }
-    }
+			return errorMessage;
+		}
+	}
 
-    private WebTarget buildWebTarget() {
-        Client client = ClientBuilder.newClient(new ClientConfig()
-                .connectorProvider(new ApacheConnectorProvider())
-                .property(ClientProperties.REQUEST_ENTITY_PROCESSING, RequestEntityProcessing.BUFFERED)
-                .property(ClientProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT)
-                .property(ClientProperties.READ_TIMEOUT, READ_TIMEOUT)
-                .property(ApacheClientProperties.CONNECTION_MANAGER, new PoolingHttpClientConnectionManager()));
+	private WebTarget buildWebTarget() {
+		Client client = ClientBuilder.newClient(new ClientConfig()
+				.connectorProvider(new ApacheConnectorProvider())
+				.property(ClientProperties.REQUEST_ENTITY_PROCESSING, RequestEntityProcessing.BUFFERED)
+				.property(ClientProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT)
+				.property(ClientProperties.READ_TIMEOUT, READ_TIMEOUT)
+				.property(ApacheClientProperties.CONNECTION_MANAGER, new PoolingHttpClientConnectionManager()));
 
-        return client.target(resourceServerEndpoint);
-    }
+		return client.target(resourceServerEndpoint);
+	}
 
-    private List<Extension> parseToListOfExtenions(String content) {
-        Map<String, String> map = null;
+	private List<Extension> parseToListOfExtenions(String content) {
+		Map<String, String> map = null;
 
-        try {
-            map = mapper.readValue(content, new TypeReference<HashMap<String, String>>() {});
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+		try {
+			map = mapper.readValue(content, new TypeReference<HashMap<String, String>>() {});
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 
-        if (map == null) {
-            throw new RuntimeException();
-        }
+		if (map == null) {
+			throw new RuntimeException();
+		}
 
-        // urnFieldPattern
+		// urnFieldPattern
 
-        Map<String, Builder> extensionBuilder = new HashMap<String, Extension.Builder>();
+		Map<String, Builder> extensionBuilder = new HashMap<String, Extension.Builder>();
 
-        for (Entry<String, String> tempEntry : map.entrySet()) {
-            Matcher m = urnFieldPattern.matcher(tempEntry.getKey());
-            m.matches();
+		for (Entry<String, String> tempEntry : map.entrySet()) {
+			Matcher m = urnFieldPattern.matcher(tempEntry.getKey());
+			m.matches();
 
-            final String fieldName = m.group(2);
-            final String urn = m.group(1);
+			final String fieldName = m.group(2);
+			final String urn = m.group(1);
 
-            if(!extensionBuilder.containsKey(urn)){
-                extensionBuilder.put(urn, new Extension.Builder(urn));
-            }
+			if(!extensionBuilder.containsKey(urn)){
+				extensionBuilder.put(urn, new Extension.Builder(urn));
+			}
 
-            Builder builder = extensionBuilder.get(urn);
+			Builder builder = extensionBuilder.get(urn);
 
-            switch (tempEntry.getValue()) {
-            case "STRING":
-                builder.setField(fieldName, "null");
-                break;
-            case "INTEGER":
-                builder.setField(fieldName, BigInteger.ZERO);
-                break;
-            case "DECIMAL":
-                builder.setField(fieldName, BigDecimal.ZERO);
-                break;
-            case "BOOLEAN":
-                builder.setField(fieldName, false);
-                break;
-            case "DATE_TIME":
-                builder.setField(fieldName, new Date(0L));
-                break;
-            case "BINARY":
-                builder.setField(fieldName, ByteBuffer.wrap(new byte[] {}));
-                break;
-            case "REFERENCE":
-                try {
-                    builder.setField(fieldName, new URI("http://www.osiam.org"));
-                } catch (URISyntaxException e) {
-                    throw new IllegalStateException(e);
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("Type " + tempEntry.getValue() + " does not exist");
-            }
-        }
+			switch (tempEntry.getValue()) {
+			case "STRING":
+				builder.setField(fieldName, "null");
+				break;
+			case "INTEGER":
+				builder.setField(fieldName, BigInteger.ZERO);
+				break;
+			case "DECIMAL":
+				builder.setField(fieldName, BigDecimal.ZERO);
+				break;
+			case "BOOLEAN":
+				builder.setField(fieldName, false);
+				break;
+			case "DATE_TIME":
+				builder.setField(fieldName, new Date(0L));
+				break;
+			case "BINARY":
+				builder.setField(fieldName, ByteBuffer.wrap(new byte[] {}));
+				break;
+			case "REFERENCE":
+				try {
+					builder.setField(fieldName, new URI("http://www.osiam.org"));
+				} catch (URISyntaxException e) {
+					throw new IllegalStateException(e);
+				}
+				break;
+			default:
+				throw new IllegalArgumentException("Type " + tempEntry.getValue() + " does not exist");
+			}
+		}
 
-        List<Extension> result = new ArrayList<Extension>();
+		List<Extension> result = new ArrayList<Extension>();
 
-        for(Builder builder : extensionBuilder.values()){
-            result.add(builder.build());
-        }
+		for(Builder builder : extensionBuilder.values()){
+			result.add(builder.build());
+		}
 
-        return result;
-    }
+		return result;
+	}
 
 }

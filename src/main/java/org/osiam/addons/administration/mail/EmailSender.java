@@ -46,86 +46,86 @@ import com.google.common.base.Optional;
 
 /**
  * Send email service for sending an email
- * 
+ *
  */
 @Component
 public class EmailSender {
 
-    @Inject
-    private JavaMailSender mailSender;
+	@Inject
+	private JavaMailSender mailSender;
 
-    @Inject
-    private EmailTemplateRenderer renderer;
+	@Inject
+	private EmailTemplateRenderer renderer;
 
-    @Value("${org.osiam.mail.from}")
-    private String fromAddress;
+	@Value("${org.osiam.mail.from}")
+	private String fromAddress;
 
-    public void sendDeactivateMail(User user) {
-        sendDeactivateMail(user, new Locale(user.getLocale()));
-    }
+	public void sendDeactivateMail(User user) {
+		sendDeactivateMail(user, new Locale(user.getLocale()));
+	}
 
-    public void sendDeactivateMail(User user, Locale locale) {
-        Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("user", user);
+	public void sendDeactivateMail(User user, Locale locale) {
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("user", user);
 
-        String mailConent = renderer.renderEmailBody("deactivate", locale, variables);
-        String mailSubject = renderer.renderEmailSubject("deactivate", locale, variables);
-        Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
-        if (!email.isPresent()) {
-            throw new SendEmailException("The user has no email!", "user.no.email");
-        }
+		String mailConent = renderer.renderEmailBody("deactivate", locale, variables);
+		String mailSubject = renderer.renderEmailSubject("deactivate", locale, variables);
+		Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
+		if (!email.isPresent()) {
+			throw new SendEmailException("The user has no email!", "user.no.email");
+		}
 
-        sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailConent);
-    }
+		sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailConent);
+	}
 
-    public void sendActivateMail(User user) {
-        sendActivateMail(user, new Locale(user.getLocale()));
-    }
+	public void sendActivateMail(User user) {
+		sendActivateMail(user, new Locale(user.getLocale()));
+	}
 
-    public void sendActivateMail(User user, Locale locale) {
-        Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("user", user);
+	public void sendActivateMail(User user, Locale locale) {
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("user", user);
 
-        String mailConent = renderer.renderEmailBody("activate", locale, variables);
-        String mailSubject = renderer.renderEmailSubject("activate", locale, variables);
-        Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
-        if (!email.isPresent()) {
-            throw new SendEmailException("The user has no email!", "user.no.email");
-        }
+		String mailConent = renderer.renderEmailBody("activate", locale, variables);
+		String mailSubject = renderer.renderEmailSubject("activate", locale, variables);
+		Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
+		if (!email.isPresent()) {
+			throw new SendEmailException("The user has no email!", "user.no.email");
+		}
 
-        sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailConent);
-    }
+		sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailConent);
+	}
 
-    public void sendPlainTextMail(String fromAddress, String toAddress, String subject, String content) {
-        mailSender.send(getMessage(fromAddress, toAddress, subject, content));
-    }
+	public void sendPlainTextMail(String fromAddress, String toAddress, String subject, String content) {
+		mailSender.send(getMessage(fromAddress, toAddress, subject, content));
+	}
 
-    public void sendHTMLMail(String fromAddress, String toAddress, String subject, String htmlContent) {
-        mailSender.send(getMimeMessage(fromAddress, toAddress, subject, htmlContent));
-    }
+	public void sendHTMLMail(String fromAddress, String toAddress, String subject, String htmlContent) {
+		mailSender.send(getMimeMessage(fromAddress, toAddress, subject, htmlContent));
+	}
 
-    private SimpleMailMessage getMessage(String fromAddress, String toAddress, String subject, String mailContent) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromAddress);
-        message.setTo(toAddress);
-        message.setSubject(subject);
-        message.setText(mailContent);
-        message.setSentDate(new Date());
-        return message;
-    }
+	private SimpleMailMessage getMessage(String fromAddress, String toAddress, String subject, String mailContent) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom(fromAddress);
+		message.setTo(toAddress);
+		message.setSubject(subject);
+		message.setText(mailContent);
+		message.setSentDate(new Date());
+		return message;
+	}
 
-    private MimeMessage getMimeMessage(String fromAddress, String toAddress, String subject, String mailContent) {
-        final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
-        final MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-        try {
-            message.setFrom(fromAddress);
-            message.setTo(toAddress);
-            message.setSubject(subject);
-            message.setText(mailContent, true);
-            message.setSentDate(new Date());
-        } catch (MessagingException e) {
-            throw new SendEmailException("Could not create metadata for email", e);
-        }
-        return mimeMessage;
-    }
+	private MimeMessage getMimeMessage(String fromAddress, String toAddress, String subject, String mailContent) {
+		final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+		final MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+		try {
+			message.setFrom(fromAddress);
+			message.setTo(toAddress);
+			message.setSubject(subject);
+			message.setText(mailContent, true);
+			message.setSentDate(new Date());
+		} catch (MessagingException e) {
+			throw new SendEmailException("Could not create metadata for email", e);
+		}
+		return mimeMessage;
+	}
 }
