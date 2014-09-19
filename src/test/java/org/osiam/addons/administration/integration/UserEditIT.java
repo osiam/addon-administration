@@ -20,54 +20,49 @@ public class UserEditIT extends Integrationtest {
         super.setup();
 
         browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
+        edit_Test_User();
     }
 
     private static String TEST_USER_NAME = "adavies";
 
     @Test
     public void save_changes_dialog_should_return_to_user_list() {
-        edit_Test_User();
-
         // closing the dialog should return to the edit view
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
-        browser.findElement(UserEdit.DIALOG_CLOSE).click();
+        browser.findElement(EditList.DIALOG_CLOSE).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
         // aborting the dialog should return to the edit view
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
-        browser.findElement(UserEdit.DIALOG_ABORT).click();
+        browser.findElement(EditList.DIALOG_ABORT).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
         // submitting the dialog should return to the user list
         browser.findElement(UserEdit.SUBMIT_BUTTON).click();
-        browser.findElement(UserEdit.DIALOG_SUCCESS).click();
+        browser.findElement(EditList.DIALOG_SUCCESS).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/list"));
     }
 
     @Test
     public void cancel_edit_dialog_should_return_to_user_list() {
-        edit_Test_User();
-
         // aborting the dialog should return to the edit view
         browser.findElement(UserEdit.CANCEL_BUTTON).click();
-        browser.findElement(UserEdit.DIALOG_ABORT).click();
+        browser.findElement(EditList.DIALOG_ABORT).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/edit?id="));
 
         // canceling the dialog should return to the user list view5
         browser.findElement(UserEdit.CANCEL_BUTTON).click();
-        browser.findElement(UserEdit.DIALOG_SUCCESS).click();
+        browser.findElement(EditList.DIALOG_SUCCESS).click();
 
         assertTrue(browser.getCurrentUrl().contains("/user/list"));
     }
 
  	@Test
     public void testExtensionName() {
- 	   edit_Test_User();
-
         assertTrue(browser.isTextPresent("Authentication"));
         assertTrue(browser.isTextPresent("Vehicle"));
         assertFalse(browser.isTextPresent("origin"));
@@ -76,8 +71,6 @@ public class UserEditIT extends Integrationtest {
 
     @Test
     public void edit_user_view_displays_previously_saved_changes() {
-        edit_Test_User();
-
         final boolean newActive = true;
 
         final String newLastName = "Test456";
@@ -245,15 +238,13 @@ public class UserEditIT extends Integrationtest {
         browser.fill(new Field(UserEdit.ADDRESS_POSTALCODE, falseAddressPostalcode));
 
         browser.click(UserEdit.SUBMIT_BUTTON);
-        browser.click(UserEdit.DIALOG_SUCCESS);
+        browser.click(EditList.DIALOG_SUCCESS);
 
         assertTrue(browser.isTextPresent("keine gültige E-Mail-Adresse"));
     }
 
     @Test
     public void remove_And_Add_All_Multi_Value_Attributes() {
-        edit_Test_User();
-
         test_Remove_And_Add_Multi_Value_Attribute("email", 1);
         test_Remove_And_Add_Multi_Value_Attribute("phoneNumber", 1);
         test_Remove_And_Add_Multi_Value_Attribute("im", 0);
@@ -305,8 +296,6 @@ public class UserEditIT extends Integrationtest {
         final String trimDisplayName = "Trimmer";
         final String trimHonorificPrefix ="Dr.";
         final String trimHonorificSuffix = "Dr.";
-
-        edit_Test_User();
 
         browser.fill(new Field(EditList.DISPLAYNAME, spaceDisplayName));
         browser.fill(new Field(UserEdit.HONORIFICPREFIX, spaceHonorificPrefix));

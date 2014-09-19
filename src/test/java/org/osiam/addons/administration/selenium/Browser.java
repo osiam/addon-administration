@@ -180,6 +180,8 @@ public class Browser implements WebDriver {
 
             if ("select".equalsIgnoreCase(webElement.getTagName())) {
                 selectOption(webElement, f.getValue());
+            } else if("checkbox".equalsIgnoreCase(webElement.getAttribute("type"))) {
+                selectCheckbox(webElement, f.getValue());
             } else {
                 webElement.clear();
                 webElement.sendKeys(String.valueOf(f.getValue()));
@@ -187,6 +189,18 @@ public class Browser implements WebDriver {
         }
 
         return this;
+    }
+
+    private void selectCheckbox(WebElement webElement, Object value) {
+        if("true".equalsIgnoreCase(String.valueOf(value))){
+            if(!webElement.isSelected()){
+                webElement.click();
+            }
+        }else{
+            if(webElement.isSelected()){
+                webElement.click();
+            }
+        }
     }
 
     private void selectOption(WebElement selectElement, Object value) {
