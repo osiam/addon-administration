@@ -8,4 +8,11 @@ $(function() {
 			}
 		});
 	});
+
+	$('input[type=datetime]').datetimepicker({
+		format: "yyyy-mm-ddThh:ii:ss.000Z",
+		autoclose: true,
+		todayBtn: true,
+		pickerPosition: "bottom-left"
+	});
 });
