@@ -254,7 +254,7 @@ public class UserEditIT extends Integrationtest {
 		test_Remove_And_Add_Multi_Value_Attribute("im", "im-block-", 0);
 		test_Remove_And_Add_Multi_Value_Attribute("certificate", "certificates-block-", 0);
 		test_Remove_And_Add_Multi_Value_Attribute("entitlement", "entitlement-block-", 0);
-		test_Remove_And_Add_Multi_Value_Attribute("address", "address-block-", 1);
+		test_Remove_And_Add_Multi_Value_Attribute("address", "address-block-", 0);
 	}
 
 	private void test_Remove_And_Add_Multi_Value_Attribute(String multivalueName, String containerId, int existingFields) {
@@ -264,8 +264,8 @@ public class UserEditIT extends Integrationtest {
 		add_Multi_Value_Attribute(multivalueName);
 		assertEquals(existingFields + 2, count_Child_Elements(containerId));
 
-		drop_Multi_Value_Attribute(containerId, existingFields + 2);
 		drop_Multi_Value_Attribute(containerId, existingFields + 1);
+		drop_Multi_Value_Attribute(containerId, existingFields);
 		assertEquals(existingFields + 0, count_Child_Elements(containerId));
 	}
 
