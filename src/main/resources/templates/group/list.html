@@ -61,7 +61,7 @@
 
 		<tbody>
 			<!-- Start: Filter-Row -->
-			<tr th:object="${sessionData.filterFields}">
+			<tr th:object="${sessionData.pagingInformation.filterFields}">
 				<form id="filter-form" action="" method="POST">
 					<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
 					<th:block th:replace="makros :: csrf" />
@@ -120,12 +120,12 @@
 	<form name="form-limit" action="" class="resultsPerPage">
 		<input type="hidden" name="action" value="limit" />
 		<select id="paging-limit" name="limit" class="" onchange="document['form-limit'].submit();">
-			<option th:selected="${sessionData.limit} == 5" >5</option>
-			<option th:selected="${sessionData.limit} == 10">10</option>
-			<option th:selected="${sessionData.limit} == 20">20</option>
-			<option th:selected="${sessionData.limit} == 50">50</option>
-			<option th:selected="${sessionData.limit} == 100">100</option>
-			<option th:selected="${sessionData.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
+			<option th:selected="${sessionData.pagingInformation.limit} == 5" >5</option>
+			<option th:selected="${sessionData.pagingInformation.limit} == 10">10</option>
+			<option th:selected="${sessionData.pagingInformation.limit} == 20">20</option>
+			<option th:selected="${sessionData.pagingInformation.limit} == 50">50</option>
+			<option th:selected="${sessionData.pagingInformation.limit} == 100">100</option>
+			<option th:selected="${sessionData.pagingInformation.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
 		</select>
 	</form>
 </div>

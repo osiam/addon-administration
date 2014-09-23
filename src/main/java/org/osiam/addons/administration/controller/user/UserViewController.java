@@ -80,11 +80,11 @@ public class UserViewController {
 		modelAndView.addObject(MODEL_SESSION_DATA, session);
 		modelAndView.addObject(MODEL_PAGING_LINKS, pagingLinks);
 
-		session.setQuery(query);
-		session.setLimit(limit);
-		session.setOffset(offset);
-		session.setOrderBy(orderBy);
-		session.setAscending(ascending);
+		session.getPagingInformation().setQuery(query);
+		session.getPagingInformation().setLimit(limit);
+		session.getPagingInformation().setOffset(offset);
+		session.getPagingInformation().setOrderBy(orderBy);
+		session.getPagingInformation().setAscending(ascending);
 
 		return modelAndView;
 	}
@@ -119,15 +119,15 @@ public class UserViewController {
 		Map<String, String> filterParameter = extractFilterParameter(allParameters);
 		String filterQuery = buildFilterQuery(filterParameter);
 
-		session.setFilterFields(filterParameter);
+		session.getPagingInformation().setFilterFields(filterParameter);
 
 		return new RedirectBuilder()
 				.setPath(CONTROLLER_PATH)
 				.addParameter(REQUEST_PARAMETER_QUERY, filterQuery)
-				.addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
+				.addParameter(REQUEST_PARAMETER_LIMIT, session.getPagingInformation().getLimit())
 				.addParameter(REQUEST_PARAMETER_OFFSET, null)
-				.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
-				.addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+				.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getPagingInformation().getOrderBy())
+				.addParameter(REQUEST_PARAMETER_ASCENDING, session.getPagingInformation().getAscending())
 				.build();
 	}
 
@@ -174,9 +174,9 @@ public class UserViewController {
 
 		return new RedirectBuilder()
 				.setPath(CONTROLLER_PATH)
-				.addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
-				.addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
-				.addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
+				.addParameter(REQUEST_PARAMETER_QUERY, session.getPagingInformation().getQuery())
+				.addParameter(REQUEST_PARAMETER_LIMIT, session.getPagingInformation().getLimit())
+				.addParameter(REQUEST_PARAMETER_OFFSET, session.getPagingInformation().getOffset())
 				.addParameter(REQUEST_PARAMETER_ORDER_BY, orderBy)
 				.addParameter(REQUEST_PARAMETER_ASCENDING, ascending)
 				.build();
@@ -187,11 +187,11 @@ public class UserViewController {
 
 		return new RedirectBuilder()
 				.setPath(CONTROLLER_PATH)
-				.addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
+				.addParameter(REQUEST_PARAMETER_QUERY, session.getPagingInformation().getQuery())
 				.addParameter(REQUEST_PARAMETER_LIMIT, limit)
 				.addParameter(REQUEST_PARAMETER_OFFSET, null)
-				.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
-				.addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+				.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getPagingInformation().getOrderBy())
+				.addParameter(REQUEST_PARAMETER_ASCENDING, session.getPagingInformation().getAscending())
 				.build();
 	}
 
@@ -215,11 +215,11 @@ public class UserViewController {
 
 		return new RedirectBuilder()
 			.setPath(CONTROLLER_PATH)
-			.addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
-			.addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
-			.addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
-			.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
-			.addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+			.addParameter(REQUEST_PARAMETER_QUERY, session.getPagingInformation().getQuery())
+			.addParameter(REQUEST_PARAMETER_LIMIT, session.getPagingInformation().getLimit())
+			.addParameter(REQUEST_PARAMETER_OFFSET, session.getPagingInformation().getOffset())
+			.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getPagingInformation().getOrderBy())
+			.addParameter(REQUEST_PARAMETER_ASCENDING, session.getPagingInformation().getAscending())
 			.build();
 	}
 
@@ -243,11 +243,11 @@ public class UserViewController {
 
 		return new RedirectBuilder()
 			.setPath(CONTROLLER_PATH)
-			.addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
-			.addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
-			.addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
-			.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
-			.addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+			.addParameter(REQUEST_PARAMETER_QUERY, session.getPagingInformation().getQuery())
+			.addParameter(REQUEST_PARAMETER_LIMIT, session.getPagingInformation().getLimit())
+			.addParameter(REQUEST_PARAMETER_OFFSET, session.getPagingInformation().getOffset())
+			.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getPagingInformation().getOrderBy())
+			.addParameter(REQUEST_PARAMETER_ASCENDING, session.getPagingInformation().getAscending())
 			.build();
 	}
 
@@ -261,11 +261,11 @@ public class UserViewController {
 		return new RedirectBuilder()
 			.setPath(CONTROLLER_PATH)
 			.addParameter("deleteSuccess", true)
-			.addParameter(REQUEST_PARAMETER_QUERY, session.getQuery())
-			.addParameter(REQUEST_PARAMETER_LIMIT, session.getLimit())
-			.addParameter(REQUEST_PARAMETER_OFFSET, session.getOffset())
-			.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getOrderBy())
-			.addParameter(REQUEST_PARAMETER_ASCENDING, session.getAscending())
+			.addParameter(REQUEST_PARAMETER_QUERY, session.getPagingInformation().getQuery())
+			.addParameter(REQUEST_PARAMETER_LIMIT, session.getPagingInformation().getLimit())
+			.addParameter(REQUEST_PARAMETER_OFFSET, session.getPagingInformation().getOffset())
+			.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getPagingInformation().getOrderBy())
+			.addParameter(REQUEST_PARAMETER_ASCENDING, session.getPagingInformation().getAscending())
 			.build();
 	}
 }
