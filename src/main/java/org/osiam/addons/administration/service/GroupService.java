@@ -134,6 +134,30 @@ public class GroupService {
 		return connector.createGroup(group, getAccesstoken());
 	}
 
+	/**
+	 * Return all the other groups where the user is not assigned to.
+	 *
+	 * @param userId The user id.
+	 * @return A SCIMSearchResult containing a list of all found groups.
+	 */
+	public SCIMSearchResult<Group> getOtherGroups(String userId) {
+		final String query = "not(members eq \"" + userId + "\")";
+
+		return searchGroup(query, 0, 0L, "externalId", true);
+	}
+
+	/**
+	 * Return all the groups where the user is assigned to.
+	 *
+	 * @param userId The user id.
+	 * @return A SCIMSearchResult containing a list of all found groups.
+	 */
+	public SCIMSearchResult<Group> getUserGroups(String userId) {
+		final String query = "members eq \"" + userId + "\"";
+
+		return searchGroup(query, 0, 0L, "externalId", true);
+	}
+
 	private AccessToken getAccesstoken() {
 		return sessionData.getAccesstoken();
 	}

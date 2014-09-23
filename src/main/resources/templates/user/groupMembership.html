@@ -19,6 +19,103 @@
 	</div>
 
 	<div class="row">
+		<div class="col-md-6 form-group">
+			<h4 style="margin-bottom:5px" th:text="#{edit_group_membership.group.user}">My groups</h4>
+			<table class="table table-hover table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th>
+							<input id="group-checkbox" type="checkbox" class="checkbox" />
+						</th>
+						<th>
+							<span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
+							<span class="sortingArrows">
+								<a id="order-by-my-displayname-asc" th:href="@{'' (action='sortMy', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+								<a id="order-by-my-displayname-desc" th:href="@{'' (action='sortMy', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+							</span>
+						</th>
+						<th></th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<form id="filter-form" action="" method="POST">
+							<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+							<th:block th:replace="makros :: csrf" />
+
+							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
+							<td><input type="hidden" name="action" value="filter"/></td>
+							<td><input id="filter-display-name" name="query.displayName" type="text" /></td>
+							<td>
+								<button id="filter-button" class="btn btn-default btn-sm" type="submit">
+									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+								</button>
+							</td>
+						</form>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr th:each="group : ${userGroups.resources}">
+						<td>
+							<input type="checkbox" />
+						</td>
+						<td th:text="${group.displayName}">Group #1</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-6 form-group">
+			<h4 style="margin-bottom:5px" th:text="#{edit_group_membership.group.other}">Other groups</h4>
+			<table class="table table-hover table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th>
+							<input id="group-checkbox" type="checkbox" class="checkbox" />
+						</th>
+						<th>
+							<span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
+							<span class="sortingArrows">
+								<a id="order-by-other-displayname-asc" th:href="@{'' (action='sortOther', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+								<a id="order-by-other-displayname-desc" th:href="@{'' (action='sortOther', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+							</span>
+						</th>
+						<th></th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<form id="filter-form" action="" method="POST">
+							<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+							<th:block th:replace="makros :: csrf" />
+
+							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
+							<td><input type="hidden" name="action" value="filter"/></td>
+							<td><input id="filter-display-name" name="query.displayName" type="text" /></td>
+							<td>
+								<button id="filter-button" class="btn btn-default btn-sm" type="submit">
+									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+								</button>
+							</td>
+						</form>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr th:each="group : ${otherGroups.resources}">
+						<td>
+							<input type="checkbox" />
+						</td>
+						<td th:text="${group.displayName}">Group #1</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="row">
 		<div class="col-md-12 text-right">
 			<a th:href="@{list}">
 				<button class="btn btn-md btn-primary" type="button" id="btnCancelChanges" th:text="#{edit_user.cancel}">Back</button>
