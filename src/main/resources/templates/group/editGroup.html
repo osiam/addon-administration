@@ -55,40 +55,6 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-4 form-group">
-					<h4 style="margin-bottom:5px">Gruppenmitglieder</h4>
-					<select id="member" multiple="multiple" name="memberIds">
-						<option th:each="memberId : *{memberIds}"
-								th:value="${memberId}"
-								th:text="${userList.get(memberId).userName}">
-							Member
-						</option>
-					</select>
-				</div>
-
-				<div class="col-md-4 form-group">
-					<h4 style="margin-bottom:5px">Externe Benutzer</h4>
-					<select id="outsider" multiple="multiple">
-						<option th:each="userEntry : ${userList}"
-								th:unless="${model.memberIds.contains(userEntry.key)}"
-								th:with="user = ${userEntry.value}"
-								th:text="${user.userName}"
-								th:value="${user.id}">
-							Outsider
-						</option>
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4 form-group text-right">
-					<button id="remove-from-member" class="only-on-js" type="button" th:text="#{edit_group.member.remove}">Remove</button>
-				</div>
-				<div class="col-md-4 form-group">
-					<button id="move-to-member" class="only-on-js" type="button" th:text="#{edit_group.member.add}">Add</button>
-				</div>
-			</div>
-
-			<div class="row">
 				<div class="col-md-12 text-right">
 					<button class="btn btn-md btn-primary" type="submit" id="btnSaveChanges" th:text="#{edit_group.update}">Save</button>
 					<a th:href="@{list}">

@@ -60,7 +60,7 @@ public class GroupService {
 	}
 
 	/**
-	 * Returns the groupt with the given ID.
+	 * Returns the group with the given ID.
 	 *
 	 * @param id the group Id
 	 * @return the requested group
@@ -82,6 +82,38 @@ public class GroupService {
 		return connector.updateGroup(id, updateGroup, getAccesstoken());
 	}
 
+	/**
+	 * Add an user based on the given {@link userId}
+	 * to a group based on the given {@link groupId}.
+	 *
+	 * @param groupId
+	 *        the group ID
+	 * @param userId
+	 *        the member ID
+	 */
+	public void addUserToGroup(String groupId, String userId) {
+		UpdateGroup updateGroup = new UpdateGroup.Builder()
+										.addMember(userId)
+										.build();
+		this.updateGroup(groupId, updateGroup);
+	}
+
+	/**
+	 * Remove an user based on the given {@link userId}
+	 * from a group based on the given {@link groupId}.
+	 *
+	 * @param groupId
+	 *        the group ID
+	 * @param userId
+	 *        the member ID
+	 */
+	public void removeUserFromGroup(String groupId, String userId) {
+		UpdateGroup updateGroup = new UpdateGroup.Builder()
+										.deleteMember(userId)
+										.build();
+		this.updateGroup(groupId, updateGroup);
+	}
+
 	public Group createGroup(Group group) {
 		return connector.createGroup(group, getAccesstoken());
 	}
@@ -89,5 +121,4 @@ public class GroupService {
 	private AccessToken getAccesstoken() {
 		return sessionData.getAccesstoken();
 	}
-
 }

@@ -35,6 +35,15 @@ table {
 	border-spacing: 0;
 }
 
+table#insider input[type="text"] {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+table#outsider input[type="text"] {
+    box-sizing: border-box;
+    width: 100%;
+}
 
 .actionNav {
 	position: relative;
