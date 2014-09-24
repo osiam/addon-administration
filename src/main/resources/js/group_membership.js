@@ -1,6 +1,4 @@
 $(function(){
-	$('.only-on-js').show();
-
 	var memberElement = $('#member');
 	var outsiderElement = $('#outsider');
 
