@@ -3,11 +3,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title th:text="#{edit_group_membership.title}">Edit group membership</title>
-	<script type="text/javascript" src="../../js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}" ></script>
-	<script type="text/javascript" src="../../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" ></script>
 
-	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
-	<link rel="stylesheet" type="text/css" href="../../css/Style.css" th:href="@{/css/Style.css}"/>
+	<th:block th:include="head :: includes"></th:block>
 </head>
 <body>
 
@@ -21,105 +18,113 @@
 	<div class="row">
 		<div class="col-md-6 form-group">
 			<h4 style="margin-bottom:5px" th:text="#{edit_group_membership.group.user}">My groups</h4>
-			<table class="table table-hover table-striped table-bordered table-condensed">
-				<thead>
-					<tr>
-						<th>
-							<input id="group-checkbox" type="checkbox" class="checkbox" />
-						</th>
-						<th>
-							<span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
-							<span class="sortingArrows">
-								<a id="order-by-my-displayname-asc" th:href="@{'' (action='sortMy', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-								<a id="order-by-my-displayname-desc" th:href="@{'' (action='sortMy', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
-							</span>
-						</th>
-						<th></th>
-					</tr>
-				</thead>
+			<form id="filter-form" action="" method="POST">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="panel" value="remove" />
 
-				<tbody>
-					<tr>
-						<form id="filter-form" action="" method="POST">
-							<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-							<th:block th:replace="makros :: csrf" />
+				<table class="table table-hover table-striped table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>
+								<input id="group-checkbox" type="checkbox" class="checkbox master-checkbox only-on-js" />
+							</th>
+							<th>
+								<span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
+								<span class="sortingArrows">
+									<a id="order-by-my-displayname-asc" th:href="@{'' (action='sortMy', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-my-displayname-desc" th:href="@{'' (action='sortMy', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span>
+							</th>
+							<th></th>
+						</tr>
+					</thead>
 
+					<tbody>
+						<tr>
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 							<td><input type="hidden" name="action" value="filter"/></td>
 							<td><input id="filter-display-name" name="query.displayName" type="text" /></td>
 							<td>
-								<button id="filter-button" class="btn btn-default btn-sm" type="submit">
+								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
 								</button>
 							</td>
-						</form>
-					</tr>
-				</tbody>
-				<tbody>
-					<tr th:each="group : ${userGroups.resources}">
-						<td>
-							<input type="checkbox" />
-						</td>
-						<td th:text="${group.displayName}">Group #1</td>
-						<td>
-							<a th:href="@{'' (id=${param.id}, action=remove, groupId=${group.id})}" class="btn btn-danger btn-sm">
-								<span class="glyphicon glyphicon-minus"></span>
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+						</tr>
+						<tr th:each="group : ${userGroups.resources}">
+							<td>
+								<input type="checkbox" name="groupId" th:value="${group.id}" />
+							</td>
+							<td th:text="${group.displayName}">Group #1</td>
+							<td>
+								<a th:href="@{'' (id=${param.id}, panel=remove, groupId=${group.id})}" class="btn btn-danger btn-sm">
+									<span class="glyphicon glyphicon-minus"></span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5">
+								<input type="submit" class="btn btn-md btn-primary" th:value="#{edit_group_membership.button.remove}" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 		</div>
 		<div class="col-md-6 form-group">
 			<h4 style="margin-bottom:5px" th:text="#{edit_group_membership.group.other}">Other groups</h4>
-			<table class="table table-hover table-striped table-bordered table-condensed">
-				<thead>
-					<tr>
-						<th>
-							<input id="group-checkbox" type="checkbox" class="checkbox" />
-						</th>
-						<th>
-							<span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
-							<span class="sortingArrows">
-								<a id="order-by-other-displayname-asc" th:href="@{'' (action='sortOther', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-								<a id="order-by-other-displayname-desc" th:href="@{'' (action='sortOther', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
-							</span>
-						</th>
-						<th></th>
-					</tr>
-				</thead>
+			<form id="filter-form" action="" method="POST">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="panel" value="add" />
 
-				<tbody>
-					<tr>
-						<form id="filter-form" action="" method="POST">
-							<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-							<th:block th:replace="makros :: csrf" />
+				<table class="table table-hover table-striped table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>
+								<input id="group-checkbox" type="checkbox" class="checkbox master-checkbox only-on-js" />
+							</th>
+							<th>
+								<span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
+								<span class="sortingArrows">
+									<a id="order-by-other-displayname-asc" th:href="@{'' (action='sortOther', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-other-displayname-desc" th:href="@{'' (action='sortOther', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span>
+							</th>
+							<th></th>
+						</tr>
+					</thead>
 
+					<tbody>
+						<tr>
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 							<td><input type="hidden" name="action" value="filter"/></td>
 							<td><input id="filter-display-name" name="query.displayName" type="text" /></td>
 							<td>
-								<button id="filter-button" class="btn btn-default btn-sm" type="submit">
+								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
 								</button>
 							</td>
-						</form>
-					</tr>
-				</tbody>
-				<tbody>
-					<tr th:each="group : ${otherGroups.resources}">
-						<td>
-							<input type="checkbox" />
-						</td>
-						<td th:text="${group.displayName}">Group #1</td>
-						<td>
-							<a th:href="@{'' (id=${param.id}, action=add, groupId=${group.id})}" class="btn btn-success btn-sm">
-								<span class="glyphicon glyphicon-plus"></span>
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+						</tr>
+						<tr th:each="group : ${otherGroups.resources}">
+							<td>
+								<input type="checkbox" name="groupId" th:value="${group.id}" />
+							</td>
+							<td th:text="${group.displayName}">Group #1</td>
+							<td>
+								<a th:href="@{'' (id=${param.id}, panel=add, groupId=${group.id})}" class="btn btn-success btn-sm">
+									<span class="glyphicon glyphicon-plus"></span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5">
+								<input type="submit" class="btn btn-md btn-primary" th:value="#{edit_group_membership.button.add}" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 		</div>
 	</div>
 

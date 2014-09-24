@@ -25,7 +25,7 @@ public class EditGroupMembershipController extends GenericController {
 
 	public static final String REQUEST_PARAMETER_USER_ID = "id";
 	public static final String REQUEST_PARAMETER_GROUP_ID = "groupId";
-	public static final String REQUEST_PARAMETER_ACTION = "action";
+	public static final String REQUEST_PARAMETER_PANEL = "panel";
 
 	public static final String MODEL_USER_GROUPS = "userGroups";
 	public static final String MODEL_OTHER_GROUPS = "otherGroups";
@@ -48,10 +48,10 @@ public class EditGroupMembershipController extends GenericController {
 		return modelAndView;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ACTION + "=add")
+	@RequestMapping(params = REQUEST_PARAMETER_PANEL + "=add")
 	public String handleAddGroup(
 			@RequestParam(value = REQUEST_PARAMETER_USER_ID) final String userId,
-			@RequestParam(value = REQUEST_PARAMETER_GROUP_ID) final String[] groupIds){
+			@RequestParam(value = REQUEST_PARAMETER_GROUP_ID, required = false) final String[] groupIds){
 
 		groupService.addUserToGroups(userId, groupIds);
 
@@ -61,10 +61,10 @@ public class EditGroupMembershipController extends GenericController {
 				.build();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ACTION + "=remove")
+	@RequestMapping(params = REQUEST_PARAMETER_PANEL + "=remove")
 	public String handleRemoveGroup(
 			@RequestParam(value = REQUEST_PARAMETER_USER_ID) final String userId,
-			@RequestParam(value = REQUEST_PARAMETER_GROUP_ID) final String[] groupIds){
+			@RequestParam(value = REQUEST_PARAMETER_GROUP_ID, required = false) final String[] groupIds){
 
 		groupService.removeUserFromGroups(userId, groupIds);
 
