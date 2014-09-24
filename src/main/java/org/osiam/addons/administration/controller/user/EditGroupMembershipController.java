@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.service.GroupService;
+import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.scim.Group;
 import org.osiam.resources.scim.SCIMSearchResult;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,9 @@ public class EditGroupMembershipController extends GenericController {
 
 	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/group";
 
-	public static final String REQUEST_PARAMETER_ID = "id";
+	public static final String REQUEST_PARAMETER_USER_ID = "id";
+	public static final String REQUEST_PARAMETER_GROUP_ID = "groupId";
+	public static final String REQUEST_PARAMETER_ACTION = "action";
 
 	public static final String MODEL_USER_GROUPS = "userGroups";
 	public static final String MODEL_OTHER_GROUPS = "otherGroups";
@@ -32,7 +35,7 @@ public class EditGroupMembershipController extends GenericController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView handleEditGroupMembership(
-			@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
+			@RequestParam(value = REQUEST_PARAMETER_USER_ID) final String id) {
 
 		ModelAndView modelAndView = new ModelAndView("user/groupMembership");
 
@@ -43,5 +46,31 @@ public class EditGroupMembershipController extends GenericController {
 		modelAndView.addObject(MODEL_OTHER_GROUPS, otherGroups);
 
 		return modelAndView;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ACTION + "=add")
+	public String handleAddGroup(
+			@RequestParam(value = REQUEST_PARAMETER_USER_ID) final String userId,
+			@RequestParam(value = REQUEST_PARAMETER_GROUP_ID) final String[] groupIds){
+
+		groupService.addUserToGroups(userId, groupIds);
+
+		return new RedirectBuilder()
+					.setPath(CONTROLLER_PATH)
+					.addParameter(REQUEST_PARAMETER_USER_ID, userId)
+				.build();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ACTION + "=remove")
+	public String handleRemoveGroup(
+			@RequestParam(value = REQUEST_PARAMETER_USER_ID) final String userId,
+			@RequestParam(value = REQUEST_PARAMETER_GROUP_ID) final String[] groupIds){
+
+		groupService.removeUserFromGroups(userId, groupIds);
+
+		return new RedirectBuilder()
+					.setPath(CONTROLLER_PATH)
+					.addParameter(REQUEST_PARAMETER_USER_ID, userId)
+				.build();
 	}
 }

@@ -62,7 +62,7 @@
 						</td>
 						<td th:text="${group.displayName}">Group #1</td>
 						<td>
-							<a th:href="@{'' (id=*{id}, action=remove, groupId=${group.id})}" class="btn btn-danger btn-sm">
+							<a th:href="@{'' (id=${param.id}, action=remove, groupId=${group.id})}" class="btn btn-danger btn-sm">
 								<span class="glyphicon glyphicon-minus"></span>
 							</a>
 						</td>
@@ -113,7 +113,7 @@
 						</td>
 						<td th:text="${group.displayName}">Group #1</td>
 						<td>
-							<a th:href="@{'' (id=*{id}, action=add, groupId=${group.id})}" class="btn btn-success btn-sm">
+							<a th:href="@{'' (id=${param.id}, action=add, groupId=${group.id})}" class="btn btn-success btn-sm">
 								<span class="glyphicon glyphicon-plus"></span>
 							</a>
 						</td>

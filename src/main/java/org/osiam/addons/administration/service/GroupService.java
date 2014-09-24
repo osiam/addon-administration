@@ -158,6 +158,44 @@ public class GroupService {
 		return searchGroup(query, 0, 0L, "externalId", true);
 	}
 
+	/**
+	 * Add the given user to the given groups.
+	 *
+	 * @param userId The user id.
+	 * @param groupIds The group id(s)
+	 */
+	public void addUserToGroups(String userId, String...groupIds) {
+		if(groupIds == null || groupIds.length == 0){
+			return;
+		}
+
+		for(String groupId : groupIds){
+			UpdateGroup.Builder update = new UpdateGroup.Builder();
+			update.addMember(userId);
+
+			updateGroup(groupId, update.build());
+		}
+	}
+
+	/**
+	 * Remove the given user from the given groups.
+	 *
+	 * @param userId The user id.
+	 * @param groupIds The group id(s)
+	 */
+	public void removeUserFromGroups(String userId, String...groupIds) {
+		if(groupIds == null || groupIds.length == 0){
+			return;
+		}
+
+		for(String groupId : groupIds){
+			UpdateGroup.Builder update = new UpdateGroup.Builder();
+			update.deleteMember(userId);
+
+			updateGroup(groupId, update.build());
+		}
+	}
+
 	private AccessToken getAccesstoken() {
 		return sessionData.getAccesstoken();
 	}
