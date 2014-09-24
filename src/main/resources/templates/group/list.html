@@ -30,6 +30,14 @@
 		<input id="dialog-success" type="hidden" th:value="#{msg.group.dialog.success}" />
 		<input id="dialog-abort" type="hidden" th:value="#{msg.group.dialog.abort}" />
 	</div>
+
+	<div class="textRight marginBottom10">
+		<a th:href="@{create}" class="btn btn-info btn-sm">
+			<span th:text="#{msg.group.create}">Create Group</span>
+			<span class="glyphicon glyphicon glyphicon-plus"></span>
+		</a>
+	</div>
+
 	<div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.list.saveSuccess}">
 		Successful saved
 	</div>
@@ -49,12 +57,7 @@
 						<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
 					</span>
 				</th>
-				<th>
-					<a th:href="@{create}" class="btn btn-info btn-sm">
-						<span th:text="#{msg.group.create}">Create Group</span>
-						<span class="glyphicon glyphicon glyphicon-plus"></span>
-					</a>
-				</th>
+				<th></th>
 			</tr>
 		</thead>
 

@@ -1,6 +1,6 @@
 /* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
+v2.0 | 20110126
+License: none (public domain)
 */
 
 html, div, span, applet, object, iframe,
@@ -41,41 +41,41 @@ table {
 }
 
 .actionNav ul li {
-    list-style: none;
-    text-align:left;
+	list-style: none;
+	text-align:left;
 }
 
 li.action div.btn ul {
-    background-color: white;
-    border: 1px solid #ccc;
-    left: 77px;
-    padding: 3px;
-    position: absolute;
-    top: 0;
-    visibility: hidden;
+	background-color: white;
+	border: 1px solid #ccc;
+	left: 77px;
+	padding: 3px;
+	position: absolute;
+	top: 0;
+	visibility: hidden;
 }
 
 li.action div.btn:hover > ul {
-    visibility: visible;
-    z-index: 1000;
+	visibility: visible;
+	z-index: 1000;
 }
 
 
 /*nav ul li label {
-    padding: 8px 3px 4px 10px;
-    text-decoration: none;
-    color: #FFFFFF;
+	padding: 8px 3px 4px 10px;
+	text-decoration: none;
+	color: #FFFFFF;
 
-    -webkit-transition: background 0.3s ease-out 0s;
-    -moz-transition: background 0.3s ease-out 0s;
-    -o-transition: background 0.3s ease-out 0s;
-    transition: background 0.3s ease-out 0s;
+	-webkit-transition: background 0.3s ease-out 0s;
+	-moz-transition: background 0.3s ease-out 0s;
+	-o-transition: background 0.3s ease-out 0s;
+	transition: background 0.3s ease-out 0s;
 }
 
 
 nav ul li ul{
-    display: inline;
-    padding:0px;
+	display: inline;
+	padding:0px;
 }*/
 
 
@@ -95,46 +95,46 @@ nav ul li ul{
 	-webkit-box-shadow: 0px 3px 5px 0px rgba(180,180,180,1);
 	-moz-box-shadow: 0px 3px 5px 0px rgba(180,180,180,1);
 	box-shadow: 0px 3px 5px 0px rgba(180,180,180,1);
-    height: 50px;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 1000;
+	height: 50px;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 1000;
 }
 
 #header h1 {
-    display: inline;
-    font-size: 29px;
-    line-height: 50px;
-    margin: 0;
+	display: inline;
+	font-size: 29px;
+	line-height: 50px;
+	margin: 0;
 }
 
 #header #logo {
-    float: right;
-    height: 50px;
-    line-height: 45px;
+	float: right;
+	height: 50px;
+	line-height: 45px;
 }
 
 #header li {
-    border-right: 1px solid;
-    display: inline;
-    line-height: 30px;
-    margin-right: 5px;
-    padding: 0 8px 0 0;
+	border-right: 1px solid;
+	display: inline;
+	line-height: 30px;
+	margin-right: 5px;
+	padding: 0 8px 0 0;
 }
 
 .topbar {
-    background-color: rgba(217, 237, 247, 0.7);
-    height: 30px;
-    line-height: 30px;
+	background-color: rgba(217, 237, 247, 0.7);
+	height: 30px;
+	line-height: 30px;
 }
 
 #content .topbar {
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 #content .topbar .container a {
@@ -148,10 +148,10 @@ nav ul li ul{
 }
 
 #content {
-    background-color: #fff;
-    margin-top: -30px;
-    padding: 50px 20px 20px;
-    position: relative;
+	background-color: #fff;
+	margin-top: -30px;
+	padding: 50px 20px 20px;
+	position: relative;
 }
 
 .container.shadow {
@@ -167,23 +167,32 @@ box-shadow: 0px 0px 3px 0px rgba(180,180,180,1);
 
 /******* table sorter ***********/
 .sortingArrows {
-    display: inline-block;
-    height: 25px;
-    vertical-align: bottom;
-    width: 5px;
+	display: inline-block;
+	height: 25px;
+	vertical-align: bottom;
+	width: 5px;
 }
 
 .sortingArrows a {
-    display: block;
-    cursor: pointer;
-    height: 7px;
+	display: block;
+	cursor: pointer;
+	height: 7px;
 }
 
+table tr td:last-child,
+table tr th:last-child {
+	text-align: center;
+}
+
+table tr td:last-child nav {
+	margin: auto;
+	width: 86px;
+}
 
 /************ paging **************/
 
 .resultsPerPage {
-    display: inline;
+	display: inline;
 }
 
 /****************** misc *****************/
@@ -203,25 +212,33 @@ box-shadow: 0px 0px 3px 0px rgba(180,180,180,1);
 	padding-bottom:10px;
 }
 
+.textRight {
+	text-align: right;
+}
+
+.marginBottom10 {
+	margin-bottom: 10px;
+}
+
 #form-edit-group select {
-    width: 100%;
+	width: 100%;
 }
 
 .addedExtension {
-    border-bottom: 1px solid rgb(238, 238, 238);
+	border-bottom: 1px solid rgb(238, 238, 238);
 }
 
 .addedExtension h3 {
-    padding: 10px 0 20px 13px;
+	padding: 10px 0 20px 13px;
 }
 
 .addedExtension input[type="text"],
 .addedExtension input[type="datetype"],
 .addedExtension input[type="number"],
 .addedExtension select {
-    width: 100%;
+	width: 100%;
 }
 
 .addedExtension div[class*="col-"] div[class*="col-"] {
-    padding-left: 0;
+	padding-left: 0;
 }
