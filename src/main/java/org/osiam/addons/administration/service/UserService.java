@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.AccessToken;
+import org.osiam.client.query.Query;
 import org.osiam.client.query.QueryBuilder;
 import org.osiam.resources.scim.SCIMSearchResult;
 import org.osiam.resources.scim.UpdateUser;
@@ -140,5 +141,35 @@ public class UserService {
 	public void replaceUser(String id, User newUser) {
 		connector.replaceUser(id, newUser, sessionData.getAccesstoken());
 		connector.revokeAllAccessTokens(id, sessionData.getAccesstoken());
+	}
+
+	/**
+	 * Return all the other users which are a member of the given group.
+	 *
+	 * @param groupId
+	 *            The group id.
+	 * @param attributes
+	 *        List of attributes to return.
+	 * @return A SCIMSearchResult containing a list of all found users.
+	 */
+	public SCIMSearchResult<User> getAssignedUsers(String groupId, String attributes) {
+		final String query = "groups eq \"" + groupId + "\"";
+
+		return searchUser(query, 0, 0L, "", true, attributes);
+	}
+
+	/**
+	 * Return all the other users which are not a member of the given group.
+	 *
+	 * @param groupId
+	 *            The group id.
+	 * @param attributes
+	 *        List of attributes to return.
+	 * @return A SCIMSearchResult containing a list of all found users.
+	 */
+	public SCIMSearchResult<User> getUnassignedUsers(String groupId, String attributes) {
+		final String query = "not(groups eq \"" + groupId + "\")";
+
+		return searchUser(query, 0, 0L, "", true, attributes);
 	}
 }

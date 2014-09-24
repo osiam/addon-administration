@@ -83,37 +83,53 @@ public class GroupService {
 	}
 
 	/**
-	 * Add an user based on the given {@link userId}
-	 * to a group based on the given {@link groupId}.
+	 * Add the given users to the given groups.
 	 *
-	 * @param groupId
-	 *        the group ID
 	 * @param userId
-	 *        the member ID
+	 *            The user id.
+	 * @param groupIds
+	 *            The group id(s)
 	 */
-	public void addUserToGroup(String groupId, String userId) {
-		UpdateGroup updateGroup = new UpdateGroup.Builder()
-										.addMember(userId)
-										.build();
-		this.updateGroup(groupId, updateGroup);
+	public void addUsersToGroup(String groupId, String... userIds) {
+		if (userIds == null || userIds.length == 0) {
+			return;
+		}
+		UpdateGroup.Builder updateGroup = new UpdateGroup.Builder();
+
+		for (String userId : userIds) {
+			updateGroup.addMember(userId);
+		}
+		updateGroup(groupId, updateGroup.build());
 	}
 
 	/**
-	 * Remove an user based on the given {@link userId}
-	 * from a group based on the given {@link groupId}.
+	 * Remove the given users from the given groups.
 	 *
-	 * @param groupId
-	 *        the group ID
 	 * @param userId
-	 *        the member ID
+	 *            The user id.
+	 * @param groupIds
+	 *            The group id(s)
 	 */
-	public void removeUserFromGroup(String groupId, String userId) {
-		UpdateGroup updateGroup = new UpdateGroup.Builder()
-										.deleteMember(userId)
-										.build();
-		this.updateGroup(groupId, updateGroup);
+	public void removeUsersFromGroup(String groupId, String... userIds) {
+		if (userIds == null || userIds.length == 0) {
+			return;
+		}
+		UpdateGroup.Builder updateGroup = new UpdateGroup.Builder();
+
+		for (String userId : userIds) {
+			updateGroup.deleteMember(userId);
+		}
+		updateGroup(groupId, updateGroup.build());
 	}
 
+	/**
+	 * Create a group based on the given {@link UpdateGroup}.
+	 *
+	 * @param id
+	 *        the group ID
+	 * @param updateGroup
+	 *
+	 */
 	public Group createGroup(Group group) {
 		return connector.createGroup(group, getAccesstoken());
 	}

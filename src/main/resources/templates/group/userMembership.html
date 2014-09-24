@@ -21,141 +21,153 @@
 	<div class="row">
 		<div class="col-md-6 form-group">
 			<h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.group}">Group Members</h4>
-			<table class="table table-hover table-striped table-bordered table-condensed" id="insider" name="memberIds" th:object="${model}">
-				<thead>
-					<tr>
-						<th>
-							<input id="group-checkbox" type="checkbox" class="checkbox" />
-						</th>
-						<th>
-							<span th:text="#{edit_user_membership.user.login}">Login</span>
-							<!--span class="sortingArrows">
-								<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-								<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
-							</span-->
-						</th>
-						<th>
-							<span th:text="#{edit_user_membership.user.givenName}">Given Name</span>
-							<!--span class="sortingArrows">
-								<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-								<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
-							</span-->
-						</th>
-						<th>
-							<span th:text="#{edit_user_membership.user.lastName}">Last Name</span>
-							<!--span class="sortingArrows">
-								<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-								<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
-							</span-->
-						</th>
-					</tr>
-				</thead>
+			<form method="POST" action="">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="panel" value="remove" />
 
-				<tbody>
-					<tr>
-						<form id="filter-form" action="" method="POST">
-							<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-							<th:block th:replace="makros :: csrf" />
+				<table class="table table-hover table-striped table-bordered table-condensed" id="insider">
+					<thead>
+						<tr>
+							<th>
+								<input id="group-checkbox" type="checkbox" class="checkbox" />
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.login}">Login</span>
+								<!--span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span-->
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.givenName}">Given Name</span>
+								<!--span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span-->
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.lastName}">Last Name</span>
+								<!--span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span-->
+							</th>
+						</tr>
+					</thead>
 
+					<tbody>
+						<tr>
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
-							<td><input type="hidden" name="action" value="filter"/></td>
+							<td></td>
 							<td><input id="filter-login" name="query.userName" type="text" /></td>
 							<td><input id="filter-givenname" name="query.name.givenName" type="text" /></td>
 							<td><input id="filter-familyname" name="query.name.familyName" type="text" /></td>
 							<td>
-								<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default btn-sm" type="submit">Filter <span class="glyphicon glyphicon-filter"></span></button>
+								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
+									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+								</button>
 							</td>
-						</form>
-					</tr>
-					<tr th:each="memberId : *{memberIds}">
-						<td>
-							<input type="checkbox" class="checkbox" />
-						</td>
-						<td th:text="${userList.get(memberId).userName}">
-						</td>
-						<td th:text="${userList.get(memberId).name} != null ? ${userList.get(memberId).name.givenName} : '-'">
-						</td>
-						<td th:text="${userList.get(memberId).name} != null ? ${userList.get(memberId).name.familyName} : '-'">
-						</td>
-						<td>
-							<a th:href="@{'' (id=*{id}, remove=${memberId})}" class="btn btn-danger btn-sm">
-								<span class="glyphicon glyphicon-minus"></span>
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+						</tr>
+						<tr th:each="user : ${assignedUsers.resources}">
+							<td>
+								<input type="checkbox" name="userId" th:value="${user.id}" class="checkbox" />
+							</td>
+							<td th:text="${user.userName}">
+							</td>
+							<td th:text="${user.name} != null ? ${user.name.givenName} : '-'">
+							</td>
+							<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">
+							</td>
+							<td>
+								<a th:href="@{'' (id=${param.id}, panel=remove, userId=${user.id})}" class="btn btn-danger btn-sm">
+									<span class="glyphicon glyphicon-minus"></span>
+								</a>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="5">
+								<input type="submit" class="btn btn-md btn-primary" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 		</div>
+
+
 
 		<div class="col-md-6 form-group">
 			<h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.other}">External Group</h4>
-			<table class="table table-hover table-striped table-bordered table-condensed" id="outsider" name="memberIds" th:object="${model}">
-				<thead>
-					<tr>
-						<th>
-							<input id="group-checkbox" type="checkbox" class="checkbox" />
-						</th>
-						<th>
-							<span th:text="#{edit_user_membership.user.login}">Login</span>
-							<!--span class="sortingArrows">
-								<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-								<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
-							</span-->
-						</th>
-						<th>
-							<span th:text="#{edit_user_membership.user.givenName}">Vorname</span>
-							<!--span class="sortingArrows">
-								<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-								<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
-							</span-->
-						</th>
-						<th>
-							<span th:text="#{edit_user_membership.user.lastName}">Nachname</span>
-							<!--span class="sortingArrows">
-								<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-								<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
-							</span-->
-						</th>
-					</tr>
-				</thead>
+			<form method="POST" action="">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="panel" value="add" />
 
-				<tbody>
-					<tr>
-						<form id="filter-form" action="" method="POST">
-							<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-							<th:block th:replace="makros :: csrf" />
-
+				<table class="table table-hover table-striped table-bordered table-condensed" id="outsider" th:object="${model}">
+					<thead>
+						<tr>
+							<th>
+								<input id="group-checkbox" type="checkbox" class="checkbox" />
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.login}">Login</span>
+								<!--span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span-->
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.givenName}">Vorname</span>
+								<!--span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span-->
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.lastName}">Nachname</span>
+								<!--span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span-->
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
-							<td><input type="hidden" name="action" value="filter"/></td>
+							<td></td>
 							<td><input id="filter-login" name="query.userName" type="text" /></td>
 							<td><input id="filter-givenname" name="query.name.givenName" type="text" /></td>
 							<td><input id="filter-familyname" name="query.name.familyName" type="text" /></td>
 							<td>
-								<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default btn-sm" type="submit">Filter <span class="glyphicon glyphicon-filter"></span></button>
+								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
+									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+								</button>
 							</td>
-						</form>
-					</tr>
-					<tr  th:each="userEntry : ${userList}"
-							th:unless="${model.memberIds.contains(userEntry.key)}"
-							th:with="user = ${userEntry.value}"
-							th:value="${user.id}">
-						<td>
-							<input type="checkbox" class="checkbox" />
-						</td>
-						<td th:text="${user.userName}">
-						</td>
-						<td th:text="${user.name} != null ? ${user.name.givenName} : '-'">
-						</td>
-						<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">
-						</td>
-						<td>
-							<a th:href="@{'' (id=*{id}, action=add, userId=${user.id})}" class="btn btn-success btn-sm">
-								<span class="glyphicon glyphicon-plus"></span>
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+						</tr>
+						<tr  th:each="user : ${unassignedUsers.resources}">
+							<td>
+								<input type="checkbox" name="userId" th:value="${user.id}" class="checkbox" />
+							</td>
+							<td th:text="${user.userName}"></td>
+							<td th:text="${user.name} != null ? ${user.name.givenName} : '-'"></td>
+							<td th:text="${user.name} != null ? ${user.name.familyName} : '-'"></td>
+							<td>
+								<a th:href="@{'' (id=${param.id}, panel=add, userId=${user.id})}" class="btn btn-success btn-sm">
+									<span class="glyphicon glyphicon-plus"></span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5">
+								<input type="submit" class="btn btn-md btn-primary" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 		</div>
 	</div>
 
