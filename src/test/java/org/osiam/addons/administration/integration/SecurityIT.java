@@ -4,7 +4,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.osiam.addons.administration.Element.General;
 import org.osiam.addons.administration.controller.AdminController;
+import org.osiam.addons.administration.controller.user.UserViewController;
 
 public class SecurityIT extends Integrationtest {
 
@@ -17,10 +19,21 @@ public class SecurityIT extends Integrationtest {
 
 	@Test
 	public void access_with_valid_access_token() {
-		browser
-				.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD)
-				.gotoPage(AdminController.CONTROLLER_PATH);
+		login();
+		browser.gotoPage(AdminController.CONTROLLER_PATH);
 
 		assertFalse(browser.isAccessDenied());
+	}
+
+	@Test
+	public void logout_current_user(){
+		login();
+		browser.click(General.LOGOUT_BUTTON);
+
+		assertTrue(browser.getCurrentUrl().contains("/osiam-auth-server/login"));
+	}
+
+	private void login() {
+		browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
 	}
 }

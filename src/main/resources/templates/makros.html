@@ -97,12 +97,15 @@
 		*/-->
 		<input th:fragment="csrf()" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
-
-		<!-- /*
+		<!--/*
+			Create a single logout button.
 		*/-->
 		<div th:fragment="topbar" class="topbar">
 			<div class="container">
-				<a th:href="@{/admin/logout}" class="pull-right tn btn-info btn-xs"><span th:text="#{msg.logout}">Logout</span> <span class="glyphicon glyphicon-remove"></span></a>
+				<a id="logout-button" th:href="@{/admin/logout}" class="pull-right tn btn-info btn-xs">
+					<span th:text="#{msg.logout}">Logout</span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
 			</div>
 		</div>
 	</body>

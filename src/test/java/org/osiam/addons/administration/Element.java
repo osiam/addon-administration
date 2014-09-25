@@ -28,6 +28,21 @@ public interface Element {
 		}
 	}
 
+	public static enum General implements Element {
+		LOGOUT_BUTTON(By.id("logout-button"));
+
+		private By by;
+
+		private General(By by) {
+			this.by = by;
+		}
+
+		@Override
+		public By by() {
+			return this.by;
+		}
+	}
+
 	public static enum EditList implements Element {
 		FILTER_BUTTON(By.id("filter-button")),
 

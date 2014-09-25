@@ -3,6 +3,7 @@ package org.osiam.addons.administration.controller;
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.controller.user.UserViewController;
+import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class AdminController {
 	@Inject
 	private UserService userService;
 
+	@Inject
+	private GeneralSessionData session;
+
 	@RequestMapping
 	public String handleOverview() {
 		return new RedirectBuilder()
@@ -31,6 +35,8 @@ public class AdminController {
 	@RequestMapping("/logout")
 	public String handleFilterAction() {
 		userService.logoutCurrentUser();
+		session.setAccesstoken(null);
+
 		return new RedirectBuilder()
 			.setPath(UserViewController.CONTROLLER_PATH)
 			.build();
