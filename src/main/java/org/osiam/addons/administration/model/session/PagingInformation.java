@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PagingInformation {
-	public String query;
-	public Integer limit;
-	public Long offset;
-	public String orderBy;
-	public Boolean ascending;
-	public Map<String, String> filterFields = new HashMap<String, String>();
+	private String query;
+	private Integer limit;
+	private Long offset;
+	private String orderBy;
+	private Boolean ascending;
+	private Map<String, String> filterFields = new HashMap<String, String>();
 
 	public String getQuery() {
 		return query;
