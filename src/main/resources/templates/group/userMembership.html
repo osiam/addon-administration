@@ -33,22 +33,22 @@
 							<th>
 								<span th:text="#{edit_user_membership.user.login}">Login</span>
 								<span class="sortingArrows">
-									<a id="order-by-displayname-asc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-									<a id="order-by-displayname-desc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+									<a id="order-by-displayname-asc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
 								</span>
 							</th>
 							<th>
 								<span th:text="#{edit_user_membership.user.givenName}">Given Name</span>
 								<span class="sortingArrows">
-									<a id="order-by-displayname-asc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-									<a id="order-by-displayname-desc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+									<a id="order-by-displayname-asc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
 								</span>
 							</th>
 							<th>
 								<span th:text="#{edit_user_membership.user.lastName}">Last Name</span>
 								<span class="sortingArrows">
-									<a id="order-by-displayname-asc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-									<a id="order-by-displayname-desc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+									<a id="order-by-displayname-asc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
 								</span>
 							</th>
 						</tr>
@@ -89,6 +89,14 @@
 								<input type="submit" class="btn btn-md btn-primary" />
 							</td>
 						</tr>
+						<tr>
+							<td colspan="5">
+								<span th:text="#{msg.list.result(${#lists.size(assignedUsers.resources)}, ${assignedUsers.startIndex} - 1 + ${#lists.size(assignedUsers.resources)}, ${assignedUsers.totalResults})}">Result x - y of total</span>
+								<div th:replace="makros :: pagingControlls(${pagingAssignedUsers}, 2, '')">
+									Paging-Navigation...
+								</div>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</form>
@@ -112,22 +120,22 @@
 							<th>
 								<span th:text="#{edit_user_membership.user.login}">Login</span>
 								<span class="sortingArrows">
-									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
 								</span>
 							</th>
 							<th>
 								<span th:text="#{edit_user_membership.user.givenName}">Vorname</span>
 								<span class="sortingArrows">
-									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
 								</span>
 							</th>
 							<th>
 								<span th:text="#{edit_user_membership.user.lastName}">Nachname</span>
 								<span class="sortingArrows">
-									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
 								</span>
 							</th>
 						</tr>
@@ -161,6 +169,14 @@
 						<tr>
 							<td colspan="5">
 								<input type="submit" class="btn btn-md btn-primary" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5">
+								<span th:text="#{msg.list.result(${#lists.size(unassignedUsers.resources)}, ${unassignedUsers.startIndex} - 1 + ${#lists.size(unassignedUsers.resources)}, ${unassignedUsers.totalResults})}">Result x - y of total</span>
+								<div th:replace="makros :: pagingControlls(${pagingUnassignedUsers}, 2, '')">
+									Paging-Navigation...
+								</div>
 							</td>
 						</tr>
 					</tbody>
