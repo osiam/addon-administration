@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title th:text="#{edit_user_membership.title}">Edit user membership</title>
+
+	<th:block th:include="head :: includes"></th:block>
+
+</head>
+<body>
+
+<th:block th:include="header :: header"></th:block>
+
+<div class="container shadow" id="content">
+	<div th:replace="makros :: topbar">
+		Topbar ...
+	</div>
+
+	<div class="row">
+		<div class="col-md-6 form-group">
+			<h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.group}">Group Members</h4>
+			<form method="POST" action="">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="panel" value="remove" />
+
+				<table class="table table-hover table-striped table-bordered table-condensed" id="insider">
+					<thead>
+						<tr>
+							<th>
+								<input id="group-checkbox" type="checkbox" class="checkbox master-checkbox" />
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.login}">Login</span>
+								<span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span>
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.givenName}">Given Name</span>
+								<span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span>
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.lastName}">Last Name</span>
+								<span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (id=${param.id}, panel='remove', action='sort', assignedOrderBy='displayName', assignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span>
+							</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
+							<td></td>
+							<td><input id="filter-login" name="query.userName" type="text" /></td>
+							<td><input id="filter-givenname" name="query.name.givenName" type="text" /></td>
+							<td><input id="filter-familyname" name="query.name.familyName" type="text" /></td>
+							<td>
+								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
+									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+								</button>
+							</td>
+						</tr>
+						<tr th:each="user : ${assignedUsers.resources}">
+							<td>
+								<input type="checkbox" name="userId" th:value="${user.id}" class="checkbox" />
+							</td>
+							<td th:text="${user.userName}">
+							</td>
+							<td th:text="${user.name} != null ? ${user.name.givenName} : '-'">
+							</td>
+							<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">
+							</td>
+							<td>
+								<a th:href="@{'' (id=${param.id}, panel=remove, userId=${user.id})}" class="btn btn-danger btn-sm">
+									<span class="glyphicon glyphicon-minus"></span>
+								</a>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="5">
+								<input type="submit" class="btn btn-md btn-primary" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5">
+								<span th:text="#{msg.list.result(${#lists.size(assignedUsers.resources)}, ${assignedUsers.startIndex} - 1 + ${#lists.size(assignedUsers.resources)}, ${assignedUsers.totalResults})}">Result x - y of total</span>
+								<div th:replace="makros :: pagingControlls(${pagingAssignedUsers}, 2, '')">
+									Paging-Navigation...
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+
+
+
+		<div class="col-md-6 form-group">
+			<h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.other}">External Group</h4>
+			<form method="POST" action="">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="panel" value="add" />
+
+				<table class="table table-hover table-striped table-bordered table-condensed" id="outsider" th:object="${model}">
+					<thead>
+						<tr>
+							<th>
+								<input id="group-checkbox" type="checkbox" class="checkbox" />
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.login}">Login</span>
+								<span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span>
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.givenName}">Vorname</span>
+								<span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span>
+							</th>
+							<th>
+								<span th:text="#{edit_user_membership.user.lastName}">Nachname</span>
+								<span class="sortingArrows">
+									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
+							<td></td>
+							<td><input id="filter-login" name="query.userName" type="text" /></td>
+							<td><input id="filter-givenname" name="query.name.givenName" type="text" /></td>
+							<td><input id="filter-familyname" name="query.name.familyName" type="text" /></td>
+							<td>
+								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
+									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+								</button>
+							</td>
+						</tr>
+						<tr  th:each="user : ${unassignedUsers.resources}">
+							<td>
+								<input type="checkbox" name="userId" th:value="${user.id}" class="checkbox" />
+							</td>
+							<td th:text="${user.userName}"></td>
+							<td th:text="${user.name} != null ? ${user.name.givenName} : '-'"></td>
+							<td th:text="${user.name} != null ? ${user.name.familyName} : '-'"></td>
+							<td>
+								<a th:href="@{'' (id=${param.id}, panel=add, userId=${user.id})}" class="btn btn-success btn-sm">
+									<span class="glyphicon glyphicon-plus"></span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5">
+								<input type="submit" class="btn btn-md btn-primary" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5">
+								<span th:text="#{msg.list.result(${#lists.size(unassignedUsers.resources)}, ${unassignedUsers.startIndex} - 1 + ${#lists.size(unassignedUsers.resources)}, ${unassignedUsers.totalResults})}">Result x - y of total</span>
+								<div th:replace="makros :: pagingControlls(${pagingUnassignedUsers}, 2, '')">
+									Paging-Navigation...
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-2 col-sm-offset-10 text-right">
+			<a th:href="@{list}">
+				<button class="btn btn-md btn-primary" type="button" id="btnBack" th:text="#{edit_group.cancel}">Back</button>
+			</a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

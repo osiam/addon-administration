@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.osiam.addons.administration.Element.General;
 import org.osiam.addons.administration.controller.AdminController;
-import org.osiam.addons.administration.controller.user.UserViewController;
 
 public class SecurityIT extends Integrationtest {
 
