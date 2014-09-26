@@ -1,5 +1,9 @@
 package org.osiam.addons.administration.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
  * Generic controller with common functionality.
  */
 public abstract class GenericController {
+
+		private static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
 
 	@Inject
 	private HttpSession session;
@@ -56,6 +62,51 @@ public abstract class GenericController {
 	 */
 	public void removeFromSession(String key){
 		session.removeAttribute(generateKey(key));
+	}
+
+	/**
+	 * Build filter query
+	 *
+	 * @param filterParameter
+	 *
+	 * @return filter query
+	 */
+	public String buildFilterQuery(Map<String, String> filterParameter) {
+		StringBuilder filterQuery = new StringBuilder();
+		for (Entry<String, String> param : filterParameter.entrySet()) {
+			final String queryPrefixRegEx = "^" + REQUEST_PARAMETER_QUERY_PREFIX.replace(".", "\\.");
+			final String queryField = param.getKey().replaceAll(queryPrefixRegEx, "");
+			final String queryFieldValue = param.getValue();
+			if (!"".equals(queryFieldValue)) {
+				if (filterQuery.length() > 0) {
+					filterQuery.append(" AND ");
+				}
+				filterQuery.append(queryField);
+				filterQuery.append(" sw = \"");
+				filterQuery.append(queryFieldValue);
+				filterQuery.append("\"");
+			}
+		}
+		return filterQuery.toString();
+	}
+
+	/**
+	 * Extract query params
+	 *
+	 * @param allParameters
+	 *
+	 * @return extracted params
+	 */
+	public Map<String, String> extractFilterParameter(Map<String, String> allParameters) {
+		Map<String, String> result = new HashMap<String, String>();
+		for (Entry<String, String> param : allParameters.entrySet()) {
+			if (param.getKey().startsWith(REQUEST_PARAMETER_QUERY_PREFIX)) {
+				if (param.getValue() != null) {
+					result.put(param.getKey(), param.getValue().trim());
+				}
+			}
+		}
+		return result;
 	}
 
 	protected void storeBindingResultIntoSession(BindingResult result, String modelName) {

@@ -1,8 +1,6 @@
 package org.osiam.addons.administration.controller.group;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -43,6 +41,8 @@ public class EditUserMembershipController extends GenericController {
 
 	public static final String MODEL_ASSIGNED_USERS = "assignedUsers";
 	public static final String MODEL_UNASSIGNED_USERS = "unassignedUsers";
+	public static final String MODEL_ADD_PANEL_PAGING_INFORMATIONS = "addPanelPagingInformations";
+	public static final String MODEL_REMOVE_PANEL_PAGING_INFORMATIONS = "removePanelPagingInformations";
 	public static final String MODEL_USER_LIST = "userList";
 
 	private static final Integer DEFAULT_LIMIT = 20;
@@ -65,6 +65,7 @@ public class EditUserMembershipController extends GenericController {
 												@RequestParam(value = REQUEST_PARAMETER_OFFSET, required = false) Long offset,
 												@RequestParam(value = REQUEST_PARAMETER_ORDER_BY, required = false) String orderBy,
 												@RequestParam(value = REQUEST_PARAMETER_ASCENDING, required = false) Boolean ascending) {
+
 		ModelAndView modelAndView = new ModelAndView("group/userMembership");
 		String attributes = "id, userName, name.givenName, name.familyName";
 
@@ -72,34 +73,29 @@ public class EditUserMembershipController extends GenericController {
 		orderBy = orderBy == null ? DEFAULT_SORT_BY : orderBy;
 		ascending = ascending == null ? DEFAULT_SORT_DIRECTION : ascending;
 
-		session.getRemoveUserPagingInformation().setLimit(limit);
-		session.getRemoveUserPagingInformation().setOrderBy(orderBy);
-		session.getRemoveUserPagingInformation().setAscending(ascending);
-		session.getRemoveUserPagingInformation().setQuery(query);
+		session.getRemovePanelPagingInformation().setLimit(limit);
+		session.getRemovePanelPagingInformation().setOrderBy(orderBy);
+		session.getRemovePanelPagingInformation().setAscending(ascending);
+		session.getRemovePanelPagingInformation().setQuery(query);
 
-		session.getAddUserPagingInformation().setLimit(limit);
-		session.getAddUserPagingInformation().setOrderBy(orderBy);
-		session.getAddUserPagingInformation().setAscending(ascending);
+		session.getAddPanelPagingInformation().setLimit(limit);
+		session.getAddPanelPagingInformation().setOrderBy(orderBy);
+		session.getAddPanelPagingInformation().setAscending(ascending);
 
 
 		SCIMSearchResult<User> assignedUsers = userService.getAssignedUsers(groupId,
-				session.getRemoveUserPagingInformation().getQuery(),
-				session.getRemoveUserPagingInformation().getLimit(),
-				session.getRemoveUserPagingInformation().getOffset(),
-				session.getRemoveUserPagingInformation().getOrderBy(),
-				session.getRemoveUserPagingInformation().getAscending(),
-				attributes);
+													session.getRemovePanelPagingInformation(),
+													attributes);
 
 		SCIMSearchResult<User> unassignedUsers = userService.getUnassignedUsers(groupId,
-				session.getAddUserPagingInformation().getQuery(),
-				session.getAddUserPagingInformation().getLimit(),
-				session.getAddUserPagingInformation().getOffset(),
-				session.getAddUserPagingInformation().getOrderBy(),
-				session.getAddUserPagingInformation().getAscending(),
-				attributes);
+													session.getAddPanelPagingInformation(),
+													attributes);
 
 		modelAndView.addObject(MODEL_ASSIGNED_USERS, assignedUsers);
 		modelAndView.addObject(MODEL_UNASSIGNED_USERS, unassignedUsers);
+
+		modelAndView.addObject(MODEL_ADD_PANEL_PAGING_INFORMATIONS, session.getAddPanelPagingInformation());
+		modelAndView.addObject(MODEL_REMOVE_PANEL_PAGING_INFORMATIONS, session.getRemovePanelPagingInformation());
 
 		return modelAndView;
 	}
@@ -135,17 +131,17 @@ public class EditUserMembershipController extends GenericController {
 		Map<String, String> filterParameter = extractFilterParameter(allParameters);
 		String filterQuery = buildFilterQuery(filterParameter);
 
-		session.getRemoveUserPagingInformation().setFilterFields(filterParameter);
+		session.getRemovePanelPagingInformation().setFilterFields(filterParameter);
 
 
 			return new RedirectBuilder()
 						.setPath(CONTROLLER_PATH)
 						.addParameter(REQUEST_PARAMETER_ID, groupId)
 						.addParameter(REQUEST_PARAMETER_QUERY, filterQuery)
-						.addParameter(REQUEST_PARAMETER_LIMIT, session.getRemoveUserPagingInformation().getLimit())
+						.addParameter(REQUEST_PARAMETER_LIMIT, session.getRemovePanelPagingInformation().getLimit())
 						.addParameter(REQUEST_PARAMETER_OFFSET, null)
-						.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getRemoveUserPagingInformation().getOrderBy())
-						.addParameter(REQUEST_PARAMETER_ASCENDING, session.getRemoveUserPagingInformation().getAscending())
+						.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getRemovePanelPagingInformation().getOrderBy())
+						.addParameter(REQUEST_PARAMETER_ASCENDING, session.getRemovePanelPagingInformation().getAscending())
 					.build();
 	}
 
@@ -158,41 +154,5 @@ public class EditUserMembershipController extends GenericController {
 						.setPath(CONTROLLER_PATH)
 						.addParameter(REQUEST_PARAMETER_ID, groupId)
 					.build();
-	}
-
-	private Map<String, String> extractFilterParameter(Map<String, String> allParameters) {
-		Map<String, String> result = new HashMap<String, String>();
-
-		for (Entry<String, String> param : allParameters.entrySet()) {
-			if (param.getKey().startsWith(REQUEST_PARAMETER_QUERY_PREFIX)) {
-				if(param.getValue() != null){
-					result.put(param.getKey(), param.getValue().trim());
-				}
-			}
-		}
-
-		return result;
-	}
-
-	protected String buildFilterQuery(Map<String, String> filterParameter) {
-		StringBuilder filterQuery = new StringBuilder();
-
-		for (Entry<String, String> param : filterParameter.entrySet()) {
-			final String queryPrefixRegEx = "^" + REQUEST_PARAMETER_QUERY_PREFIX.replace(".", "\\.");
-			final String queryField = param.getKey().replaceAll(queryPrefixRegEx, "");
-			final String queryFieldValue = param.getValue();
-			if (!"".equals(queryFieldValue)) {
-				if (filterQuery.length() > 0) {
-					filterQuery.append(" AND ");
-				}
-
-				filterQuery.append(queryField);
-				filterQuery.append(" sw = \"");
-				filterQuery.append(queryFieldValue);
-				filterQuery.append("\"");
-			}
-		}
-
-		return filterQuery.toString();
 	}
 }

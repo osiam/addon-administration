@@ -3,6 +3,7 @@ package org.osiam.addons.administration.service;
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.model.session.GeneralSessionData;
+import org.osiam.addons.administration.model.session.PagingInformation;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
@@ -152,16 +153,19 @@ public class UserService {
 	 *        List of attributes to return.
 	 * @return A SCIMSearchResult containing a list of all found users.
 	 */
-	public SCIMSearchResult<User> getAssignedUsers(String groupId,
-			String query, int limit, Long offset, String orderBy,
-			Boolean ascending, String attributes) {
+	public SCIMSearchResult<User> getAssignedUsers(String groupId, PagingInformation pagingInformation, String attributes) {
 		String buildedQuery = "groups eq \"" + groupId + "\"";
 
-		if(query != null && !query.trim().isEmpty()) {
-			buildedQuery += " and " + query;
+		if(pagingInformation.getQuery() != null && !pagingInformation.getQuery().trim().isEmpty()) {
+			buildedQuery += " and " + pagingInformation.getQuery();
 		}
 
-		return searchUser(buildedQuery, limit, offset, orderBy, ascending, attributes);
+		return searchUser(buildedQuery,
+				pagingInformation.getLimit(),
+				pagingInformation.getOffset(),
+				pagingInformation.getOrderBy(),
+				pagingInformation.getAscending(),
+				attributes);
 	}
 
 	/**
@@ -173,15 +177,18 @@ public class UserService {
 	 *        List of attributes to return.
 	 * @return A SCIMSearchResult containing a list of all found users.
 	 */
-	public SCIMSearchResult<User> getUnassignedUsers(String groupId,
-			String query, int limit, Long offset, String orderBy,
-			Boolean ascending, String attributes) {
-		String buildedQuery = "not(groups eq \"" + groupId + "\")";
+	public SCIMSearchResult<User> getUnassignedUsers(String groupId, PagingInformation pagingInformation, String attributes) {
+			String buildedQuery = "not(groups eq \"" + groupId + "\")";
 
-		if(query != null && !query.trim().isEmpty()) {
-			buildedQuery += " and " + query;
+			if(pagingInformation.getQuery() != null && !pagingInformation.getQuery().trim().isEmpty()) {
+				buildedQuery += " and " + pagingInformation.getQuery();
+			}
+
+			return searchUser(buildedQuery,
+					pagingInformation.getLimit(),
+					pagingInformation.getOffset(),
+					pagingInformation.getOrderBy(),
+					pagingInformation.getAscending(),
+					attributes);
 		}
-
-		return searchUser(buildedQuery, limit, offset, orderBy, ascending, attributes);
-	}
 }
