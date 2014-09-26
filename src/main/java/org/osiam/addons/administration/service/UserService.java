@@ -152,10 +152,16 @@ public class UserService {
 	 *        List of attributes to return.
 	 * @return A SCIMSearchResult containing a list of all found users.
 	 */
-	public SCIMSearchResult<User> getAssignedUsers(String groupId, String attributes) {
-		final String query = "groups eq \"" + groupId + "\"";
+	public SCIMSearchResult<User> getAssignedUsers(String groupId,
+			String query, int limit, Long offset, String orderBy,
+			Boolean ascending, String attributes) {
+		String buildedQuery = "groups eq \"" + groupId + "\"";
 
-		return searchUser(query, 0, 0L, "", true, attributes);
+		if(query != null && !query.trim().isEmpty()) {
+			buildedQuery += " and " + query;
+		}
+
+		return searchUser(buildedQuery, limit, offset, orderBy, ascending, attributes);
 	}
 
 	/**
@@ -167,9 +173,15 @@ public class UserService {
 	 *        List of attributes to return.
 	 * @return A SCIMSearchResult containing a list of all found users.
 	 */
-	public SCIMSearchResult<User> getUnassignedUsers(String groupId, String attributes) {
-		final String query = "not(groups eq \"" + groupId + "\")";
+	public SCIMSearchResult<User> getUnassignedUsers(String groupId,
+			String query, int limit, Long offset, String orderBy,
+			Boolean ascending, String attributes) {
+		String buildedQuery = "not(groups eq \"" + groupId + "\")";
 
-		return searchUser(query, 0, 0L, "", true, attributes);
+		if(query != null && !query.trim().isEmpty()) {
+			buildedQuery += " and " + query;
+		}
+
+		return searchUser(buildedQuery, limit, offset, orderBy, ascending, attributes);
 	}
 }
