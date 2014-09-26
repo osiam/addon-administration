@@ -126,7 +126,7 @@
 					<thead>
 						<tr>
 							<th>
-								<input id="group-checkbox" type="checkbox" class="checkbox" />
+								<input id="group-checkbox" type="checkbox" class="checkbox master-checkbox" />
 							</th>
 							<th>
 								<span th:text="#{edit_user_membership.user.login}">Login</span>
@@ -136,14 +136,14 @@
 								</span>
 							</th>
 							<th>
-								<span th:text="#{edit_user_membership.user.givenName}">Vorname</span>
+								<span th:text="#{edit_user_membership.user.givenName}">Given name</span>
 								<span class="sortingArrows">
 									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
 									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
 								</span>
 							</th>
 							<th>
-								<span th:text="#{edit_user_membership.user.lastName}">Nachname</span>
+								<span th:text="#{edit_user_membership.user.lastName}">Last name</span>
 								<span class="sortingArrows">
 									<a id="order-by-displayname-asc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
 									<a id="order-by-displayname-desc" th:href="@{'' (action='sort', unassignedOrderBy='displayName', unassignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
