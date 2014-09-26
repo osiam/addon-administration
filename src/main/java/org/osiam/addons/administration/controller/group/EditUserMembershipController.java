@@ -51,11 +51,12 @@ public class EditUserMembershipController extends GenericController {
 
 	public static final String MODEL_ASSIGNED_USERS = "assignedUsers";
 	public static final String MODEL_UNASSIGNED_USERS = "unassignedUsers";
-	public static final String MODEL_ADD_PANEL_PAGING_INFORMATIONS = "addPanelPagingInformations";
-	public static final String MODEL_REMOVE_PANEL_PAGING_INFORMATIONS = "removePanelPagingInformations";
 	public static final String MODEL_USER_LIST = "userList";
 	public static final String MODEL_PAGING_LINKS_ASSIGNED_USERS = "pagingAssignedUsers";
 	public static final String MODEL_PAGING_LINKS_UNASSIGNED_USERS = "pagingUnassignedUsers";
+
+	public static final String MODEL_PAGING_INFORMATION_ASSIGNED_USERS = "pagingInformationAssignedUsers";
+	public static final String MODEL_PAGING_INFORMATION_UNASSIGNED_USERS = "pagingInformationUnassignedUsers";
 
 	private static final Integer DEFAULT_LIMIT = 5;
 	private static final String DEFAULT_SORT_BY = "userName";
@@ -110,15 +111,15 @@ public class EditUserMembershipController extends GenericController {
 													session.getRemovePanelPagingInformation(),
 													attributes);
 
-		SCIMSearchResult<User> unassignedUsers = userService.getAssignedUsers(groupId,	//TODO: testweise auf assigned gesetzt!
+		SCIMSearchResult<User> unassignedUsers = userService.getUnassignedUsers(groupId,
 													session.getAddPanelPagingInformation(),
 													attributes);
 
 		modelAndView.addObject(MODEL_ASSIGNED_USERS, assignedUsers);
 		modelAndView.addObject(MODEL_UNASSIGNED_USERS, unassignedUsers);
 
-		modelAndView.addObject(MODEL_ADD_PANEL_PAGING_INFORMATIONS, session.getAddPanelPagingInformation());
-		modelAndView.addObject(MODEL_REMOVE_PANEL_PAGING_INFORMATIONS, session.getRemovePanelPagingInformation());
+		modelAndView.addObject(MODEL_PAGING_INFORMATION_ASSIGNED_USERS, session.getAddPanelPagingInformation());
+		modelAndView.addObject(MODEL_PAGING_INFORMATION_UNASSIGNED_USERS, session.getRemovePanelPagingInformation());
 
 		PagingLinks pagingLinksAssigned = generatePagingLinksForAssigned(groupId, assignedUsers,
 				session.getRemovePanelPagingInformation(), session.getAddPanelPagingInformation());
