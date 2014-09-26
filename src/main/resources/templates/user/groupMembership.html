@@ -41,17 +41,17 @@
 					</thead>
 
 					<tbody>
-						<tr>
+						<tr th:object="${pagingInformationAssignedGroups.filterFields}">
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 							<td><input type="hidden" name="action" value="filter"/></td>
-							<td><input id="filter-display-name" name="query.displayName" type="text" /></td>
+							<td><input id="filter-display-name" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
 							<td>
 								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
 								</button>
 							</td>
 						</tr>
-						<tr th:each="group : ${userGroups.resources}">
+						<tr th:each="group : ${assignedGroups.resources}">
 							<td>
 								<input type="checkbox" name="groupId" th:value="${group.id}" />
 							</td>
@@ -96,17 +96,17 @@
 					</thead>
 
 					<tbody>
-						<tr>
+						<tr th:object="${pagingInformationUnassignedGroups.filterFields}">
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 							<td><input type="hidden" name="action" value="filter"/></td>
-							<td><input id="filter-display-name" name="query.displayName" type="text" /></td>
+							<td><input id="filter-display-name" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
 							<td>
 								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
 								</button>
 							</td>
 						</tr>
-						<tr th:each="group : ${otherGroups.resources}">
+						<tr th:each="group : ${unassignedGroups.resources}">
 							<td>
 								<input type="checkbox" name="groupId" th:value="${group.id}" />
 							</td>

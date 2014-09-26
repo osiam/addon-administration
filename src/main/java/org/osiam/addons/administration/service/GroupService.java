@@ -3,6 +3,7 @@ package org.osiam.addons.administration.service;
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.model.session.GeneralSessionData;
+import org.osiam.addons.administration.model.session.PagingInformation;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
@@ -138,10 +139,17 @@ public class GroupService {
 	 * Return all the other groups where the user is not assigned to.
 	 *
 	 * @param userId The user id.
+	 * @param pagingInformation Contains all informations about the paging.
 	 * @return A SCIMSearchResult containing a list of all found groups.
 	 */
-	public SCIMSearchResult<Group> getOtherGroups(String userId) {
-		final String query = "not(members eq \"" + userId + "\")";
+	public SCIMSearchResult<Group> getUnassignedGroups(String userId,
+			PagingInformation pagingInformation) {
+
+		String query = "not(members eq \"" + userId + "\")";
+
+		if (pagingInformation.getQuery() != null && !pagingInformation.getQuery().trim().isEmpty()) {
+			query += " and " + pagingInformation.getQuery();
+		}
 
 		return searchGroup(query, 0, 0L, "externalId", true);
 	}
@@ -150,10 +158,17 @@ public class GroupService {
 	 * Return all the groups where the user is assigned to.
 	 *
 	 * @param userId The user id.
+	 * @param pagingInformation Contains all informations about the paging.
 	 * @return A SCIMSearchResult containing a list of all found groups.
 	 */
-	public SCIMSearchResult<Group> getUserGroups(String userId) {
-		final String query = "members eq \"" + userId + "\"";
+	public SCIMSearchResult<Group> getAssignedGroups(String userId,
+			PagingInformation pagingInformation) {
+
+		String query = "members eq \"" + userId + "\"";
+
+		if (pagingInformation.getQuery() != null && !pagingInformation.getQuery().trim().isEmpty()) {
+			query += " and " + pagingInformation.getQuery();
+		}
 
 		return searchGroup(query, 0, 0L, "externalId", true);
 	}
