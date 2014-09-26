@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.osiam.addons.administration.Element.EditList;
-import org.osiam.addons.administration.Element.UserEdit;
+import org.osiam.addons.administration.EditList;
+import org.osiam.addons.administration.UserEdit;
 import org.osiam.addons.administration.selenium.Field;
 
 public class UserEditIT extends Integrationtest {

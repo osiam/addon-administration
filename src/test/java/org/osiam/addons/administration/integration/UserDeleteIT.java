@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.osiam.addons.administration.Element.EditList;
-import org.osiam.addons.administration.Element.GroupList;
+import org.osiam.addons.administration.EditList;
+import org.osiam.addons.administration.GroupList;
 
 public class UserDeleteIT extends Integrationtest{
 
@@ -48,10 +48,6 @@ public class UserDeleteIT extends Integrationtest{
 		browser.findElement(By.xpath(deleteButtonXpath)).click();
 	}
 
-	private boolean isUserVisible(String username) {
-		return browser.isTextPresent(username);
-	}
-
 	private void gotoEditGroup(String groupName) {
 		browser.click(GroupList.GROUP_LIST);
 
@@ -60,5 +56,9 @@ public class UserDeleteIT extends Integrationtest{
 
 		browser.findElement(By.xpath(actionLabelXpath)).click();
 		browser.findElement(By.xpath(editButtonXpath)).click();
+	}
+
+	private boolean isUserVisible(String username) {
+		return browser.isTextPresent(username);
 	}
 }

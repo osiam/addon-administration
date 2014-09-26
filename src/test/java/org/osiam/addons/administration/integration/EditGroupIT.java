@@ -7,9 +7,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.osiam.addons.administration.Element.EditList;
-import org.osiam.addons.administration.Element.GroupEdit;
-import org.osiam.addons.administration.Element.GroupList;
+import org.osiam.addons.administration.EditList;
+import org.osiam.addons.administration.GroupEdit;
+import org.osiam.addons.administration.GroupList;
 import org.osiam.addons.administration.selenium.Field;
 
 public class EditGroupIT extends Integrationtest {
@@ -33,6 +33,32 @@ public class EditGroupIT extends Integrationtest {
 
 		checkEmptyValidation();
 		checkSuccessfulEdit();
+	}
+
+	@Test
+	public void add_and_delete_group() {
+		createNewGroup();
+		deleteNewGroup();
+	}
+
+	@Test
+	public void add_and_remove_group_member() {
+		final String testGroup = "test_group05";
+		//dcooper
+		final String userId = "d6f323e2-c717-4ab6-af9c-e639b50a948c";
+
+		gotoEditGroupView(testGroup);
+		addUserToMemberlist(userId);
+		saveEditChanges();
+
+		gotoEditGroupView(testGroup);
+		assertTrue(isUserGroupMember(userId));
+
+		removeUserFromMembers(userId);
+		saveEditChanges();
+		gotoEditGroupView(testGroup);
+
+		assertFalse(isUserGroupMember(userId));
 	}
 
 	private void checkSuccessfulEdit() {
@@ -59,12 +85,6 @@ public class EditGroupIT extends Integrationtest {
 		saveEditChanges();
 
 		assertTrue(browser.isTextPresent("Die Eingabe darf nicht leer sein!") || browser.isTextPresent("The value can\u02c8t be empty!"));
-	}
-
-	@Test
-	public void add_and_delete_group() {
-		createNewGroup();
-		deleteNewGroup();
 	}
 
 	private void createNewGroup() {
@@ -97,26 +117,6 @@ public class EditGroupIT extends Integrationtest {
 		assertFalse(browser.isTextPresent(NEW_GROUP_NAME));
 	}
 
-	@Test
-	public void add_and_remove_group_member() {
-		final String testGroup = "test_group05";
-		//dcooper
-		final String userId = "d6f323e2-c717-4ab6-af9c-e639b50a948c";
-
-		gotoEditGroupView(testGroup);
-		addUserToMemberlist(userId);
-		saveEditChanges();
-
-		gotoEditGroupView(testGroup);
-		assertTrue(isUserGroupMember(userId));
-
-		removeUserFromMembers(userId);
-		saveEditChanges();
-		gotoEditGroupView(testGroup);
-
-		assertFalse(isUserGroupMember(userId));
-	}
-
 	private void saveEditChanges() {
 		browser.click(EditList.SUBMIT_BUTTON);
 		browser.click(EditList.DIALOG_SUCCESS);
@@ -142,6 +142,7 @@ public class EditGroupIT extends Integrationtest {
 		browser.findElement(By.xpath("//select[contains(@id, 'member')]/..//option[contains(@value, '" + userValue + "')]")).click();
 		browser.click(GroupEdit.REMOVE_USER_GROUP);
 	}
+
 	private void addUserToMemberlist(String userValue) {
 		browser.findElement(By.xpath("//select[contains(@id, 'outsider')]/..//option[contains(@value, '" + userValue + "')]")).click();
 		browser.click(GroupEdit.ADD_USER_GROUP);

@@ -7,8 +7,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.osiam.addons.administration.Element.EditList;
-import org.osiam.addons.administration.Element.GroupList;
+import org.osiam.addons.administration.EditList;
+import org.osiam.addons.administration.GroupList;
 import org.osiam.addons.administration.selenium.Field;
 
 public class GroupListIT extends Integrationtest {

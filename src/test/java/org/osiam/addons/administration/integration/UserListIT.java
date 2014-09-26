@@ -7,9 +7,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.osiam.addons.administration.EditList;
 import org.osiam.addons.administration.Element;
-import org.osiam.addons.administration.Element.EditList;
-import org.osiam.addons.administration.Element.UserList;
+import org.osiam.addons.administration.UserList;
 import org.osiam.addons.administration.selenium.Field;
 
 public class UserListIT extends Integrationtest {

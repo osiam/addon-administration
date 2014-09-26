@@ -12,7 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.osiam.addons.administration.Element;
-import org.osiam.addons.administration.Element.OauthLogin;
+import org.osiam.addons.administration.OauthLogin;
 import org.osiam.addons.administration.controller.LoginController;
 
 /**
