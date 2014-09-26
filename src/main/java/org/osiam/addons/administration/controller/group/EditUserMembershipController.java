@@ -54,6 +54,8 @@ public class EditUserMembershipController extends GenericController {
 	public static final String MODEL_USER_LIST = "userList";
 	public static final String MODEL_PAGING_LINKS_ASSIGNED_USERS = "pagingAssignedUsers";
 	public static final String MODEL_PAGING_LINKS_UNASSIGNED_USERS = "pagingUnassignedUsers";
+	public static final String MODEL_PAGING_INFORMATION_ASSIGNED_USERS = "pagingInformationAssignedUsers";
+	public static final String MODEL_PAGING_INFORMATION_UNASSIGNED_USERS = "pagingInformationUnassignedUsers";
 
 	public static final String MODEL_PAGING_INFORMATION_ASSIGNED_USERS = "pagingInformationAssignedUsers";
 	public static final String MODEL_PAGING_INFORMATION_UNASSIGNED_USERS = "pagingInformationUnassignedUsers";
@@ -128,6 +130,9 @@ public class EditUserMembershipController extends GenericController {
 
 		modelAndView.addObject(MODEL_PAGING_LINKS_ASSIGNED_USERS, pagingLinksAssigned);
 		modelAndView.addObject(MODEL_PAGING_LINKS_UNASSIGNED_USERS, pagingLinksUnassigned);
+
+		modelAndView.addObject(MODEL_PAGING_INFORMATION_ASSIGNED_USERS, session.getRemovePanelPagingInformation());
+		modelAndView.addObject(MODEL_PAGING_INFORMATION_UNASSIGNED_USERS, session.getAddPanelPagingInformation());
 
 		return modelAndView;
 	}
