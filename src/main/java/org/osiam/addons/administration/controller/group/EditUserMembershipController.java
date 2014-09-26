@@ -4,12 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.osiam.addons.administration.controller.AdminController;
-import org.osiam.addons.administration.controller.GenericController;
-
 import javax.inject.Inject;
 
-import org.osiam.addons.administration.model.session.PagingInformation;
+import org.osiam.addons.administration.controller.AdminController;
+import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.session.UserMembershipSession;
 import org.osiam.addons.administration.service.GroupService;
 import org.osiam.addons.administration.service.UserService;
@@ -21,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.sun.crypto.provider.OAEPParameters;
 
 /**
  *  This controller is responsible for edit the user membership of an group
