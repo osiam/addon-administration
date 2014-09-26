@@ -89,16 +89,27 @@
 								<input type="submit" class="btn btn-md btn-primary" />
 							</td>
 						</tr>
-						<tr>
-							<td colspan="5">
-								<span th:text="#{msg.list.result(${#lists.size(assignedUsers.resources)}, ${assignedUsers.startIndex} - 1 + ${#lists.size(assignedUsers.resources)}, ${assignedUsers.totalResults})}">Result x - y of total</span>
-								<div th:replace="makros :: pagingControlls(${pagingAssignedUsers}, 2, '')">
-									Paging-Navigation...
-								</div>
-							</td>
-						</tr>
 					</tbody>
 				</table>
+			</form>
+			<span th:text="#{msg.list.result(${#lists.size(assignedUsers.resources)}, ${assignedUsers.startIndex} - 1 + ${#lists.size(assignedUsers.resources)}, ${assignedUsers.totalResults})}">Result x - y of total</span>
+			<div th:replace="makros :: pagingControlls(${pagingAssignedUsers}, 2, '')">
+				Paging-Navigation...
+			</div>
+			<span th:text="#{msg.list.limit}"></span>
+			<form name="form-assigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="action" value="assignedLimit" />
+
+				<select id="paging-limit" name="assignedLimit" class="" onchange="document['form-assigned-limit'].submit();">
+					<option th:selected="${pagingInformationAssignedUsers.limit} == 5" >5</option>
+					<option th:selected="${pagingInformationAssignedUsers.limit} == 10">10</option>
+					<option th:selected="${pagingInformationAssignedUsers.limit} == 20">20</option>
+					<option th:selected="${pagingInformationAssignedUsers.limit} == 50">50</option>
+					<option th:selected="${pagingInformationAssignedUsers.limit} == 100">100</option>
+					<option th:selected="${pagingInformationAssignedUsers.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
+				</select>
 			</form>
 		</div>
 
@@ -171,16 +182,28 @@
 								<input type="submit" class="btn btn-md btn-primary" />
 							</td>
 						</tr>
-						<tr>
-							<td colspan="5">
-								<span th:text="#{msg.list.result(${#lists.size(unassignedUsers.resources)}, ${unassignedUsers.startIndex} - 1 + ${#lists.size(unassignedUsers.resources)}, ${unassignedUsers.totalResults})}">Result x - y of total</span>
-								<div th:replace="makros :: pagingControlls(${pagingUnassignedUsers}, 2, '')">
-									Paging-Navigation...
-								</div>
-							</td>
-						</tr>
 					</tbody>
 				</table>
+			</form>
+
+			<span th:text="#{msg.list.result(${#lists.size(unassignedUsers.resources)}, ${unassignedUsers.startIndex} - 1 + ${#lists.size(unassignedUsers.resources)}, ${unassignedUsers.totalResults})}">Result x - y of total</span>
+			<div th:replace="makros :: pagingControlls(${pagingUnassignedUsers}, 2, '')">
+				Paging-Navigation...
+			</div>
+			<span th:text="#{msg.list.limit}"></span>
+			<form name="form-unassigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="action" value="unassignedLimit" />
+
+				<select id="paging-limit" name="unassignedLimit" class="" onchange="document['form-unassigned-limit'].submit();">
+					<option th:selected="${pagingInformationUnassignedUsers.limit} == 5" >5</option>
+					<option th:selected="${pagingInformationUnassignedUsers.limit} == 10">10</option>
+					<option th:selected="${pagingInformationUnassignedUsers.limit} == 20">20</option>
+					<option th:selected="${pagingInformationUnassignedUsers.limit} == 50">50</option>
+					<option th:selected="${pagingInformationUnassignedUsers.limit} == 100">100</option>
+					<option th:selected="${pagingInformationUnassignedUsers.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
+				</select>
 			</form>
 		</div>
 	</div>
