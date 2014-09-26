@@ -117,11 +117,9 @@ public class EditUserMembershipController extends GenericController {
 		modelAndView.addObject(MODEL_ASSIGNED_USERS, assignedUsers);
 		modelAndView.addObject(MODEL_UNASSIGNED_USERS, unassignedUsers);
 
-		modelAndView.addObject(MODEL_PAGING_INFORMATION_ASSIGNED_USERS, session.getAddPanelPagingInformation());
-		modelAndView.addObject(MODEL_PAGING_INFORMATION_UNASSIGNED_USERS, session.getRemovePanelPagingInformation());
-
 		PagingLinks pagingLinksAssigned = generatePagingLinksForAssigned(groupId, assignedUsers,
 				session.getRemovePanelPagingInformation(), session.getAddPanelPagingInformation());
+
 		PagingLinks pagingLinksUnassigned = generatePagingLinksForUnassigned(groupId, unassignedUsers,
 				session.getAddPanelPagingInformation(), session.getRemovePanelPagingInformation());
 
@@ -245,6 +243,33 @@ public class EditUserMembershipController extends GenericController {
 					.build();
 	}
 
+	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=add", REQUEST_PARAMETER_ACTION + "=filter"})
+	public String handleFilterUserAdd(@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
+										@RequestParam Map<String, String> allParameters) {
+
+		Map<String, String> filterParameter = extractFilterParameter(allParameters);
+		String filterQuery = buildFilterQuery(filterParameter);
+
+		session.getAddPanelPagingInformation().setFilterFields(filterParameter);
+
+
+		return new RedirectBuilder()
+					.setPath(CONTROLLER_PATH)
+					.addParameter(REQUEST_PARAMETER_ID, groupId)
+					.addParameter(REQUEST_PARAMETER_ASSIGNED_QUERY, session.getRemovePanelPagingInformation().getQuery())
+					.addParameter(REQUEST_PARAMETER_ASSIGNED_LIMIT, session.getRemovePanelPagingInformation().getLimit())
+					.addParameter(REQUEST_PARAMETER_ASSIGNED_OFFSET, null)
+					.addParameter(REQUEST_PARAMETER_ASSIGNED_ORDER_BY, session.getRemovePanelPagingInformation().getOrderBy())
+					.addParameter(REQUEST_PARAMETER_ASSIGNED_ASCENDING, session.getRemovePanelPagingInformation().getAscending())
+					.addParameter(REQUEST_PARAMETER_UNASSIGNED_QUERY, filterQuery)
+					.addParameter(REQUEST_PARAMETER_UNASSIGNED_LIMIT, session.getAddPanelPagingInformation().getLimit())
+					.addParameter(REQUEST_PARAMETER_UNASSIGNED_OFFSET, null)
+					.addParameter(REQUEST_PARAMETER_UNASSIGNED_ORDER_BY, session.getAddPanelPagingInformation().getOrderBy())
+					.addParameter(REQUEST_PARAMETER_UNASSIGNED_ASCENDING, session.getAddPanelPagingInformation().getAscending())
+				.build();
+	}
+
+
 	@RequestMapping(params=REQUEST_PARAMETER_PANEL + "=remove")
 	public String handleRemoveUser(@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
 									@RequestParam(value = REQUEST_PAREMETER_USER_ID, required = false) String[] userIds) {
@@ -265,7 +290,6 @@ public class EditUserMembershipController extends GenericController {
 		String filterQuery = buildFilterQuery(filterParameter);
 
 		session.getRemovePanelPagingInformation().setFilterFields(filterParameter);
-
 
 		return new RedirectBuilder()
 					.setPath(CONTROLLER_PATH)

@@ -55,12 +55,12 @@
 					</thead>
 
 					<tbody>
-						<tr>
+						<tr th:object="${pagingInformationAssignedUsers.filterFields}">
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 							<td></td>
-							<td><input id="filter-login" name="query.userName" type="text" /></td>
-							<td><input id="filter-givenname" name="query.name.givenName" type="text" /></td>
-							<td><input id="filter-familyname" name="query.name.familyName" type="text" /></td>
+							<td><input id="filter-login" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
+							<td><input id="filter-givenname" name="query.name.givenName" type="text"  th:value="*{get('query.name.givenName')}" /></td>
+							<td><input id="filter-familyname" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
 							<td>
 								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
@@ -152,14 +152,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr th:object="${pagingInformationUnassignedUsers.filterFields}">
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 							<td></td>
-							<td><input id="filter-login" name="query.userName" type="text" /></td>
-							<td><input id="filter-givenname" name="query.name.givenName" type="text" /></td>
-							<td><input id="filter-familyname" name="query.name.familyName" type="text" /></td>
+							<td><input id="filter-login" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
+							<td><input id="filter-givenname" name="query.name.givenName" type="text"  th:value="*{get('query.name.givenName')}" /></td>
+							<td><input id="filter-familyname" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
 							<td>
-								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
+								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
 								</button>
 							</td>
