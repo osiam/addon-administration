@@ -17,7 +17,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-6 form-group">
+		<div id="form-group-insider" class="col-md-6 form-group">
 			<h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.group}">Group Members</h4>
 			<form method="POST" action="">
 				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
@@ -102,7 +102,7 @@
 				<th:block th:replace="makros :: csrf" />
 				<input type="hidden" name="action" value="assignedLimit" />
 
-				<select id="paging-limit" name="assignedLimit" class="" onchange="document['form-assigned-limit'].submit();">
+				<select id="paging-limit-intern" name="assignedLimit" class="" onchange="document['form-assigned-limit'].submit();">
 					<option th:selected="${pagingInformationAssignedUsers.limit} == 5" >5</option>
 					<option th:selected="${pagingInformationAssignedUsers.limit} == 10">10</option>
 					<option th:selected="${pagingInformationAssignedUsers.limit} == 20">20</option>
@@ -115,7 +115,7 @@
 
 
 
-		<div class="col-md-6 form-group">
+		<div id="form-group-outsider" class="col-md-6 form-group">
 			<h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.other}">External Group</h4>
 			<form method="POST" action="">
 				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
@@ -196,7 +196,7 @@
 				<th:block th:replace="makros :: csrf" />
 				<input type="hidden" name="action" value="unassignedLimit" />
 
-				<select id="paging-limit" name="unassignedLimit" class="" onchange="document['form-unassigned-limit'].submit();">
+				<select id="paging-limit-extern" name="unassignedLimit" class="" onchange="document['form-unassigned-limit'].submit();">
 					<option th:selected="${pagingInformationUnassignedUsers.limit} == 5" >5</option>
 					<option th:selected="${pagingInformationUnassignedUsers.limit} == 10">10</option>
 					<option th:selected="${pagingInformationUnassignedUsers.limit} == 20">20</option>
