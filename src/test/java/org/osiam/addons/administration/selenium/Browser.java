@@ -191,6 +191,21 @@ public class Browser implements WebDriver {
 		return this;
 	}
 
+	/**
+	 * clear on the given element.
+	 *
+	 * @param element
+	 *        Element which should be clicked.
+	 * @return this
+	 */
+	public Browser clear(Element... element) {
+		for (Element elemenetToClear : element) {
+			findElement(elemenetToClear).clear();
+		}
+
+		return this;
+	}
+
 	private void selectCheckbox(WebElement webElement, Object value) {
 		if("true".equalsIgnoreCase(String.valueOf(value))){
 			if(!webElement.isSelected()){
