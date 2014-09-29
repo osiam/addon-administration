@@ -151,7 +151,11 @@ public class GroupService {
 			query += " and " + pagingInformation.getQuery();
 		}
 
-		return searchGroup(query, 0, 0L, "externalId", true);
+		return searchGroup(query,
+				pagingInformation.getLimit(),
+				pagingInformation.getOffset(),
+				pagingInformation.getOrderBy(),
+				pagingInformation.getAscending());
 	}
 
 	/**
@@ -170,7 +174,11 @@ public class GroupService {
 			query += " and " + pagingInformation.getQuery();
 		}
 
-		return searchGroup(query, 0, 0L, "externalId", true);
+		return searchGroup(query,
+				pagingInformation.getLimit(),
+				pagingInformation.getOffset(),
+				pagingInformation.getOrderBy(),
+				pagingInformation.getAscending());
 	}
 
 	/**

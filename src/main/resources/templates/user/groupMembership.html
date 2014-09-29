@@ -32,8 +32,8 @@
 							<th>
 								<span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
 								<span class="sortingArrows">
-									<a id="order-by-my-displayname-asc" th:href="@{'' (action='sortMy', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-									<a id="order-by-my-displayname-desc" th:href="@{'' (action='sortMy', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+									<a id="order-by-my-displayname-asc" th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='displayName', assignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-my-displayname-desc" th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='displayName', assignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
 								</span>
 							</th>
 							<th></th>
@@ -70,6 +70,25 @@
 					</tbody>
 				</table>
 			</form>
+			<span th:text="#{msg.list.result(${#lists.size(assignedGroups.resources)}, ${assignedGroups.startIndex} - 1 + ${#lists.size(assignedGroups.resources)}, ${assignedGroups.totalResults})}">Result x - y of total</span>
+			<div th:replace="makros :: pagingControlls(${pagingAssignedGroups}, 2, '')">
+				Paging-Navigation...
+			</div>
+			<span th:text="#{msg.list.limit}"></span>
+			<form name="form-assigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="action" value="assignedLimit" />
+
+				<select id="paging-limit" name="assignedLimit" class="" onchange="document['form-assigned-limit'].submit();">
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 5" >5</option>
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 10">10</option>
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 20">20</option>
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 50">50</option>
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 100">100</option>
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
+				</select>
+			</form>
 		</div>
 		<div class="col-md-6 form-group">
 			<h4 style="margin-bottom:5px" th:text="#{edit_group_membership.group.other}">Other groups</h4>
@@ -87,8 +106,8 @@
 							<th>
 								<span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
 								<span class="sortingArrows">
-									<a id="order-by-other-displayname-asc" th:href="@{'' (action='sortOther', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-									<a id="order-by-other-displayname-desc" th:href="@{'' (action='sortOther', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+									<a id="order-by-other-displayname-asc" th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='displayName', unassignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-other-displayname-desc" th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='displayName', unassignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
 								</span>
 							</th>
 							<th></th>
@@ -124,6 +143,26 @@
 						</tr>
 					</tbody>
 				</table>
+			</form>
+
+			<span th:text="#{msg.list.result(${#lists.size(unassignedGroups.resources)}, ${unassignedGroups.startIndex} - 1 + ${#lists.size(unassignedGroups.resources)}, ${unassignedGroups.totalResults})}">Result x - y of total</span>
+			<div th:replace="makros :: pagingControlls(${pagingUnassignedGroups}, 2, '')">
+				Paging-Navigation...
+			</div>
+			<span th:text="#{msg.list.limit}"></span>
+			<form name="form-unassigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="action" value="unassignedLimit" />
+
+				<select id="paging-limit" name="unassignedLimit" class="" onchange="document['form-unassigned-limit'].submit();">
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 5" >5</option>
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 10">10</option>
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 20">20</option>
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 50">50</option>
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 100">100</option>
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
+				</select>
 			</form>
 		</div>
 	</div>
