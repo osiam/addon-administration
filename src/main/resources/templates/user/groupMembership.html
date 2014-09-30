@@ -43,10 +43,10 @@
 					<tbody>
 						<tr th:object="${pagingInformationAssignedGroups.filterFields}">
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
-							<td><input type="hidden" name="action" value="filter"/></td>
+							<td></td>
 							<td><input id="filter-display-name" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
 							<td>
-								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
+								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
 								</button>
 							</td>
@@ -117,10 +117,10 @@
 					<tbody>
 						<tr th:object="${pagingInformationUnassignedGroups.filterFields}">
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
-							<td><input type="hidden" name="action" value="filter"/></td>
+							<td></td>
 							<td><input id="filter-display-name" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
 							<td>
-								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
+								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
 								</button>
 							</td>
