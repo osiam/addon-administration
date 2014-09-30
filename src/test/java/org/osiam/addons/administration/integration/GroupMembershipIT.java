@@ -7,10 +7,19 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.osiam.addons.administration.GroupList;
 import org.osiam.addons.administration.GroupMembership;
 import org.osiam.addons.administration.selenium.Field;
 
 public class GroupMembershipIT extends Integrationtest {
+
+	@Override
+	public void setup() {
+		super.setup();
+
+		browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
+		browser.click(GroupList.GROUP_LIST);
+	}
 
 	@Test
 	public void assing_multiple_user() {
@@ -201,6 +210,28 @@ public class GroupMembershipIT extends Integrationtest {
 		browser.findElement(By.xpath(unassignUserIconXpath)).click();
 	}
 
+	//TODO
+	//Fix me "Get groups in list" (Bug in Server)
+	@Test
+	public void compare_user_amount() {
+		final String allUnassignedUserCheckbox = "//table[contains(@id, 'outsider')]//input[contains(@id, 'group-checkbox')]";
+		final String submitUnassigendButton = "//table[contains(@id, 'outsider')]//input[contains(@type, 'submit')]";
+
+		final String testGroup = "test_group05";
+
+		gotoMembershipGroupView(testGroup);
+
+		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "0")); // set limit to
+																	// "unlimited"
+		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0"));
+
+		browser.findElement(By.xpath(allUnassignedUserCheckbox)).click();
+
+		browser.findElement(By.xpath(submitUnassigendButton)).click();
+
+		assertEquals(getAssignedUser("insider"), getAssignedUser("outsider"));
+	}
+
 	private void gotoMembershipGroupView(String groupName) {
 		String actionLabelXpath = "//td[. = '" + groupName + "']/..//div[contains(@id, 'action-label')]";
 		String editMembershipButtonXpath = "//td[. = '" + groupName + "']/..//button[contains(@id, 'action-button-edit-user-membership')]";
@@ -268,8 +299,8 @@ public class GroupMembershipIT extends Integrationtest {
 		return true;
 	}
 
-	private int getAssignedUser(String visibility) {
-		String userRowsXpath = "//table[contains(@id,'" + visibility + "')]//tr//td//input[contains(@class, 'checkbox')]";
+	private int getAssignedUser(String membership) {
+		String userRowsXpath = "//table[contains(@id,'" + membership + "')]//tr//td//input[contains(@class, 'checkbox')]";
 		return browser.findElements(By.xpath(userRowsXpath)).size();
 	}
 
