@@ -277,14 +277,13 @@ public class UserEditIT extends Integrationtest {
 
 	private void drop_Multi_Value_Attribute(String containerId, int nth) {
 		browser.findElement(
-				By.xpath("//fieldset[contains(@id, '" + containerId + "')]/div[" + nth
-						+ "]/button[contains(@id, 'button-remove')]"))
+				By.xpath("//div[contains(@id, 'container')]//div[contains(@id, '" + containerId + "-block')][" + nth
+						+ "]//button[contains(@id, 'button-remove')]"))
 				.click();
 	}
 
 	private int count_Child_Elements(String containerId) {
-		List<WebElement> foundElements = browser.findElements(By.xpath("//fieldset[contains(@id, '" + containerId
-				+ "')]//div[contains(@class, 'row')]"));
+		List<WebElement> foundElements = browser.findElements(By.xpath("//div[contains(@id, 'container')]//div[contains(@id, '" + containerId + "-block')]"));
 		return foundElements.size();
 	}
 

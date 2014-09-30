@@ -7,10 +7,19 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.osiam.addons.administration.GroupList;
 import org.osiam.addons.administration.GroupMembership;
 import org.osiam.addons.administration.selenium.Field;
 
 public class GroupMembershipIT extends Integrationtest {
+
+	@Override
+	public void setup() {
+		super.setup();
+
+		browser.doOauthLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
+		browser.click(GroupList.GROUP_LIST);
+	}
 
 	@Test
 	public void assing_multiple_user() {

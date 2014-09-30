@@ -412,7 +412,7 @@
 						START EMAIL-BLOCK
 					*/-->
 					<div id="email-container">
-						<fieldset th:each="email, stat : *{emails}" th:id="${'email-block-' + stat.index}">
+						<div th:each="email, stat : *{emails}" th:id="${'email-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{emails[__${stat.index}__].primary}')}? ' bg-danger' : '')">
 									<label th:for="${'email-' + stat.index + '-primary'}" th:text="#{edit_user.email.primary}">Primary</label><br />
@@ -443,7 +443,7 @@
 								</div>
 							</div>
 							<hr />
-						</fieldset>
+						</div>
 
 						<button id="button-add-email" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.email}">Add E-Mail</button>
 					</div>
@@ -456,7 +456,7 @@
 						START PHONE-NUMBER-BLOCK
 					*/-->
 					<div id="phoneNumber-container" >
-						<fieldset th:each="phoneNumber, stat : *{phoneNumbers}" th:id="${'phoneNumber-block-' + stat.index}">
+						<div th:each="phoneNumber, stat : *{phoneNumbers}" th:id="${'phoneNumber-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{phoneNumbers[__${stat.index}__].primary}')}? ' bg-danger' : '')">
 									<label th:for="${'phoneNumber-' + stat.index + '-primary'}" th:text="#{edit_user.phoneNumber.primary}">Primary</label><br />
@@ -489,7 +489,7 @@
 								</div>
 							</div>
 							<hr />
-						</fieldset>
+						</div>
 
 						<button id="button-add-phoneNumber" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.phoneNumber}">Add Phone number</button>
 					</div>
@@ -502,7 +502,7 @@
 						START IM-BLOCK
 					*/-->
 					<div id="im-container">
-						<fieldset th:each="im, stat : *{ims}" th:id="${'im-block-' + stat.index}">
+						<div th:each="im, stat : *{ims}" th:id="${'im-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{ims[__${stat.index}__].primary}')}? ' bg-danger' : '')">
 									<label th:for="${'im-' + stat.index + '-primary'}" th:text="#{edit_user.instanceMessager.primary}">Primary</label><br />
@@ -535,7 +535,7 @@
 								</div>
 							</div>
 							<hr />
-						</fieldset>
+						</div>
 
 						<button id="button-add-im" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.im}">Add Instant Messenger</button>
 					</div>
@@ -548,7 +548,7 @@
 						START Certificates-BLOCK
 					*/-->
 					<div id="certificates-container">
-						<fieldset th:each="certificates, stat : *{certificates}" th:id="${'certificates-block-' + stat.index}">
+						<div th:each="certificates, stat : *{certificates}" th:id="${'certificate-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{certificates[__${stat.index}__].primary}')}? ' bg-danger' : '')">
 									<label th:for="${'certificates-' + stat.index + '-primary'}" th:text="#{edit_user.certificates.primary}">Primary</label><br />
@@ -581,7 +581,7 @@
 								</div>
 							</div>
 							<hr />
-						</fieldset>
+						</div>
 
 						<button id="button-add-certificate" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.certificates}">Add Certificate</button>
 					</div>
@@ -594,7 +594,7 @@
 						START Entitlements-BLOCK
 					*/-->
 					<div id="entitlements-container">
-						<fieldset th:each="entitlements, stat : *{entitlements}" th:id="${'entitlements-block-' + stat.index}">
+						<div th:each="entitlements, stat : *{entitlements}" th:id="${'entitlement-block-' + stat.index}">
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{entitlements[__${stat.index}__].primary}')}? ' bg-danger' : '')">
 									<label th:for="${'entitlements-' + stat.index + '-primary'}" th:text="#{edit_user.entitlements.primary}">Primary</label><br />
@@ -627,7 +627,7 @@
 								</div>
 							</div>
 							<hr />
-						</fieldset>
+						</div>
 
 						<button id="button-add-entitlement" class="btn btn-md btn-primary only-on-js" type="button" th:text="#{edit_user.add.entitlements}">Add Entitlement</button>
 					</div>
@@ -640,7 +640,7 @@
 						START address-BLOCK
 					*/-->
 					<div id="addresses-container">
-						<fieldset th:each="addresses, stat : *{addresses}" th:id="${'addresses-block-' + stat.index}">
+						<div th:each="addresses, stat : *{addresses}" th:id="${'address-block-' + stat.index}">
 
 							<div class="row">
 								<div th:class="'col-md-2 form-group' + (${#fields.hasErrors('*{addresses[__${stat.index}__].primary}')}? ' bg-danger' : '')">
@@ -704,7 +704,7 @@
 								</div>
 							</div>
 							<hr />
-						</fieldset>
+						</div>
 
 						<button id="button-add-address" class="btn btn-md btn-primary only-on-js"  type="button" th:text="#{edit_user.add.addresses}">Add Address</button>
 					</div>
