@@ -1,4 +1,9 @@
 # OSIAM addon-administration
 
+## 1.2 - 2014-09-30
+- new page for add group to users
+- new page for add user to groups
+- revive the logout button
+
 ## 1.1 - 2014-09-22
 - first release of the addon-administration!
