@@ -54,11 +54,10 @@ public class EditUserMembershipController extends GenericController {
 	public static final String MODEL_USER_LIST = "userList";
 	public static final String MODEL_PAGING_LINKS_ASSIGNED_USERS = "pagingAssignedUsers";
 	public static final String MODEL_PAGING_LINKS_UNASSIGNED_USERS = "pagingUnassignedUsers";
-
 	public static final String MODEL_PAGING_INFORMATION_ASSIGNED_USERS = "pagingInformationAssignedUsers";
 	public static final String MODEL_PAGING_INFORMATION_UNASSIGNED_USERS = "pagingInformationUnassignedUsers";
 
-	private static final Integer DEFAULT_LIMIT = 5;
+	private static final Integer DEFAULT_LIMIT = 10;
 	private static final String DEFAULT_SORT_BY = "userName";
 	private static final Boolean DEFAULT_SORT_DIRECTION = true;
 
@@ -95,39 +94,40 @@ public class EditUserMembershipController extends GenericController {
 		unassignedOrderBy = unassignedOrderBy == null ? DEFAULT_SORT_BY : unassignedOrderBy;
 		unassignedAscending = unassignedAscending == null ? DEFAULT_SORT_DIRECTION : unassignedAscending;
 
-		session.getRemovePanelPagingInformation().setOffset(assignedOffset);
-		session.getRemovePanelPagingInformation().setLimit(assignedLimit);
-		session.getRemovePanelPagingInformation().setOrderBy(assignedOrderBy);
-		session.getRemovePanelPagingInformation().setAscending(assignedAscending);
-		session.getRemovePanelPagingInformation().setQuery(assignedQuery);
+		session.getAssignedUsersPagingInformation().setOffset(assignedOffset);
+		session.getAssignedUsersPagingInformation().setLimit(assignedLimit);
+		session.getAssignedUsersPagingInformation().setOrderBy(assignedOrderBy);
+		session.getAssignedUsersPagingInformation().setAscending(assignedAscending);
+		session.getAssignedUsersPagingInformation().setQuery(assignedQuery);
 
-		session.getAddPanelPagingInformation().setOffset(unassignedOffset);
-		session.getAddPanelPagingInformation().setLimit(unassignedLimit);
-		session.getAddPanelPagingInformation().setOrderBy(unassignedOrderBy);
-		session.getAddPanelPagingInformation().setAscending(unassignedAscending);
-		session.getAddPanelPagingInformation().setQuery(unassignedQuery);
+		session.getUnassignedUsersPagingInformation().setOffset(unassignedOffset);
+		session.getUnassignedUsersPagingInformation().setLimit(unassignedLimit);
+		session.getUnassignedUsersPagingInformation().setOrderBy(unassignedOrderBy);
+		session.getUnassignedUsersPagingInformation().setAscending(unassignedAscending);
+		session.getUnassignedUsersPagingInformation().setQuery(unassignedQuery);
 
 		SCIMSearchResult<User> assignedUsers = userService.getAssignedUsers(groupId,
-													session.getRemovePanelPagingInformation(),
+													session.getAssignedUsersPagingInformation(),
 													attributes);
 
 		SCIMSearchResult<User> unassignedUsers = userService.getUnassignedUsers(groupId,
-													session.getAddPanelPagingInformation(),
+													session.getUnassignedUsersPagingInformation(),
 													attributes);
 
 		modelAndView.addObject(MODEL_ASSIGNED_USERS, assignedUsers);
 		modelAndView.addObject(MODEL_UNASSIGNED_USERS, unassignedUsers);
 
-		modelAndView.addObject(MODEL_PAGING_INFORMATION_ASSIGNED_USERS, session.getAddPanelPagingInformation());
-		modelAndView.addObject(MODEL_PAGING_INFORMATION_UNASSIGNED_USERS, session.getRemovePanelPagingInformation());
-
 		PagingLinks pagingLinksAssigned = generatePagingLinksForAssigned(groupId, assignedUsers,
-				session.getRemovePanelPagingInformation(), session.getAddPanelPagingInformation());
+				session.getAssignedUsersPagingInformation(), session.getUnassignedUsersPagingInformation());
+
 		PagingLinks pagingLinksUnassigned = generatePagingLinksForUnassigned(groupId, unassignedUsers,
-				session.getAddPanelPagingInformation(), session.getRemovePanelPagingInformation());
+				session.getUnassignedUsersPagingInformation(), session.getAssignedUsersPagingInformation());
 
 		modelAndView.addObject(MODEL_PAGING_LINKS_ASSIGNED_USERS, pagingLinksAssigned);
 		modelAndView.addObject(MODEL_PAGING_LINKS_UNASSIGNED_USERS, pagingLinksUnassigned);
+
+		modelAndView.addObject(MODEL_PAGING_INFORMATION_ASSIGNED_USERS, session.getAssignedUsersPagingInformation());
+		modelAndView.addObject(MODEL_PAGING_INFORMATION_UNASSIGNED_USERS, session.getUnassignedUsersPagingInformation());
 
 		return modelAndView;
 	}
@@ -237,10 +237,22 @@ public class EditUserMembershipController extends GenericController {
 
 		groupService.addUsersToGroup(groupId, userIds);
 
-		return new RedirectBuilder()
-						.setPath(CONTROLLER_PATH)
-						.addParameter(REQUEST_PARAMETER_ID, groupId)
-					.build();
+		return defaultRedirect(groupId).build();
+	}
+
+	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=add", REQUEST_PARAMETER_ACTION + "=filter"})
+	public String handleFilterUserAdd(@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
+										@RequestParam Map<String, String> allParameters) {
+
+		Map<String, String> filterParameter = extractFilterParameter(allParameters);
+		String filterQuery = buildFilterQuery(filterParameter);
+
+		session.getUnassignedUsersPagingInformation().setFilterFields(filterParameter);
+
+
+		return defaultRedirect(groupId)
+					.addParameter(REQUEST_PARAMETER_UNASSIGNED_QUERY, filterQuery)
+				.build();
 	}
 
 	@RequestMapping(params=REQUEST_PARAMETER_PANEL + "=remove")
@@ -249,10 +261,7 @@ public class EditUserMembershipController extends GenericController {
 
 		groupService.removeUsersFromGroup(groupId, userIds);
 
-		return new RedirectBuilder()
-						.setPath(CONTROLLER_PATH)
-						.addParameter(REQUEST_PARAMETER_ID, groupId)
-					.build();
+		return defaultRedirect(groupId).build();
 	}
 
 	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=remove", REQUEST_PARAMETER_ACTION + "=filter"})
@@ -262,33 +271,71 @@ public class EditUserMembershipController extends GenericController {
 		Map<String, String> filterParameter = extractFilterParameter(allParameters);
 		String filterQuery = buildFilterQuery(filterParameter);
 
-		session.getRemovePanelPagingInformation().setFilterFields(filterParameter);
+		session.getAssignedUsersPagingInformation().setFilterFields(filterParameter);
 
-
-		return new RedirectBuilder()
-					.setPath(CONTROLLER_PATH)
-					.addParameter(REQUEST_PARAMETER_ID, groupId)
+		return defaultRedirect(groupId)
 					.addParameter(REQUEST_PARAMETER_ASSIGNED_QUERY, filterQuery)
-					.addParameter(REQUEST_PARAMETER_ASSIGNED_LIMIT, session.getRemovePanelPagingInformation().getLimit())
-					.addParameter(REQUEST_PARAMETER_ASSIGNED_OFFSET, null)
-					.addParameter(REQUEST_PARAMETER_ASSIGNED_ORDER_BY, session.getRemovePanelPagingInformation().getOrderBy())
-					.addParameter(REQUEST_PARAMETER_ASSIGNED_ASCENDING, session.getRemovePanelPagingInformation().getAscending())
-					.addParameter(REQUEST_PARAMETER_UNASSIGNED_QUERY, session.getAddPanelPagingInformation().getQuery())
-					.addParameter(REQUEST_PARAMETER_UNASSIGNED_LIMIT, session.getAddPanelPagingInformation().getLimit())
-					.addParameter(REQUEST_PARAMETER_UNASSIGNED_OFFSET, null)
-					.addParameter(REQUEST_PARAMETER_UNASSIGNED_ORDER_BY, session.getAddPanelPagingInformation().getOrderBy())
-					.addParameter(REQUEST_PARAMETER_UNASSIGNED_ASCENDING, session.getAddPanelPagingInformation().getAscending())
 				.build();
 	}
 
-	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=remove", REQUEST_PARAMETER_ACTION + "=sort"})
-	public String handleSortUserRemove(@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
-									@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_ORDER_BY) String orderBy,
-									@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_ASCENDING) Boolean ascending) {
+	@RequestMapping(params = REQUEST_PARAMETER_ACTION + "=assignedLimit")
+	public String handleAssignedUserLimitAction(
+			@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
+			@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_LIMIT) Integer limit) {
 
-		return new RedirectBuilder()
-						.setPath(CONTROLLER_PATH)
-						.addParameter(REQUEST_PARAMETER_ID, groupId)
-					.build();
+		return defaultRedirect(groupId)
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_LIMIT, limit)
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_OFFSET, null)
+			.build();
+	}
+
+	@RequestMapping(params = REQUEST_PARAMETER_ACTION + "=unassignedLimit")
+	public String handleUnassignedUserLimitAction(
+			@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
+			@RequestParam(value = REQUEST_PARAMETER_UNASSIGNED_LIMIT) Integer limit) {
+
+		return defaultRedirect(groupId)
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_LIMIT, limit)
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_OFFSET, null)
+			.build();
+	}
+
+	@RequestMapping(params = REQUEST_PARAMETER_ACTION + "=assignedSort")
+	public String handleAssignedUserSortAction(
+			@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
+			@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_ORDER_BY) String orderBy,
+			@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_ASCENDING) Boolean ascending) {
+
+		return defaultRedirect(groupId)
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_ORDER_BY, orderBy)
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_ASCENDING, ascending)
+			.build();
+	}
+
+	@RequestMapping(params = REQUEST_PARAMETER_ACTION + "=unassignedSort")
+	public String handleUnassignedUserSortAction(
+			@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
+			@RequestParam(value = REQUEST_PARAMETER_UNASSIGNED_ORDER_BY) String orderBy,
+			@RequestParam(value = REQUEST_PARAMETER_UNASSIGNED_ASCENDING) Boolean ascending) {
+
+		return defaultRedirect(groupId)
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_ORDER_BY, orderBy)
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_ASCENDING, ascending)
+			.build();
+	}
+
+	private RedirectBuilder defaultRedirect(String groupId) {
+		return new RedirectBuilder().setPath(CONTROLLER_PATH)
+				.addParameter(REQUEST_PARAMETER_ID, groupId)
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_QUERY, session.getAssignedUsersPagingInformation().getQuery())
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_LIMIT, session.getAssignedUsersPagingInformation().getLimit())
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_OFFSET, session.getAssignedUsersPagingInformation().getOffset())
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_ORDER_BY, session.getAssignedUsersPagingInformation().getOrderBy())
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_ASCENDING, session.getAssignedUsersPagingInformation().getAscending())
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_QUERY, session.getUnassignedUsersPagingInformation().getQuery())
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_LIMIT, session.getUnassignedUsersPagingInformation().getLimit())
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_OFFSET, session.getUnassignedUsersPagingInformation().getOffset())
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_ORDER_BY, session.getUnassignedUsersPagingInformation().getOrderBy())
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_ASCENDING, session.getUnassignedUsersPagingInformation().getAscending());
 	}
 }

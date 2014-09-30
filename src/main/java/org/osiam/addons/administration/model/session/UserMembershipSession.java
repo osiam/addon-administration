@@ -7,21 +7,23 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserMembershipSession {
-	private PagingInformation addPanelPagingInformation = new PagingInformation();
-	private PagingInformation removePanelPagingInformation = new PagingInformation();
+	private PagingInformation unassignedUsersPagingInformation = new PagingInformation();
+	private PagingInformation assignedUsersPagingInformation = new PagingInformation();
 
-	public PagingInformation getAddPanelPagingInformation() {
-		return addPanelPagingInformation;
-	}
-	public void setAddPanelPagingInformation(PagingInformation addPanelPagingInformation) {
-		this.addPanelPagingInformation = addPanelPagingInformation;
-	}
-	public PagingInformation getRemovePanelPagingInformation() {
-		return removePanelPagingInformation;
-	}
-	public void setRemovePanelPagingInformation(PagingInformation removePanelPagingInformation) {
-		this.removePanelPagingInformation = removePanelPagingInformation;
+	public PagingInformation getUnassignedUsersPagingInformation() {
+		return unassignedUsersPagingInformation;
 	}
 
+	public void setUnassignedUsersPagingInformation(PagingInformation unassignedUsersPagingInformation) {
+		this.unassignedUsersPagingInformation = unassignedUsersPagingInformation;
+	}
+
+	public PagingInformation getAssignedUsersPagingInformation() {
+		return assignedUsersPagingInformation;
+	}
+
+	public void setAssignedUsersPagingInformation(PagingInformation assignedUsersPagingInformation) {
+		this.assignedUsersPagingInformation = assignedUsersPagingInformation;
+	}
 
 }
