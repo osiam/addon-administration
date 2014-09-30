@@ -232,6 +232,120 @@ public class GroupMembershipIT extends Integrationtest {
 		assertEquals(getAssignedUser("insider"), getAssignedUser("outsider"));
 	}
 
+	@Test
+	public void order() {
+		final String allUnassignedUserCheckbox = "//table[contains(@id, 'outsider')]//input[contains(@id, 'group-checkbox')]";
+		final String submitUnassigendButton = "//table[contains(@id, 'outsider')]//input[contains(@type, 'submit')]";
+		final String testGroup = "test_group10";
+
+		gotoMembershipGroupView(testGroup);
+
+		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0")); // set limit to
+																	// "unlimited"
+		browser.findElement(By.xpath(allUnassignedUserCheckbox)).click();
+		browser.findElement(By.xpath(submitUnassigendButton)).click();
+
+		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "5")); // set limit to
+																	// "5"
+		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "5")); // set limit to
+																		// "5"
+		browser.click(GroupMembership.SORT_ASSIGNED_LOGIN_ASC);
+		browser.click(GroupMembership.SORT_UNASSIGNED_LOGIN_DESC);
+		assertTrue(isAssignedUserAtPosition("adavies", 0));
+		assertFalse(isUnassignedUserAtPosition("adavies", 0));
+		browser.click(GroupMembership.SORT_ASSIGNED_GIVEN_NAME_ASC);
+		browser.click(GroupMembership.SORT_UNASSIGNED_GIVEN_NAME_DESC);
+		assertTrue(isAssignedUserAtPosition("adavies", 0)); // Adeline
+		assertFalse(isUnassignedUserAtPosition("adavies", 0));
+		browser.click(GroupMembership.SORT_ASSIGNED_FAMILY_NAME_ASC);
+		browser.click(GroupMembership.SORT_UNASSIGNED_FAMILY_NAME_DESC);
+		assertTrue(isAssignedUserAtPosition("gparker", 0)); // Barker
+		assertFalse(isUnassignedUserAtPosition("gparker", 0));
+
+		browser.click(GroupMembership.SORT_ASSIGNED_LOGIN_DESC);
+		browser.click(GroupMembership.SORT_UNASSIGNED_LOGIN_ASC);
+		assertTrue(isAssignedUserAtPosition("marissa", 0));
+		assertTrue(isUnassignedUserAtPosition("adavies", 0));
+		browser.click(GroupMembership.SORT_ASSIGNED_GIVEN_NAME_DESC);
+		browser.click(GroupMembership.SORT_UNASSIGNED_GIVEN_NAME_ASC);
+		assertTrue(isAssignedUserAtPosition("ewilley", 0)); // Willey
+		assertFalse(isUnassignedUserAtPosition("ewilley", 0));
+		browser.click(GroupMembership.SORT_ASSIGNED_FAMILY_NAME_DESC);
+		browser.click(GroupMembership.SORT_UNASSIGNED_FAMILY_NAME_ASC);
+		assertTrue(isAssignedUserAtPosition("jcambell", 0)); // Thompson
+		assertFalse(isUnassignedUserAtPosition("jcambell", 0));
+
+		//page and sort
+		browser.click(GroupMembership.PAGING_UNASSIGNED_NEXT);
+		browser.click(GroupMembership.SORT_UNASSIGNED_LOGIN_DESC);
+		browser.click(GroupMembership.SORT_ASSIGNED_LOGIN_ASC);
+		assertTrue(isUnassignedUserAtPosition("ewilley", 0));
+		assertTrue(isAssignedUserAtPosition("adavies", 0));
+
+		browser.click(GroupMembership.PAGING_ASSIGNED_NEXT);
+		browser.click(GroupMembership.SORT_ASSIGNED_LOGIN_DESC);
+		assertTrue(isAssignedUserAtPosition("ewilley", 0));
+		assertTrue(isUnassignedUserAtPosition("ewilley", 0));
+	}
+
+	private boolean isAssignedUserAtPosition(String username, Integer position) {
+		// the row #2 is the first user-row!
+				String rowXpath = "//table[contains(@id, 'insider')]//tr[" + (2 - position)
+						+ "]//td[contains(., '" + username + "')]";
+
+				return browser.findElements(By.xpath(rowXpath)).size() == 1;
+	}
+
+	private boolean isUnassignedUserAtPosition(String username, Integer position) {
+		// the row #2 is the first user-row!
+				String rowXpath = "//table[contains(@id, 'outsider')]//tr[" + (2 - position)
+						+ "]//td[contains(., '" + username + "')]";
+
+				return browser.findElements(By.xpath(rowXpath)).size() == 1;
+	}
+
+	//TODO
+//	@Test
+//		public void apply_empty_filter() {
+//			int rowsBeforeFiltering = browser.findElements(GroupMembership.LIST_ROWS).size();
+//
+//			browser.click(GroupMembership.FILTER_BUTTON);
+//			assertTrue(isUserPresent(ADMIN_USERNAME));
+//
+//			int rowsAfterFiltering = browser.findElements(GroupMembership.LIST_ROWS).size();
+//
+//			assertEquals(rowsBeforeFiltering, rowsAfterFiltering);
+//		}
+//
+//	@Test
+//		public void apply_single_filter() {
+//			testLoginFiltering();
+//			resetFilter();
+//			testFirstNameFiltering();
+//			resetFilter();
+//			testLastNameFiltering();
+//			resetFilter();
+//			testGroupNameFiltering();
+//		}
+//
+//	@Test
+//		public void apply_multi_filter() {
+//			//Also tests trimming in filter fields
+//			browser.fill(new Field(GroupMembership.FILTER_LOGIN, "adavies"),
+//					new Field(GroupMembership.FILTER_GIVEN_NAME, "  Adeline  "),
+//					new Field(GroupMembership.FILTER_FAMILY_NAME, "  Davies  "),
+//					new Field(GroupMembership.FILTER_GROUP_NAME, " test_group08 "));
+//			browser.click(GroupMembership.FILTER_BUTTON);
+//
+//			assertTrue(isUserPresent("adavies"));
+//			assertEquals(getDisplayedUserCount(), 1);
+//		}
+//
+//	@Test
+//	public void paging_filter() {
+//
+//	}
+
 	private void gotoMembershipGroupView(String groupName) {
 		String actionLabelXpath = "//td[. = '" + groupName + "']/..//div[contains(@id, 'action-label')]";
 		String editMembershipButtonXpath = "//td[. = '" + groupName + "']/..//button[contains(@id, 'action-button-edit-user-membership')]";
