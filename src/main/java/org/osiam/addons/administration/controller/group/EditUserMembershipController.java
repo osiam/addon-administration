@@ -237,10 +237,7 @@ public class EditUserMembershipController extends GenericController {
 
 		groupService.addUsersToGroup(groupId, userIds);
 
-		return new RedirectBuilder()
-						.setPath(CONTROLLER_PATH)
-						.addParameter(REQUEST_PARAMETER_ID, groupId)
-					.build();
+		return defaultRedirect(groupId).build();
 	}
 
 	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=add", REQUEST_PARAMETER_ACTION + "=filter"})
@@ -281,15 +278,6 @@ public class EditUserMembershipController extends GenericController {
 				.build();
 	}
 
-	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=remove", REQUEST_PARAMETER_ACTION + "=sort"})
-	public String handleSortUserRemove(@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
-									@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_ORDER_BY) String orderBy,
-									@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_ASCENDING) Boolean ascending) {
-
-		return defaultRedirect(groupId)
-			.build();
-	}
-
 	@RequestMapping(params = REQUEST_PARAMETER_ACTION + "=assignedLimit")
 	public String handleAssignedUserLimitAction(
 			@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
@@ -312,6 +300,30 @@ public class EditUserMembershipController extends GenericController {
 			.build();
 	}
 
+	@RequestMapping(params = REQUEST_PARAMETER_ACTION + "=assignedSort")
+	public String handleAssignedUserSortAction(
+			@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
+			@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_ORDER_BY) String orderBy,
+			@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_ASCENDING) Boolean ascending) {
+
+		return defaultRedirect(groupId)
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_ORDER_BY, orderBy)
+				.addParameter(REQUEST_PARAMETER_ASSIGNED_ASCENDING, ascending)
+			.build();
+	}
+
+	@RequestMapping(params = REQUEST_PARAMETER_ACTION + "=unassignedSort")
+	public String handleUnassignedUserSortAction(
+			@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
+			@RequestParam(value = REQUEST_PARAMETER_UNASSIGNED_ORDER_BY) String orderBy,
+			@RequestParam(value = REQUEST_PARAMETER_UNASSIGNED_ASCENDING) Boolean ascending) {
+
+		return defaultRedirect(groupId)
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_ORDER_BY, orderBy)
+				.addParameter(REQUEST_PARAMETER_UNASSIGNED_ASCENDING, ascending)
+			.build();
+	}
+
 	private RedirectBuilder defaultRedirect(String groupId) {
 		return new RedirectBuilder().setPath(CONTROLLER_PATH)
 				.addParameter(REQUEST_PARAMETER_ID, groupId)
@@ -325,49 +337,5 @@ public class EditUserMembershipController extends GenericController {
 				.addParameter(REQUEST_PARAMETER_UNASSIGNED_OFFSET, session.getUnassignedUsersPagingInformation().getOffset())
 				.addParameter(REQUEST_PARAMETER_UNASSIGNED_ORDER_BY, session.getUnassignedUsersPagingInformation().getOrderBy())
 				.addParameter(REQUEST_PARAMETER_UNASSIGNED_ASCENDING, session.getUnassignedUsersPagingInformation().getAscending());
-	}
-
-	@RequestMapping(params = REQUEST_PARAMETER_ACTION + "=assignedSort")
-	public String handleAssignedUserSortAction(
-			@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
-			@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_ORDER_BY) String orderBy,
-			@RequestParam(value = REQUEST_PARAMETER_ASSIGNED_ASCENDING) Boolean ascending) {
-
-		return new RedirectBuilder()
-			.setPath(CONTROLLER_PATH)
-			.addParameter(REQUEST_PARAMETER_ID, groupId)
-			.addParameter(REQUEST_PARAMETER_ASSIGNED_QUERY, session.getRemovePanelPagingInformation().getQuery())
-			.addParameter(REQUEST_PARAMETER_ASSIGNED_LIMIT, session.getRemovePanelPagingInformation().getLimit())
-			.addParameter(REQUEST_PARAMETER_ASSIGNED_OFFSET, session.getRemovePanelPagingInformation().getOffset())
-			.addParameter(REQUEST_PARAMETER_ASSIGNED_ORDER_BY, orderBy)
-			.addParameter(REQUEST_PARAMETER_ASSIGNED_ASCENDING, ascending)
-			.addParameter(REQUEST_PARAMETER_UNASSIGNED_QUERY, session.getAddPanelPagingInformation().getQuery())
-			.addParameter(REQUEST_PARAMETER_UNASSIGNED_LIMIT, session.getAddPanelPagingInformation().getLimit())
-			.addParameter(REQUEST_PARAMETER_UNASSIGNED_OFFSET, session.getAddPanelPagingInformation().getOffset())
-			.addParameter(REQUEST_PARAMETER_UNASSIGNED_ORDER_BY, session.getAddPanelPagingInformation().getOrderBy())
-			.addParameter(REQUEST_PARAMETER_UNASSIGNED_ASCENDING, session.getAddPanelPagingInformation().getAscending())
-		.build();
-	}
-
-	@RequestMapping(params = REQUEST_PARAMETER_ACTION + "=unassignedSort")
-	public String handleUnassignedUserSortAction(
-			@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
-			@RequestParam(value = REQUEST_PARAMETER_UNASSIGNED_ORDER_BY) String orderBy,
-			@RequestParam(value = REQUEST_PARAMETER_UNASSIGNED_ASCENDING) Boolean ascending) {
-
-		return new RedirectBuilder()
-			.setPath(CONTROLLER_PATH)
-			.addParameter(REQUEST_PARAMETER_ID, groupId)
-			.addParameter(REQUEST_PARAMETER_ASSIGNED_QUERY, session.getRemovePanelPagingInformation().getQuery())
-			.addParameter(REQUEST_PARAMETER_ASSIGNED_LIMIT, session.getRemovePanelPagingInformation().getLimit())
-			.addParameter(REQUEST_PARAMETER_ASSIGNED_OFFSET, session.getRemovePanelPagingInformation().getOffset())
-			.addParameter(REQUEST_PARAMETER_ASSIGNED_ORDER_BY, session.getRemovePanelPagingInformation().getOrderBy())
-			.addParameter(REQUEST_PARAMETER_ASSIGNED_ASCENDING, session.getRemovePanelPagingInformation().getAscending())
-			.addParameter(REQUEST_PARAMETER_UNASSIGNED_QUERY, session.getAddPanelPagingInformation().getQuery())
-			.addParameter(REQUEST_PARAMETER_UNASSIGNED_LIMIT, session.getAddPanelPagingInformation().getLimit())
-			.addParameter(REQUEST_PARAMETER_UNASSIGNED_OFFSET, session.getAddPanelPagingInformation().getOffset())
-			.addParameter(REQUEST_PARAMETER_UNASSIGNED_ORDER_BY, orderBy)
-			.addParameter(REQUEST_PARAMETER_UNASSIGNED_ASCENDING, ascending)
-		.build();
 	}
 }

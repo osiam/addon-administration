@@ -16,6 +16,8 @@ public enum EditList implements Element {
 	DIALOG_ABORT(By.xpath("//div[contains(@role, 'dialog')]//button[contains(@data-bb-handler, 'danger')]")),
 	DIALOG_CLOSE(By.xpath("//div[contains(@role, 'dialog')]//button[starts-with(@class, 'bootbox-close-button')]")),
 
+	LIST_ROWS(By.xpath("//div[contains(@id, 'content')]/table/tbody/tr")),
+
 	DISPLAYNAME(By.id("displayName")),
 
 	SUBMIT_BUTTON(By.id("btnSaveChanges")),
