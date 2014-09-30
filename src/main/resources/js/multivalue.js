@@ -54,12 +54,12 @@ $(function(){
 	});
 
 	$("#button-add-certificate").click(function(){
-		var allCertificatesBlocks = $("[id^='certificates-block-']");
+		var allCertificatesBlocks = $("[id^='certificate-block-']");
 		var displayedCertificatesCount = allCertificatesBlocks.size();
 		var lastCertificatesBlock = allCertificatesBlocks.last();
 
 		var myIndex = displayedCertificatesCount;
-		var newBlock = cloneBlock('#certificate-template', 'certificates-block-' + myIndex, myIndex);
+		var newBlock = cloneBlock('#certificate-template', 'certificate-block-' + myIndex, myIndex);
 
 		if(lastCertificatesBlock.length > 0){
 			lastCertificatesBlock.after(newBlock);
