@@ -112,11 +112,11 @@ public class UserEditIT extends Integrationtest {
 		final String newEntitlementsType = "StandartE";
 
 		final String newAddressCountry = "Deutschland";
-		final String newAddressFormatted = "Deutschlandstraße 20 12345 Ländisch";
+		final String newAddressFormatted = "Deutschlandstra\u00dfe 20 12345 L\u00e4ndisch";
 		final String newAddressLocality = "de_DE";
 		final String newAddressPostalcode = "12345";
-		final String newAddressRegion = "Ländisch";
-		final String newAddressStreetaddress = "Deutschlandstraße 20";
+		final String newAddressRegion = "L\u00e4ndisch";
+		final String newAddressStreetaddress = "Deutschlandstra\u00dfe 20";
 		final String newAddressType = "StandartA";
 
 		browser.findElement(UserEdit.ACTIVE).click();
@@ -233,7 +233,7 @@ public class UserEditIT extends Integrationtest {
 	public void false_Multi_Value_Attributes() {
 		final String falseEmailValue = "hanspeters_email";
 		final String falsePhoneValue = "meintelefon";
-		final String falseAddressPostalcode = "einszweidreivierfünf";
+		final String falseAddressPostalcode = "einszweidreivierf\u00fcnf";
 
 		browser.fill(new Field(UserEdit.FIRST_EMAIL_VALUE, falseEmailValue));
 		browser.fill(new Field(UserEdit.PHONENUMBER_VALUE, falsePhoneValue));
@@ -242,7 +242,7 @@ public class UserEditIT extends Integrationtest {
 		browser.click(UserEdit.SUBMIT_BUTTON);
 		browser.click(EditList.DIALOG_SUCCESS);
 
-		assertTrue(browser.isTextPresent("keine gültige E-Mail-Adresse"));
+		assertTrue(browser.isTextPresent("keine g\u00fcltige E-Mail-Adresse"));
 	}
 
 	@Test
