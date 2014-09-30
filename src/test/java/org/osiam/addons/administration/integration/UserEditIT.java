@@ -69,6 +69,8 @@ public class UserEditIT extends Integrationtest {
 		assertFalse(browser.isTextPresent("car"));
 	}
 
+	//TODO
+	//Fix me "displayname" (Bug in server)
 	@Test
 	public void edit_user_view_displays_previously_saved_changes() {
 		final boolean newActive = true;
