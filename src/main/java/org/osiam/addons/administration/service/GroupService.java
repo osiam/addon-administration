@@ -3,6 +3,7 @@ package org.osiam.addons.administration.service;
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.model.session.GeneralSessionData;
+import org.osiam.addons.administration.model.session.PagingInformation;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
@@ -132,6 +133,90 @@ public class GroupService {
 	 */
 	public Group createGroup(Group group) {
 		return connector.createGroup(group, getAccesstoken());
+	}
+
+	/**
+	 * Return all the other groups where the user is not assigned to.
+	 *
+	 * @param userId The user id.
+	 * @param pagingInformation Contains all informations about the paging.
+	 * @return A SCIMSearchResult containing a list of all found groups.
+	 */
+	public SCIMSearchResult<Group> getUnassignedGroups(String userId,
+			PagingInformation pagingInformation) {
+
+		String query = "not(members eq \"" + userId + "\")";
+
+		if (pagingInformation.getQuery() != null && !pagingInformation.getQuery().trim().isEmpty()) {
+			query += " and " + pagingInformation.getQuery();
+		}
+
+		return searchGroup(query,
+				pagingInformation.getLimit(),
+				pagingInformation.getOffset(),
+				pagingInformation.getOrderBy(),
+				pagingInformation.getAscending());
+	}
+
+	/**
+	 * Return all the groups where the user is assigned to.
+	 *
+	 * @param userId The user id.
+	 * @param pagingInformation Contains all informations about the paging.
+	 * @return A SCIMSearchResult containing a list of all found groups.
+	 */
+	public SCIMSearchResult<Group> getAssignedGroups(String userId,
+			PagingInformation pagingInformation) {
+
+		String query = "members eq \"" + userId + "\"";
+
+		if (pagingInformation.getQuery() != null && !pagingInformation.getQuery().trim().isEmpty()) {
+			query += " and " + pagingInformation.getQuery();
+		}
+
+		return searchGroup(query,
+				pagingInformation.getLimit(),
+				pagingInformation.getOffset(),
+				pagingInformation.getOrderBy(),
+				pagingInformation.getAscending());
+	}
+
+	/**
+	 * Add the given user to the given groups.
+	 *
+	 * @param userId The user id.
+	 * @param groupIds The group id(s)
+	 */
+	public void addUserToGroups(String userId, String...groupIds) {
+		if(groupIds == null || groupIds.length == 0){
+			return;
+		}
+
+		for(String groupId : groupIds){
+			UpdateGroup.Builder update = new UpdateGroup.Builder();
+			update.addMember(userId);
+
+			updateGroup(groupId, update.build());
+		}
+	}
+
+	/**
+	 * Remove the given user from the given groups.
+	 *
+	 * @param userId The user id.
+	 * @param groupIds The group id(s)
+	 */
+	public void removeUserFromGroups(String userId, String...groupIds) {
+		if(groupIds == null || groupIds.length == 0){
+			return;
+		}
+
+		for(String groupId : groupIds){
+			UpdateGroup.Builder update = new UpdateGroup.Builder();
+			update.deleteMember(userId);
+
+			updateGroup(groupId, update.build());
+		}
 	}
 
 	private AccessToken getAccesstoken() {

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title th:text="#{edit_group_membership.title}">Edit group membership</title>
+
+	<th:block th:include="head :: includes"></th:block>
+</head>
+<body>
+
+<th:block th:include="header :: header"></th:block>
+
+<div class="container shadow" id="content">
+	<div th:replace="makros :: topbar">
+		Topbar ...
+	</div>
+
+	<div class="row">
+		<div class="col-md-6 form-group">
+			<h4 style="margin-bottom:5px" th:text="#{edit_group_membership.group.user}">My groups</h4>
+			<form id="filter-form" action="" method="POST">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="panel" value="remove" />
+
+				<table class="table table-hover table-striped table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>
+								<input id="group-checkbox" type="checkbox" class="checkbox master-checkbox only-on-js" />
+							</th>
+							<th>
+								<span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
+								<span class="sortingArrows">
+									<a id="order-by-my-displayname-asc" th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='displayName', assignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-my-displayname-desc" th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='displayName', assignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span>
+							</th>
+							<th></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:object="${pagingInformationAssignedGroups.filterFields}">
+							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
+							<td><input type="hidden" name="action" value="filter"/></td>
+							<td><input id="filter-display-name" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
+							<td>
+								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
+									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+								</button>
+							</td>
+						</tr>
+						<tr th:each="group : ${assignedGroups.resources}">
+							<td>
+								<input type="checkbox" name="groupId" th:value="${group.id}" />
+							</td>
+							<td th:text="${group.displayName}">Group #1</td>
+							<td>
+								<a th:href="@{'' (id=${param.id}, panel=remove, groupId=${group.id})}" class="btn btn-danger btn-sm">
+									<span class="glyphicon glyphicon-minus"></span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5">
+								<input type="submit" class="btn btn-md btn-primary" th:value="#{edit_group_membership.button.remove}" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+			<span th:text="#{msg.list.result(${#lists.size(assignedGroups.resources)}, ${assignedGroups.startIndex} - 1 + ${#lists.size(assignedGroups.resources)}, ${assignedGroups.totalResults})}">Result x - y of total</span>
+			<div th:replace="makros :: pagingControlls(${pagingAssignedGroups}, 2, '')">
+				Paging-Navigation...
+			</div>
+			<span th:text="#{msg.list.limit}"></span>
+			<form name="form-assigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="action" value="assignedLimit" />
+
+				<select id="paging-limit" name="assignedLimit" class="" onchange="document['form-assigned-limit'].submit();">
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 5" >5</option>
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 10">10</option>
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 20">20</option>
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 50">50</option>
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 100">100</option>
+					<option th:selected="${pagingInformationAssignedGroups.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
+				</select>
+			</form>
+		</div>
+		<div class="col-md-6 form-group">
+			<h4 style="margin-bottom:5px" th:text="#{edit_group_membership.group.other}">Other groups</h4>
+			<form id="filter-form" action="" method="POST">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="panel" value="add" />
+
+				<table class="table table-hover table-striped table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>
+								<input id="group-checkbox" type="checkbox" class="checkbox master-checkbox only-on-js" />
+							</th>
+							<th>
+								<span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
+								<span class="sortingArrows">
+									<a id="order-by-other-displayname-asc" th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='displayName', unassignedAsc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
+									<a id="order-by-other-displayname-desc" th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='displayName', unassignedAsc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+								</span>
+							</th>
+							<th></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:object="${pagingInformationUnassignedGroups.filterFields}">
+							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
+							<td><input type="hidden" name="action" value="filter"/></td>
+							<td><input id="filter-display-name" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
+							<td>
+								<button id="filter-button" class="btn btn-default btn-sm" name="filter" type="submit">
+									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+								</button>
+							</td>
+						</tr>
+						<tr th:each="group : ${unassignedGroups.resources}">
+							<td>
+								<input type="checkbox" name="groupId" th:value="${group.id}" />
+							</td>
+							<td th:text="${group.displayName}">Group #1</td>
+							<td>
+								<a th:href="@{'' (id=${param.id}, panel=add, groupId=${group.id})}" class="btn btn-success btn-sm">
+									<span class="glyphicon glyphicon-plus"></span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5">
+								<input type="submit" class="btn btn-md btn-primary" th:value="#{edit_group_membership.button.add}" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+
+			<span th:text="#{msg.list.result(${#lists.size(unassignedGroups.resources)}, ${unassignedGroups.startIndex} - 1 + ${#lists.size(unassignedGroups.resources)}, ${unassignedGroups.totalResults})}">Result x - y of total</span>
+			<div th:replace="makros :: pagingControlls(${pagingUnassignedGroups}, 2, '')">
+				Paging-Navigation...
+			</div>
+			<span th:text="#{msg.list.limit}"></span>
+			<form name="form-unassigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
+				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+				<th:block th:replace="makros :: csrf" />
+				<input type="hidden" name="action" value="unassignedLimit" />
+
+				<select id="paging-limit" name="unassignedLimit" class="" onchange="document['form-unassigned-limit'].submit();">
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 5" >5</option>
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 10">10</option>
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 20">20</option>
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 50">50</option>
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 100">100</option>
+					<option th:selected="${pagingInformationUnassignedGroups.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
+				</select>
+			</form>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 text-right">
+			<a th:href="@{list}">
+				<button class="btn btn-md btn-primary" type="button" id="btnCancelChanges" th:text="#{edit_user.cancel}">Back</button>
+			</a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

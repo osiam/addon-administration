@@ -2,10 +2,13 @@ package org.osiam.addons.administration.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -21,10 +24,14 @@ import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
 import org.osiam.resources.scim.Group;
+import org.osiam.resources.scim.MemberRef;
 import org.osiam.resources.scim.UpdateGroup;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GroupServiceTest {
+
+	final String OPERATION_DELETE = "delete";
+	final String OPERATION_ADD = null;
 
 	@Mock
 	OsiamConnector connector;
@@ -89,5 +96,104 @@ public class GroupServiceTest {
 
 		toTestSpy.updateGroup(id, updateGroup);
 		verify(connector, times(1)).updateGroup(eq(id), eq(updateGroup), same(accessToken));
+	}
+
+	@Test
+	public void addUserToGroups_emptyGroupIds(){
+		final String userId = "userId";
+
+		toTestSpy.addUserToGroups(userId);
+
+		verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
+	}
+
+	@Test
+	public void addUserToGroups_oneGroupId(){
+		final String userId = "userId";
+		final String groupId = "groupId";
+
+		toTestSpy.addUserToGroups(userId, groupId);
+
+		ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+
+		verify(connector, times(1)).updateGroup(
+				eq(groupId), updateCap.capture(), same(accessToken));
+
+		assertContainsMember(updateCap.getValue(), userId, OPERATION_ADD);
+	}
+
+	@Test
+	public void addUserToGroups_multiGroupIds(){
+		final String userId = "userId";
+		final String[] groupIds = new String[]{"groupId#1", "groupId#2"};
+
+		toTestSpy.addUserToGroups(userId, groupIds);
+
+		for(int i=0; i < groupIds.length; i++){
+			ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+
+			verify(connector, times(1)).updateGroup(
+					eq(groupIds[i]), updateCap.capture(), same(accessToken));
+
+			assertContainsMember(updateCap.getValue(), userId, OPERATION_ADD);
+		}
+	}
+
+	@Test
+	public void removeUserFromGroups_emptyGroupIds(){
+		final String userId = "userId";
+
+		toTestSpy.removeUserFromGroups(userId);
+
+		verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
+	}
+
+	@Test
+	public void removeUserFromGroups_oneGroupId(){
+		final String userId = "userId";
+		final String groupId = "groupId";
+
+		toTestSpy.removeUserFromGroups(userId, groupId);
+
+		ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+
+		verify(connector, times(1)).updateGroup(
+				eq(groupId), updateCap.capture(), same(accessToken));
+
+		assertContainsMember(updateCap.getValue(), userId, OPERATION_DELETE);
+	}
+
+	@Test
+	public void removeUserFromGroups_multiGroupIds(){
+		final String userId = "userId";
+		final String[] groupIds = new String[]{"groupId#1", "groupId#2"};
+
+		toTestSpy.removeUserFromGroups(userId, groupIds);
+
+		for(int i=0; i < groupIds.length; i++){
+			ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+
+			verify(connector, times(1)).updateGroup(
+					eq(groupIds[i]), updateCap.capture(), same(accessToken));
+
+			assertContainsMember(updateCap.getValue(), userId, OPERATION_DELETE);
+		}
+	}
+
+	private void assertContainsMember(UpdateGroup update, String userId, String operation) {
+		Group group = update.getScimConformUpdateGroup();
+
+		boolean found = false;
+		for(MemberRef member : group.getMembers()){
+			if(member.getValue().equals(userId)){
+				if ((operation == null && member.getOperation() == null) ||
+					(operation != null && operation.equals(member.getOperation()))) {
+
+					found = true;
+				}
+			}
+		}
+
+		assertTrue(found);
 	}
 }

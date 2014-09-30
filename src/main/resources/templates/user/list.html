@@ -159,6 +159,11 @@
 											<button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
 										</a>
 									</li>
+									<li>
+										<a th:href="@{group(id = ${user.id})}">
+											<button th:id="${'action-button-edit-group-membership-' + userStat.index}" th:text="#{msg.button.group.membership}" class="btn-link">Edit groupmembership</button>
+										</a>
+									</li>
 									<li th:if="${user.active}">
 										<form action="" method="GET">
 											<input type="hidden" name="action" value="deactivate" />
