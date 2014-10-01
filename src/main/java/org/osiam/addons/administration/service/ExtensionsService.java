@@ -81,7 +81,7 @@ public class ExtensionsService {
 		StatusType status;
 		String content;
 		try {
-			Response response = target.path("/osiam/Extensiontypes")
+			Response response = target.path("/osiam/extension-definition")
 					.request(MediaType.APPLICATION_JSON)
 					.header("Authorization", BEARER + sessionData.getAccesstoken().getToken())
 					.get();
