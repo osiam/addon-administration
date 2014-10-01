@@ -1,6 +1,7 @@
-package org.osiam.addons.administration;
+package org.osiam.addons.administration.elements.group;
 
 import org.openqa.selenium.By;
+import org.osiam.addons.administration.elements.Element;
 
 public enum GroupList implements Element {
 	GROUP_LIST(By.xpath("//a[@href = '/admin/group/list']")),

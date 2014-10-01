@@ -1,6 +1,7 @@
-package org.osiam.addons.administration;
+package org.osiam.addons.administration.elements.user;
 
 import org.openqa.selenium.By;
+import org.osiam.addons.administration.elements.Element;
 
 public enum UserList implements Element {
 	FILTER_LOGIN(By.id("filter-login")),

@@ -1,6 +1,6 @@
 package org.osiam.addons.administration.selenium;
 
-import org.osiam.addons.administration.Element;
+import org.osiam.addons.administration.elements.Element;
 
 /**
  * Simple bean that contains the element and the value of them.

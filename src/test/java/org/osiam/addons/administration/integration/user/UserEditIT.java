@@ -1,4 +1,4 @@
-package org.osiam.addons.administration.integration;
+package org.osiam.addons.administration.integration.user;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -9,8 +9,9 @@ import java.util.List;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.osiam.addons.administration.EditList;
-import org.osiam.addons.administration.UserEdit;
+import org.osiam.addons.administration.elements.EditList;
+import org.osiam.addons.administration.elements.user.UserEdit;
+import org.osiam.addons.administration.integration.Integrationtest;
 import org.osiam.addons.administration.selenium.Field;
 
 public class UserEditIT extends Integrationtest {

@@ -1,4 +1,4 @@
-package org.osiam.addons.administration;
+package org.osiam.addons.administration.elements;
 
 import org.openqa.selenium.By;
 

@@ -1,6 +1,7 @@
-package org.osiam.addons.administration;
+package org.osiam.addons.administration.elements.group;
 
 import org.openqa.selenium.By;
+import org.osiam.addons.administration.elements.Element;
 
 public enum GroupMembership implements Element {
 	MEMBERSHIP_GROUP(By.id("action-button-edit-user-membership-1")),

@@ -1,4 +1,4 @@
-package org.osiam.addons.administration.integration;
+package org.osiam.addons.administration.integration.user;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,9 +10,10 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.osiam.addons.administration.EditList;
-import org.osiam.addons.administration.Element;
-import org.osiam.addons.administration.UserList;
+import org.osiam.addons.administration.elements.EditList;
+import org.osiam.addons.administration.elements.Element;
+import org.osiam.addons.administration.elements.user.UserList;
+import org.osiam.addons.administration.integration.Integrationtest;
 import org.osiam.addons.administration.selenium.Field;
 
 public class UserListIT extends Integrationtest {

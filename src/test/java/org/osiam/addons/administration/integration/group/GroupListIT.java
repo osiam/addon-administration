@@ -1,4 +1,4 @@
-package org.osiam.addons.administration.integration;
+package org.osiam.addons.administration.integration.group;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,8 +7,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.osiam.addons.administration.EditList;
-import org.osiam.addons.administration.GroupList;
+import org.osiam.addons.administration.elements.EditList;
+import org.osiam.addons.administration.elements.group.GroupList;
+import org.osiam.addons.administration.integration.Integrationtest;
 import org.osiam.addons.administration.selenium.Field;
 
 public class GroupListIT extends Integrationtest {

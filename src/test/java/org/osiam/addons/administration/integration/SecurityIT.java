@@ -4,8 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.osiam.addons.administration.General;
 import org.osiam.addons.administration.controller.AdminController;
+import org.osiam.addons.administration.elements.General;
 
 public class SecurityIT extends Integrationtest {
 
