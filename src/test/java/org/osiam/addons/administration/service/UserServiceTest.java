@@ -89,7 +89,7 @@ public class UserServiceTest {
 		User newUser = new User.Builder("username").build();
 
 		toTestSpy.createUser(newUser);
-		verify(connector, times(1)).createUser(eq(newUser), same(accessToken));
+		verify(connector, times(1)).createUser(same(newUser), same(accessToken));
 	}
 
 	@Test

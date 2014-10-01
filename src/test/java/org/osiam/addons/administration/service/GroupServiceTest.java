@@ -139,7 +139,7 @@ public class GroupServiceTest {
 		}
 	}
 
-		@Test
+	@Test
 	public void addUsersToGroup_emptyUserIds(){
 		final String userId = "userId";
 
@@ -206,20 +206,20 @@ public class GroupServiceTest {
 
 	@Test
 	public void removeUsersFromGroup_multiUserIds() {
-			final String groupId = "groupId";
-			final String[] userIds = new String[] { "userId#1", "userId#2" };
+		final String groupId = "groupId";
+		final String[] userIds = new String[] { "userId#1", "userId#2" };
 
-			toTestSpy.removeUsersFromGroup(groupId, userIds);
+		toTestSpy.removeUsersFromGroup(groupId, userIds);
 
-			ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+		ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
 
-			verify(connector, times(1)).updateGroup(
-					eq(groupId), updateCap.capture(), same(accessToken));
+		verify(connector, times(1)).updateGroup(
+				eq(groupId), updateCap.capture(), same(accessToken));
 
-			for (int i = 0; i < userIds.length; i++) {
-				assertContainsMember(updateCap.getValue(), userIds[i], OPERATION_DELETE);
-			}
+		for (int i = 0; i < userIds.length; i++) {
+			assertContainsMember(updateCap.getValue(), userIds[i], OPERATION_DELETE);
 		}
+	}
 
 	@Test
 	public void removeUserFromGroups_emptyGroupIds(){
