@@ -255,6 +255,29 @@ public class UserEditIT extends Integrationtest {
 		test_Remove_And_Add_Multi_Value_Attribute("address", 1);
 	}
 
+	@Test
+	public void trimInputUser() {
+		final String spaceDisplayName = " Trimmer ";
+		final String spaceHonorificPrefix ="Dr. ";
+		final String spaceHonorificSuffix = " Dr.";
+		final String trimDisplayName = "Trimmer";
+		final String trimHonorificPrefix ="Dr.";
+		final String trimHonorificSuffix = "Dr.";
+
+		browser.fill(new Field(EditList.DISPLAYNAME, spaceDisplayName));
+		browser.fill(new Field(UserEdit.HONORIFICPREFIX, spaceHonorificPrefix));
+		browser.fill(new Field(UserEdit.HONORIFICSUFFIX, spaceHonorificSuffix));
+
+		browser.click(EditList.SUBMIT_BUTTON);
+		browser.click(EditList.DIALOG_SUCCESS);
+
+		edit_Test_User();
+
+		assertEquals(trimDisplayName, browser.getValue(EditList.DISPLAYNAME));
+		assertEquals(trimHonorificPrefix, browser.getValue(UserEdit.HONORIFICPREFIX));
+		assertEquals(trimHonorificSuffix, browser.getValue(UserEdit.HONORIFICSUFFIX));
+	}
+
 	private void test_Remove_And_Add_Multi_Value_Attribute(String containerId, int existingFields) {
 		add_Multi_Value_Attribute(containerId);
 		assertEquals(existingFields + 1, count_Child_Elements(containerId));
@@ -287,28 +310,5 @@ public class UserEditIT extends Integrationtest {
 	private int count_Child_Elements(String containerId) {
 		List<WebElement> foundElements = browser.findElements(By.xpath("//div[contains(@id, 'container')]//div[contains(@id, '" + containerId + "-block')]"));
 		return foundElements.size();
-	}
-
-	@Test
-	public void trimInputUser() {
-		final String spaceDisplayName = " Trimmer ";
-		final String spaceHonorificPrefix ="Dr. ";
-		final String spaceHonorificSuffix = " Dr.";
-		final String trimDisplayName = "Trimmer";
-		final String trimHonorificPrefix ="Dr.";
-		final String trimHonorificSuffix = "Dr.";
-
-		browser.fill(new Field(EditList.DISPLAYNAME, spaceDisplayName));
-		browser.fill(new Field(UserEdit.HONORIFICPREFIX, spaceHonorificPrefix));
-		browser.fill(new Field(UserEdit.HONORIFICSUFFIX, spaceHonorificSuffix));
-
-		browser.click(EditList.SUBMIT_BUTTON);
-		browser.click(EditList.DIALOG_SUCCESS);
-
-		edit_Test_User();
-
-		assertEquals(trimDisplayName, browser.getValue(EditList.DISPLAYNAME));
-		assertEquals(trimHonorificPrefix, browser.getValue(UserEdit.HONORIFICPREFIX));
-		assertEquals(trimHonorificSuffix, browser.getValue(UserEdit.HONORIFICSUFFIX));
 	}
 }
