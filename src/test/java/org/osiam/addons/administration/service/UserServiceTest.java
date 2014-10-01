@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.osiam.addons.administration.model.session.GeneralSessionData;
+import org.osiam.addons.administration.model.session.PagingInformation;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
@@ -77,21 +78,27 @@ public class UserServiceTest {
 	}
 
 	@Test
+	public void logoutCurrentUser() {
+		toTestSpy.logoutCurrentUser();
+
+		verify(connector, times(1)).revokeAccessToken(same(accessToken));
+	}
+
+	@Test
+	public void createUser() {
+		User newUser = new User.Builder("username").build();
+
+		toTestSpy.createUser(newUser);
+		verify(connector, times(1)).createUser(eq(newUser), same(accessToken));
+	}
+
+	@Test
 	public void updateUser() {
 		UpdateUser updateUser = new UpdateUser.Builder().build();
 		String id = "user ID";
 
 		toTestSpy.updateUser(id, updateUser);
-		verify(connector, times(1)).updateUser(eq(id), eq(updateUser), same(accessToken));
-	}
-
-	@Test
-	public void replaceUser() {
-		User replaceUser = new User.Builder().build();
-		String id = "user ID";
-
-		toTestSpy.replaceUser(id, replaceUser);
-		verify(connector, times(1)).replaceUser(eq(id), eq(replaceUser), same(accessToken));
+		verify(connector, times(1)).updateUser(eq(id), same(updateUser), same(accessToken));
 	}
 
 	@Test
@@ -103,5 +110,93 @@ public class UserServiceTest {
 
 		verify(connector, times(1)).updateUser(eq(id), cap.capture(), same(accessToken));
 		assertFalse(cap.getValue().getScimConformUpdateUser().isActive());
+	}
+
+	@Test
+	public void activateUser() {
+		String id = "userID";
+
+		toTestSpy.activateUser(id);
+		ArgumentCaptor<UpdateUser> cap = ArgumentCaptor.forClass(UpdateUser.class);
+
+		verify(connector, times(1)).updateUser(eq(id), cap.capture(), same(accessToken));
+		assertTrue(cap.getValue().getScimConformUpdateUser().isActive());
+	}
+
+	@Test
+	public void deleteUser() {
+		String id = "userId";
+
+		toTestSpy.deleteUser(id);
+
+		verify(connector, times(1)).deleteUser(eq(id), same(accessToken));
+	}
+
+	@Test
+	public void replaceUser() {
+		User replaceUser = new User.Builder().build();
+		String id = "user ID";
+
+		toTestSpy.replaceUser(id, replaceUser);
+		verify(connector, times(1)).replaceUser(eq(id), eq(replaceUser), same(accessToken));
+		verify(connector, times(1)).revokeAllAccessTokens(eq(id), same(accessToken));
+	}
+
+	@Test
+	public void getAssignedUsers_withoutQuery() {
+		ArgumentCaptor<Query> cap = ArgumentCaptor.forClass(Query.class);
+		String groupId = "groupId";
+		String attributes = "aaa, bbb, ccc";
+		String filter = "groups eq \"" + groupId + "\"";
+		String sortOrder = "descending";
+		String sortBy = null;
+		boolean ascending = false;
+		int count = 654654;
+		int startIndex = 1995;
+
+		PagingInformation pagingInformation = new PagingInformation();
+		pagingInformation.setAscending(ascending);
+		pagingInformation.setLimit(count);
+		pagingInformation.setOffset((long) startIndex);
+
+		toTestSpy.getAssignedUsers(groupId, pagingInformation, attributes);
+		verify(connector, times(1)).searchUsers(cap.capture(), same(accessToken));
+
+		assertEquals(cap.getValue().getAttributes(), attributes);
+		assertEquals(cap.getValue().getFilter(), filter);
+		assertEquals(cap.getValue().getSortBy(), sortBy);
+		assertEquals(cap.getValue().getCount(), count);
+		assertEquals(cap.getValue().getSortOrder(), sortOrder);
+		assertEquals(cap.getValue().getStartIndex(), startIndex);
+	}
+
+	@Test
+	public void getAssignedUsers_withQuery() {
+		ArgumentCaptor<Query> cap = ArgumentCaptor.forClass(Query.class);
+		String groupId = "groupId";
+		String query = "the same = eq d-";
+		String attributes = "aaa, bbb, ccc";
+		String filter = "groups eq \"" + groupId + "\" and " + query;
+		String sortOrder = "descending";
+		String sortBy = null;
+		boolean ascending = false;
+		int count = 654654;
+		int startIndex = 1995;
+
+		PagingInformation pagingInformation = new PagingInformation();
+		pagingInformation.setAscending(ascending);
+		pagingInformation.setLimit(count);
+		pagingInformation.setOffset((long) startIndex);
+		pagingInformation.setQuery(query);
+
+		toTestSpy.getAssignedUsers(groupId, pagingInformation, attributes);
+		verify(connector, times(1)).searchUsers(cap.capture(), same(accessToken));
+
+		assertEquals(cap.getValue().getAttributes(), attributes);
+		assertEquals(cap.getValue().getFilter(), filter);
+		assertEquals(cap.getValue().getSortBy(), sortBy);
+		assertEquals(cap.getValue().getCount(), count);
+		assertEquals(cap.getValue().getSortOrder(), sortOrder);
+		assertEquals(cap.getValue().getStartIndex(), startIndex);
 	}
 }

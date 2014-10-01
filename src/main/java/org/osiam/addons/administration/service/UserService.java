@@ -81,6 +81,15 @@ public class UserService {
 		connector.revokeAccessToken(sessionData.getAccesstoken());
 	}
 
+	/**
+	 * Create the given.
+	 *
+	 * @param createUser
+	 * 	the user
+	 *
+	 * @return User
+	 * 	the created user
+	 */
 	public User createUser(User createUser) {
 		return connector.createUser(createUser, sessionData.getAccesstoken());
 	}

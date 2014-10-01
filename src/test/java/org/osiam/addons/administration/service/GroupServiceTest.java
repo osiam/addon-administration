@@ -139,6 +139,88 @@ public class GroupServiceTest {
 		}
 	}
 
+		@Test
+	public void addUsersToGroup_emptyUserIds(){
+		final String userId = "userId";
+
+		toTestSpy.addUsersToGroup(userId);
+
+		verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
+	}
+
+	@Test
+	public void addUsersToGroup_oneUserId(){
+		final String groupId = "groupId";
+		final String userId = "userId";
+
+		toTestSpy.addUsersToGroup(groupId, userId);
+
+		ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+
+		verify(connector, times(1)).updateGroup(
+				eq(groupId), updateCap.capture(), same(accessToken));
+
+		assertContainsMember(updateCap.getValue(), userId, OPERATION_ADD);
+	}
+
+	@Test
+	public void addUsersToGroup_multiUserIds(){
+		final String groupId = "groupId";
+		final String[] userIds = new String[]{"userId#1", "userId#2"};
+
+		toTestSpy.addUsersToGroup(groupId, userIds);
+
+		ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+
+		verify(connector, times(1)).updateGroup(
+				eq(groupId), updateCap.capture(), same(accessToken));
+
+		for(int i=0; i < userIds.length; i++){
+			assertContainsMember(updateCap.getValue(), userIds[i], OPERATION_ADD);
+		}
+	}
+
+	@Test
+	public void removeUsersFromGroup_emptyUserIds(){
+		final String groupId = "groupId";
+
+		toTestSpy.removeUsersFromGroup(groupId);
+
+		verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
+	}
+
+	@Test
+	public void removeUsersFromGroup_oneGroupId(){
+		final String groupId = "groupId";
+		final String userId = "userId";
+
+		toTestSpy.removeUsersFromGroup(groupId, userId);
+
+		ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+
+		verify(connector, times(1)).updateGroup(
+				eq(groupId), updateCap.capture(), same(accessToken));
+
+		assertContainsMember(updateCap.getValue(), userId, OPERATION_DELETE);
+	}
+
+	@Test
+	public void removeUsersFromGroup_multiUserIds() {
+			final String groupId = "groupId";
+			final String[] userIds = new String[] { "userId#1", "userId#2" };
+
+			toTestSpy.removeUsersFromGroup(groupId, userIds);
+
+			ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+
+			verify(connector, times(1)).updateGroup(
+					eq(groupId), updateCap.capture(), same(accessToken));
+
+			for (int i = 0; i < userIds.length; i++) {
+				assertContainsMember(updateCap.getValue(), userIds[i], OPERATION_DELETE);
+			}
+		}
+
 	@Test
 	public void removeUserFromGroups_emptyGroupIds(){
 		final String userId = "userId";
