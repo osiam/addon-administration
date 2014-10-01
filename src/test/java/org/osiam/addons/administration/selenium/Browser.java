@@ -81,7 +81,7 @@ public class Browser implements WebDriver {
 
 		if(getCurrentUrl().contains("login")){
 			fill(new Field(OauthLogin.USERNAME, username),
-				 new Field(OauthLogin.PASSWORD, password));
+				new Field(OauthLogin.PASSWORD, password));
 
 			click(OauthLogin.LOGIN_BUTTON);
 		}

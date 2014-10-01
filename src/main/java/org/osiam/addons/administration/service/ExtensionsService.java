@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.ws.rs.ProcessingException;
@@ -54,8 +52,6 @@ public class ExtensionsService {
 
 	@Inject
 	private GeneralSessionData sessionData;
-
-	private final Pattern urnFieldPattern = Pattern.compile("^([^\\|]*)\\|(.*)$");
 
 	private ObjectMapper mapper;
 
@@ -144,15 +140,15 @@ public class ExtensionsService {
 	}
 
 	private List<Extension> parseToListOfExtenions(String content) {
-		Map<String, String> map = null;
+		List<ExtensionDefinition> extensions = null;
 
 		try {
-			map = mapper.readValue(content, new TypeReference<HashMap<String, String>>() {});
+			extensions = mapper.readValue(content, new TypeReference<ArrayList<ExtensionDefinition>>(){});
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
-		if (map == null) {
+		if (extensions == null) {
 			throw new RuntimeException();
 		}
 
@@ -160,47 +156,43 @@ public class ExtensionsService {
 
 		Map<String, Builder> extensionBuilder = new HashMap<String, Extension.Builder>();
 
-		for (Entry<String, String> tempEntry : map.entrySet()) {
-			Matcher m = urnFieldPattern.matcher(tempEntry.getKey());
-			m.matches();
+		for (ExtensionDefinition curExtension : extensions) {
+			final String urn = curExtension.getUrn();
+			extensionBuilder.put(urn, new Extension.Builder(urn));
 
-			final String fieldName = m.group(2);
-			final String urn = m.group(1);
+			for(Entry<String, String> fieldType : curExtension.getNamedTypePairs().entrySet()){
+				final String fieldName = fieldType.getKey();
+				Builder builder = extensionBuilder.get(urn);
 
-			if(!extensionBuilder.containsKey(urn)){
-				extensionBuilder.put(urn, new Extension.Builder(urn));
-			}
-
-			Builder builder = extensionBuilder.get(urn);
-
-			switch (tempEntry.getValue()) {
-			case "STRING":
-				builder.setField(fieldName, "null");
-				break;
-			case "INTEGER":
-				builder.setField(fieldName, BigInteger.ZERO);
-				break;
-			case "DECIMAL":
-				builder.setField(fieldName, BigDecimal.ZERO);
-				break;
-			case "BOOLEAN":
-				builder.setField(fieldName, false);
-				break;
-			case "DATE_TIME":
-				builder.setField(fieldName, new Date(0L));
-				break;
-			case "BINARY":
-				builder.setField(fieldName, ByteBuffer.wrap(new byte[] {}));
-				break;
-			case "REFERENCE":
-				try {
-					builder.setField(fieldName, new URI("http://www.osiam.org"));
-				} catch (URISyntaxException e) {
-					throw new IllegalStateException(e);
+				switch (fieldType.getValue()) {
+				case "STRING":
+					builder.setField(fieldName, "null");
+					break;
+				case "INTEGER":
+					builder.setField(fieldName, BigInteger.ZERO);
+					break;
+				case "DECIMAL":
+					builder.setField(fieldName, BigDecimal.ZERO);
+					break;
+				case "BOOLEAN":
+					builder.setField(fieldName, false);
+					break;
+				case "DATE_TIME":
+					builder.setField(fieldName, new Date(0L));
+					break;
+				case "BINARY":
+					builder.setField(fieldName, ByteBuffer.wrap(new byte[] {}));
+					break;
+				case "REFERENCE":
+					try {
+						builder.setField(fieldName, new URI("http://www.osiam.org"));
+					} catch (URISyntaxException e) {
+						throw new IllegalStateException(e);
+					}
+					break;
+				default:
+					throw new IllegalArgumentException("Type " + fieldType.getValue() + " does not exist");
 				}
-				break;
-			default:
-				throw new IllegalArgumentException("Type " + tempEntry.getValue() + " does not exist");
 			}
 		}
 
@@ -213,4 +205,25 @@ public class ExtensionsService {
 		return result;
 	}
 
+	public static class ExtensionDefinition {
+		private String urn;
+
+		private Map<String, String> namedTypePairs = new HashMap<>();
+
+		public String getUrn() {
+			return urn;
+		}
+
+		public void setUrn(String urn) {
+			this.urn = urn;
+		}
+
+		public Map<String, String> getNamedTypePairs() {
+			return namedTypePairs;
+		}
+
+		public void setNamedTypePairs(Map<String, String> namedTypePairs) {
+			this.namedTypePairs = namedTypePairs;
+		}
+	}
 }

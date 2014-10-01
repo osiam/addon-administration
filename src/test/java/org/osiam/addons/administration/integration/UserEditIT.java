@@ -69,6 +69,8 @@ public class UserEditIT extends Integrationtest {
 		assertFalse(browser.isTextPresent("car"));
 	}
 
+	//TODO
+	//Fix me "displayname" (Bug in server)
 	@Test
 	public void edit_user_view_displays_previously_saved_changes() {
 		final boolean newActive = true;
@@ -110,11 +112,11 @@ public class UserEditIT extends Integrationtest {
 		final String newEntitlementsType = "StandartE";
 
 		final String newAddressCountry = "Deutschland";
-		final String newAddressFormatted = "Deutschlandstraße 20 12345 Ländisch";
+		final String newAddressFormatted = "Deutschlandstra\u00dfe 20 12345 L\u00e4ndisch";
 		final String newAddressLocality = "de_DE";
 		final String newAddressPostalcode = "12345";
-		final String newAddressRegion = "Ländisch";
-		final String newAddressStreetaddress = "Deutschlandstraße 20";
+		final String newAddressRegion = "L\u00e4ndisch";
+		final String newAddressStreetaddress = "Deutschlandstra\u00dfe 20";
 		final String newAddressType = "StandartA";
 
 		browser.findElement(UserEdit.ACTIVE).click();
@@ -231,7 +233,7 @@ public class UserEditIT extends Integrationtest {
 	public void false_Multi_Value_Attributes() {
 		final String falseEmailValue = "hanspeters_email";
 		final String falsePhoneValue = "meintelefon";
-		final String falseAddressPostalcode = "einszweidreivierfünf";
+		final String falseAddressPostalcode = "einszweidreivierf\u00fcnf";
 
 		browser.fill(new Field(UserEdit.FIRST_EMAIL_VALUE, falseEmailValue));
 		browser.fill(new Field(UserEdit.PHONENUMBER_VALUE, falsePhoneValue));
@@ -240,7 +242,7 @@ public class UserEditIT extends Integrationtest {
 		browser.click(UserEdit.SUBMIT_BUTTON);
 		browser.click(EditList.DIALOG_SUCCESS);
 
-		assertTrue(browser.isTextPresent("keine gültige E-Mail-Adresse"));
+		assertTrue(browser.isTextPresent("keine g\u00fcltige E-Mail-Adresse"));
 	}
 
 	@Test
@@ -300,14 +302,13 @@ public class UserEditIT extends Integrationtest {
 
 	private void drop_Multi_Value_Attribute(String containerId, int nth) {
 		browser.findElement(
-				By.xpath("//fieldset[contains(@id, '" + containerId + "')]/div[" + nth
-						+ "]/button[contains(@id, 'button-remove')]"))
+				By.xpath("//div[contains(@id, 'container')]//div[contains(@id, '" + containerId + "-block')][" + nth
+						+ "]//button[contains(@id, 'button-remove')]"))
 				.click();
 	}
 
 	private int count_Child_Elements(String containerId) {
-		List<WebElement> foundElements = browser.findElements(By.xpath("//fieldset[contains(@id, '" + containerId
-				+ "')]//div[contains(@class, 'row')]"));
+		List<WebElement> foundElements = browser.findElements(By.xpath("//div[contains(@id, 'container')]//div[contains(@id, '" + containerId + "-block')]"));
 		return foundElements.size();
 	}
 }
