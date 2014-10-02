@@ -39,6 +39,9 @@ public enum GroupMembership implements Element {
 	FILTER_UNASSIGNED_GIVEN_NAME(By.xpath("//table[contains(@id, 'outsider')]//input[contains(@id, 'filter-givenname')]")),
 	FILTER_UNASSIGNED_FAMILY_NAME(By.xpath("//table[contains(@id, 'outsider')]//input[contains(@id, 'filter-familyname')]")),
 
+	FILTER_BUTTON_ASSIGNED(By.id("assigned-filter-button")),
+	FILTER_BUTTON_UNASSIGNED(By.id("unassigned-filter-button")),
+
 	LIMIT_ASSIGNED(By.id("paging-limit-intern")),
 	LIMIT_UNASSIGNED(By.id("paging-limit-extern")),
 
