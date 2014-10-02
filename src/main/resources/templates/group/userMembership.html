@@ -28,7 +28,7 @@
 					<thead>
 						<tr>
 							<th>
-								<input id="group-checkbox" type="checkbox" class="checkbox master-checkbox" />
+								<input id="assigned-master-checkbox" type="checkbox" class="checkbox master-checkbox" />
 							</th>
 							<th>
 								<span th:text="#{edit_user_membership.user.login}">Login</span>
@@ -86,7 +86,7 @@
 
 						<tr>
 							<td colspan="5">
-								<input type="submit" class="btn btn-md btn-primary" th:text="#{edit_user_membership.button.remove}"/>
+								<input id="submit-button-assigned-selection" type="submit" class="btn btn-md btn-primary" th:value="#{edit_user_membership.button.remove}"/>
 							</td>
 						</tr>
 					</tbody>
@@ -126,7 +126,7 @@
 					<thead>
 						<tr>
 							<th>
-								<input id="group-checkbox" type="checkbox" class="checkbox master-checkbox" />
+								<input id="unassigned-master-checkbox" type="checkbox" class="checkbox master-checkbox" />
 							</th>
 							<th>
 								<span th:text="#{edit_user_membership.user.login}">Login</span>
@@ -179,7 +179,7 @@
 						</tr>
 						<tr>
 							<td colspan="5">
-								<input type="submit" class="btn btn-md btn-primary" th:text="#{edit_user_membership.button.add}"/>
+								<input id="submit-button-unassigned-selection" type="submit" class="btn btn-md btn-primary" th:value="#{edit_user_membership.button.add}" />
 							</td>
 						</tr>
 					</tbody>
