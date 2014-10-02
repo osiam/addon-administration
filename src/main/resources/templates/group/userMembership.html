@@ -164,7 +164,7 @@
 								</button>
 							</td>
 						</tr>
-						<tr  th:each="user : ${unassignedUsers.resources}">
+						<tr th:each="user : ${unassignedUsers.resources}">
 							<td>
 								<input type="checkbox" name="userId" th:value="${user.id}" class="checkbox" />
 							</td>
