@@ -8,6 +8,12 @@ public enum GroupMembership implements Element {
 	ADD_USER(By.id("move-to-member")),
 	REMOVE_USER(By.id("remove-from-member")),
 
+	ASSIGNED_MASTER_CHECKBOX(By.id("assigned-master-checkbox")),
+	SUBMIT_BUTTON_ASSIGNED_SELECTION(By.id("submit-button-assigned-selection")),
+
+	UNASSIGNED_MASTER_CHECKBOX(By.id("unassigned-master-checkbox")),
+	SUBMIT_BUTTON_UNASSIGNED_SELECTION(By.id("submit-button-unassigned-selection")),
+
 	LIST_ROWS_INSIDER(By.xpath("//table[contains(@id, 'insider')]//div[contains(@id, 'content')]/table/tbody/tr")),
 	LIST_ROWS_OUTSIDER(By.xpath("//table[contains(@id, 'outsider')]//div[contains(@id, 'content')]/table/tbody/tr")),
 

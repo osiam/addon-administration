@@ -27,50 +27,30 @@ public class GroupMembershipIT extends Integrationtest {
 	}
 
 	@Test
-	public void assing_multiple_user() {
+	public void assign_and_unassign_multiple_user() {
 		final String testGroup = "test_group06";
-		final String allUnassignedUserCheckbox = "//table[contains(@id, 'outsider')]//input[contains(@id, 'group-checkbox')]";
-		final String submitUnassigendButton = "//table[contains(@id, 'outsider')]//input[contains(@type, 'submit')]";
 
 		gotoMembershipGroupView(testGroup);
 
-		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0")); // set limit to
-																		// "unlimited"
-		int allUser = getAssignedUserCount("outsider");
+		assertEquals("Precondition is not given!", 0, getAssignedUserCount());
 
-		browser.findElement(By.xpath(allUnassignedUserCheckbox)).click();
-		browser.findElement(By.xpath(submitUnassigendButton)).click();
-
-		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "0"));
-
-		assertEquals(allUser, getAssignedUserCount("insider"));
-	}
-
-	@Test
-	public void unassign_multiple_user() {
-		final String testGroup = "test_group06";
-		final String allUnassignedUserCheckbox = "//table[contains(@id, 'outsider')]//input[contains(@id, 'group-checkbox')]";
-		final String allAssignedUserCheckbox = "//table[contains(@id, 'insider')]//input[contains(@id, 'group-checkbox')]";
-		final String submitAssignedButton = "//table[contains(@id, 'insider')]//input[contains(@type, 'submit')]";
-		final String submitUnassignedButton = "//table[contains(@id, 'outsider')]//input[contains(@type, 'submit')]";
-
-		gotoMembershipGroupView(testGroup);
-
-		//Add user to group
+		//set both limit to "unlimited"
 		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0"));
-
-		browser.findElement(By.xpath(allUnassignedUserCheckbox)).click();
-
-		browser.findElement(By.xpath(submitUnassignedButton)).click();
-
-		//Remove user to group
 		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "0"));
 
-		browser.findElement(By.xpath(allAssignedUserCheckbox)).click();
+		int allUserCount = getUnassignedUserCount();
 
-		browser.findElement(By.xpath(submitAssignedButton)).click();
+		browser.click(GroupMembership.UNASSIGNED_MASTER_CHECKBOX);
+		browser.click(GroupMembership.SUBMIT_BUTTON_UNASSIGNED_SELECTION);
 
-		assertEquals(0, getAssignedUserCount("insider"));
+		assertEquals(allUserCount, getAssignedUserCount());
+		assertEquals(0, getUnassignedUserCount());	//FIXME: There is a bug in the server! See https://github.com/osiam/server/issues/247
+
+		browser.click(GroupMembership.ASSIGNED_MASTER_CHECKBOX);
+		browser.click(GroupMembership.SUBMIT_BUTTON_ASSIGNED_SELECTION);
+
+		assertEquals(allUserCount, getUnassignedUserCount());
+		assertEquals(0, getAssignedUserCount());
 	}
 
 	@Test
@@ -84,15 +64,17 @@ public class GroupMembershipIT extends Integrationtest {
 		pageBackwardAssigned();
 
 		browser.click(GroupMembership.PAGING_ASSIGNED_LAST);
-		assertFalse(browser.isErrorPage());
+		assertTrue(isUnassignedAtFirstPage());
 		browser.click(GroupMembership.PAGING_ASSIGNED_FIRST);
-		assertFalse(browser.isErrorPage());
+		assertTrue(isUnassignedAtFirstPage());
 
 		clickFirstPagingNumberAssigned();
-		assertFalse(browser.isErrorPage());
-		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "0")); // set limit to
-																	// "unlimited"
-		assertEquals(getAssignedUserCount("insider"), userCount);
+		assertTrue(isUnassignedAtFirstPage());
+		//adavies
+		assertTrue(isUserUnassigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
+
+		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "0")); // set limit to "unlimited"
+		assertEquals(getAssignedUserCount(), userCount);
 	}
 
 	@Test
@@ -106,19 +88,21 @@ public class GroupMembershipIT extends Integrationtest {
 		pageBackwardUnassigned();
 
 		browser.click(GroupMembership.PAGING_UNASSIGNED_LAST);
-		assertFalse(browser.isErrorPage());
+		assertTrue(isAssignedAtFirstPage());
 		browser.click(GroupMembership.PAGING_UNASSIGNED_FIRST);
-		assertFalse(browser.isErrorPage());
+		assertTrue(isAssignedAtFirstPage());
 
 		clickFirstPagingNumberUnassigned();
-		assertFalse(browser.isErrorPage());
-		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0")); // set limit to
-																		// "unlimited"
-		assertEquals(getAssignedUserCount("outsider"), userCount);
+		assertTrue(isAssignedAtFirstPage());
+		//adavies
+		assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
+
+		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0")); // set limit to "unlimited"
+		assertEquals(getUnassignedUserCount(), userCount);
 	}
 
 	@Test
-	public void add_and_remove_group_member() {
+	public void add_and_remove_group_member_with_single_button() {
 		final String testGroup = "test_group08";
 		//dcooper
 		final String userId = "d6f323e2-c717-4ab6-af9c-e639b50a948c";
@@ -134,44 +118,19 @@ public class GroupMembershipIT extends Integrationtest {
 		assertFalse(isUserAssigned(userId));
 	}
 
-	//TODO Fix me "Get groups in list" (Bug in Server)
-	@Test
-	public void compare_user_amount() {
-		final String allUnassignedUserCheckbox = "//table[contains(@id, 'outsider')]//input[contains(@id, 'group-checkbox')]";
-		final String submitUnassigendButton = "//table[contains(@id, 'outsider')]//input[contains(@type, 'submit')]";
-		final String testGroup = "test_group05";
-
-		gotoMembershipGroupView(testGroup);
-
-		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0")); // set limit to "unlimited"
-		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "0")); // set limit to "unlimited"
-
-		browser.findElement(By.xpath(allUnassignedUserCheckbox)).click();
-		browser.findElement(By.xpath(submitUnassigendButton)).click();
-
-		assertTrue(getAssignedUserCount("insider") == 0);
-//		assertEquals(getAssignedUserCount("insider"), getAssignedUserCount("outsider"));
-	}
-
 	@Test
 	public void order() {
-		final String allUnassignedUserCheckbox = "//table[contains(@id, 'outsider')]//input[contains(@id, 'group-checkbox')]";
-		final String submitUnassigendButton = "//table[contains(@id, 'outsider')]//input[contains(@type, 'submit')]";
 		final String testGroup = "test_group10";
 
 		gotoMembershipGroupView(testGroup);
 
+		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0")); // set limit to "unlimited"
+		browser.click(GroupMembership.UNASSIGNED_MASTER_CHECKBOX);
+		browser.click(GroupMembership.SUBMIT_BUTTON_UNASSIGNED_SELECTION);
 
+		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "5")); // set limit to "5"
+		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "5")); // set limit to "5"
 
-		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0")); // set limit to
-																	// "unlimited"
-		browser.findElement(By.xpath(allUnassignedUserCheckbox)).click();
-		browser.findElement(By.xpath(submitUnassigendButton)).click();
-
-		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "5")); // set limit to
-																	// "5"
-		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "5")); // set limit to
-																		// "5"
 		browser.click(GroupMembership.SORT_ASSIGNED_LOGIN_ASC);
 		browser.click(GroupMembership.SORT_UNASSIGNED_LOGIN_DESC);
 		assertTrue(isAssignedUserAtPosition("adavies", 0));
@@ -216,7 +175,7 @@ public class GroupMembershipIT extends Integrationtest {
 			try {
 				browser.click(GroupMembership.PAGING_ASSIGNED_PREVIOUS);
 
-				assertTrue(firstPageUnassigned());
+				assertTrue(isUnassignedAtFirstPage());
 				//adavies
 				assertTrue(isUserUnassigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
 			} catch (NoSuchElementException e) {
@@ -231,10 +190,10 @@ public class GroupMembershipIT extends Integrationtest {
 
 		while (true) {
 			try {
-				userCount += getAssignedUserCount("insider");
+				userCount += getAssignedUserCount();
 				browser.click(GroupMembership.PAGING_ASSIGNED_NEXT);
 
-				assertTrue(firstPageUnassigned());
+				assertTrue(isUnassignedAtFirstPage());
 				//adavies
 				assertTrue(isUserUnassigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
 			} catch (NoSuchElementException e) {
@@ -252,19 +211,14 @@ public class GroupMembershipIT extends Integrationtest {
 				+ "and not(@id = 'paging-next') "
 				+ "and not(@id = 'paging-last') " + "and not(@href = '#')]";
 		browser.findElements(By.xpath(pagingNumberXpath)).get(0).click();
-
-		assertTrue(firstPageUnassigned());
-		//adavies
-		assertTrue(isUserUnassigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
 	}
 
-	private boolean firstPageUnassigned() {
+	private boolean isUnassignedAtFirstPage() {
 		String firstPageActive = "//div[contains(@id, 'form-group-outsider')]//li[contains(@class, 'active')]//a[contains(@id, 'paging-0')]";
 
 		try {
 			browser.findElement(By.xpath(firstPageActive));
-		}
-		catch (NoSuchElementException e) {
+		} catch (NoSuchElementException e) {
 			return false;
 		}
 		return true;
@@ -293,7 +247,7 @@ public class GroupMembershipIT extends Integrationtest {
 			try {
 				browser.click(GroupMembership.PAGING_UNASSIGNED_PREVIOUS);
 
-				assertTrue(firstPageAssigned());
+				assertTrue(isAssignedAtFirstPage());
 				//adavies
 				assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
 			} catch (NoSuchElementException e) {
@@ -308,10 +262,10 @@ public class GroupMembershipIT extends Integrationtest {
 
 		while (true) {
 			try {
-				userCount += getAssignedUserCount("outsider");
+				userCount += getUnassignedUserCount();
 				browser.click(GroupMembership.PAGING_UNASSIGNED_NEXT);
 
-				assertTrue(firstPageAssigned());
+				assertTrue(isAssignedAtFirstPage());
 				//adavies
 				assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
 			} catch (NoSuchElementException e) {
@@ -329,26 +283,26 @@ public class GroupMembershipIT extends Integrationtest {
 				+ "and not(@id = 'paging-next') "
 				+ "and not(@id = 'paging-last') " + "and not(@href = '#')]";
 		browser.findElements(By.xpath(pagingNumberXpath)).get(0).click();
-
-		assertTrue(firstPageAssigned());
-		//adavies
-		assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
 	}
 
-	private boolean firstPageAssigned() {
+	private boolean isAssignedAtFirstPage() {
 		String firstPageActive = "//div[contains(@id, 'form-group-insider')]//li[contains(@class, 'active')]//a[contains(@id, 'paging-0')]";
 
 		try {
 			browser.findElement(By.xpath(firstPageActive));
-		}
-		catch (NoSuchElementException e) {
+		} catch (NoSuchElementException e) {
 			return false;
 		}
 		return true;
 	}
 
-	private int getAssignedUserCount(String membership) {
-		String userRowsXpath = "//table[contains(@id,'" + membership + "')]//tr//td//input[contains(@class, 'checkbox')]";
+	private int getAssignedUserCount() {
+		String userRowsXpath = "//table[contains(@id,'insider')]//tr//td//input[contains(@class, 'checkbox')]";
+		return browser.findElements(By.xpath(userRowsXpath)).size();
+	}
+
+	private int getUnassignedUserCount() {
+		String userRowsXpath = "//table[contains(@id,'outsider')]//tr//td//input[contains(@class, 'checkbox')]";
 		return browser.findElements(By.xpath(userRowsXpath)).size();
 	}
 
