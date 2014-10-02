@@ -186,6 +186,9 @@
 	<scim_group displayname="admin" internal_id="100074"/>
 
 	<scim_group_scim_id groups_internal_id="100052" members_internal_id="100046"/>
+	<scim_group_scim_id groups_internal_id="100052" members_internal_id="100042"/>
+	<scim_group_scim_id groups_internal_id="100052" members_internal_id="100033"/>
+	<scim_group_scim_id groups_internal_id="100052" members_internal_id="100009"/>
 	<scim_group_scim_id groups_internal_id="100058" members_internal_id="100009"/>
 	<scim_group_scim_id groups_internal_id="100060" members_internal_id="100046"/>
 	<scim_group_scim_id groups_internal_id="100060" members_internal_id="100005"/>
