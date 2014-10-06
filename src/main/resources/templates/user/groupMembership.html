@@ -44,7 +44,7 @@
 						<tr th:object="${pagingInformationAssignedGroups.filterFields}">
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 							<td></td>
-							<td><input id="filter-display-name" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
+							<td class="input-group-sm"><input id="filter-display-name" class="form-control" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
 							<td>
 								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
@@ -74,13 +74,12 @@
 			<div th:replace="makros :: pagingControlls(${pagingAssignedGroups}, 2, '')">
 				Paging-Navigation...
 			</div>
-			<span th:text="#{msg.list.limit}"></span>
 			<form name="form-assigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
 				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
 				<th:block th:replace="makros :: csrf" />
 				<input type="hidden" name="action" value="assignedLimit" />
 
-				<select id="paging-limit" name="assignedLimit" class="" onchange="document['form-assigned-limit'].submit();">
+				<select id="paging-limit" name="assignedLimit" class="form-control" onchange="document['form-assigned-limit'].submit();">
 					<option th:selected="${pagingInformationAssignedGroups.limit} == 5" >5</option>
 					<option th:selected="${pagingInformationAssignedGroups.limit} == 10">10</option>
 					<option th:selected="${pagingInformationAssignedGroups.limit} == 20">20</option>
@@ -89,6 +88,7 @@
 					<option th:selected="${pagingInformationAssignedGroups.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
 				</select>
 			</form>
+			<span th:text="#{msg.list.limit}"></span>
 		</div>
 		<div class="col-md-6 form-group">
 			<h4 style="margin-bottom:5px" th:text="#{edit_group_membership.group.other}">Other groups</h4>
@@ -118,7 +118,7 @@
 						<tr th:object="${pagingInformationUnassignedGroups.filterFields}">
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 							<td></td>
-							<td><input id="filter-display-name" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
+							<td class="input-group-sm"><input id="filter-display-name" class="form-control" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
 							<td>
 								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
@@ -149,13 +149,12 @@
 			<div th:replace="makros :: pagingControlls(${pagingUnassignedGroups}, 2, '')">
 				Paging-Navigation...
 			</div>
-			<span th:text="#{msg.list.limit}"></span>
 			<form name="form-unassigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
 				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
 				<th:block th:replace="makros :: csrf" />
 				<input type="hidden" name="action" value="unassignedLimit" />
 
-				<select id="paging-limit" name="unassignedLimit" class="" onchange="document['form-unassigned-limit'].submit();">
+				<select id="paging-limit" name="unassignedLimit" class="form-control" onchange="document['form-unassigned-limit'].submit();">
 					<option th:selected="${pagingInformationUnassignedGroups.limit} == 5" >5</option>
 					<option th:selected="${pagingInformationUnassignedGroups.limit} == 10">10</option>
 					<option th:selected="${pagingInformationUnassignedGroups.limit} == 20">20</option>
@@ -164,6 +163,7 @@
 					<option th:selected="${pagingInformationUnassignedGroups.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
 				</select>
 			</form>
+			<span th:text="#{msg.list.limit}"></span>
 		</div>
 	</div>
 

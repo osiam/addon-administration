@@ -68,9 +68,11 @@
 
 					<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 					<td><input type="hidden" name="action" value="filter"/></td>
-					<td><input id="filter-display-name" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
+					<td class="input-group-sm"><input id="filter-display-name" class="form-control" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
 					<td>
-						<button id="filter-button" th:text="#{msg.button.filter}" class="btn btn-default btn-sm" type="submit">Filter <span class="glyphicon glyphicon-filter"></span></button>
+						<button id="filter-button" class="btn btn-default btn-sm" type="submit">
+							<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+						</button>
 					</td>
 				</form>
 			</tr>
@@ -121,10 +123,9 @@
 	<div th:replace="makros :: pagingControlls(${paging}, 2, '')">
 		Paging-Navigation...
 	</div>
-	<span th:text="#{msg.list.limit}"></span>
 	<form name="form-limit" action="" class="resultsPerPage">
 		<input type="hidden" name="action" value="limit" />
-		<select id="paging-limit" name="limit" class="" onchange="document['form-limit'].submit();">
+		<select id="paging-limit" name="limit" class="form-control" onchange="document['form-limit'].submit();">
 			<option th:selected="${sessionData.pagingInformation.limit} == 5" >5</option>
 			<option th:selected="${sessionData.pagingInformation.limit} == 10">10</option>
 			<option th:selected="${sessionData.pagingInformation.limit} == 20">20</option>
@@ -133,6 +134,7 @@
 			<option th:selected="${sessionData.pagingInformation.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
 		</select>
 	</form>
+	<span th:text="#{msg.list.limit}"></span>
 </div>
 </body>
 </html>

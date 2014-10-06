@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.CreateUserCommand;
+import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.client.exception.ConflictException;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -29,7 +31,11 @@ public class CreateUserController extends GenericController {
 
 	private static final Logger LOG = Logger.getLogger(CreateUserController.class);
 	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/create";
+
+	public static final String REQUEST_PARAMETER_ERROR = "error";
+
 	public static final String MODEL = "model";
+
 	private static final String SESSION_KEY_COMMAND = "command";
 
 	@Inject
@@ -45,6 +51,19 @@ public class CreateUserController extends GenericController {
 		clearSession();
 
 		modelAndView.addObject(MODEL, new CreateUserCommand());
+
+		return modelAndView;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
+	public ModelAndView handleUserCreateFailure() {
+		ModelAndView modelAndView = new ModelAndView("user/createUser");
+
+		CreateUserCommand cmd = (CreateUserCommand)restoreFromSession(SESSION_KEY_COMMAND);
+
+		modelAndView.addObject(MODEL, cmd);
+
+		enrichBindingResultFromSession(MODEL, modelAndView);
 
 		return modelAndView;
 	}
@@ -75,6 +94,7 @@ public class CreateUserController extends GenericController {
 
 		storeInSession(SESSION_KEY_COMMAND, command);
 		storeBindingResultIntoSession(bindingResult, MODEL);
+		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
 		return redirect.build();
 	}

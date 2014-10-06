@@ -36,13 +36,13 @@ table {
 }
 
 table#insider input[type="text"] {
-    box-sizing: border-box;
-    width: 100%;
+	box-sizing: border-box;
+	width: 100%;
 }
 
 table#outsider input[type="text"] {
-    box-sizing: border-box;
-    width: 100%;
+	box-sizing: border-box;
+	width: 100%;
 }
 
 .actionNav {
@@ -201,8 +201,14 @@ table tr td:last-child nav {
 /************ paging **************/
 
 .resultsPerPage {
-	display: inline;
+	display: inline-block;
+	vertical-align: middle;
 }
+
+.resultsPerPage .form-control {
+	width: auto;
+}
+
 
 /****************** misc *****************/
 

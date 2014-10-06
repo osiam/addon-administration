@@ -39,30 +39,21 @@
 				Validation Error
 			</div>
 
-			<!-- CSRF token -->
-			<th:block th:replace="makros :: csrf" />
+			<fieldset>
+				<!-- CSRF token -->
+				<th:block th:replace="makros :: csrf" />
 
-			<div class="row">
-				<div class="col-md-9">
-
-					<div class="row">
-						<div class="col-md-6">
-							<div >
-								<label for="username" th:text="#{add_user.userName}">Username</label>
-								<input class="form-control" type="text" id="username" th:field="*{userName}" />
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<div >
-								<label for="password" th:text="#{add_user.userPassword}">Password</label>
-								<input class="form-control" type="password" id="password" th:field="*{password}" />
-							</div>
-						</div>
-					</div>
+				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{userName}')}? ' bg-danger' : '')" >
+					<label for="username" th:text="#{add_user.userName}">Username</label>
+					<input class="form-control" type="text" id="username" th:field="*{userName}" th:placeholder="#{add_user.userName}" />
 				</div>
-			</div>
+
+				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{password}')}? ' bg-danger' : '')" >
+					<label for="password" th:text="#{add_user.userPassword}">Password</label>
+					<input class="form-control" type="password" id="password" th:field="*{password}" th:placeholder="#{add_user.userPassword}" />
+				</div>
+
+			</fieldset>
 
 			<div class="row">
 				<div class="col-md-12 text-right">

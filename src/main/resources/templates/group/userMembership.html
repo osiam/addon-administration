@@ -58,9 +58,9 @@
 						<tr th:object="${pagingInformationAssignedUsers.filterFields}">
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 							<td></td>
-							<td><input id="filter-login" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
-							<td><input id="filter-givenname" name="query.name.givenName" type="text"  th:value="*{get('query.name.givenName')}" /></td>
-							<td><input id="filter-familyname" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
+							<td class="input-group-sm"><input id="filter-login" class="form-control" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
+							<td class="input-group-sm"><input id="filter-givenname" class="form-control" name="query.name.givenName" type="text"  th:value="*{get('query.name.givenName')}" /></td>
+							<td class="input-group-sm"><input id="filter-familyname" class="form-control" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
 							<td>
 								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
@@ -96,13 +96,12 @@
 			<div th:replace="makros :: pagingControlls(${pagingAssignedUsers}, 2, '')">
 				Paging-Navigation...
 			</div>
-			<span th:text="#{msg.list.limit}"></span>
 			<form name="form-assigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
 				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
 				<th:block th:replace="makros :: csrf" />
 				<input type="hidden" name="action" value="assignedLimit" />
 
-				<select id="paging-limit-intern" name="assignedLimit" class="" onchange="document['form-assigned-limit'].submit();">
+				<select id="paging-limit-intern" name="assignedLimit" class="form-control" onchange="document['form-assigned-limit'].submit();">
 					<option th:selected="${pagingInformationAssignedUsers.limit} == 5" >5</option>
 					<option th:selected="${pagingInformationAssignedUsers.limit} == 10">10</option>
 					<option th:selected="${pagingInformationAssignedUsers.limit} == 20">20</option>
@@ -111,6 +110,7 @@
 					<option th:selected="${pagingInformationAssignedUsers.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
 				</select>
 			</form>
+			<span th:text="#{msg.list.limit}"></span>
 		</div>
 
 
@@ -155,9 +155,9 @@
 						<tr th:object="${pagingInformationUnassignedUsers.filterFields}">
 							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
 							<td></td>
-							<td><input id="filter-login" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
-							<td><input id="filter-givenname" name="query.name.givenName" type="text"  th:value="*{get('query.name.givenName')}" /></td>
-							<td><input id="filter-familyname" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
+							<td class="input-group-sm"><input id="filter-login" class="form-control" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
+							<td class="input-group-sm"><input id="filter-givenname" class="form-control" name="query.name.givenName" type="text"  th:value="*{get('query.name.givenName')}" /></td>
+							<td class="input-group-sm"><input id="filter-familyname" class="form-control" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
 							<td>
 								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
@@ -190,13 +190,12 @@
 			<div th:replace="makros :: pagingControlls(${pagingUnassignedUsers}, 2, '')">
 				Paging-Navigation...
 			</div>
-			<span th:text="#{msg.list.limit}"></span>
 			<form name="form-unassigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
 				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
 				<th:block th:replace="makros :: csrf" />
 				<input type="hidden" name="action" value="unassignedLimit" />
 
-				<select id="paging-limit-extern" name="unassignedLimit" class="" onchange="document['form-unassigned-limit'].submit();">
+				<select id="paging-limit-extern" name="unassignedLimit" class="form-control" onchange="document['form-unassigned-limit'].submit();">
 					<option th:selected="${pagingInformationUnassignedUsers.limit} == 5" >5</option>
 					<option th:selected="${pagingInformationUnassignedUsers.limit} == 10">10</option>
 					<option th:selected="${pagingInformationUnassignedUsers.limit} == 20">20</option>
@@ -205,6 +204,7 @@
 					<option th:selected="${pagingInformationUnassignedUsers.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
 				</select>
 			</form>
+			<span th:text="#{msg.list.limit}"></span>
 		</div>
 	</div>
 
