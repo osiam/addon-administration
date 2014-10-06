@@ -70,8 +70,8 @@ public class GroupMembershipIT extends Integrationtest {
 
 		clickFirstPagingNumberAssigned();
 		assertTrue(isUnassignedAtFirstPage());
-		//adavies
-		assertTrue(isUserUnassigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
+
+		assertTrue(isUserUnassigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821")); //adavies
 
 		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "0")); // set limit to "unlimited"
 		assertEquals(getAssignedUserCount(), userCount);
@@ -94,8 +94,8 @@ public class GroupMembershipIT extends Integrationtest {
 
 		clickFirstPagingNumberUnassigned();
 		assertTrue(isAssignedAtFirstPage());
-		//adavies
-		assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
+
+		assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821")); //adavies
 
 		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0")); // set limit to "unlimited"
 		assertEquals(getUnassignedUserCount(), userCount);
@@ -104,8 +104,8 @@ public class GroupMembershipIT extends Integrationtest {
 	@Test
 	public void add_and_remove_group_member_with_single_button() {
 		final String testGroup = "test_group08";
-		//dcooper
-		final String userId = "d6f323e2-c717-4ab6-af9c-e639b50a948c";
+
+		final String userId = "d6f323e2-c717-4ab6-af9c-e639b50a948c"; //dcooper
 
 		gotoMembershipGroupView(testGroup);
 
@@ -170,14 +170,122 @@ public class GroupMembershipIT extends Integrationtest {
 		assertTrue(isUnassignedUserAtPosition("ewilley", 0));
 	}
 
+	@Test
+	public void apply_empty_filter() {
+		final String testGroup = "test_group01";
+
+		gotoMembershipGroupView(testGroup);
+
+		browser.click(GroupMembership.FILTER_BUTTON_ASSIGNED);
+
+		assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821")); //adavies
+		assertTrue(isUserUnassigned("ac3bacc9-915d-4bab-9145-9eb600d5e5bf")); //cmiller
+
+		browser.click(GroupMembership.FILTER_BUTTON_UNASSIGNED);
+
+		assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821")); //cmiller
+		assertTrue(isUserUnassigned("ac3bacc9-915d-4bab-9145-9eb600d5e5bf")); //adavies
+	}
+
+	@Test
+	public void apply_single_filter_assigned_user() {
+		final String testGroup = "test_group01";
+
+		final String assignedUser = "adavies";
+
+		gotoMembershipGroupView(testGroup);
+
+		browser.fill(new Field(GroupMembership.FILTER_ASSIGNED_LOGIN, assignedUser));
+		browser.click(GroupMembership.FILTER_BUTTON_ASSIGNED);
+
+		assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821")); //adavies
+		assertFalse(isUserAssigned("7d33bcbe-a54c-43d8-867e-f6146164941e")); //hsimpson
+		assertFalse(getUnassignedUserCount() <= 1);
+	}
+
+	@Test
+	public void apply_single_filter_unassigned_user() {
+		final String testGroup = "test_group01";
+
+		final String unassignedUser = "cmiller";
+
+		gotoMembershipGroupView(testGroup);
+
+		browser.fill(new Field(GroupMembership.FILTER_UNASSIGNED_LOGIN, unassignedUser));
+		browser.click(GroupMembership.FILTER_BUTTON_UNASSIGNED);
+
+		assertTrue(isUserUnassigned("ac3bacc9-915d-4bab-9145-9eb600d5e5bf")); //cmiller
+		assertFalse(isUserUnassigned("7d33bcbe-a54c-43d8-867e-f6146164941e")); //hsimpson
+		assertFalse(getAssignedUserCount() <= 1);
+	}
+
+	@Test
+	public void apply_no_result_filter_assigned_user() {
+		final String testGroup = "test_group01";
+
+		gotoMembershipGroupView(testGroup);
+
+		browser.fill(new Field(GroupMembership.FILTER_ASSIGNED_LOGIN, "DoesNotExist"));
+		browser.click(GroupMembership.FILTER_BUTTON_ASSIGNED);
+
+		assertEquals(0, getAssignedUserCount());
+		assertFalse(getUnassignedUserCount() == 0);
+	}
+
+	@Test
+	public void apply_no_result_filter_unassigned_user() {
+		final String testGroup = "test_group01";
+
+		gotoMembershipGroupView(testGroup);
+
+		browser.fill(new Field(GroupMembership.FILTER_UNASSIGNED_LOGIN, "DoesNotExist"));
+		browser.click(GroupMembership.FILTER_BUTTON_UNASSIGNED);
+
+		assertEquals(0, getUnassignedUserCount());
+		assertFalse(getAssignedUserCount() == 0);
+	}
+
+	@Test
+	public void apply_multi_filter_assigned_user() {
+		final String testGroup = "test_group01";
+
+		gotoMembershipGroupView(testGroup);
+
+		//Also tests trimming in filter fields
+		browser.fill(new Field(GroupMembership.FILTER_ASSIGNED_LOGIN, "adavies"),
+				new Field(GroupMembership.FILTER_ASSIGNED_GIVEN_NAME, "  Adeline  "),
+				new Field(GroupMembership.FILTER_ASSIGNED_FAMILY_NAME, "  Davies  "));
+		browser.click(GroupMembership.FILTER_BUTTON_ASSIGNED);
+
+		assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821")); //adavies
+		assertEquals(getAssignedUserCount(), 1);
+		assertFalse(getUnassignedUserCount() <= 1);
+	}
+
+	@Test
+	public void apply_multi_filter_unassigned_user() {
+		final String testGroup = "test_group01";
+
+		gotoMembershipGroupView(testGroup);
+
+		//Also tests trimming in filter fields
+		browser.fill(new Field(GroupMembership.FILTER_UNASSIGNED_LOGIN, "bjensen"),
+				new Field(GroupMembership.FILTER_UNASSIGNED_GIVEN_NAME, "  Barbara  "),
+				new Field(GroupMembership.FILTER_UNASSIGNED_FAMILY_NAME, "  Jensen  "));
+		browser.click(GroupMembership.FILTER_BUTTON_UNASSIGNED);
+
+		assertTrue(isUserUnassigned("834b410a-943b-4c80-817a-4465aed037bc")); //bjensen
+		assertEquals(getUnassignedUserCount(), 1);
+		assertFalse(getAssignedUserCount() <= 1);
+	}
+
 	private void pageBackwardAssigned() {
 		while (true) {
 			try {
 				browser.click(GroupMembership.PAGING_ASSIGNED_PREVIOUS);
 
 				assertTrue(isUnassignedAtFirstPage());
-				//adavies
-				assertTrue(isUserUnassigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
+				assertTrue(isUserUnassigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821")); //adavies
 			} catch (NoSuchElementException e) {
 				break;
 			}
@@ -194,8 +302,7 @@ public class GroupMembershipIT extends Integrationtest {
 				browser.click(GroupMembership.PAGING_ASSIGNED_NEXT);
 
 				assertTrue(isUnassignedAtFirstPage());
-				//adavies
-				assertTrue(isUserUnassigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
+				assertTrue(isUserUnassigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821")); //adavies
 			} catch (NoSuchElementException e) {
 				break;
 			}
@@ -248,8 +355,7 @@ public class GroupMembershipIT extends Integrationtest {
 				browser.click(GroupMembership.PAGING_UNASSIGNED_PREVIOUS);
 
 				assertTrue(isAssignedAtFirstPage());
-				//adavies
-				assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821"));
+				assertTrue(isUserAssigned("03dc8f50-acaa-44d6-9401-bdfc5e10e821")); //adavies
 			} catch (NoSuchElementException e) {
 				break;
 			}

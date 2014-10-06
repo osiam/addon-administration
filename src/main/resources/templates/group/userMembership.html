@@ -62,7 +62,7 @@
 							<td class="input-group-sm"><input id="filter-givenname" class="form-control" name="query.name.givenName" type="text"  th:value="*{get('query.name.givenName')}" /></td>
 							<td class="input-group-sm"><input id="filter-familyname" class="form-control" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
 							<td>
-								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
+								<button id="assigned-filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
 								</button>
 							</td>
@@ -159,12 +159,12 @@
 							<td class="input-group-sm"><input id="filter-givenname" class="form-control" name="query.name.givenName" type="text"  th:value="*{get('query.name.givenName')}" /></td>
 							<td class="input-group-sm"><input id="filter-familyname" class="form-control" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
 							<td>
-								<button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
+								<button id="unassigned-filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
 									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
 								</button>
 							</td>
 						</tr>
-						<tr  th:each="user : ${unassignedUsers.resources}">
+						<tr th:each="user : ${unassignedUsers.resources}">
 							<td>
 								<input type="checkbox" name="userId" th:value="${user.id}" class="checkbox" />
 							</td>

@@ -47,8 +47,6 @@ public class EditUserMembershipController extends GenericController {
 	public static final String REQUEST_PARAMETER_UNASSIGNED_OFFSET = "unassignedOffset";
 	public static final String REQUEST_PARAMETER_UNASSIGNED_QUERY = "unassignedQuery";
 
-	public static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
-
 	public static final String MODEL_ASSIGNED_USERS = "assignedUsers";
 	public static final String MODEL_UNASSIGNED_USERS = "unassignedUsers";
 	public static final String MODEL_USER_LIST = "userList";
@@ -241,7 +239,7 @@ public class EditUserMembershipController extends GenericController {
 	}
 
 	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=add", REQUEST_PARAMETER_ACTION + "=filter"})
-	public String handleFilterUserAdd(@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
+	public String handleFilterUserAdd(@RequestParam(value = REQUEST_PARAMETER_ID) String groupId,
 										@RequestParam Map<String, String> allParameters) {
 
 		Map<String, String> filterParameter = extractFilterParameter(allParameters);
@@ -256,7 +254,7 @@ public class EditUserMembershipController extends GenericController {
 	}
 
 	@RequestMapping(params=REQUEST_PARAMETER_PANEL + "=remove")
-	public String handleRemoveUser(@RequestParam(value = REQUEST_PARAMETER_ID) String	groupId,
+	public String handleRemoveUser(@RequestParam(value = REQUEST_PARAMETER_ID) String groupId,
 									@RequestParam(value = REQUEST_PAREMETER_USER_ID, required = false) String[] userIds) {
 
 		groupService.removeUsersFromGroup(groupId, userIds);
