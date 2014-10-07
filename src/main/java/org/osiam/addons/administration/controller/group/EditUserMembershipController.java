@@ -13,6 +13,7 @@ import org.osiam.addons.administration.paging.PagingLinks;
 import org.osiam.addons.administration.service.GroupService;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
+import org.osiam.resources.scim.Group;
 import org.osiam.resources.scim.SCIMSearchResult;
 import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Controller;
@@ -112,6 +113,10 @@ public class EditUserMembershipController extends GenericController {
 													session.getUnassignedUsersPagingInformation(),
 													attributes);
 
+		Group group = groupService.getGroup(groupId);
+		group.getDisplayName();
+
+		modelAndView.addObject(group);
 		modelAndView.addObject(MODEL_ASSIGNED_USERS, assignedUsers);
 		modelAndView.addObject(MODEL_UNASSIGNED_USERS, unassignedUsers);
 

@@ -11,9 +11,11 @@ import org.osiam.addons.administration.model.session.PagingInformation;
 import org.osiam.addons.administration.paging.PagingBuilder;
 import org.osiam.addons.administration.paging.PagingLinks;
 import org.osiam.addons.administration.service.GroupService;
+import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.scim.Group;
 import org.osiam.resources.scim.SCIMSearchResult;
+import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,6 +62,9 @@ public class EditGroupMembershipController extends GenericController {
 	private static final Boolean DEFAULT_SORT_DIRECTION = true;
 
 	@Inject
+	private UserService userService;
+
+	@Inject
 	private GroupService groupService;
 
 	@Inject
@@ -101,11 +106,15 @@ public class EditGroupMembershipController extends GenericController {
 		session.getUnassignedGroupsPagingInformation().setAscending(unassignedAscending);
 		session.getUnassignedGroupsPagingInformation().setQuery(unassignedQuery);
 
+		User user = userService.getUser(userId);
+		user.getUserName();
+
 		SCIMSearchResult<Group> assignedGroups = groupService.getAssignedGroups(userId,
 				session.getAssignedGroupsPagingInformation());
 		SCIMSearchResult<Group> unassignedGroups = groupService.getUnassignedGroups(userId,
 				session.getUnassignedGroupsPagingInformation());
 
+		modelAndView.addObject(user);
 		modelAndView.addObject(MODEL_ASSIGNED_GROUPS, assignedGroups);
 		modelAndView.addObject(MODEL_UNASSIGNED_GROUPS, unassignedGroups);
 
