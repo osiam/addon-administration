@@ -118,7 +118,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<span th:text="#{msg.list.result(${#lists.size(grouplist.resources)}, ${grouplist.startIndex} - 1 + ${#lists.size(grouplist.resources)}, ${grouplist.totalResults})}">Result x - y of total</span>
+	<span th:replace="makros :: pagingInfo(${grouplist})">Result x - y from Total</span>
 
 	<div th:replace="makros :: pagingControlls(${paging}, 2, '')">
 		Paging-Navigation...

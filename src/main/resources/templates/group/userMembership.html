@@ -92,7 +92,7 @@
 					</tbody>
 				</table>
 			</form>
-			<span th:text="#{msg.list.result(${#lists.size(assignedUsers.resources)}, ${assignedUsers.startIndex} - 1 + ${#lists.size(assignedUsers.resources)}, ${assignedUsers.totalResults})}">Result x - y of total</span>
+			<span th:replace="makros :: pagingInfo(${assignedUsers})">Result x - y from Total</span>
 			<div th:replace="makros :: pagingControlls(${pagingAssignedUsers}, 2, '')">
 				Paging-Navigation...
 			</div>
@@ -186,7 +186,7 @@
 				</table>
 			</form>
 
-			<span th:text="#{msg.list.result(${#lists.size(unassignedUsers.resources)}, ${unassignedUsers.startIndex} - 1 + ${#lists.size(unassignedUsers.resources)}, ${unassignedUsers.totalResults})}">Result x - y of total</span>
+			<span th:replace="makros :: pagingInfo(${unassignedUsers})">Result x - y from Total</span>
 			<div th:replace="makros :: pagingControlls(${pagingUnassignedUsers}, 2, '')">
 				Paging-Navigation...
 			</div>
