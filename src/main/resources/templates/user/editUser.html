@@ -756,46 +756,6 @@
 				</div>
 			</div>
 			<hr />
-			<div class="row">
-
-					<!--/*
-						START extension-BLOCK
-					*/-->
-
-					<div th:each="extension, stat : ${allExtensions}" class="addedExtension container">
-						<h3 th:text="${extension.urn}" style="margin-bottom:10px">Extension-URN</h3>
-
-						<div th:each="fieldEntry : ${extension.fields}" th:class="(${#fields.hasErrors('*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}')}? ' bg-danger row' : 'row')">
-
-								<div class="col-md-4">
-									<label th:text="${fieldEntry.key}" th:for="${fieldEntry.key}">Extension-Key</label>
-								</div>
-								<div class="col-md-6">
-									<th:block th:switch="${fieldEntry.value.type.name}">
-										<input th:case="'INTEGER'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="number"/>
-										<input th:case="'DECIMAL'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="number"/>
-										<input th:case="'BOOLEAN'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="checkbox" th:value="${fieldEntry.value.value}" />
-										<input th:case="'DATE_TIME'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="datetime" />
-										<input th:case="'REFERENCE'" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="url" />
-										<input th:case="*" th:id="${fieldEntry.key}" th:field="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" type="text" />
-									</th:block>
-									<div th:if="${#fields.hasErrors('*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}')}" th:errors="*{extensions[__${extension.urn}__][__${fieldEntry.key}__]}" >Type Error</div>
-								</div>
-
-						</div>
-						<div class="row">
-							<div class="col-md-10 form-group text-right only-on-js">
-								<button th:id="${'button-clear-extensions-' + stat.index}" class="btn btn-md btn-primary only-on-js" type="button" >Clear Extension</button>
-							</div>
-						</div>
-					</div>
-
-					<!--/*
-						END extension-BLOCK
-					*/-->
-
-			</div>
-
 
 			<!--/*
 				START extension-BLOCK
