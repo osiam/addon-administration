@@ -48,10 +48,17 @@
 		</a>
 	</div>
 
-	<div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.list.saveSuccess}">
+	<div class="alert alert-success" th:if="${(param.activateSuccess != null) and (param.activateSuccess[0] == 'true')}" th:text="#{msg.user.list.activateSuccess}">
+		Successful activated
+	</div>
+	<div class="alert alert-success" th:if="${(param.deactivateSuccess != null) and (param.deactivateSuccess[0] == 'true')}" th:text="#{msg.user.list.deactivateSuccess}">
+		Successful deactivated
+	</div>
+
+	<div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.user.list.saveSuccess}">
 		Successful saved
 	</div>
-	<div class="alert alert-success" th:if="${(param.deleteSuccess != null) and (param.deleteSuccess[0] == 'true')}" th:text="#{msg.list.deleteSuccess}">
+	<div class="alert alert-success" th:if="${(param.deleteSuccess != null) and (param.deleteSuccess[0] == 'true')}" th:text="#{msg.user.list.deleteSuccess}">
 		Successful deleted
 	</div>
 

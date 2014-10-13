@@ -224,6 +224,7 @@ public class UserViewController {
 			.addParameter(REQUEST_PARAMETER_OFFSET, session.getPagingInformation().getOffset())
 			.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getPagingInformation().getOrderBy())
 			.addParameter(REQUEST_PARAMETER_ASCENDING, session.getPagingInformation().getAscending())
+			.addParameter("deactivateSuccess", true)
 			.build();
 	}
 
@@ -252,6 +253,7 @@ public class UserViewController {
 			.addParameter(REQUEST_PARAMETER_OFFSET, session.getPagingInformation().getOffset())
 			.addParameter(REQUEST_PARAMETER_ORDER_BY, session.getPagingInformation().getOrderBy())
 			.addParameter(REQUEST_PARAMETER_ASCENDING, session.getPagingInformation().getAscending())
+			.addParameter("activateSuccess", true)
 			.build();
 	}
 
