@@ -44,6 +44,8 @@ public class UserViewController {
 	public static final String MODEL_USER_LIST = "userlist";
 	public static final String MODEL_SESSION_DATA = "sessionData";
 	public static final String MODEL_PAGING_LINKS = "paging";
+	public static final String MODEL_ORDER_BY = "orderBy";
+	public static final String MODEL_ORDER_DIRECTION = "orderDirection";
 
 	private static final Integer DEFAULT_LIMIT = 20;
 	private static final String DEFAULT_SORT_BY = "userName";
@@ -79,6 +81,8 @@ public class UserViewController {
 		modelAndView.addObject(MODEL_USER_LIST, userList);
 		modelAndView.addObject(MODEL_SESSION_DATA, session);
 		modelAndView.addObject(MODEL_PAGING_LINKS, pagingLinks);
+		modelAndView.addObject(MODEL_ORDER_BY, orderBy);
+		modelAndView.addObject(MODEL_ORDER_DIRECTION, ascending);
 
 		session.getPagingInformation().setQuery(query);
 		session.getPagingInformation().setLimit(limit);

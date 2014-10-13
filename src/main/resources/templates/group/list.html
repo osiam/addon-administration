@@ -48,10 +48,15 @@
 					<input id="group-checkbox" type="checkbox" class="checkbox master-checkbox" />
 				</th>
 				<th>
-					<span th:text="#{msg.group.display}">Display Name</span>
-					<span class="sortingArrows">
-						<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}"><img src="../../img/arrow_up.png" alt="" /></a>
-						<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}"><img src="../../img/arrow_down.png" alt="" /></a>
+					<span th:if="${orderBy eq 'displayName' and not orderDirection}">
+						<a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}">
+							<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{msg.group.display}">Display Name</span>
+						</a>
+					</span>
+					<span th:unless="${orderBy eq 'displayName' and not orderDirection}">
+						<a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}">
+							<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{msg.group.display}">Display Name</span>
+						</a>
 					</span>
 				</th>
 				<th></th>

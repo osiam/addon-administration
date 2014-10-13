@@ -62,35 +62,38 @@
 					<input id="user-checkbox" type="checkbox" class="checkbox master-checkbox" />
 				</th>
 				<th>
-					<span th:text="#{msg.user.login}">Login</span>
-					<span class="sortingArrows">
+					<span th:if="${orderBy eq 'userName' and not orderDirection}">
 						<a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">
-							<img th:src="@{/img/arrow_up.png}" src="../../img/arrow_up.png" alt="" />
+							<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{msg.user.login}">Login</span>
 						</a>
+					</span>
+					<span th:unless="${orderBy eq 'userName' and not orderDirection}">
 						<a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">
-							<img th:src="@{/img/arrow_down.png}" src="../../img/arrow_down.png" alt="" />
+							<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{msg.user.login}">Login</span>
 						</a>
 					</span>
 				</th>
 				<th>
-					<span th:text="#{msg.user.name.given}">Given Name</span>
-					<span class="sortingArrows">
+					<span th:if="${orderBy eq 'name.givenName' and not orderDirection}">
 						<a id="order-by-givenname-asc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}">
-							<img th:src="@{/img/arrow_up.png}" src="../../img/arrow_up.png" alt="" />
+							<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{msg.user.name.given}">Given Name</span>
 						</a>
+					</span>
+					<span th:unless="${orderBy eq 'name.givenName' and not orderDirection}">
 						<a id="order-by-givenname-desc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}">
-							<img th:src="@{/img/arrow_down.png}" src="../../img/arrow_down.png" alt="" />
+							<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{msg.user.name.given}">Given Name</span>
 						</a>
 					</span>
 				</th>
 				<th>
-					<span th:text="#{msg.user.name.family}">Family Name</span>
-					<span class="sortingArrows">
+					<span th:if="${orderBy eq 'name.familyName' and not orderDirection}">
 						<a id="order-by-familyname-asc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}">
-							<img th:src="@{/img/arrow_up.png}" src="../../img/arrow_up.png" alt="" />
+							<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{msg.user.name.family}">Family Name</span>
 						</a>
+					</span>
+					<span th:unless="${orderBy eq 'name.familyName' and not orderDirection}">
 						<a id="order-by-familyname-desc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}">
-							<img th:src="@{/img/arrow_down.png}" src="../../img/arrow_down.png" alt="" />
+							<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{msg.user.name.family}">Family Name</span>
 						</a>
 					</span>
 				</th>
