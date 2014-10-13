@@ -247,7 +247,9 @@ public class EditGroupMembershipController extends GenericController {
 
 		groupService.addUserToGroups(userId, groupIds);
 
-		return defaultRedirect(userId).build();
+		return defaultRedirect(userId)
+				.addParameter("groupMembershipAdd", true)
+			.build();
 	}
 
 	@RequestMapping(params = REQUEST_PARAMETER_PANEL + "=remove")
@@ -257,7 +259,9 @@ public class EditGroupMembershipController extends GenericController {
 
 		groupService.removeUserFromGroups(userId, groupIds);
 
-		return defaultRedirect(userId).build();
+		return defaultRedirect(userId)
+				.addParameter("groupMembershipRemove", true)
+			.build();
 	}
 
 	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=add", REQUEST_PARAMETER_ACTION + "=filter"})
