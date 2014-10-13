@@ -49,12 +49,12 @@
 				</th>
 				<th>
 					<span th:if="${orderBy eq 'displayName' and not orderDirection}">
-						<a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}">
+						<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}">
 							<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{msg.group.display}">Display Name</span>
 						</a>
 					</span>
 					<span th:unless="${orderBy eq 'displayName' and not orderDirection}">
-						<a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}">
+						<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}">
 							<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{msg.group.display}">Display Name</span>
 						</a>
 					</span>

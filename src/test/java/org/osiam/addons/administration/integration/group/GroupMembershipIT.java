@@ -131,36 +131,41 @@ public class GroupMembershipIT extends Integrationtest {
 		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "5")); // set limit to "5"
 		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "5")); // set limit to "5"
 
-		browser.click(GroupMembership.SORT_ASSIGNED_LOGIN_ASC);
-		browser.click(GroupMembership.SORT_UNASSIGNED_LOGIN_DESC);
-		assertTrue(isAssignedUserAtPosition("adavies", 0));
-		assertFalse(isUnassignedUserAtPosition("adavies", 0));
-		browser.click(GroupMembership.SORT_ASSIGNED_GIVEN_NAME_ASC);
-		browser.click(GroupMembership.SORT_UNASSIGNED_GIVEN_NAME_DESC);
-		assertTrue(isAssignedUserAtPosition("adavies", 0)); // Adeline
-		assertFalse(isUnassignedUserAtPosition("adavies", 0));
-		browser.click(GroupMembership.SORT_ASSIGNED_FAMILY_NAME_ASC);
-		browser.click(GroupMembership.SORT_UNASSIGNED_FAMILY_NAME_DESC);
-		assertTrue(isAssignedUserAtPosition("gparker", 0)); // Barker
-		assertFalse(isUnassignedUserAtPosition("gparker", 0));
-
 		browser.click(GroupMembership.SORT_ASSIGNED_LOGIN_DESC);
-		browser.click(GroupMembership.SORT_UNASSIGNED_LOGIN_ASC);
 		assertTrue(isAssignedUserAtPosition("marissa", 0));
+		browser.click(GroupMembership.SORT_ASSIGNED_LOGIN_ASC);
+		assertTrue(isAssignedUserAtPosition("adavies", 0));
+
+		browser.click(GroupMembership.SORT_UNASSIGNED_LOGIN_DESC);
+		assertFalse(isUnassignedUserAtPosition("adavies", 0));
+		browser.click(GroupMembership.SORT_UNASSIGNED_LOGIN_ASC);
 		assertTrue(isUnassignedUserAtPosition("adavies", 0));
+
 		browser.click(GroupMembership.SORT_ASSIGNED_GIVEN_NAME_DESC);
-		browser.click(GroupMembership.SORT_UNASSIGNED_GIVEN_NAME_ASC);
 		assertTrue(isAssignedUserAtPosition("ewilley", 0)); // Willey
+		browser.click(GroupMembership.SORT_ASSIGNED_GIVEN_NAME_ASC);
+		assertTrue(isAssignedUserAtPosition("marissa", 0)); // marissa
+
+		browser.click(GroupMembership.SORT_UNASSIGNED_GIVEN_NAME_DESC);
+		assertFalse(isUnassignedUserAtPosition("adavies", 0));
+		browser.click(GroupMembership.SORT_UNASSIGNED_GIVEN_NAME_ASC);
 		assertFalse(isUnassignedUserAtPosition("ewilley", 0));
+
 		browser.click(GroupMembership.SORT_ASSIGNED_FAMILY_NAME_DESC);
-		browser.click(GroupMembership.SORT_UNASSIGNED_FAMILY_NAME_ASC);
 		assertTrue(isAssignedUserAtPosition("jcambell", 0)); // Thompson
+		browser.click(GroupMembership.SORT_ASSIGNED_FAMILY_NAME_ASC);
+		assertTrue(isAssignedUserAtPosition("marissa", 0)); // Barker
+
+		browser.click(GroupMembership.SORT_UNASSIGNED_FAMILY_NAME_DESC);
+		assertFalse(isUnassignedUserAtPosition("gparker", 0));
+		browser.click(GroupMembership.SORT_UNASSIGNED_FAMILY_NAME_ASC);
 		assertFalse(isUnassignedUserAtPosition("jcambell", 0));
 
 		//page and sort
 		browser.click(GroupMembership.PAGING_UNASSIGNED_NEXT);
-		browser.click(GroupMembership.SORT_UNASSIGNED_LOGIN_DESC);
+		browser.click(GroupMembership.SORT_ASSIGNED_LOGIN_DESC);
 		browser.click(GroupMembership.SORT_ASSIGNED_LOGIN_ASC);
+		browser.click(GroupMembership.SORT_UNASSIGNED_LOGIN_DESC);
 		assertTrue(isUnassignedUserAtPosition("ewilley", 0));
 		assertTrue(isAssignedUserAtPosition("adavies", 0));
 

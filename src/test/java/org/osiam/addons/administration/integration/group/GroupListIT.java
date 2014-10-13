@@ -50,11 +50,11 @@ public class GroupListIT extends Integrationtest {
 
 	@Test
 	public void order() {
-		browser.click(GroupList.SORT_GROUP_ASC);
-		assertTrue(isGroupAtPosition(FIRST_GROUP_NAME, 0));
-
 		browser.click(GroupList.SORT_GROUP_DESC);
 		assertTrue(isGroupAtPosition("test_group10", 0));
+
+		browser.click(GroupList.SORT_GROUP_ASC);
+		assertTrue(isGroupAtPosition(FIRST_GROUP_NAME, 0));
 	}
 
 	@Test
