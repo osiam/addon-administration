@@ -11,9 +11,11 @@ import org.osiam.addons.administration.model.session.PagingInformation;
 import org.osiam.addons.administration.paging.PagingBuilder;
 import org.osiam.addons.administration.paging.PagingLinks;
 import org.osiam.addons.administration.service.GroupService;
+import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.scim.Group;
 import org.osiam.resources.scim.SCIMSearchResult;
+import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,6 +50,7 @@ public class EditGroupMembershipController extends GenericController {
 
 	public static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
 
+	public static final String MODEL_USER = "user";
 	public static final String MODEL_ASSIGNED_GROUPS = "assignedGroups";
 	public static final String MODEL_UNASSIGNED_GROUPS = "unassignedGroups";
 	public static final String MODEL_PAGING_LINKS_ASSIGNED_GROUPS = "pagingAssignedGroups";
@@ -58,6 +61,9 @@ public class EditGroupMembershipController extends GenericController {
 	private static final Integer DEFAULT_LIMIT = 10;
 	private static final String DEFAULT_SORT_BY = "displayName";
 	private static final Boolean DEFAULT_SORT_DIRECTION = true;
+
+	@Inject
+	private UserService userService;
 
 	@Inject
 	private GroupService groupService;
@@ -101,11 +107,14 @@ public class EditGroupMembershipController extends GenericController {
 		session.getUnassignedGroupsPagingInformation().setAscending(unassignedAscending);
 		session.getUnassignedGroupsPagingInformation().setQuery(unassignedQuery);
 
+		User user = userService.getUser(userId);
+
 		SCIMSearchResult<Group> assignedGroups = groupService.getAssignedGroups(userId,
 				session.getAssignedGroupsPagingInformation());
 		SCIMSearchResult<Group> unassignedGroups = groupService.getUnassignedGroups(userId,
 				session.getUnassignedGroupsPagingInformation());
 
+		modelAndView.addObject(MODEL_USER, user);
 		modelAndView.addObject(MODEL_ASSIGNED_GROUPS, assignedGroups);
 		modelAndView.addObject(MODEL_UNASSIGNED_GROUPS, unassignedGroups);
 

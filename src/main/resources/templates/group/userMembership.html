@@ -17,6 +17,12 @@
 	</div>
 
 	<div class="row">
+		<div class ="col-md-6 marginBottom10">
+			<h3 th:text="#{edit_user_membership.title.special(${group.displayName})}">Groupname</h3>
+		</div>
+	</div>
+
+	<div class="row">
 		<div id="form-group-insider" class="col-md-6 form-group">
 			<h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.group}">Group Members</h4>
 			<form method="POST" action="">
