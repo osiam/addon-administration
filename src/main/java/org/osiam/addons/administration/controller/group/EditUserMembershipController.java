@@ -248,7 +248,20 @@ public class EditUserMembershipController extends GenericController {
 
 		groupService.addUsersToGroup(groupId, userIds);
 
-		return defaultRedirect(groupId).build();
+		return defaultRedirect(groupId)
+				.addParameter("userMembershipAdd", true)
+			.build();
+	}
+
+	@RequestMapping(params=REQUEST_PARAMETER_PANEL + "=remove")
+	public String handleRemoveUser(@RequestParam(value = REQUEST_PARAMETER_ID) String groupId,
+									@RequestParam(value = REQUEST_PAREMETER_USER_ID, required = false) String[] userIds) {
+
+		groupService.removeUsersFromGroup(groupId, userIds);
+
+		return defaultRedirect(groupId)
+				.addParameter("userMembershipRemove", true)
+			.build();
 	}
 
 	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=add", REQUEST_PARAMETER_ACTION + "=filter"})
@@ -264,15 +277,6 @@ public class EditUserMembershipController extends GenericController {
 		return defaultRedirect(groupId)
 					.addParameter(REQUEST_PARAMETER_UNASSIGNED_QUERY, filterQuery)
 				.build();
-	}
-
-	@RequestMapping(params=REQUEST_PARAMETER_PANEL + "=remove")
-	public String handleRemoveUser(@RequestParam(value = REQUEST_PARAMETER_ID) String groupId,
-									@RequestParam(value = REQUEST_PAREMETER_USER_ID, required = false) String[] userIds) {
-
-		groupService.removeUsersFromGroup(groupId, userIds);
-
-		return defaultRedirect(groupId).build();
 	}
 
 	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=remove", REQUEST_PARAMETER_ACTION + "=filter"})

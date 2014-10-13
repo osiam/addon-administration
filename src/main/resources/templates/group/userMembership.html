@@ -22,6 +22,13 @@
 		</div>
 	</div>
 
+	<div class="alert alert-success" th:if="${(param.userMembershipAdd != null) and (param.userMembershipAdd[0] == 'true')}" th:text="#{edit_group_membership.membershipAddSuccess}">
+		Successfully added
+	</div>
+	<div class="alert alert-success" th:if="${(param.userMembershipRemove != null) and (param.userMembershipRemove[0] == 'true')}" th:text="#{edit_group_membership.membershipRemoveSuccess}">
+		Successfully removed
+	</div>
+
 	<div class="row">
 		<div id="form-group-insider" class="col-md-6 form-group">
 			<h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.group}">Group Members</h4>
