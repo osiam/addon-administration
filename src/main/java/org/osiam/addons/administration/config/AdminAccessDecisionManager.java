@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.client.OsiamConnector;
+import org.osiam.client.exception.UnauthorizedException;
 import org.osiam.client.query.Query;
 import org.osiam.client.query.QueryBuilder;
 import org.osiam.resources.scim.SCIMSearchResult;
@@ -41,6 +42,12 @@ public class AdminAccessDecisionManager implements AccessDecisionManager {
 			throw new AccessDeniedException("There is no accesstoken in session!");
 		}
 
+		try{
+			connector.validateAccessToken(session.getAccesstoken());
+		}catch(UnauthorizedException e){
+			throw new AccessDeniedException("The current accesstoken is not valid!", e);
+		}
+
 		checkForAdminGroup();
 	}
 
@@ -53,7 +60,7 @@ public class AdminAccessDecisionManager implements AccessDecisionManager {
 		Query query = new QueryBuilder()
 							.count(1)
 							.filter(queryFilter)
-						 .build();
+						.build();
 
 		SCIMSearchResult<User> result = connector.searchUsers(query, session.getAccesstoken());
 
