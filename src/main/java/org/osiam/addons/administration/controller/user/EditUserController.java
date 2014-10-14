@@ -50,6 +50,8 @@ public class EditUserController extends GenericController {
 	public static final String MODEL_ALL_TYPES = "allFieldTypes";
 	public static final String MODEL_EXTENSION_NAMES = "extensionNames";
 
+	private static final String REQUEST_PARAMETER_ERROR_VALUES_RESET = "value_reset";
+
 	@Inject
 	private UserService userService;
 
@@ -99,7 +101,7 @@ public class EditUserController extends GenericController {
 	}
 
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_VALUES_RESET + "=true")
 	public ModelAndView handleUserEditFailure(
 			@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
 
@@ -122,6 +124,8 @@ public class EditUserController extends GenericController {
 	public String handleUserUpdate(
 			@ModelAttribute(MODEL) UpdateUserCommand command,
 			BindingResult bindingResult) {
+
+		boolean duplicated = false;
 
 		User user = userService.getUser(command.getId());
 
@@ -148,11 +152,22 @@ public class EditUserController extends GenericController {
 		} catch(SCIMDataValidationException e) {
 			// just log the exception and fall through to error handling
 			LOG.warn("Validation failed. Unable to update user.", e);
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 		} catch(ConflictException e) {
-			// log the exception and throw no whitelabel page
-			LOG.warn("Unable to update user. Duplicated data.", e);
+			// just log the exception and fall through to error handling
+			LOG.warn("Duplicated data. Unable to update user.", e);
+			// duplicate parameter instead validation parameter
+			duplicated = true;
+		}
+
+		//Set error parameter
+		if(duplicated == true) {
 			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+			//Parameter for "handleUserEditFailure"
+			redirect.addParameter(REQUEST_PARAMETER_ERROR_VALUES_RESET, "true");
+		} else {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+			//Parameter for "handleUserEditFailure"
+			redirect.addParameter(REQUEST_PARAMETER_ERROR_VALUES_RESET, "true");
 		}
 
 		// validation failed - store error information in session and return to edit view
