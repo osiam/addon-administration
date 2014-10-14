@@ -30,6 +30,12 @@
 		<div class="container">
 
 			<h2 th:text="#{create_group.title}">Create group</h2>
+
+			<div th:if="${(param.error != null) and (param.error[0] == 'duplicated')}"
+				th:text="#{create_group.error.duplicated}" class="alert alert-danger">
+				Duplicate data Error
+			</div>
+
 			<div th:if="${(param.error != null) and (param.error[0] == 'validation')}"
 				th:text="#{create_group.error.validation}" class="alert alert-danger">
 				Validation Error

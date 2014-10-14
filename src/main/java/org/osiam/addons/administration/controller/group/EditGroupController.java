@@ -9,6 +9,7 @@ import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.UpdateGroupCommand;
 import org.osiam.addons.administration.service.GroupService;
 import org.osiam.addons.administration.util.RedirectBuilder;
+import org.osiam.client.exception.ConflictException;
 import org.osiam.resources.exception.SCIMDataValidationException;
 import org.osiam.resources.scim.Group;
 import org.springframework.stereotype.Controller;
@@ -83,11 +84,15 @@ public class EditGroupController extends GenericController {
 			}
 		} catch (SCIMDataValidationException e) {
 			LOG.warn("Could not update group.", e);
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+		} catch (ConflictException e) {
+			// log the exception and throw no whitelabel page
+			LOG.warn("Unable to update group. Duplicated data.", e);
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
 		}
 
 		storeInSession(SESSION_KEY_COMMAND, command);
 		storeBindingResultIntoSession(bindingResult, MODEL);
-		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
 		return redirect.build();
 	}

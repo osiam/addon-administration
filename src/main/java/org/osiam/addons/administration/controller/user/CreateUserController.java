@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.CreateUserCommand;
-import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.client.exception.ConflictException;
@@ -19,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -88,13 +86,14 @@ public class CreateUserController extends GenericController {
 			}
 		} catch (SCIMDataValidationException e) {
 			LOG.warn("Could not create user.", e);
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 		} catch (ConflictException e) {
 			LOG.warn("Could not create user.", e);
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
 		}
 
 		storeInSession(SESSION_KEY_COMMAND, command);
 		storeBindingResultIntoSession(bindingResult, MODEL);
-		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
 		return redirect.build();
 	}

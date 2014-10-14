@@ -16,6 +16,7 @@ import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.ExtensionsService;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
+import org.osiam.client.exception.ConflictException;
 import org.osiam.resources.exception.SCIMDataValidationException;
 import org.osiam.resources.scim.Extension;
 import org.osiam.resources.scim.Extension.Field;
@@ -123,7 +124,12 @@ public class EditUserController extends GenericController {
 			BindingResult bindingResult) {
 
 		User user = userService.getUser(command.getId());
-		command.setUser(user);
+
+		try {
+			command.setUser(user);
+		} catch(RuntimeException e) {
+			LOG.warn("Update user failed.", e);
+		}
 
 		validateCommand(command, extensionService.getExtensionsMap(), bindingResult);
 
@@ -132,7 +138,7 @@ public class EditUserController extends GenericController {
 											.addParameter(REQUEST_PARAMETER_ID, command.getId());
 
 		try {
-			if(!bindingResult.hasErrors()){
+			if (!bindingResult.hasErrors()) {
 				userService.replaceUser(command.getId(), command.getAsUser());
 
 				redirect.addParameter("saveSuccess", true);
@@ -142,12 +148,16 @@ public class EditUserController extends GenericController {
 		} catch(SCIMDataValidationException e) {
 			// just log the exception and fall through to error handling
 			LOG.warn("Validation failed. Unable to update user.", e);
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+		} catch(ConflictException e) {
+			// log the exception and throw no whitelabel page
+			LOG.warn("Unable to update user. Duplicated data.", e);
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
 		}
 
 		// validation failed - store error information in session and return to edit view
 		storeInSession(SESSION_KEY_COMMAND, command);
 		storeBindingResultIntoSession(bindingResult, MODEL);
-		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
 		return redirect.build();
 	}

@@ -75,19 +75,20 @@ public class CreateGroupController extends GenericController {
 			if(!bindingResult.hasErrors()){
 				groupService.createGroup(command.getAsGroup());
 
-				redirect.addParameter("saveSuccess", true);
+				redirect.addParameter("createSuccess", true);
 				redirect.setPath(GroupViewController.CONTROLLER_PATH);
 				return redirect.build();
 			}
 		} catch (SCIMDataValidationException e) {
 			LOG.warn("Could not add group.", e);
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 		} catch (ConflictException e) {
 			LOG.warn("Could not create group. Displayname already taken", e);
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
 		}
 
 		storeInSession(SESSION_KEY_COMMAND, command);
 		storeBindingResultIntoSession(bindingResult, MODEL);
-		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
 		return redirect.build();
 	}
