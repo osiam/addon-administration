@@ -35,6 +35,10 @@
 		</a>
 	</div>
 
+	<div class="alert alert-success" th:if="${(param.createSuccess != null) and (param.createSuccess[0] == 'true')}" th:text="#{msg.group.list.createSuccess}">
+		Successfully created
+	</div>
+
 	<div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.group.list.saveSuccess}">
 		Successful saved
 	</div>
