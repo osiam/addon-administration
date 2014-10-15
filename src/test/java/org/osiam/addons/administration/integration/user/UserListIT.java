@@ -69,19 +69,20 @@ public class UserListIT extends Integrationtest {
 
 	@Test
 	public void order() {
-		browser.click(UserList.SORT_LOGIN_ASC);
-		assertTrue(isUserAtPosition("adavies", 0));
-		browser.click(UserList.SORT_GIVEN_NAME_ASC);
-		assertTrue(isUserAtPosition("adavies", 0)); // Adeline
-		browser.click(UserList.SORT_FAMILY_NAME_ASC);
-		assertTrue(isUserAtPosition("gparker", 0)); // Barker
-
 		browser.click(UserList.SORT_LOGIN_DESC);
 		assertTrue(isUserAtPosition("marissa", 0));
+		browser.click(UserList.SORT_LOGIN_ASC);
+		assertTrue(isUserAtPosition("adavies", 0));
+
 		browser.click(UserList.SORT_GIVEN_NAME_DESC);
 		assertTrue(isUserAtPosition("ewilley", 0)); // Willey
+		browser.click(UserList.SORT_GIVEN_NAME_ASC);
+		assertTrue(isUserAtPosition("marissa", 0)); // marissa
+
 		browser.click(UserList.SORT_FAMILY_NAME_DESC);
 		assertTrue(isUserAtPosition("jcambell", 0)); // Thompson
+		browser.click(UserList.SORT_FAMILY_NAME_ASC);
+		assertTrue(isUserAtPosition("marissa", 0)); // marissa
 	}
 
 	@Test
@@ -209,8 +210,8 @@ public class UserListIT extends Integrationtest {
 	}
 
 	private void clickActionButton(String id) {
-		String actionLabelId = "action-label-";
-		browser.findElement(By.id(actionLabelId + id)).click();
+		String actionLabelId = "action-label-" + id;
+		browser.findElement(By.id(actionLabelId)).click();
 	}
 
 	private void handleDeactivationDialog(String username,
@@ -285,7 +286,7 @@ public class UserListIT extends Integrationtest {
 		List<WebElement> availableUsers = browser.findElements(EditList.LIST_ROWS);
 
 		assertTrue(isUserPresent(testLogin));
-		assertEquals(availableUsers.size(), 2);
+		assertEquals(2, availableUsers.size());
 	}
 
 	private void testFirstNameFiltering() {
@@ -296,7 +297,7 @@ public class UserListIT extends Integrationtest {
 		List<WebElement> availableUsers = browser.findElements(EditList.LIST_ROWS);
 
 		assertTrue(browser.isTextPresent(testFirstName));
-		assertEquals(availableUsers.size(), 2);
+		assertEquals(2, availableUsers.size());
 	}
 
 	private void testLastNameFiltering() {
@@ -307,7 +308,7 @@ public class UserListIT extends Integrationtest {
 		List<WebElement> availableUsers = browser.findElements(EditList.LIST_ROWS);
 
 		assertTrue(browser.isTextPresent(testLastName));
-		assertEquals(availableUsers.size(), 2);
+		assertEquals(2, availableUsers.size());
 	}
 
 	private void testGroupNameFiltering() {
@@ -318,7 +319,7 @@ public class UserListIT extends Integrationtest {
 		List<WebElement> availableUsers = browser.findElements(EditList.LIST_ROWS);
 
 		assertTrue(browser.isTextPresent(testGroupName));
-		assertEquals(availableUsers.size(), 2);
+		assertEquals(5, availableUsers.size());
 	}
 
 	private void resetFilter() {

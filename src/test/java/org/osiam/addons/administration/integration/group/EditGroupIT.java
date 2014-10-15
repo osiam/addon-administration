@@ -159,8 +159,6 @@ public class EditGroupIT extends Integrationtest {
 	@Test
 	public void assing_multiple_user() {
 		final String testGroup = "test_group06";
-		final String allUnassignedUserCheckbox = "//table[contains(@id, 'outsider')]//input[contains(@id, 'group-checkbox')]";
-		final String submitUnassigendButton = "//table[contains(@id, 'outsider')]//input[contains(@type, 'submit')]";
 
 		gotoMembershipGroupView(testGroup);
 
@@ -168,9 +166,8 @@ public class EditGroupIT extends Integrationtest {
 																		// "unlimited"
 		int allUser = getAssignedUser("outsider");
 
-		browser.findElement(By.xpath(allUnassignedUserCheckbox)).click();
-
-		browser.findElement(By.xpath(submitUnassigendButton)).click();
+		browser.findElement(GroupMembership.UNASSIGNED_MASTER_CHECKBOX).click();
+		browser.findElement(GroupMembership.SUBMIT_BUTTON_UNASSIGNED_SELECTION).click();
 
 		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "0"));
 
@@ -180,26 +177,20 @@ public class EditGroupIT extends Integrationtest {
 	@Test
 	public void unassign_multiple_user() {
 		final String testGroup = "test_group06";
-		final String allUnassignedUserCheckbox = "//table[contains(@id, 'outsider')]//input[contains(@id, 'group-checkbox')]";
-		final String allAssignedUserCheckbox = "//table[contains(@id, 'insider')]//input[contains(@id, 'group-checkbox')]";
-		final String submitAssignedButton = "//table[contains(@id, 'insider')]//input[contains(@type, 'submit')]";
-		final String submitUnassignedButton = "//table[contains(@id, 'outsider')]//input[contains(@type, 'submit')]";
 
 		gotoMembershipGroupView(testGroup);
 
 		//Add user to group
 		browser.fill(new Field(GroupMembership.LIMIT_UNASSIGNED, "0"));
 
-		browser.findElement(By.xpath(allUnassignedUserCheckbox)).click();
-
-		browser.findElement(By.xpath(submitUnassignedButton)).click();
+		browser.findElement(GroupMembership.UNASSIGNED_MASTER_CHECKBOX).click();
+		browser.findElement(GroupMembership.SUBMIT_BUTTON_UNASSIGNED_SELECTION).click();
 
 		//Remove user to group
 		browser.fill(new Field(GroupMembership.LIMIT_ASSIGNED, "0"));
 
-		browser.findElement(By.xpath(allAssignedUserCheckbox)).click();
-
-		browser.findElement(By.xpath(submitAssignedButton)).click();
+		browser.findElement(GroupMembership.ASSIGNED_MASTER_CHECKBOX).click();
+		browser.findElement(GroupMembership.SUBMIT_BUTTON_ASSIGNED_SELECTION).click();
 
 		assertEquals(0, getAssignedUser("insider"));
 	}

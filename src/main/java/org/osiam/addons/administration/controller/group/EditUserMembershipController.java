@@ -56,6 +56,10 @@ public class EditUserMembershipController extends GenericController {
 	public static final String MODEL_PAGING_LINKS_UNASSIGNED_USERS = "pagingUnassignedUsers";
 	public static final String MODEL_PAGING_INFORMATION_ASSIGNED_USERS = "pagingInformationAssignedUsers";
 	public static final String MODEL_PAGING_INFORMATION_UNASSIGNED_USERS = "pagingInformationUnassignedUsers";
+	public static final String MODEL_ASSIGNED_ORDER_BY = "assignedOrderBy";
+	public static final String MODEL_ASSIGNED_ORDER_DIRECTION = "assignedOrderDirection";
+	public static final String MODEL_UNASSIGNED_ORDER_BY = "unassignedOrderBy";
+	public static final String MODEL_UNASSIGNED_ORDER_DIRECTION = "unassignedOrderDirection";
 
 	private static final Integer DEFAULT_LIMIT = 10;
 	private static final String DEFAULT_SORT_BY = "userName";
@@ -119,6 +123,10 @@ public class EditUserMembershipController extends GenericController {
 		modelAndView.addObject(MODEL_GROUP, group);
 		modelAndView.addObject(MODEL_ASSIGNED_USERS, assignedUsers);
 		modelAndView.addObject(MODEL_UNASSIGNED_USERS, unassignedUsers);
+		modelAndView.addObject(MODEL_ASSIGNED_ORDER_BY, assignedOrderBy);
+		modelAndView.addObject(MODEL_ASSIGNED_ORDER_DIRECTION, assignedAscending);
+		modelAndView.addObject(MODEL_UNASSIGNED_ORDER_BY, unassignedOrderBy);
+		modelAndView.addObject(MODEL_UNASSIGNED_ORDER_DIRECTION, unassignedAscending);
 
 		PagingLinks pagingLinksAssigned = generatePagingLinksForAssigned(groupId, assignedUsers,
 				session.getAssignedUsersPagingInformation(), session.getUnassignedUsersPagingInformation());
