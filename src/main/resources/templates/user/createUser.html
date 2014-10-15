@@ -34,6 +34,12 @@
 	<form method="POST" action=""  th:object="${model}" role="form">
 
 			<h2 th:text="#{create_user.title}">Create user</h2>
+
+			<div th:if="${(param.error != null) and (param.error[0] == 'duplicated')}"
+				th:text="#{create_user.error.duplicated}" class="alert alert-danger">
+				Duplicate data Error
+			</div>
+
 			<div th:if="${(param.error != null) and (param.error[0] == 'validation')}"
 				th:text="#{create_user.error.validation}" class="alert alert-danger">
 				Validation Error

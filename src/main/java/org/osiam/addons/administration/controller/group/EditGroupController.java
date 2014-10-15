@@ -9,6 +9,7 @@ import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.UpdateGroupCommand;
 import org.osiam.addons.administration.service.GroupService;
 import org.osiam.addons.administration.util.RedirectBuilder;
+import org.osiam.client.exception.ConflictException;
 import org.osiam.resources.exception.SCIMDataValidationException;
 import org.osiam.resources.scim.Group;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ public class EditGroupController extends GenericController {
 
 	public static final String REQUEST_PARAMETER_ID = "id";
 	public static final String REQUEST_PARAMETER_ERROR = "error";
+	public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
 
 	private static final String SESSION_KEY_COMMAND = "command";
 
@@ -57,7 +59,7 @@ public class EditGroupController extends GenericController {
 		removeBindingResultFromSession(MODEL);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
 	public ModelAndView handleGroupEditFailure(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
 
 		ModelAndView modelAndView = new ModelAndView("group/editGroup");
@@ -70,6 +72,7 @@ public class EditGroupController extends GenericController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String handleGroupUpdate(@Valid @ModelAttribute(MODEL) UpdateGroupCommand command, BindingResult bindingResult) {
+		boolean isDuplicated = false;
 
 		final RedirectBuilder redirect = new RedirectBuilder().setPath(CONTROLLER_PATH).addParameter(REQUEST_PARAMETER_ID, command.getId());
 
@@ -83,11 +86,24 @@ public class EditGroupController extends GenericController {
 			}
 		} catch (SCIMDataValidationException e) {
 			LOG.warn("Could not update group.", e);
+		} catch (ConflictException e) {
+			// log the exception and throw no whitelabel page
+			LOG.warn("Unable to update group. Duplicated data.", e);
+			// duplicate parameter instead validation parameter
+			isDuplicated = true;
 		}
+
+		//Set error parameter
+		if(isDuplicated) {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+		} else {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+		}
+
+		redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
 
 		storeInSession(SESSION_KEY_COMMAND, command);
 		storeBindingResultIntoSession(bindingResult, MODEL);
-		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
 		return redirect.build();
 	}

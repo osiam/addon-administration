@@ -35,6 +35,8 @@ public class EditGroupMembershipController extends GenericController {
 	public static final String REQUEST_PARAMETER_GROUP_ID = "groupId";
 	public static final String REQUEST_PARAMETER_ACTION = "action";
 	public static final String REQUEST_PARAMETER_PANEL = "panel";
+	public static final String REQUEST_PARAMETER_ADD_GROUP_MEMBERSHIP = "groupMembershipAdd";
+	public static final String REQUEST_PARAMETER_REMOVE_GROUP_MEMBERSHIP = "groupMembershipRemove";
 
 	public static final String REQUEST_PARAMETER_ASSIGNED_QUERY = "assignedQuery";
 	public static final String REQUEST_PARAMETER_ASSIGNED_OFFSET = "assignedOffset";
@@ -247,7 +249,9 @@ public class EditGroupMembershipController extends GenericController {
 
 		groupService.addUserToGroups(userId, groupIds);
 
-		return defaultRedirect(userId).build();
+		return defaultRedirect(userId)
+				.addParameter(REQUEST_PARAMETER_ADD_GROUP_MEMBERSHIP, true)
+			.build();
 	}
 
 	@RequestMapping(params = REQUEST_PARAMETER_PANEL + "=remove")
@@ -257,7 +261,9 @@ public class EditGroupMembershipController extends GenericController {
 
 		groupService.removeUserFromGroups(userId, groupIds);
 
-		return defaultRedirect(userId).build();
+		return defaultRedirect(userId)
+				.addParameter(REQUEST_PARAMETER_REMOVE_GROUP_MEMBERSHIP, true)
+			.build();
 	}
 
 	@RequestMapping(params={REQUEST_PARAMETER_PANEL + "=add", REQUEST_PARAMETER_ACTION + "=filter"})

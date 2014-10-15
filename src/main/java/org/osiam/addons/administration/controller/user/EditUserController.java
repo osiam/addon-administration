@@ -16,6 +16,7 @@ import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.ExtensionsService;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
+import org.osiam.client.exception.ConflictException;
 import org.osiam.resources.exception.SCIMDataValidationException;
 import org.osiam.resources.scim.Extension;
 import org.osiam.resources.scim.Extension.Field;
@@ -42,6 +43,7 @@ public class EditUserController extends GenericController {
 
 	public static final String REQUEST_PARAMETER_ID = "id";
 	public static final String REQUEST_PARAMETER_ERROR = "error";
+	public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
 
 	private static final String SESSION_KEY_COMMAND = "command";
 
@@ -98,7 +100,7 @@ public class EditUserController extends GenericController {
 	}
 
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
 	public ModelAndView handleUserEditFailure(
 			@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
 
@@ -122,6 +124,8 @@ public class EditUserController extends GenericController {
 			@ModelAttribute(MODEL) UpdateUserCommand command,
 			BindingResult bindingResult) {
 
+		boolean isDuplicated = false;
+
 		User user = userService.getUser(command.getId());
 		command.setUser(user);
 
@@ -132,7 +136,7 @@ public class EditUserController extends GenericController {
 											.addParameter(REQUEST_PARAMETER_ID, command.getId());
 
 		try {
-			if(!bindingResult.hasErrors()){
+			if (!bindingResult.hasErrors()) {
 				userService.replaceUser(command.getId(), command.getAsUser());
 
 				redirect.addParameter("saveSuccess", true);
@@ -142,12 +146,25 @@ public class EditUserController extends GenericController {
 		} catch(SCIMDataValidationException e) {
 			// just log the exception and fall through to error handling
 			LOG.warn("Validation failed. Unable to update user.", e);
+		} catch(ConflictException e) {
+			// just log the exception and fall through to error handling
+			LOG.warn("Duplicated data. Unable to update user.", e);
+			// duplicate parameter instead validation parameter
+			isDuplicated = true;
 		}
+
+		//Set error parameter
+		if(isDuplicated) {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+		} else {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+		}
+
+		redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
 
 		// validation failed - store error information in session and return to edit view
 		storeInSession(SESSION_KEY_COMMAND, command);
 		storeBindingResultIntoSession(bindingResult, MODEL);
-		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
 		return redirect.build();
 	}

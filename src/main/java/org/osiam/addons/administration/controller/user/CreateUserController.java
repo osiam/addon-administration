@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.CreateUserCommand;
-import org.osiam.addons.administration.model.command.UpdateUserCommand;
 import org.osiam.addons.administration.service.UserService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.client.exception.ConflictException;
@@ -19,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -33,6 +31,7 @@ public class CreateUserController extends GenericController {
 	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/create";
 
 	public static final String REQUEST_PARAMETER_ERROR = "error";
+	public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
 
 	public static final String MODEL = "model";
 
@@ -55,7 +54,7 @@ public class CreateUserController extends GenericController {
 		return modelAndView;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
 	public ModelAndView handleUserCreateFailure() {
 		ModelAndView modelAndView = new ModelAndView("user/createUser");
 
@@ -73,6 +72,7 @@ public class CreateUserController extends GenericController {
 			@Valid @ModelAttribute(MODEL) CreateUserCommand command,
 			BindingResult bindingResult) {
 
+		boolean isDuplicated = false;
 		final RedirectBuilder redirect = new RedirectBuilder()
 				.setPath(CONTROLLER_PATH);
 
@@ -90,11 +90,21 @@ public class CreateUserController extends GenericController {
 			LOG.warn("Could not create user.", e);
 		} catch (ConflictException e) {
 			LOG.warn("Could not create user.", e);
+			// duplicate parameter instead validation parameter
+			isDuplicated = true;
 		}
+
+		//Set error parameter
+		if(isDuplicated) {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+		} else {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+		}
+
+		redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
 
 		storeInSession(SESSION_KEY_COMMAND, command);
 		storeBindingResultIntoSession(bindingResult, MODEL);
-		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
 		return redirect.build();
 	}

@@ -41,6 +41,10 @@ public class UserViewController {
 	public static final String REQUEST_PARAMETER_USER_ID = "id";
 	public static final String REQUEST_PARAMETER_SEND_MAIL = "sendMail";
 
+	public static final String REQUEST_PARAMETER_DELETE_SUCCESS = "deleteSuccess";
+	public static final String REQUEST_PARAMETER_ACTIVATE_SUCCESS = "activateSuccess";
+	public static final String REQUEST_PARAMETER_DEACTIVATE_SUCCESS = "deactivateSuccess";
+
 	public static final String MODEL_USER_LIST = "userlist";
 	public static final String MODEL_SESSION_DATA = "sessionData";
 	public static final String MODEL_PAGING_LINKS = "paging";
@@ -219,6 +223,7 @@ public class UserViewController {
 
 		return new RedirectBuilder()
 			.setPath(CONTROLLER_PATH)
+			.addParameter(REQUEST_PARAMETER_DEACTIVATE_SUCCESS, true)
 			.addParameter(REQUEST_PARAMETER_QUERY, session.getPagingInformation().getQuery())
 			.addParameter(REQUEST_PARAMETER_LIMIT, session.getPagingInformation().getLimit())
 			.addParameter(REQUEST_PARAMETER_OFFSET, session.getPagingInformation().getOffset())
@@ -247,6 +252,7 @@ public class UserViewController {
 
 		return new RedirectBuilder()
 			.setPath(CONTROLLER_PATH)
+			.addParameter(REQUEST_PARAMETER_ACTIVATE_SUCCESS, true)
 			.addParameter(REQUEST_PARAMETER_QUERY, session.getPagingInformation().getQuery())
 			.addParameter(REQUEST_PARAMETER_LIMIT, session.getPagingInformation().getLimit())
 			.addParameter(REQUEST_PARAMETER_OFFSET, session.getPagingInformation().getOffset())
@@ -264,7 +270,7 @@ public class UserViewController {
 
 		return new RedirectBuilder()
 			.setPath(CONTROLLER_PATH)
-			.addParameter("deleteSuccess", true)
+			.addParameter(REQUEST_PARAMETER_DELETE_SUCCESS, true)
 			.addParameter(REQUEST_PARAMETER_QUERY, session.getPagingInformation().getQuery())
 			.addParameter(REQUEST_PARAMETER_LIMIT, session.getPagingInformation().getLimit())
 			.addParameter(REQUEST_PARAMETER_OFFSET, session.getPagingInformation().getOffset())

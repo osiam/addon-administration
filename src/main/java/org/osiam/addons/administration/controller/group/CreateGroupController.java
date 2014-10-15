@@ -24,11 +24,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(CreateGroupController.CONTROLLER_PATH)
 public class CreateGroupController extends GenericController {
+
 	private static final Logger LOG = Logger.getLogger(CreateGroupController.class);
 
 	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/group/create";
 
 	public static final String REQUEST_PARAMETER_ERROR = "error";
+	public static final String REQUEST_PARAMETER_CREATE_SUCCESS = "createSuccess";
+	public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
 
 	private static final String SESSION_KEY_COMMAND = "command";
 
@@ -53,7 +56,7 @@ public class CreateGroupController extends GenericController {
 		removeBindingResultFromSession(MODEL);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
 	public ModelAndView handleCreateGroupFailure() {
 		ModelAndView modelAndView = new ModelAndView("group/createGroup");
 
@@ -68,6 +71,7 @@ public class CreateGroupController extends GenericController {
 			@Valid @ModelAttribute(MODEL) CreateGroupCommand command,
 			BindingResult bindingResult) {
 
+		boolean isDuplicated = false;
 		final RedirectBuilder redirect = new RedirectBuilder()
 											.setPath(CONTROLLER_PATH);
 
@@ -75,7 +79,7 @@ public class CreateGroupController extends GenericController {
 			if(!bindingResult.hasErrors()){
 				groupService.createGroup(command.getAsGroup());
 
-				redirect.addParameter("saveSuccess", true);
+				redirect.addParameter(REQUEST_PARAMETER_CREATE_SUCCESS, "true");
 				redirect.setPath(GroupViewController.CONTROLLER_PATH);
 				return redirect.build();
 			}
@@ -83,11 +87,21 @@ public class CreateGroupController extends GenericController {
 			LOG.warn("Could not add group.", e);
 		} catch (ConflictException e) {
 			LOG.warn("Could not create group. Displayname already taken", e);
+			// duplicate parameter instead validation parameter
+			isDuplicated = true;
 		}
+
+		//Set error parameter
+		if(isDuplicated) {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+		} else {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+		}
+
+		redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
 
 		storeInSession(SESSION_KEY_COMMAND, command);
 		storeBindingResultIntoSession(bindingResult, MODEL);
-		redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 
 		return redirect.build();
 	}

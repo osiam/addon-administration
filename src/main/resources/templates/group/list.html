@@ -35,10 +35,14 @@
 		</a>
 	</div>
 
-	<div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.list.saveSuccess}">
+	<div class="alert alert-success" th:if="${(param.createSuccess != null) and (param.createSuccess[0] == 'true')}" th:text="#{msg.group.list.createSuccess}">
+		Successfully created
+	</div>
+
+	<div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.group.list.saveSuccess}">
 		Successful saved
 	</div>
-	<div class="alert alert-success" th:if="${(param.deleteSuccess != null) and (param.deleteSuccess[0] == 'true')}" th:text="#{msg.list.deleteSuccess}">
+	<div class="alert alert-success" th:if="${(param.deleteSuccess != null) and (param.deleteSuccess[0] == 'true')}" th:text="#{msg.group.list.deleteSuccess}">
 		Successful deleted
 	</div>
 	<table class="table table-hover table-striped table-bordered table-condensed">
