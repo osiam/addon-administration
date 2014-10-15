@@ -31,6 +31,7 @@ public class CreateUserController extends GenericController {
 	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/create";
 
 	public static final String REQUEST_PARAMETER_ERROR = "error";
+	public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
 
 	public static final String MODEL = "model";
 
@@ -53,7 +54,7 @@ public class CreateUserController extends GenericController {
 		return modelAndView;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR + "=validation")
+	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
 	public ModelAndView handleUserCreateFailure() {
 		ModelAndView modelAndView = new ModelAndView("user/createUser");
 
@@ -71,6 +72,7 @@ public class CreateUserController extends GenericController {
 			@Valid @ModelAttribute(MODEL) CreateUserCommand command,
 			BindingResult bindingResult) {
 
+		boolean isDuplicated = false;
 		final RedirectBuilder redirect = new RedirectBuilder()
 				.setPath(CONTROLLER_PATH);
 
@@ -86,11 +88,20 @@ public class CreateUserController extends GenericController {
 			}
 		} catch (SCIMDataValidationException e) {
 			LOG.warn("Could not create user.", e);
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
 		} catch (ConflictException e) {
 			LOG.warn("Could not create user.", e);
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+			// duplicate parameter instead validation parameter
+			isDuplicated = true;
 		}
+
+		//Set error parameter
+		if(isDuplicated) {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+		} else {
+			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+		}
+
+		redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
 
 		storeInSession(SESSION_KEY_COMMAND, command);
 		storeBindingResultIntoSession(bindingResult, MODEL);

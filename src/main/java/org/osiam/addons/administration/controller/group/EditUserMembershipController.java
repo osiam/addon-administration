@@ -35,6 +35,8 @@ public class EditUserMembershipController extends GenericController {
 	public static final String REQUEST_PAREMETER_USER_ID = "userId";
 	public static final String REQUEST_PARAMETER_ACTION = "action";
 	public static final String REQUEST_PARAMETER_PANEL = "panel";
+	public static final String REQUEST_PARAMETER_ADD_USER_MEMBERSHIP = "userMembershipAdd";
+	public static final String REQUEST_PARAMETER_REMOVE_USER_MEMBERSHIP = "userMembershipRemove";
 
 	public static final String REQUEST_PARAMETER_ASSIGNED_ORDER_BY = "assignedOrderBy";
 	public static final String REQUEST_PARAMETER_ASSIGNED_ASCENDING = "assignedAsc";
@@ -249,7 +251,7 @@ public class EditUserMembershipController extends GenericController {
 		groupService.addUsersToGroup(groupId, userIds);
 
 		return defaultRedirect(groupId)
-				.addParameter("userMembershipAdd", true)
+				.addParameter(REQUEST_PARAMETER_ADD_USER_MEMBERSHIP, true)
 			.build();
 	}
 
@@ -260,7 +262,7 @@ public class EditUserMembershipController extends GenericController {
 		groupService.removeUsersFromGroup(groupId, userIds);
 
 		return defaultRedirect(groupId)
-				.addParameter("userMembershipRemove", true)
+				.addParameter(REQUEST_PARAMETER_REMOVE_USER_MEMBERSHIP, true)
 			.build();
 	}
 
