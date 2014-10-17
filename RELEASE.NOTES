@@ -1,5 +1,18 @@
 # OSIAM addon-administration
 
+## 1.3 - 2014-10-17
+- [fix] Styling issues
+- [enhancement] Groupname is shown in Edit-User-Membership view
+- [enhancement] Username is shown in Edit-Group-Membership view
+- [fix] Display of paging meta information
+- [enhancement] Check the access token validity foreach request
+- [fix] Saving primary flag for multi-value-attributes
+  Before: Primary flag will not be saved, if you enter a display value or a new attribute.
+  After: Now the primary flag will be saved correctly.
+- [refactor] Sorting arrows
+  One arrow with a link for ascending or descending depends on the current sort direction.
+- [refactor] Unify all success and error messages for all pages
+
 ## 1.2 - 2014-09-30
 - new page for add group to users
 - new page for add user to groups
