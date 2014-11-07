@@ -145,7 +145,7 @@ public class GroupService {
 	public SCIMSearchResult<Group> getUnassignedGroups(String userId,
 			PagingInformation pagingInformation) {
 
-		String query = "not(members eq \"" + userId + "\")";
+		String query = "not(members eq \"" + userId + "\") or not (members pr)";
 
 		if (pagingInformation.getQuery() != null && !pagingInformation.getQuery().trim().isEmpty()) {
 			query += " and " + pagingInformation.getQuery();

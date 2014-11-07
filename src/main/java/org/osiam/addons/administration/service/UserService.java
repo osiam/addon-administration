@@ -187,7 +187,7 @@ public class UserService {
 	 * @return A SCIMSearchResult containing a list of all found users.
 	 */
 	public SCIMSearchResult<User> getUnassignedUsers(String groupId, PagingInformation pagingInformation, String attributes) {
-			String buildedQuery = "not(groups eq \"" + groupId + "\")";
+			String buildedQuery = "not(groups eq \"" + groupId + "\") or not(groups pr)";
 
 			if(pagingInformation.getQuery() != null && !pagingInformation.getQuery().trim().isEmpty()) {
 				buildedQuery += " and " + pagingInformation.getQuery();
