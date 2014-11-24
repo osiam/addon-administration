@@ -158,56 +158,51 @@
 					</ul>
 				</td>
 				<td>
-				<!-- Start: Action-Menu	-->
-				<nav class="actionNav">
-					<ul>
-						<li class="action">
-							<div class="btn btn-info btn-sm" th:id="${'action-label-' + userStat.index}">
-								<span th:text="#{msg.button.action}">Actions</span>
-								<span class="glyphicon glyphicon-chevron-right"></span>
-								<ul class="btn">
-									<li>
-										<a th:href="@{edit(id = ${user.id})}">
-											<button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
-										</a>
-									</li>
-									<li>
-										<a th:href="@{group(id = ${user.id})}">
-											<button th:id="${'action-button-edit-group-membership-' + userStat.index}" th:text="#{msg.button.group.membership}" class="btn-link">Edit groupmembership</button>
-										</a>
-									</li>
-									<li th:if="${user.active}">
-										<form action="" method="GET">
-											<input type="hidden" name="action" value="deactivate" />
-											<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
-											<input type="hidden" name="id" th:value="${user.id}" />
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" th:id="${'action-label-' + userStat.index}" th:text="#{msg.button.action}" data-toggle="dropdown" aria-expanded="true">
+							Action
+							<span class="caret"></span>
+	 					</button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+							<li role="presentation">
+								<a th:href="@{edit(id = ${user.id})}">
+									<button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
+								</a>
+							</li>
+							<li role="presentation">
+								<a th:href="@{group(id = ${user.id})}">
+									<button th:id="${'action-button-edit-group-membership-' + userStat.index}" th:text="#{msg.button.group.membership}" class="btn-link">Edit groupmembership</button>
+								</a>
+							</li>
+							<li role="presentation" th:if="${user.active}">
+								<form action="" method="GET">
+									<input type="hidden" name="action" value="deactivate" />
+									<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
+									<input type="hidden" name="id" th:value="${user.id}" />
 
-											<button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn-link" type="submit">Deactivate</button>
-										</form>
-									</li>
-									<li th:unless="${user.active}">
-										<form action="" method="GET">
-											<input type="hidden" name="action" value="activate" />
-											<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
-											<input type="hidden" name="id" th:value="${user.id}" />
+									<button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn-link" type="submit">Deactivate</button>
+								</form>
+							</li>
+							<li role="presentation" th:unless="${user.active}">
+								<form action="" method="GET">
+									<input type="hidden" name="action" value="activate" />
+									<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
+									<input type="hidden" name="id" th:value="${user.id}" />
 
-											<button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate</button>
-										</form>
-									</li>
-									<li>
-										<form action="" method="GET">
-											<input type="hidden" name="action" value="delete" />
-											<input type="hidden" name="id" th:value="${user.id}" />
+									<button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate</button>
+								</form>
+							</li>
+							<li role="presentation">
+								<form action="" method="GET">
+									<input type="hidden" name="action" value="delete" />
+									<input type="hidden" name="id" th:value="${user.id}" />
 
-											<button th:id="${'action-button-delete-' + userStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
-										</form>
-									</li>
-								</ul>
-							</div>
-						</li>
-					</ul>
-				</nav> <!-- End: Action-Menu -->
-			</td>
+									<button th:id="${'action-button-delete-' + userStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
+								</form>
+							</li>
+						</ul>
+					</div>
+				</td>
 			</tr>
 		</tbody>
 	</table>
