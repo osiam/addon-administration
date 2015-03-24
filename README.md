@@ -1,4 +1,4 @@
-addon-administration
+addon-administration [![Build Status](https://travis-ci.org/osiam/addon-administration.png?branch=master)](https://travis-ci.org/osiam/addon-administration)
 ====================
 
-A administration for the OSIAM server.
+An administration for the OSIAM server.
