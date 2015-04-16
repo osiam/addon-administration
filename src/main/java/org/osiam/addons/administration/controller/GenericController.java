@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public abstract class GenericController {
 
-		private static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
+	private static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
 
 	@Inject
 	private HttpSession session;
@@ -128,4 +128,5 @@ public abstract class GenericController {
 	private String generateKey(String key) {
 		return getClass().getName() + key;
 	}
+
 }

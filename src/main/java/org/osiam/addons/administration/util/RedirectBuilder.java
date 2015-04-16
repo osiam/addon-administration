@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import javax.ws.rs.core.UriBuilder;
 
 /**
- * This class is responsible for creating an redirect string that can be returned by Spring-Request-Handler.
+ * This class is responsible for creating a redirect string that can be returned by Spring-Request-Handler.
  */
 public class RedirectBuilder {
 	private String destination;
