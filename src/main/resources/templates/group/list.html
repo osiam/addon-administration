@@ -54,12 +54,14 @@
 				<th>
 					<span th:if="${orderBy eq 'displayName' and not orderDirection}">
 						<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}">
-							<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{msg.group.display}">Display Name</span>
+							<span class="glyphicon glyphicon-sort-by-alphabet"></span>
+							<span th:text="#{msg.group.display}">Display Name</span>
 						</a>
 					</span>
 					<span th:unless="${orderBy eq 'displayName' and not orderDirection}">
 						<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}">
-							<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{msg.group.display}">Display Name</span>
+							<span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+							<span th:text="#{msg.group.display}">Display Name</span>
 						</a>
 					</span>
 				</th>
@@ -93,36 +95,32 @@
 				<td th:text="${group.displayName}">Display Name</td>
 				<td>
 				<!-- Start: Action-Menu	-->
-				<nav class="actionNav">
-					<ul>
-						<li class="action">
-							<div class="btn btn-info btn-sm" th:id="${'action-label-' + groupStat.index}">
-								<span th:text="#{msg.button.action}">Actions</span>
-								<span class="glyphicon glyphicon-chevron-right"></span>
-								<ul class="btn">
-									<li>
-										<a th:href="@{edit(id = ${group.id})}">
-											<button th:id="${'action-button-edit-' + groupStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
-										</a>
-									</li>
-									<li>
-										<form action="" method="GET">
-											<input type="hidden" name="action" value="delete" />
-											<input type="hidden" name="id" th:value="${group.id}" />
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button" th:id="${'action-label-' + groupStat.index}" th:text="#{msg.button.action}" data-toggle="dropdown" aria-expanded="true"> </button>
+					<ul class="dropdown-menu" style="width:250px" role="menu" aria-labelledby="dropdownMenu1">
+						<li role="presentation">
+								<a th:href="@{edit(id = ${group.id})}">
+									<button th:id="${'action-button-edit-' + groupStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
+								</a>
+						</li>
+						<li role="presentation">
+							<form action="" method="GET">
+								<input type="hidden" name="action" value="delete" />
+								<input type="hidden" name="id" th:value="${group.id}" />
 
-											<button th:id="${'action-button-delete-group-' + groupStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
-										</form>
-									</li>
-									<li>
-										<a th:href="@{user(id = ${group.id})}">
-											<button th:id="${'action-button-edit-user-membership-' + groupStat.index}" th:text="#{msg.button.user.membership}" class="btn-link">Edit User Membership</button>
-										</a>
-									</li>
-								</ul>
-							</div>
+								<button th:id="${'action-button-delete-group-' + groupStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
+							</form>
+						</li>
+						<li role="presentation">
+							<form>
+								<a th:href="@{user(id = ${group.id})}">
+									<button th:id="${'action-button-edit-user-membership-' + groupStat.index}" th:text="#{msg.button.user.membership}" class="btn-link">Edit User Membership</button>
+								</a>
+							</form>
 						</li>
 					</ul>
-				</nav> <!-- End: Action-Menu -->
+				</div>
+				<!-- END: Action-Menu -->
 			</td>
 			</tr>
 		</tbody>
