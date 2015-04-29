@@ -1,5 +1,13 @@
 # OSIAM addon-administration
 
+## 1.4 - 2015-04-29
+
+- [feature] Bulk operations for user: activate all / deactivate all / delete all
+- [fix] the email type is not required
+- [change] bump dependency versions
+- [docs] move documentation from Wiki to repo
+- [docs] rename file RELEASE.NOTES to CHANGELOG.md
+
 ## 1.3.2 - 2014-11-24
 - [enhancement] Compatibility for Internet Explorer 8
 - [fix] Not Bug (https://github.com/osiam/server/issues/247)
