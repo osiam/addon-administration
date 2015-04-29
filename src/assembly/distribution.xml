@@ -49,7 +49,7 @@
         </file>
 
         <file>
-            <source>RELEASE.NOTES</source>
+            <source>CHANGELOG.md</source>
         </file>
     </files>
 </assembly>
