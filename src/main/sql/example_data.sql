@@ -6,14 +6,14 @@
 INSERT INTO osiam_client (internal_id, accesstokenvalidityseconds, client_secret, expiry,
 id, implicit_approval, redirect_uri, refreshtokenvalidityseconds,
 validityinseconds)
-VALUES (1, 2342, 'super-secret', null, 'addon-administration-client', FALSE, 'http://localhost:8080/addon-administration', 4684, 1337);
+VALUES (20, 2342, 'super-secret', null, 'addon-administration-client', FALSE, 'http://localhost:8080/addon-administration', 4684, 1337);
 
-INSERT INTO osiam_client_scopes (id, scope) VALUES (1, 'GET');
-INSERT INTO osiam_client_scopes (id, scope) VALUES (1, 'POST');
-INSERT INTO osiam_client_scopes (id, scope) VALUES (1, 'PUT');
-INSERT INTO osiam_client_scopes (id, scope) VALUES (1, 'PATCH');
-INSERT INTO osiam_client_scopes (id, scope) VALUES (1, 'DELETE');
-INSERT INTO osiam_client_grants (id, grants) VALUES (1, 'authorization_code');
-INSERT INTO osiam_client_grants (id, grants) VALUES (1, 'refresh_token');
-INSERT INTO osiam_client_grants (id, grants) VALUES (1, 'password');
-INSERT INTO osiam_client_grants (id, grants) VALUES (1, 'client_credentials');
+INSERT INTO osiam_client_scopes (id, scope) VALUES (20, 'GET');
+INSERT INTO osiam_client_scopes (id, scope) VALUES (20, 'POST');
+INSERT INTO osiam_client_scopes (id, scope) VALUES (20, 'PUT');
+INSERT INTO osiam_client_scopes (id, scope) VALUES (20, 'PATCH');
+INSERT INTO osiam_client_scopes (id, scope) VALUES (20, 'DELETE');
+INSERT INTO osiam_client_grants (id, grants) VALUES (20, 'authorization_code');
+INSERT INTO osiam_client_grants (id, grants) VALUES (20, 'refresh_token');
+INSERT INTO osiam_client_grants (id, grants) VALUES (20, 'password');
+INSERT INTO osiam_client_grants (id, grants) VALUES (20, 'client_credentials');
