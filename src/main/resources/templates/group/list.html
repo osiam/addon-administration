@@ -1,147 +1,164 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Group-List</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Group-List</title>
 
-	<th:block th:include="head :: includes"></th:block>
+    <th:block th:include="head :: includes"></th:block>
 
-	<script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}" ></script>
-	<script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}" ></script>
+    <script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}"></script>
+    <script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}"></script>
 </head>
 <body>
 
 <th:block th:include="header :: header"></th:block>
 
 <div class="container shadow" id="content">
-	<div th:replace="makros :: topbar">
-		Topbar ...
-	</div>
+    <div th:replace="makros :: topbar">
+        Topbar ...
+    </div>
 
-	<div id="dialog-message-container" style="display:none;">
-		<div id="dialog-delete-message">
-			<p th:text="#{msg.group.dialog.delete.message}" />
-		</div>
+    <div id="dialog-message-container" style="display:none;">
+        <div id="dialog-delete-message">
+            <p th:text="#{msg.group.dialog.delete.message}"/>
+        </div>
 
-		<input id="dialog-title" type="hidden" th:value="#{msg.group.dialog.title}" />
-		<input id="dialog-success" type="hidden" th:value="#{msg.group.dialog.success}" />
-		<input id="dialog-abort" type="hidden" th:value="#{msg.group.dialog.abort}" />
-	</div>
+        <input id="dialog-title" type="hidden" th:value="#{msg.group.dialog.title}"/>
+        <input id="dialog-success" type="hidden" th:value="#{msg.group.dialog.success}"/>
+        <input id="dialog-abort" type="hidden" th:value="#{msg.group.dialog.abort}"/>
+    </div>
 
-	<div class="textRight marginBottom10">
-		<a th:href="@{create}" class="btn btn-info btn-sm">
-			<span th:text="#{msg.group.create}">Create Group</span>
-			<span class="glyphicon glyphicon glyphicon-plus"></span>
-		</a>
-	</div>
+    <div class="textRight marginBottom10">
+        <a th:href="@{create}" class="btn btn-info btn-sm">
+            <span th:text="#{msg.group.create}">Create Group</span>
+            <span class="glyphicon glyphicon glyphicon-plus"></span>
+        </a>
+    </div>
 
-	<div class="alert alert-success" th:if="${(param.createSuccess != null) and (param.createSuccess[0] == 'true')}" th:text="#{msg.group.list.createSuccess}">
-		Successfully created
-	</div>
+    <div class="alert alert-success" th:if="${(param.createSuccess != null) and (param.createSuccess[0] == 'true')}"
+         th:text="#{msg.group.list.createSuccess}">
+        Successfully created
+    </div>
 
-	<div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.group.list.saveSuccess}">
-		Successful saved
-	</div>
-	<div class="alert alert-success" th:if="${(param.deleteSuccess != null) and (param.deleteSuccess[0] == 'true')}" th:text="#{msg.group.list.deleteSuccess}">
-		Successful deleted
-	</div>
-	<table class="table table-hover table-striped table-bordered table-condensed">
-		<thead>
-			<tr>
-				<th>
-					<input id="group-checkbox" type="checkbox" class="checkbox master-checkbox" />
-				</th>
-				<th>
+    <div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}"
+         th:text="#{msg.group.list.saveSuccess}">
+        Successful saved
+    </div>
+    <div class="alert alert-success" th:if="${(param.deleteSuccess != null) and (param.deleteSuccess[0] == 'true')}"
+         th:text="#{msg.group.list.deleteSuccess}">
+        Successful deleted
+    </div>
+    <table class="table table-hover table-striped table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th>
+                <input id="group-checkbox" type="checkbox" class="checkbox master-checkbox"/>
+            </th>
+            <th>
 					<span th:if="${orderBy eq 'displayName' and not orderDirection}">
-						<a id="order-by-displayname-asc" th:href="@{'' (action='sort', orderBy='displayName', asc=true)}">
-							<span class="glyphicon glyphicon-sort-by-alphabet"></span>
-							<span th:text="#{msg.group.display}">Display Name</span>
-						</a>
+						<a id="order-by-displayname-asc"
+                           th:href="@{'' (action='sort', orderBy='displayName', asc=true)}">
+                            <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                            <span th:text="#{msg.group.display}">Display Name</span>
+                        </a>
 					</span>
 					<span th:unless="${orderBy eq 'displayName' and not orderDirection}">
-						<a id="order-by-displayname-desc" th:href="@{'' (action='sort', orderBy='displayName', asc=false)}">
-							<span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
-							<span th:text="#{msg.group.display}">Display Name</span>
-						</a>
+						<a id="order-by-displayname-desc"
+                           th:href="@{'' (action='sort', orderBy='displayName', asc=false)}">
+                            <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                            <span th:text="#{msg.group.display}">Display Name</span>
+                        </a>
 					</span>
-				</th>
-				<th></th>
-			</tr>
-		</thead>
+            </th>
+            <th></th>
+        </tr>
+        </thead>
 
 
-		<tbody>
-			<!-- Start: Filter-Row -->
-			<tr th:object="${sessionData.pagingInformation.filterFields}">
-				<form id="filter-form" action="" method="POST">
-					<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-					<th:block th:replace="makros :: csrf" />
+        <tbody>
+        <!-- Start: Filter-Row -->
+        <tr th:object="${sessionData.pagingInformation.filterFields}">
+            <form id="filter-form" action="" method="POST">
+                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+                <th:block th:replace="makros :: csrf"/>
 
-					<!--/* All osiam-query relevant fields must begin with "query."!  */-->
-					<td><input type="hidden" name="action" value="filter"/></td>
-					<td class="input-group-sm"><input id="filter-display-name" class="form-control" name="query.displayName" type="text" th:value="*{get('query.displayName')}" /></td>
-					<td>
-						<button id="filter-button" class="btn btn-default btn-sm" type="submit">
-							<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
-						</button>
-					</td>
-				</form>
-			</tr>
-			<!-- End: Filter-Row -->
-			<tr th:each="group : ${grouplist.resources}">
-				<td>
-					<input th:id="${'group-checkbox-' + groupStat.index}" type="checkbox" class="checkbox" />
-				</td>
-				<td th:text="${group.displayName}">Display Name</td>
-				<td>
-				<!-- Start: Action-Menu	-->
-				<div class="dropdown">
-					<button class="btn btn-default dropdown-toggle" type="button" th:id="${'action-label-' + groupStat.index}" th:text="#{msg.button.action}" data-toggle="dropdown" aria-expanded="true"> </button>
-					<ul class="dropdown-menu" style="width:250px" role="menu" aria-labelledby="dropdownMenu1">
-						<li role="presentation">
-								<a th:href="@{edit(id = ${group.id})}">
-									<button th:id="${'action-button-edit-' + groupStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
-								</a>
-						</li>
-						<li role="presentation">
-							<form action="" method="GET">
-								<input type="hidden" name="action" value="delete" />
-								<input type="hidden" name="id" th:value="${group.id}" />
+                <!--/* All osiam-query relevant fields must begin with "query."!  */-->
+                <td><input type="hidden" name="action" value="filter"/></td>
+                <td class="input-group-sm"><input id="filter-display-name" class="form-control" name="query.displayName"
+                                                  type="text" th:value="*{get('query.displayName')}"/></td>
+                <td>
+                    <button id="filter-button" class="btn btn-default btn-sm" type="submit">
+                        <span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+                    </button>
+                </td>
+            </form>
+        </tr>
+        <!-- End: Filter-Row -->
+        <tr th:each="group : ${grouplist.resources}">
+            <td>
+                <input th:id="${'group-checkbox-' + groupStat.index}" type="checkbox" class="checkbox"/>
+            </td>
+            <td th:text="${group.displayName}">Display Name</td>
+            <td>
+                <!-- Start: Action-Menu	-->
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button"
+                            th:id="${'action-label-' + groupStat.index}" th:text="#{msg.button.action}"
+                            data-toggle="dropdown" aria-expanded="true"></button>
+                    <ul class="dropdown-menu" style="width:250px" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation">
+                            <a th:href="@{edit(id = ${group.id})}">
+                                <button th:id="${'action-button-edit-' + groupStat.index}" th:text="#{msg.button.edit}"
+                                        class="btn-link">Edit
+                                </button>
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <form action="" method="GET">
+                                <input type="hidden" name="action" value="delete"/>
+                                <input type="hidden" name="id" th:value="${group.id}"/>
 
-								<button th:id="${'action-button-delete-group-' + groupStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
-							</form>
-						</li>
-						<li role="presentation">
-							<form>
-								<a th:href="@{user(id = ${group.id})}">
-									<button th:id="${'action-button-edit-user-membership-' + groupStat.index}" th:text="#{msg.button.user.membership}" class="btn-link">Edit User Membership</button>
-								</a>
-							</form>
-						</li>
-					</ul>
-				</div>
-				<!-- END: Action-Menu -->
-			</td>
-			</tr>
-		</tbody>
-	</table>
-	<span th:replace="makros :: pagingInfo(${grouplist})">Result x - y from Total</span>
+                                <button th:id="${'action-button-delete-group-' + groupStat.index}"
+                                        th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete
+                                </button>
+                            </form>
+                        </li>
+                        <li role="presentation">
+                            <form>
+                                <a th:href="@{user(id = ${group.id})}">
+                                    <button th:id="${'action-button-edit-user-membership-' + groupStat.index}"
+                                            th:text="#{msg.button.user.membership}" class="btn-link">Edit User
+                                        Membership
+                                    </button>
+                                </a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END: Action-Menu -->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <span th:replace="makros :: pagingInfo(${grouplist})">Result x - y from Total</span>
 
-	<div th:replace="makros :: pagingControlls(${paging}, 2, '')">
-		Paging-Navigation...
-	</div>
-	<form name="form-limit" action="" class="resultsPerPage">
-		<input type="hidden" name="action" value="limit" />
-		<select id="paging-limit" name="limit" class="form-control" onchange="document['form-limit'].submit();">
-			<option th:selected="${sessionData.pagingInformation.limit} == 5" >5</option>
-			<option th:selected="${sessionData.pagingInformation.limit} == 10">10</option>
-			<option th:selected="${sessionData.pagingInformation.limit} == 20">20</option>
-			<option th:selected="${sessionData.pagingInformation.limit} == 50">50</option>
-			<option th:selected="${sessionData.pagingInformation.limit} == 100">100</option>
-			<option th:selected="${sessionData.pagingInformation.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
-		</select>
-	</form>
-	<span th:text="#{msg.list.limit}"></span>
+    <div th:replace="makros :: pagingControlls(${paging}, 2, '')">
+        Paging-Navigation...
+    </div>
+    <form name="form-limit" action="" class="resultsPerPage">
+        <input type="hidden" name="action" value="limit"/>
+        <select id="paging-limit" name="limit" class="form-control" onchange="document['form-limit'].submit();">
+            <option th:selected="${sessionData.pagingInformation.limit} == 5">5</option>
+            <option th:selected="${sessionData.pagingInformation.limit} == 10">10</option>
+            <option th:selected="${sessionData.pagingInformation.limit} == 20">20</option>
+            <option th:selected="${sessionData.pagingInformation.limit} == 50">50</option>
+            <option th:selected="${sessionData.pagingInformation.limit} == 100">100</option>
+            <option th:selected="${sessionData.pagingInformation.limit} == 0" th:text="#{msg.list.limit.all}" value="0">
+                All
+            </option>
+        </select>
+    </form>
+    <span th:text="#{msg.list.limit}"></span>
 </div>
 </body>
 </html>

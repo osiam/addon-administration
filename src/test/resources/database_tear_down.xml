@@ -23,24 +23,24 @@
 -->
 
 <dataset>
-    <osiam_client />
-    <osiam_client_grants />
-    <osiam_client_scopes />
-    <scim_meta />
-    <scim_id />
-    <scim_name />
+    <osiam_client/>
+    <osiam_client_grants/>
+    <osiam_client_scopes/>
+    <scim_meta/>
+    <scim_id/>
+    <scim_name/>
     <scim_user/>
-    <scim_group />
-    <scim_group_scim_id />
-    <scim_email />
-    <scim_address />
-    <scim_photo />
-    <scim_im />
-    <scim_phonenumber />
-    <scim_certificate />
-    <scim_roles />
-    <scim_entitlements />
-    <scim_extension />
-    <scim_extension_field />
-    <scim_extension_field_value />    
+    <scim_group/>
+    <scim_group_scim_id/>
+    <scim_email/>
+    <scim_address/>
+    <scim_photo/>
+    <scim_im/>
+    <scim_phonenumber/>
+    <scim_certificate/>
+    <scim_roles/>
+    <scim_entitlements/>
+    <scim_extension/>
+    <scim_extension_field/>
+    <scim_extension_field_value/>
 </dataset>

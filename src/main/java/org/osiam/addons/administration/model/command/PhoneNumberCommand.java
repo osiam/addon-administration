@@ -14,80 +14,80 @@ import com.google.common.base.Strings;
  */
 public class PhoneNumberCommand implements Emptiable {
 
-	@NotNull
-	@NotEmpty
-	@NotBlank
-	private String type;
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    private String type;
 
-	@NotNull
-	@NotEmpty
-	@NotBlank
-	private String value;
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    private String value;
 
-	private String display;
+    private String display;
 
-	@NotNull
-	private Boolean primary;
+    @NotNull
+    private Boolean primary;
 
-	public PhoneNumberCommand() {
-	}
+    public PhoneNumberCommand() {
+    }
 
-	public PhoneNumberCommand(PhoneNumber phoneNumber) {
-		setDisplay(phoneNumber.getDisplay());
-		setPrimary(phoneNumber.isPrimary());
-		setValue(phoneNumber.getValue());
+    public PhoneNumberCommand(PhoneNumber phoneNumber) {
+        setDisplay(phoneNumber.getDisplay());
+        setPrimary(phoneNumber.isPrimary());
+        setValue(phoneNumber.getValue());
 
-		if (phoneNumber.getType() != null) {
-			setType(phoneNumber.getType().getValue());
-		}
-	}
+        if (phoneNumber.getType() != null) {
+            setType(phoneNumber.getType().getValue());
+        }
+    }
 
-	@Override
-	public boolean isEmpty(){
-		return getPrimary() == null &&
-				Strings.isNullOrEmpty(getDisplay()) &&
-				Strings.isNullOrEmpty(getType()) &&
-				Strings.isNullOrEmpty(getValue());
-	}
+    @Override
+    public boolean isEmpty() {
+        return getPrimary() == null &&
+                Strings.isNullOrEmpty(getDisplay()) &&
+                Strings.isNullOrEmpty(getType()) &&
+                Strings.isNullOrEmpty(getValue());
+    }
 
-	public PhoneNumber getAsPhoneNumber() {
-		return new PhoneNumber.Builder()
-				.setDisplay(getDisplay())
-				.setPrimary(getPrimary())
-				.setType(new Type(getType()))
-				.setValue(getValue())
-				.build();
-	}
+    public PhoneNumber getAsPhoneNumber() {
+        return new PhoneNumber.Builder()
+                .setDisplay(getDisplay())
+                .setPrimary(getPrimary())
+                .setType(new Type(getType()))
+                .setValue(getValue())
+                .build();
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
 
-	public String getDisplay() {
-		return display;
-	}
+    public String getDisplay() {
+        return display;
+    }
 
-	public void setDisplay(String display) {
-		this.display = display;
-	}
+    public void setDisplay(String display) {
+        this.display = display;
+    }
 
-	public Boolean getPrimary() {
-		return primary;
-	}
+    public Boolean getPrimary() {
+        return primary;
+    }
 
-	public void setPrimary(Boolean primary) {
-		this.primary = primary;
-	}
+    public void setPrimary(Boolean primary) {
+        this.primary = primary;
+    }
 }

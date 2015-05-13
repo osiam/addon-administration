@@ -1,282 +1,328 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>User-List</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>User-List</title>
 
-	<th:block th:include="head :: includes"></th:block>
+    <th:block th:include="head :: includes"></th:block>
 
-	<script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}" ></script>
-	<script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}" ></script>
+    <script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}"></script>
+    <script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}"></script>
 </head>
 <body>
 
 <th:block th:include="header :: header"></th:block>
 
 <div class="container shadow" id="content">
-	<div th:replace="makros :: topbar">
-		Topbar ...
-	</div>
+    <div th:replace="makros :: topbar">
+        Topbar ...
+    </div>
 
-	<div id="dialog-message-container" style="display:none;">
-		<div id="dialog-deactivate-message">
-			<p th:text="#{msg.user.dialog.deactivate.message}" />
-			<p>
-				<label for="send-mail" th:text="#{msg.user.dialog.email.message}" >SendMail?</label>
-				<input id="send-mail" type="checkbox" />
-			</p>
-		</div>
+    <div id="dialog-message-container" style="display:none;">
+        <div id="dialog-deactivate-message">
+            <p th:text="#{msg.user.dialog.deactivate.message}"/>
 
-
-		<div id="dialog-deactivate-selected-message">
-			<p th:text="#{msg.user.dialog.deactivate.selected.message}" />
-			<p>
-				<label for="send-mail" th:text="#{msg.user.dialog.email.message}" >SendMail?</label>
-				<input id="send-mail" type="checkbox" />
-			</p>
-		</div>
+            <p>
+                <label for="send-mail" th:text="#{msg.user.dialog.email.message}">SendMail?</label>
+                <input id="send-mail" type="checkbox"/>
+            </p>
+        </div>
 
 
-		<div id="dialog-activate-message">
-			<p th:text="#{msg.user.dialog.activate.message}" />
-			<p>
-				<label for="send-mail" th:text="#{msg.user.dialog.email.message}" >SendMail?</label>
-				<input id="send-mail" type="checkbox" />
-			</p>
-		</div>
+        <div id="dialog-deactivate-selected-message">
+            <p th:text="#{msg.user.dialog.deactivate.selected.message}"/>
+
+            <p>
+                <label for="send-mail" th:text="#{msg.user.dialog.email.message}">SendMail?</label>
+                <input id="send-mail" type="checkbox"/>
+            </p>
+        </div>
 
 
-		<div id="dialog-activate-selected-message">
-			<p th:text="#{msg.user.dialog.activate.selected.message}" />
-			<p>
-				<label for="send-mail" th:text="#{msg.user.dialog.email.message}" >SendMail?</label>
-				<input id="send-mail" type="checkbox" />
-			</p>
-		</div>
+        <div id="dialog-activate-message">
+            <p th:text="#{msg.user.dialog.activate.message}"/>
 
-		<input id="dialog-delete-selected-message" type="hidden" th:value="#{msg.user.dialog.delete.selected.message}"/>
-		<input id="dialog-delete-message" type="hidden" th:value="#{msg.user.dialog.delete.message}"/>
-		<input id="dialog-title" type="hidden" th:value="#{msg.user.dialog.title}" />
-		<input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}" />
-		<input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}" />
-	</div>
+            <p>
+                <label for="send-mail" th:text="#{msg.user.dialog.email.message}">SendMail?</label>
+                <input id="send-mail" type="checkbox"/>
+            </p>
+        </div>
 
-	<div class="textRight marginBottom10">
-		<a th:href="@{create}" class="btn btn-info btn-sm">
-			<span th:text="#{msg.user.create}">Create User</span>
-			<span class="glyphicon glyphicon glyphicon-plus"></span>
-		</a>
-	</div>
 
-	<div class="alert alert-success" th:if="${(param.activateSuccess != null) and (param.activateSuccess[0] == 'true')}" th:text="#{msg.user.list.activateSuccess}">
-		Successful activated
-	</div>
-	<div class="alert alert-success" th:if="${(param.deactivateSuccess != null) and (param.deactivateSuccess[0] == 'true')}" th:text="#{msg.user.list.deactivateSuccess}">
-		Successful deactivated
-	</div>
+        <div id="dialog-activate-selected-message">
+            <p th:text="#{msg.user.dialog.activate.selected.message}"/>
 
-	<div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}" th:text="#{msg.user.list.saveSuccess}">
-		Successful saved
-	</div>
-	<div class="alert alert-success" th:if="${(param.deleteSuccess != null) and (param.deleteSuccess[0] == 'true')}" th:text="#{msg.user.list.deleteSuccess}">
-		Successful deleted
-	</div>
+            <p>
+                <label for="send-mail" th:text="#{msg.user.dialog.email.message}">SendMail?</label>
+                <input id="send-mail" type="checkbox"/>
+            </p>
+        </div>
 
-	<table class="table table-hover table-striped table-bordered table-condensed">
-		<thead>
-			<tr>
-				<th>
-					<input id="user-checkbox" type="checkbox" class="checkbox master-checkbox" />
-				</th>
-				<th>
+        <input id="dialog-delete-selected-message" type="hidden" th:value="#{msg.user.dialog.delete.selected.message}"/>
+        <input id="dialog-delete-message" type="hidden" th:value="#{msg.user.dialog.delete.message}"/>
+        <input id="dialog-title" type="hidden" th:value="#{msg.user.dialog.title}"/>
+        <input id="dialog-success" type="hidden" th:value="#{msg.user.dialog.success}"/>
+        <input id="dialog-abort" type="hidden" th:value="#{msg.user.dialog.abort}"/>
+    </div>
+
+    <div class="textRight marginBottom10">
+        <a th:href="@{create}" class="btn btn-info btn-sm">
+            <span th:text="#{msg.user.create}">Create User</span>
+            <span class="glyphicon glyphicon glyphicon-plus"></span>
+        </a>
+    </div>
+
+    <div class="alert alert-success" th:if="${(param.activateSuccess != null) and (param.activateSuccess[0] == 'true')}"
+         th:text="#{msg.user.list.activateSuccess}">
+        Successful activated
+    </div>
+    <div class="alert alert-success"
+         th:if="${(param.deactivateSuccess != null) and (param.deactivateSuccess[0] == 'true')}"
+         th:text="#{msg.user.list.deactivateSuccess}">
+        Successful deactivated
+    </div>
+
+    <div class="alert alert-success" th:if="${(param.saveSuccess != null) and (param.saveSuccess[0] == 'true')}"
+         th:text="#{msg.user.list.saveSuccess}">
+        Successful saved
+    </div>
+    <div class="alert alert-success" th:if="${(param.deleteSuccess != null) and (param.deleteSuccess[0] == 'true')}"
+         th:text="#{msg.user.list.deleteSuccess}">
+        Successful deleted
+    </div>
+
+    <table class="table table-hover table-striped table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th>
+                <input id="user-checkbox" type="checkbox" class="checkbox master-checkbox"/>
+            </th>
+            <th>
 					<span th:if="${orderBy eq 'userName' and not orderDirection}">
 						<a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">
-							<span class="glyphicon glyphicon-sort-by-alphabet"></span>
-							<span th:text="#{msg.user.login}">Login</span>
-						</a>
+                            <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                            <span th:text="#{msg.user.login}">Login</span>
+                        </a>
 					</span>
 					<span th:unless="${orderBy eq 'userName' and not orderDirection}">
 						<a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">
-							<span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
-							<span th:text="#{msg.user.login}">Login</span>
-						</a>
+                            <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                            <span th:text="#{msg.user.login}">Login</span>
+                        </a>
 					</span>
-				</th>
-				<th>
+            </th>
+            <th>
 					<span th:if="${orderBy eq 'name.givenName' and not orderDirection}">
-						<a id="order-by-givenname-asc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}">
-							<span class="glyphicon glyphicon-sort-by-alphabet"></span>
-							<span th:text="#{msg.user.name.given}">Given Name</span>
-						</a>
+						<a id="order-by-givenname-asc"
+                           th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}">
+                            <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                            <span th:text="#{msg.user.name.given}">Given Name</span>
+                        </a>
 					</span>
 					<span th:unless="${orderBy eq 'name.givenName' and not orderDirection}">
-						<a id="order-by-givenname-desc" th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}">
-							<span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
-							<span th:text="#{msg.user.name.given}">Given Name</span>
-						</a>
+						<a id="order-by-givenname-desc"
+                           th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}">
+                            <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                            <span th:text="#{msg.user.name.given}">Given Name</span>
+                        </a>
 					</span>
-				</th>
-				<th>
+            </th>
+            <th>
 					<span th:if="${orderBy eq 'name.familyName' and not orderDirection}">
-						<a id="order-by-familyname-asc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}">
-							<span class="glyphicon glyphicon-sort-by-alphabet"></span>
-							<span th:text="#{msg.user.name.family}">Family Name</span>
-						</a>
+						<a id="order-by-familyname-asc"
+                           th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}">
+                            <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                            <span th:text="#{msg.user.name.family}">Family Name</span>
+                        </a>
 					</span>
 					<span th:unless="${orderBy eq 'name.familyName' and not orderDirection}">
-						<a id="order-by-familyname-desc" th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}">
-							<span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
-							<span th:text="#{msg.user.name.family}">Family Name</span>
-						</a>
+						<a id="order-by-familyname-desc"
+                           th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}">
+                            <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                            <span th:text="#{msg.user.name.family}">Family Name</span>
+                        </a>
 					</span>
-				</th>
-				<th>
-					<span style="color:#58ACFA" th:text="#{msg.user.group}">Group</span>
+            </th>
+            <th>
+                <span style="color:#58ACFA" th:text="#{msg.user.group}">Group</span>
 
-					<!--/*  Sorting by Group is not supported yet...
+                <!--/*  Sorting by Group is not supported yet...
 
-					<span class="sortingArrows">
-						<a id="order-by-group-asc" th:href="@{'' (action='sort', orderBy='groups.display', asc=true)}">
-							<img th:src="@{/img/arrow_up.png}" src="../../img/arrow_up.png" alt="" />
-						</a>
-						<a id="order-by-group-desc" th:href="@{'' (action='sort', orderBy='groups.display', asc=false)}">
-							<img th:src="@{/img/arrow_down.png}" src="../../img/arrow_down.png" alt="" />
-						</a>
-					</span>
-					*/-->
-				</th>
-				<th></th>
-			</tr>
-		</thead>
+                <span class="sortingArrows">
+                    <a id="order-by-group-asc" th:href="@{'' (action='sort', orderBy='groups.display', asc=true)}">
+                        <img th:src="@{/img/arrow_up.png}" src="../../img/arrow_up.png" alt="" />
+                    </a>
+                    <a id="order-by-group-desc" th:href="@{'' (action='sort', orderBy='groups.display', asc=false)}">
+                        <img th:src="@{/img/arrow_down.png}" src="../../img/arrow_down.png" alt="" />
+                    </a>
+                </span>
+                */-->
+            </th>
+            <th></th>
+        </tr>
+        </thead>
 
 
-		<tbody>
-			<!-- Start: Filter-Row -->
-			<tr th:object="${sessionData.pagingInformation.filterFields}">
-				<form id="filter-form" action="" method="POST">
-					<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-					<th:block th:replace="makros :: csrf" />
+        <tbody>
+        <!-- Start: Filter-Row -->
+        <tr th:object="${sessionData.pagingInformation.filterFields}">
+            <form id="filter-form" action="" method="POST">
+                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+                <th:block th:replace="makros :: csrf"/>
 
-					<!--/* All osiam-query relevant fields must begin with "query."!  */-->
-					<td><input type="hidden" name="action" value="filter"/></td>
-					<td class="input-group-sm"><input id="filter-login" class="form-control" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
-					<td class="input-group-sm"><input id="filter-givenname" class="form-control" name="query.name.givenName" type="text" th:value="*{get('query.name.givenName')}" /></td>
-					<td class="input-group-sm"><input id="filter-familyname" class="form-control" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
-					<td class="input-group-sm"><input id="filter-group" class="form-control" name="query.groups.display" type="text" th:value="*{get('query.groups.display')}" /></td>
-					<td>
-						<button id="filter-button" class="btn btn-default btn-sm" type="submit">
-							<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
-						</button>
-					</td>
-				</form>
-			</tr>
-			<!-- End: Filter-Row -->
-			<tr th:each="user : ${userlist.resources}" th:class="${user.active} ? ' ' : 'danger'">
-				<td>
-					<input th:id="${'user-checkbox-' + userStat.index}" type="checkbox" class="checkbox" name="idArray" th:value="${user.id}"/>
-				</td>
-				<td th:text="${user.userName}">Login</td>
-				<td th:text="${user.name} != null ? ${user.name.givenName} : '-'">Given Name</td>
-				<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">Family Name</td>
-				<td>
-					<ul th:if="${not #lists.isEmpty(user.groups)}">
-						<li th:each="group : ${user.groups}" th:text="${group.display + (groupStat.index lt (user.groups.size() - 1) ? ', ' : '')}" style="display:inline;">Group</li>
-					</ul>
-				</td>
-				<td>
-					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button" th:id="${'action-label-' + userStat.index}" th:text="#{msg.button.action}" data-toggle="dropdown" aria-expanded="true">
-							Action
-							<span class="caret"></span>
-	 					</button>
-						<ul class="dropdown-menu" style="width:250px" role="menu" aria-labelledby="dropdownMenu1">
-							<li role="presentation">
-								<a th:href="@{edit(id = ${user.id})}">
-									<button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}" class="btn-link">Edit</button>
-								</a>
-							</li>
-							<li role="presentation">
-								<a th:href="@{group(id = ${user.id})}">
-									<button th:id="${'action-button-edit-group-membership-' + userStat.index}" th:text="#{msg.button.group.membership}" class="btn-link">Edit groupmembership</button>
-								</a>
-							</li>
-							<li role="presentation" th:if="${user.active}">
-								<form action="" method="POST">
-					<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-					<th:block th:replace="makros :: csrf" />
-									<input type="hidden" name="action" value="deactivate" />
-									<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
-									<input type="hidden" name="id" th:value="${user.id}" />
-									<button th:id="${'action-button-deactivate-' + userStat.index}" th:text="#{msg.button.deactivate}" class="btn-link" type="submit">Deactivate</button>
-								</form>
-							</li>
-							<li role="presentation" th:unless="${user.active}">
-								<form action="" method="POST">
-					<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-					<th:block th:replace="makros :: csrf" />
-									<input type="hidden" name="action" value="activate" />
-									<input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail" value="true" />
-									<input type="hidden" name="id" th:value="${user.id}" />
+                <!--/* All osiam-query relevant fields must begin with "query."!  */-->
+                <td><input type="hidden" name="action" value="filter"/></td>
+                <td class="input-group-sm"><input id="filter-login" class="form-control" name="query.userName"
+                                                  type="text" th:value="*{get('query.userName')}"/></td>
+                <td class="input-group-sm"><input id="filter-givenname" class="form-control" name="query.name.givenName"
+                                                  type="text" th:value="*{get('query.name.givenName')}"/></td>
+                <td class="input-group-sm"><input id="filter-familyname" class="form-control"
+                                                  name="query.name.familyName" type="text"
+                                                  th:value="*{get('query.name.familyName')}"/></td>
+                <td class="input-group-sm"><input id="filter-group" class="form-control" name="query.groups.display"
+                                                  type="text" th:value="*{get('query.groups.display')}"/></td>
+                <td>
+                    <button id="filter-button" class="btn btn-default btn-sm" type="submit">
+                        <span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+                    </button>
+                </td>
+            </form>
+        </tr>
+        <!-- End: Filter-Row -->
+        <tr th:each="user : ${userlist.resources}" th:class="${user.active} ? ' ' : 'danger'">
+            <td>
+                <input th:id="${'user-checkbox-' + userStat.index}" type="checkbox" class="checkbox" name="idArray"
+                       th:value="${user.id}"/>
+            </td>
+            <td th:text="${user.userName}">Login</td>
+            <td th:text="${user.name} != null ? ${user.name.givenName} : '-'">Given Name</td>
+            <td th:text="${user.name} != null ? ${user.name.familyName} : '-'">Family Name</td>
+            <td>
+                <ul th:if="${not #lists.isEmpty(user.groups)}">
+                    <li th:each="group : ${user.groups}"
+                        th:text="${group.display + (groupStat.index lt (user.groups.size() - 1) ? ', ' : '')}"
+                        style="display:inline;">Group
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button"
+                            th:id="${'action-label-' + userStat.index}" th:text="#{msg.button.action}"
+                            data-toggle="dropdown" aria-expanded="true">
+                        Action
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" style="width:250px" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation">
+                            <a th:href="@{edit(id = ${user.id})}">
+                                <button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}"
+                                        class="btn-link">Edit
+                                </button>
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a th:href="@{group(id = ${user.id})}">
+                                <button th:id="${'action-button-edit-group-membership-' + userStat.index}"
+                                        th:text="#{msg.button.group.membership}" class="btn-link">Edit groupmembership
+                                </button>
+                            </a>
+                        </li>
+                        <li role="presentation" th:if="${user.active}">
+                            <form action="" method="POST">
+                                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+                                <th:block th:replace="makros :: csrf"/>
+                                <input type="hidden" name="action" value="deactivate"/>
+                                <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail"
+                                       value="true"/>
+                                <input type="hidden" name="id" th:value="${user.id}"/>
+                                <button th:id="${'action-button-deactivate-' + userStat.index}"
+                                        th:text="#{msg.button.deactivate}" class="btn-link" type="submit">Deactivate
+                                </button>
+                            </form>
+                        </li>
+                        <li role="presentation" th:unless="${user.active}">
+                            <form action="" method="POST">
+                                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+                                <th:block th:replace="makros :: csrf"/>
+                                <input type="hidden" name="action" value="activate"/>
+                                <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail"
+                                       value="true"/>
+                                <input type="hidden" name="id" th:value="${user.id}"/>
 
-									<button th:id="${'action-button-activate-' + userStat.index}" th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate</button>
-								</form>
-							</li>
-							<li role="presentation">
-								<form action="" method="POST">
-					<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-					<th:block th:replace="makros :: csrf" />
-									<input type="hidden" name="action" value="delete" />
-									<input type="hidden" name="id" th:value="${user.id}" />
+                                <button th:id="${'action-button-activate-' + userStat.index}"
+                                        th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate
+                                </button>
+                            </form>
+                        </li>
+                        <li role="presentation">
+                            <form action="" method="POST">
+                                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+                                <th:block th:replace="makros :: csrf"/>
+                                <input type="hidden" name="action" value="delete"/>
+                                <input type="hidden" name="id" th:value="${user.id}"/>
 
-									<button th:id="${'action-button-delete-' + userStat.index}" th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete</button>
-								</form>
-							</li>
-						</ul>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<span th:replace="makros :: pagingInfo(${userlist})">Result x - y from Total</span>
+                                <button th:id="${'action-button-delete-' + userStat.index}"
+                                        th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <span th:replace="makros :: pagingInfo(${userlist})">Result x - y from Total</span>
 
-	<div th:replace="makros :: pagingControlls(${paging}, 2, '')">
-		Paging-Navigation...
-	</div>
-	<form name="form-limit" action="" class="resultsPerPage">
-		<input type="hidden" name="action" value="limit" />
-		<select id="paging-limit" name="limit" class="form-control" onchange="document['form-limit'].submit();">
-			<option th:selected="${sessionData.pagingInformation.limit} == 5" >5</option>
-			<option th:selected="${sessionData.pagingInformation.limit} == 10">10</option>
-			<option th:selected="${sessionData.pagingInformation.limit} == 20">20</option>
-			<option th:selected="${sessionData.pagingInformation.limit} == 50">50</option>
-			<option th:selected="${sessionData.pagingInformation.limit} == 100">100</option>
-			<option th:selected="${sessionData.pagingInformation.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
-		</select>
-	</form>
-	<span th:text="#{msg.list.limit}"></span>
-	<form id="activateSelectedFormId" method="POST" action="" style="float:right;margin-right:20px">
-		<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-		<th:block th:replace="makros :: csrf" />
-		<input type="hidden" name="action" value="activateSelected"/>
-		<input type="hidden" name="sendMail" value="true"/>
-		<span type="hidden" id="activateSelectedContainer" style="display:none"></span>
-		<button type="submit" id="action-button-selected-activate" value="activateSelected" class="btn btn-info btn-sm" th:text="#{msg.button.activateSelected}">Activate Selected</button>
-	</form>
-	<form id="deactivateSelectedFormId" method="POST" action="" style="float:right;margin-right:30px">
-		<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-		<th:block th:replace="makros :: csrf" />
-		<input type="hidden" name="action" value="deactivateSelected"/>
-		<input type="hidden" name="sendMail" value="true"/>
-		<span type="hidden" id="deactivateSelectedContainer" style="display:none"></span>
-		<button type="submit" th:id="action-button-selected-deactivate" class="btn btn-info btn-sm" value="deactivateSelected" th:text="#{msg.button.deactivateSelected}">Deactivate Selected</button>
-	</form>
-	<form id="deleteSelectedFormId" method="POST" action="" style="float:right;margin-right:30px">
-		<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-		<th:block th:replace="makros :: csrf" />
-		<input type="hidden" name="action" value="deleteSelected"/>
-		<div type="hidden" id="deleteSelectedContainer" style="display:none;"></div>
-		<button type="submit" id="action-button-selected-delete" value="deleteSelected" class="btn btn-info btn-sm" th:text="#{msg.button.deleteSelected}">Delete Selected</button>
-	</form>
+    <div th:replace="makros :: pagingControlls(${paging}, 2, '')">
+        Paging-Navigation...
+    </div>
+    <form name="form-limit" action="" class="resultsPerPage">
+        <input type="hidden" name="action" value="limit"/>
+        <select id="paging-limit" name="limit" class="form-control" onchange="document['form-limit'].submit();">
+            <option th:selected="${sessionData.pagingInformation.limit} == 5">5</option>
+            <option th:selected="${sessionData.pagingInformation.limit} == 10">10</option>
+            <option th:selected="${sessionData.pagingInformation.limit} == 20">20</option>
+            <option th:selected="${sessionData.pagingInformation.limit} == 50">50</option>
+            <option th:selected="${sessionData.pagingInformation.limit} == 100">100</option>
+            <option th:selected="${sessionData.pagingInformation.limit} == 0" th:text="#{msg.list.limit.all}" value="0">
+                All
+            </option>
+        </select>
+    </form>
+    <span th:text="#{msg.list.limit}"></span>
+
+    <form id="activateSelectedFormId" method="POST" action="" style="float:right;margin-right:20px">
+        <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+        <th:block th:replace="makros :: csrf"/>
+        <input type="hidden" name="action" value="activateSelected"/>
+        <input type="hidden" name="sendMail" value="true"/>
+        <span type="hidden" id="activateSelectedContainer" style="display:none"></span>
+        <button type="submit" id="action-button-selected-activate" value="activateSelected" class="btn btn-info btn-sm"
+                th:text="#{msg.button.activateSelected}">Activate Selected
+        </button>
+    </form>
+    <form id="deactivateSelectedFormId" method="POST" action="" style="float:right;margin-right:30px">
+        <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+        <th:block th:replace="makros :: csrf"/>
+        <input type="hidden" name="action" value="deactivateSelected"/>
+        <input type="hidden" name="sendMail" value="true"/>
+        <span type="hidden" id="deactivateSelectedContainer" style="display:none"></span>
+        <button type="submit" th:id="action-button-selected-deactivate" class="btn btn-info btn-sm"
+                value="deactivateSelected" th:text="#{msg.button.deactivateSelected}">Deactivate Selected
+        </button>
+    </form>
+    <form id="deleteSelectedFormId" method="POST" action="" style="float:right;margin-right:30px">
+        <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+        <th:block th:replace="makros :: csrf"/>
+        <input type="hidden" name="action" value="deleteSelected"/>
+
+        <div type="hidden" id="deleteSelectedContainer" style="display:none;"></div>
+        <button type="submit" id="action-button-selected-delete" value="deleteSelected" class="btn btn-info btn-sm"
+                th:text="#{msg.button.deleteSelected}">Delete Selected
+        </button>
+    </form>
 </div>
 </body>
 </html>

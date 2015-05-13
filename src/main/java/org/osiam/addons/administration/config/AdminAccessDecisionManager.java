@@ -26,78 +26,78 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminAccessDecisionManager implements AccessDecisionManager {
 
-	@Inject
-	private GeneralSessionData session;
+    @Inject
+    private GeneralSessionData session;
 
-	@Inject
-	private OsiamConnector connector;
+    @Inject
+    private OsiamConnector connector;
 
-	@Value("${org.osiam.administration.adminGroups}")
-	private String[] adminGroups;
+    @Value("${org.osiam.administration.adminGroups}")
+    private String[] adminGroups;
 
-	@Override
-	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) {
-		// if there are no access-token in session
-		if (session.getAccesstoken() == null) {
-			throw new AccessDeniedException("There is no accesstoken in session!");
-		}
+    @Override
+    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) {
+        // if there are no access-token in session
+        if (session.getAccessToken() == null) {
+            throw new AccessDeniedException("There is no access token in session!");
+        }
 
-		try{
-			connector.validateAccessToken(session.getAccesstoken());
-		}catch(UnauthorizedException e){
-			throw new AccessDeniedException("The current accesstoken is not valid!", e);
-		}
+        try {
+            connector.validateAccessToken(session.getAccessToken());
+        } catch (UnauthorizedException e) {
+            throw new AccessDeniedException("The current access token is not valid!", e);
+        }
 
-		checkForAdminGroup();
-	}
+        checkForAdminGroup();
+    }
 
-	private void checkForAdminGroup() {
-		if (adminGroups == null || adminGroups.length == 0) {
-			return;
-		}
+    private void checkForAdminGroup() {
+        if (adminGroups == null || adminGroups.length == 0) {
+            return;
+        }
 
-		String queryFilter = buildQueryFilter();
-		Query query = new QueryBuilder()
-							.count(1)
-							.filter(queryFilter)
-						.build();
+        String queryFilter = buildQueryFilter();
+        Query query = new QueryBuilder()
+                .count(1)
+                .filter(queryFilter)
+                .build();
 
-		SCIMSearchResult<User> result = connector.searchUsers(query, session.getAccesstoken());
+        SCIMSearchResult<User> result = connector.searchUsers(query, session.getAccessToken());
 
-		if(result.getTotalResults() != 1) {
-			throw new AccessDeniedException("The user not a member of an admin group.");
-		}
-	}
+        if (result.getTotalResults() != 1) {
+            throw new AccessDeniedException("The user not a member of an admin group.");
+        }
+    }
 
-	private String buildQueryFilter() {
-		StringBuilder queryString = new StringBuilder();
-		queryString.append("userName eq ");
-		queryString.append("\"");
-		queryString.append(session.getAccesstoken().getUserName());
-		queryString.append("\" AND (");
+    private String buildQueryFilter() {
+        StringBuilder queryString = new StringBuilder();
+        queryString.append("userName eq ");
+        queryString.append("\"");
+        queryString.append(session.getAccessToken().getUserName());
+        queryString.append("\" AND (");
 
-		Iterator<String> groupIterator = Arrays.asList(adminGroups).iterator();
-		while (groupIterator.hasNext()) {
-			queryString.append("groups.display eq \"");
-			queryString.append(groupIterator.next());
-			queryString.append("\"");
+        Iterator<String> groupIterator = Arrays.asList(adminGroups).iterator();
+        while (groupIterator.hasNext()) {
+            queryString.append("groups.display eq \"");
+            queryString.append(groupIterator.next());
+            queryString.append("\"");
 
-			if(groupIterator.hasNext()) {
-				queryString.append(" OR ");
-			}
-		}
-		queryString.append(")");
+            if (groupIterator.hasNext()) {
+                queryString.append(" OR ");
+            }
+        }
+        queryString.append(")");
 
-		return queryString.toString();
-	}
+        return queryString.toString();
+    }
 
-	@Override
-	public boolean supports(ConfigAttribute attribute) {
-		return true;
-	}
+    @Override
+    public boolean supports(ConfigAttribute attribute) {
+        return true;
+    }
 
-	@Override
-	public boolean supports(Class<?> clazz) {
-		return true;
-	}
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return true;
+    }
 }

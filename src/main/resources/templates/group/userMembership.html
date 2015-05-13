@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title th:text="#{edit_user_membership.title}">Edit user membership</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="#{edit_user_membership.title}">Edit user membership</title>
 
-	<th:block th:include="head :: includes"></th:block>
+    <th:block th:include="head :: includes"></th:block>
 
 </head>
 <body>
@@ -12,252 +12,307 @@
 <th:block th:include="header :: header"></th:block>
 
 <div class="container shadow" id="content">
-	<div th:replace="makros :: topbar">
-		Topbar ...
-	</div>
+    <div th:replace="makros :: topbar">
+        Topbar ...
+    </div>
 
-	<div class="row">
-		<div class ="col-md-6 marginBottom10">
-			<h3 th:text="#{edit_user_membership.title.special(${group.displayName})}">Groupname</h3>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-md-6 marginBottom10">
+            <h3 th:text="#{edit_user_membership.title.special(${group.displayName})}">Groupname</h3>
+        </div>
+    </div>
 
-	<div class="alert alert-success" th:if="${(param.userMembershipAdd != null) and (param.userMembershipAdd[0] == 'true')}" th:text="#{edit_group_membership.membershipAddSuccess}">
-		Successfully added
-	</div>
-	<div class="alert alert-success" th:if="${(param.userMembershipRemove != null) and (param.userMembershipRemove[0] == 'true')}" th:text="#{edit_group_membership.membershipRemoveSuccess}">
-		Successfully removed
-	</div>
+    <div class="alert alert-success"
+         th:if="${(param.userMembershipAdd != null) and (param.userMembershipAdd[0] == 'true')}"
+         th:text="#{edit_group_membership.membershipAddSuccess}">
+        Successfully added
+    </div>
+    <div class="alert alert-success"
+         th:if="${(param.userMembershipRemove != null) and (param.userMembershipRemove[0] == 'true')}"
+         th:text="#{edit_group_membership.membershipRemoveSuccess}">
+        Successfully removed
+    </div>
 
-	<div class="row">
-		<div id="form-group-insider" class="col-md-6 form-group">
-			<h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.group}">Group Members</h4>
-			<form method="POST" action="">
-				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-				<th:block th:replace="makros :: csrf" />
-				<input type="hidden" name="panel" value="remove" />
+    <div class="row">
+        <div id="form-group-insider" class="col-md-6 form-group">
+            <h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.group}">Group Members</h4>
 
-				<table class="table table-hover table-striped table-bordered table-condensed" id="insider">
-					<thead>
-						<tr>
-							<th>
-								<input id="assigned-master-checkbox" type="checkbox" class="checkbox master-checkbox" />
-							</th>
-							<th>
+            <form method="POST" action="">
+                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+                <th:block th:replace="makros :: csrf"/>
+                <input type="hidden" name="panel" value="remove"/>
+
+                <table class="table table-hover table-striped table-bordered table-condensed" id="insider">
+                    <thead>
+                    <tr>
+                        <th>
+                            <input id="assigned-master-checkbox" type="checkbox" class="checkbox master-checkbox"/>
+                        </th>
+                        <th>
 								<span th:if="${assignedOrderBy eq 'userName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-login-asc" th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='userName', assignedAsc=true)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{edit_user_membership.user.login}">Login</span>
-									</a>
+									<a id="order-by-assigned-login-asc"
+                                       th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='userName', assignedAsc=true)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"
+                                              th:text="#{edit_user_membership.user.login}">Login</span>
+                                    </a>
 								</span>
 								<span th:unless="${assignedOrderBy eq 'userName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-login-desc" th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='userName', assignedAsc=false)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{edit_user_membership.user.login}">Login</span>
-									</a>
+									<a id="order-by-assigned-login-desc"
+                                       th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='userName', assignedAsc=false)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
+                                              th:text="#{edit_user_membership.user.login}">Login</span>
+                                    </a>
 								</span>
-							</th>
-							<th>
+                        </th>
+                        <th>
 								<span th:if="${assignedOrderBy eq 'name.givenName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-givenname-asc" th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.givenName', assignedAsc=true)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{edit_user_membership.user.givenName}">Given Name</span>
-									</a>
+									<a id="order-by-assigned-givenname-asc"
+                                       th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.givenName', assignedAsc=true)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"
+                                              th:text="#{edit_user_membership.user.givenName}">Given Name</span>
+                                    </a>
 								</span>
 								<span th:unless="${assignedOrderBy eq 'name.givenName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-givenname-desc" th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.givenName', assignedAsc=false)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{edit_user_membership.user.givenName}">Given Name</span>
-									</a>
+									<a id="order-by-assigned-givenname-desc"
+                                       th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.givenName', assignedAsc=false)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
+                                              th:text="#{edit_user_membership.user.givenName}">Given Name</span>
+                                    </a>
 								</span>
-							</th>
-							<th>
+                        </th>
+                        <th>
 								<span th:if="${assignedOrderBy eq 'name.familyName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-familyname-asc" th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.familyName', assignedAsc=true)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{edit_user_membership.user.lastName}">Last Name</span>
-									</a>
+									<a id="order-by-assigned-familyname-asc"
+                                       th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.familyName', assignedAsc=true)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"
+                                              th:text="#{edit_user_membership.user.lastName}">Last Name</span>
+                                    </a>
 								</span>
 								<span th:unless="${assignedOrderBy eq 'name.familyName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-familyname-desc" th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.familyName', assignedAsc=false)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{edit_user_membership.user.lastName}">Last Name</span>
-									</a>
+									<a id="order-by-assigned-familyname-desc"
+                                       th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.familyName', assignedAsc=false)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
+                                              th:text="#{edit_user_membership.user.lastName}">Last Name</span>
+                                    </a>
 								</span>
-							</th>
-						</tr>
-					</thead>
+                        </th>
+                    </tr>
+                    </thead>
 
-					<tbody>
-						<tr th:object="${pagingInformationAssignedUsers.filterFields}">
-							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
-							<td></td>
-							<td class="input-group-sm"><input id="filter-login" class="form-control" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
-							<td class="input-group-sm"><input id="filter-givenname" class="form-control" name="query.name.givenName" type="text"  th:value="*{get('query.name.givenName')}" /></td>
-							<td class="input-group-sm"><input id="filter-familyname" class="form-control" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
-							<td>
-								<button id="assigned-filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
-									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
-								</button>
-							</td>
-						</tr>
-						<tr th:each="user : ${assignedUsers.resources}">
-							<td>
-								<input type="checkbox" name="userId" th:value="${user.id}" class="checkbox" />
-							</td>
-							<td th:text="${user.userName}">
-							</td>
-							<td th:text="${user.name} != null ? ${user.name.givenName} : '-'">
-							</td>
-							<td th:text="${user.name} != null ? ${user.name.familyName} : '-'">
-							</td>
-							<td>
-								<a th:href="@{'' (id=${param.id}, panel=remove, userId=${user.id})}" class="btn btn-danger btn-sm">
-									<span class="glyphicon glyphicon-minus"></span>
-								</a>
-							</td>
-						</tr>
+                    <tbody>
+                    <tr th:object="${pagingInformationAssignedUsers.filterFields}">
+                        <!--/* All osiam-query relevant fields must begin with "query."!  */-->
+                        <td></td>
+                        <td class="input-group-sm"><input id="filter-login" class="form-control" name="query.userName"
+                                                          type="text" th:value="*{get('query.userName')}"/></td>
+                        <td class="input-group-sm"><input id="filter-givenname" class="form-control"
+                                                          name="query.name.givenName" type="text"
+                                                          th:value="*{get('query.name.givenName')}"/></td>
+                        <td class="input-group-sm"><input id="filter-familyname" class="form-control"
+                                                          name="query.name.familyName" type="text"
+                                                          th:value="*{get('query.name.familyName')}"/></td>
+                        <td>
+                            <button id="assigned-filter-button" class="btn btn-default btn-sm" name="action"
+                                    value="filter" type="submit">
+                                <span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr th:each="user : ${assignedUsers.resources}">
+                        <td>
+                            <input type="checkbox" name="userId" th:value="${user.id}" class="checkbox"/>
+                        </td>
+                        <td th:text="${user.userName}">
+                        </td>
+                        <td th:text="${user.name} != null ? ${user.name.givenName} : '-'">
+                        </td>
+                        <td th:text="${user.name} != null ? ${user.name.familyName} : '-'">
+                        </td>
+                        <td>
+                            <a th:href="@{'' (id=${param.id}, panel=remove, userId=${user.id})}"
+                               class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </a>
+                        </td>
+                    </tr>
 
-						<tr>
-							<td colspan="5">
-								<input id="submit-button-assigned-selection" type="submit" class="btn btn-md btn-primary" th:value="#{edit_user_membership.button.remove}"/>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</form>
-			<span th:replace="makros :: pagingInfo(${assignedUsers})">Result x - y from Total</span>
-			<div th:replace="makros :: pagingControlls(${pagingAssignedUsers}, 2, '')">
-				Paging-Navigation...
-			</div>
-			<form name="form-assigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
-				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-				<th:block th:replace="makros :: csrf" />
-				<input type="hidden" name="action" value="assignedLimit" />
+                    <tr>
+                        <td colspan="5">
+                            <input id="submit-button-assigned-selection" type="submit" class="btn btn-md btn-primary"
+                                   th:value="#{edit_user_membership.button.remove}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+            <span th:replace="makros :: pagingInfo(${assignedUsers})">Result x - y from Total</span>
 
-				<select id="paging-limit-intern" name="assignedLimit" class="form-control" onchange="document['form-assigned-limit'].submit();">
-					<option th:selected="${pagingInformationAssignedUsers.limit} == 5" >5</option>
-					<option th:selected="${pagingInformationAssignedUsers.limit} == 10">10</option>
-					<option th:selected="${pagingInformationAssignedUsers.limit} == 20">20</option>
-					<option th:selected="${pagingInformationAssignedUsers.limit} == 50">50</option>
-					<option th:selected="${pagingInformationAssignedUsers.limit} == 100">100</option>
-					<option th:selected="${pagingInformationAssignedUsers.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
-				</select>
-			</form>
-			<span th:text="#{msg.list.limit}"></span>
-		</div>
+            <div th:replace="makros :: pagingControlls(${pagingAssignedUsers}, 2, '')">
+                Paging-Navigation...
+            </div>
+            <form name="form-assigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
+                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+                <th:block th:replace="makros :: csrf"/>
+                <input type="hidden" name="action" value="assignedLimit"/>
+
+                <select id="paging-limit-intern" name="assignedLimit" class="form-control"
+                        onchange="document['form-assigned-limit'].submit();">
+                    <option th:selected="${pagingInformationAssignedUsers.limit} == 5">5</option>
+                    <option th:selected="${pagingInformationAssignedUsers.limit} == 10">10</option>
+                    <option th:selected="${pagingInformationAssignedUsers.limit} == 20">20</option>
+                    <option th:selected="${pagingInformationAssignedUsers.limit} == 50">50</option>
+                    <option th:selected="${pagingInformationAssignedUsers.limit} == 100">100</option>
+                    <option th:selected="${pagingInformationAssignedUsers.limit} == 0" th:text="#{msg.list.limit.all}"
+                            value="0">All
+                    </option>
+                </select>
+            </form>
+            <span th:text="#{msg.list.limit}"></span>
+        </div>
 
 
+        <div id="form-group-outsider" class="col-md-6 form-group">
+            <h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.other}">External Group</h4>
 
-		<div id="form-group-outsider" class="col-md-6 form-group">
-			<h4 style="margin-bottom:5px" th:text="#{edit_user_membership.user.other}">External Group</h4>
-			<form method="POST" action="">
-				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-				<th:block th:replace="makros :: csrf" />
-				<input type="hidden" name="panel" value="add" />
+            <form method="POST" action="">
+                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+                <th:block th:replace="makros :: csrf"/>
+                <input type="hidden" name="panel" value="add"/>
 
-				<table class="table table-hover table-striped table-bordered table-condensed" id="outsider" th:object="${model}">
-					<thead>
-						<tr>
-							<th>
-								<input id="unassigned-master-checkbox" type="checkbox" class="checkbox master-checkbox" />
-							</th>
-							<th>
+                <table class="table table-hover table-striped table-bordered table-condensed" id="outsider"
+                       th:object="${model}">
+                    <thead>
+                    <tr>
+                        <th>
+                            <input id="unassigned-master-checkbox" type="checkbox" class="checkbox master-checkbox"/>
+                        </th>
+                        <th>
 								<span th:if="${unassignedOrderBy eq 'userName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-login-asc" th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='userName', unassignedAsc=true)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{edit_user_membership.user.login}">Login</span>
-									</a>
+									<a id="order-by-unassigned-login-asc"
+                                       th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='userName', unassignedAsc=true)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"
+                                              th:text="#{edit_user_membership.user.login}">Login</span>
+                                    </a>
 								</span>
 								<span th:unless="${unassignedOrderBy eq 'userName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-login-desc" th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='userName', unassignedAsc=false)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{edit_user_membership.user.login}">Login</span>
-									</a>
+									<a id="order-by-unassigned-login-desc"
+                                       th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='userName', unassignedAsc=false)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
+                                              th:text="#{edit_user_membership.user.login}">Login</span>
+                                    </a>
 								</span>
-							</th>
-							<th>
+                        </th>
+                        <th>
 								<span th:if="${unassignedOrderBy eq 'name.givenName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-givenname-asc" th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.givenName', unassignedAsc=true)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{edit_user_membership.user.givenName}">Given Name</span>
-									</a>
+									<a id="order-by-unassigned-givenname-asc"
+                                       th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.givenName', unassignedAsc=true)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"
+                                              th:text="#{edit_user_membership.user.givenName}">Given Name</span>
+                                    </a>
 								</span>
 								<span th:unless="${unassignedOrderBy eq 'name.givenName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-givenname-desc" th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.givenName', unassignedAsc=false)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{edit_user_membership.user.givenName}">Given Name</span>
-									</a>
+									<a id="order-by-unassigned-givenname-desc"
+                                       th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.givenName', unassignedAsc=false)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
+                                              th:text="#{edit_user_membership.user.givenName}">Given Name</span>
+                                    </a>
 								</span>
-							</th>
-							<th>
+                        </th>
+                        <th>
 								<span th:if="${unassignedOrderBy eq 'name.familyName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-familyname-asc" th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.familyName', unassignedAsc=true)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet" th:text="#{edit_user_membership.user.lastName}">Last Name</span>
-									</a>
+									<a id="order-by-unassigned-familyname-asc"
+                                       th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.familyName', unassignedAsc=true)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"
+                                              th:text="#{edit_user_membership.user.lastName}">Last Name</span>
+                                    </a>
 								</span>
 								<span th:unless="${unassignedOrderBy eq 'name.familyName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-familyname-desc" th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.familyName', unassignedAsc=false)}">
-										<span class="glyphicon glyphicon-sort-by-alphabet-alt" th:text="#{edit_user_membership.user.lastName}">Last Name</span>
-									</a>
+									<a id="order-by-unassigned-familyname-desc"
+                                       th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.familyName', unassignedAsc=false)}">
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
+                                              th:text="#{edit_user_membership.user.lastName}">Last Name</span>
+                                    </a>
 								</span>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:object="${pagingInformationUnassignedUsers.filterFields}">
-							<!--/* All osiam-query relevant fields must begin with "query."!  */-->
-							<td></td>
-							<td class="input-group-sm"><input id="filter-login" class="form-control" name="query.userName" type="text" th:value="*{get('query.userName')}" /></td>
-							<td class="input-group-sm"><input id="filter-givenname" class="form-control" name="query.name.givenName" type="text"  th:value="*{get('query.name.givenName')}" /></td>
-							<td class="input-group-sm"><input id="filter-familyname" class="form-control" name="query.name.familyName" type="text" th:value="*{get('query.name.familyName')}" /></td>
-							<td>
-								<button id="unassigned-filter-button" class="btn btn-default btn-sm" name="action" value="filter" type="submit">
-									<span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
-								</button>
-							</td>
-						</tr>
-						<tr th:each="user : ${unassignedUsers.resources}">
-							<td>
-								<input type="checkbox" name="userId" th:value="${user.id}" class="checkbox" />
-							</td>
-							<td th:text="${user.userName}"></td>
-							<td th:text="${user.name} != null ? ${user.name.givenName} : '-'"></td>
-							<td th:text="${user.name} != null ? ${user.name.familyName} : '-'"></td>
-							<td>
-								<a th:href="@{'' (id=${param.id}, panel=add, userId=${user.id})}" class="btn btn-success btn-sm">
-									<span class="glyphicon glyphicon-plus"></span>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="5">
-								<input id="submit-button-unassigned-selection" type="submit" class="btn btn-md btn-primary" th:value="#{edit_user_membership.button.add}" />
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</form>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:object="${pagingInformationUnassignedUsers.filterFields}">
+                        <!--/* All osiam-query relevant fields must begin with "query."!  */-->
+                        <td></td>
+                        <td class="input-group-sm"><input id="filter-login" class="form-control" name="query.userName"
+                                                          type="text" th:value="*{get('query.userName')}"/></td>
+                        <td class="input-group-sm"><input id="filter-givenname" class="form-control"
+                                                          name="query.name.givenName" type="text"
+                                                          th:value="*{get('query.name.givenName')}"/></td>
+                        <td class="input-group-sm"><input id="filter-familyname" class="form-control"
+                                                          name="query.name.familyName" type="text"
+                                                          th:value="*{get('query.name.familyName')}"/></td>
+                        <td>
+                            <button id="unassigned-filter-button" class="btn btn-default btn-sm" name="action"
+                                    value="filter" type="submit">
+                                <span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr th:each="user : ${unassignedUsers.resources}">
+                        <td>
+                            <input type="checkbox" name="userId" th:value="${user.id}" class="checkbox"/>
+                        </td>
+                        <td th:text="${user.userName}"></td>
+                        <td th:text="${user.name} != null ? ${user.name.givenName} : '-'"></td>
+                        <td th:text="${user.name} != null ? ${user.name.familyName} : '-'"></td>
+                        <td>
+                            <a th:href="@{'' (id=${param.id}, panel=add, userId=${user.id})}"
+                               class="btn btn-success btn-sm">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <input id="submit-button-unassigned-selection" type="submit" class="btn btn-md btn-primary"
+                                   th:value="#{edit_user_membership.button.add}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
 
-			<span th:replace="makros :: pagingInfo(${unassignedUsers})">Result x - y from Total</span>
-			<div th:replace="makros :: pagingControlls(${pagingUnassignedUsers}, 2, '')">
-				Paging-Navigation...
-			</div>
-			<form name="form-unassigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
-				<!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
-				<th:block th:replace="makros :: csrf" />
-				<input type="hidden" name="action" value="unassignedLimit" />
+            <span th:replace="makros :: pagingInfo(${unassignedUsers})">Result x - y from Total</span>
 
-				<select id="paging-limit-extern" name="unassignedLimit" class="form-control" onchange="document['form-unassigned-limit'].submit();">
-					<option th:selected="${pagingInformationUnassignedUsers.limit} == 5" >5</option>
-					<option th:selected="${pagingInformationUnassignedUsers.limit} == 10">10</option>
-					<option th:selected="${pagingInformationUnassignedUsers.limit} == 20">20</option>
-					<option th:selected="${pagingInformationUnassignedUsers.limit} == 50">50</option>
-					<option th:selected="${pagingInformationUnassignedUsers.limit} == 100">100</option>
-					<option th:selected="${pagingInformationUnassignedUsers.limit} == 0" th:text="#{msg.list.limit.all}" value="0">All</option>
-				</select>
-			</form>
-			<span th:text="#{msg.list.limit}"></span>
-		</div>
-	</div>
+            <div th:replace="makros :: pagingControlls(${pagingUnassignedUsers}, 2, '')">
+                Paging-Navigation...
+            </div>
+            <form name="form-unassigned-limit" th:action="@{'' (id=${param.id})}" method="POST" class="resultsPerPage">
+                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
+                <th:block th:replace="makros :: csrf"/>
+                <input type="hidden" name="action" value="unassignedLimit"/>
 
-	<div class="row">
-		<div class="col-sm-2 col-sm-offset-10 text-right">
-			<a th:href="@{list}">
-				<button class="btn btn-md btn-primary" type="button" id="btnBack" th:text="#{edit_group.cancel}">Back</button>
-			</a>
-		</div>
-	</div>
+                <select id="paging-limit-extern" name="unassignedLimit" class="form-control"
+                        onchange="document['form-unassigned-limit'].submit();">
+                    <option th:selected="${pagingInformationUnassignedUsers.limit} == 5">5</option>
+                    <option th:selected="${pagingInformationUnassignedUsers.limit} == 10">10</option>
+                    <option th:selected="${pagingInformationUnassignedUsers.limit} == 20">20</option>
+                    <option th:selected="${pagingInformationUnassignedUsers.limit} == 50">50</option>
+                    <option th:selected="${pagingInformationUnassignedUsers.limit} == 100">100</option>
+                    <option th:selected="${pagingInformationUnassignedUsers.limit} == 0" th:text="#{msg.list.limit.all}"
+                            value="0">All
+                    </option>
+                </select>
+            </form>
+            <span th:text="#{msg.list.limit}"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 col-sm-offset-10 text-right">
+            <a th:href="@{list}">
+                <button class="btn btn-md btn-primary" type="button" id="btnBack" th:text="#{edit_group.cancel}">Back
+                </button>
+            </a>
+        </div>
+    </div>
 </div>
 </body>
 </html>

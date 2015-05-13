@@ -26,85 +26,82 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(EditGroupController.CONTROLLER_PATH)
 public class EditGroupController extends GenericController {
-	private static final Logger LOG = Logger.getLogger(EditGroupController.class);
+    public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/group/edit";
+    public static final String REQUEST_PARAMETER_ID = "id";
+    public static final String REQUEST_PARAMETER_ERROR = "error";
+    public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
+    public static final String MODEL = "model";
+    private static final Logger LOG = Logger.getLogger(EditGroupController.class);
+    private static final String SESSION_KEY_COMMAND = "command";
+    @Inject
+    private GroupService groupService;
 
-	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/group/edit";
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView handleGroupEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
+        ModelAndView modelAndView = new ModelAndView("group/editGroup");
 
-	public static final String REQUEST_PARAMETER_ID = "id";
-	public static final String REQUEST_PARAMETER_ERROR = "error";
-	public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
+        clearSession();
 
-	private static final String SESSION_KEY_COMMAND = "command";
+        Group group = groupService.getGroup(id);
 
-	public static final String MODEL = "model";
+        modelAndView.addObject(MODEL, new UpdateGroupCommand(group));
 
-	@Inject
-	private GroupService groupService;
+        return modelAndView;
+    }
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView handleGroupEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
-		ModelAndView modelAndView = new ModelAndView("group/editGroup");
+    private void clearSession() {
+        removeFromSession(SESSION_KEY_COMMAND);
+        removeBindingResultFromSession(MODEL);
+    }
 
-		clearSession();
+    @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
+    public ModelAndView handleGroupEditFailure(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
 
-		Group group = groupService.getGroup(id);
+        ModelAndView modelAndView = new ModelAndView("group/editGroup");
 
-		modelAndView.addObject(MODEL, new UpdateGroupCommand(group));
+        modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
+        enrichBindingResultFromSession(MODEL, modelAndView);
 
-		return modelAndView;
-	}
+        return modelAndView;
+    }
 
-	private void clearSession() {
-		removeFromSession(SESSION_KEY_COMMAND);
-		removeBindingResultFromSession(MODEL);
-	}
+    @RequestMapping(method = RequestMethod.POST)
+    public String handleGroupUpdate(@Valid @ModelAttribute(MODEL) UpdateGroupCommand command,
+            BindingResult bindingResult) {
+        boolean isDuplicated = false;
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
-	public ModelAndView handleGroupEditFailure(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
+        final RedirectBuilder redirect = new RedirectBuilder().setPath(CONTROLLER_PATH).addParameter(
+                REQUEST_PARAMETER_ID, command.getId());
 
-		ModelAndView modelAndView = new ModelAndView("group/editGroup");
+        try {
+            if (!bindingResult.hasErrors()) {
+                groupService.updateGroup(command.getId(), command.getAsUpdateGroup());
 
-		modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
-		enrichBindingResultFromSession(MODEL, modelAndView);
+                redirect.addParameter("saveSuccess", true);
+                redirect.setPath(GroupViewController.CONTROLLER_PATH);
+                return redirect.build();
+            }
+        } catch (SCIMDataValidationException e) {
+            LOG.warn("Could not update group.", e);
+        } catch (ConflictException e) {
+            // log the exception and throw no whitelabel page
+            LOG.warn("Unable to update group. Duplicated data.", e);
+            // duplicate parameter instead validation parameter
+            isDuplicated = true;
+        }
 
-		return modelAndView;
-	}
+        // Set error parameter
+        if (isDuplicated) {
+            redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+        } else {
+            redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+        }
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String handleGroupUpdate(@Valid @ModelAttribute(MODEL) UpdateGroupCommand command, BindingResult bindingResult) {
-		boolean isDuplicated = false;
+        redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
 
-		final RedirectBuilder redirect = new RedirectBuilder().setPath(CONTROLLER_PATH).addParameter(REQUEST_PARAMETER_ID, command.getId());
+        storeInSession(SESSION_KEY_COMMAND, command);
+        storeBindingResultIntoSession(bindingResult, MODEL);
 
-		try {
-			if (!bindingResult.hasErrors()) {
-				groupService.updateGroup(command.getId(), command.getAsUpdateGroup());
-
-				redirect.addParameter("saveSuccess", true);
-				redirect.setPath(GroupViewController.CONTROLLER_PATH);
-				return redirect.build();
-			}
-		} catch (SCIMDataValidationException e) {
-			LOG.warn("Could not update group.", e);
-		} catch (ConflictException e) {
-			// log the exception and throw no whitelabel page
-			LOG.warn("Unable to update group. Duplicated data.", e);
-			// duplicate parameter instead validation parameter
-			isDuplicated = true;
-		}
-
-		//Set error parameter
-		if(isDuplicated) {
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
-		} else {
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
-		}
-
-		redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
-
-		storeInSession(SESSION_KEY_COMMAND, command);
-		storeBindingResultIntoSession(bindingResult, MODEL);
-
-		return redirect.build();
-	}
+        return redirect.build();
+    }
 }

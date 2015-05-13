@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class GrouplistSession {
-	private PagingInformation pagingInformation = new PagingInformation();
+    private PagingInformation pagingInformation = new PagingInformation();
 
-	public PagingInformation getPagingInformation() {
-		return pagingInformation;
-	}
+    public PagingInformation getPagingInformation() {
+        return pagingInformation;
+    }
 
-	public void setPagingInformation(PagingInformation pagingInformation) {
-		this.pagingInformation = pagingInformation;
-	}
+    public void setPagingInformation(PagingInformation pagingInformation) {
+        this.pagingInformation = pagingInformation;
+    }
 }

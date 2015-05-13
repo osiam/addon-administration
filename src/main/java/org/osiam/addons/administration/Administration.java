@@ -1,4 +1,4 @@
-package org.osiam.addons.administration.config;
+package org.osiam.addons.administration;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -11,11 +11,11 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages = "org.osiam.addons.administration")
+@ComponentScan
 @PropertySource(value = "classpath:addon-administration.properties", ignoreResourceNotFound = true)
-public class Application {
+public class Administration {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Administration.class, args);
+    }
 }

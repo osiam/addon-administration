@@ -1,5 +1,7 @@
 package org.osiam.addons.administration.model.session;
 
+import java.io.Serializable;
+
 import org.osiam.client.oauth.AccessToken;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -10,15 +12,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class GeneralSessionData {
+public class GeneralSessionData implements Serializable {
 
-	private AccessToken accesstoken;
+    private static final long serialVersionUID = 3937661507313495926L;
 
-	public AccessToken getAccesstoken() {
-		return accesstoken;
-	}
+    private AccessToken accesstoken;
 
-	public void setAccesstoken(AccessToken at) {
-		this.accesstoken = at;
-	}
+    public AccessToken getAccessToken() {
+        return accesstoken;
+    }
+
+    public void setAccessToken(AccessToken accessToken) {
+        this.accesstoken = accessToken;
+    }
 }

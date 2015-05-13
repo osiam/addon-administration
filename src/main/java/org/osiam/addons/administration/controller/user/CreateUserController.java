@@ -27,90 +27,87 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(CreateUserController.CONTROLLER_PATH)
 public class CreateUserController extends GenericController {
 
-	private static final Logger LOG = Logger.getLogger(CreateUserController.class);
-	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/create";
+    public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/create";
+    public static final String REQUEST_PARAMETER_ERROR = "error";
+    public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
+    public static final String MODEL = "model";
+    private static final Logger LOG = Logger.getLogger(CreateUserController.class);
+    private static final String SESSION_KEY_COMMAND = "command";
 
-	public static final String REQUEST_PARAMETER_ERROR = "error";
-	public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
+    @Inject
+    private UserService userService;
 
-	public static final String MODEL = "model";
+    @Value("${org.osiam.administration.createUser.defaultActive:true}")
+    private boolean defaultActive;
 
-	private static final String SESSION_KEY_COMMAND = "command";
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView handleCreateUser() {
+        ModelAndView modelAndView = new ModelAndView("user/createUser");
 
-	@Inject
-	private UserService userService;
+        clearSession();
 
-	@Value("${org.osiam.administration.createUser.defaultActive:true}")
-	private boolean defaultActive;
+        modelAndView.addObject(MODEL, new CreateUserCommand());
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView handleCreateUser() {
-		ModelAndView modelAndView = new ModelAndView("user/createUser");
+        return modelAndView;
+    }
 
-		clearSession();
+    @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
+    public ModelAndView handleUserCreateFailure() {
+        ModelAndView modelAndView = new ModelAndView("user/createUser");
 
-		modelAndView.addObject(MODEL, new CreateUserCommand());
+        CreateUserCommand cmd = (CreateUserCommand) restoreFromSession(SESSION_KEY_COMMAND);
 
-		return modelAndView;
-	}
+        modelAndView.addObject(MODEL, cmd);
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
-	public ModelAndView handleUserCreateFailure() {
-		ModelAndView modelAndView = new ModelAndView("user/createUser");
+        enrichBindingResultFromSession(MODEL, modelAndView);
 
-		CreateUserCommand cmd = (CreateUserCommand)restoreFromSession(SESSION_KEY_COMMAND);
+        return modelAndView;
+    }
 
-		modelAndView.addObject(MODEL, cmd);
+    @RequestMapping(method = RequestMethod.POST)
+    public String handleCreateGroup(
+            @Valid @ModelAttribute(MODEL) CreateUserCommand command,
+            BindingResult bindingResult) {
 
-		enrichBindingResultFromSession(MODEL, modelAndView);
+        boolean isDuplicated = false;
+        final RedirectBuilder redirect = new RedirectBuilder()
+                .setPath(CONTROLLER_PATH);
 
-		return modelAndView;
-	}
+        try {
+            if (!bindingResult.hasErrors()) {
+                command.setActive(defaultActive);
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String handleCreateGroup(
-			@Valid @ModelAttribute(MODEL) CreateUserCommand command,
-			BindingResult bindingResult) {
+                User createdUser = userService.createUser(command.getAsUser());
 
-		boolean isDuplicated = false;
-		final RedirectBuilder redirect = new RedirectBuilder()
-				.setPath(CONTROLLER_PATH);
+                redirect.setPath(EditUserController.CONTROLLER_PATH);
+                redirect.addParameter("id", createdUser.getId());
+                return redirect.build();
+            }
+        } catch (SCIMDataValidationException e) {
+            LOG.warn("Could not create user.", e);
+        } catch (ConflictException e) {
+            LOG.warn("Could not create user.", e);
+            // duplicate parameter instead validation parameter
+            isDuplicated = true;
+        }
 
-		try {
-			if (!bindingResult.hasErrors()) {
-				command.setActive(defaultActive);
+        // Set error parameter
+        if (isDuplicated) {
+            redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+        } else {
+            redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+        }
 
-				User createdUser = userService.createUser(command.getAsUser());
+        redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
 
-				redirect.setPath(EditUserController.CONTROLLER_PATH);
-				redirect.addParameter("id", createdUser.getId());
-				return redirect.build();
-			}
-		} catch (SCIMDataValidationException e) {
-			LOG.warn("Could not create user.", e);
-		} catch (ConflictException e) {
-			LOG.warn("Could not create user.", e);
-			// duplicate parameter instead validation parameter
-			isDuplicated = true;
-		}
+        storeInSession(SESSION_KEY_COMMAND, command);
+        storeBindingResultIntoSession(bindingResult, MODEL);
 
-		//Set error parameter
-		if(isDuplicated) {
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
-		} else {
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
-		}
+        return redirect.build();
+    }
 
-		redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
-
-		storeInSession(SESSION_KEY_COMMAND, command);
-		storeBindingResultIntoSession(bindingResult, MODEL);
-
-		return redirect.build();
-	}
-
-	private void clearSession() {
-		removeFromSession(SESSION_KEY_COMMAND);
-		removeBindingResultFromSession(MODEL);
-	}
+    private void clearSession() {
+        removeFromSession(SESSION_KEY_COMMAND);
+        removeBindingResultFromSession(MODEL);
+    }
 }

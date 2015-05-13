@@ -1,17 +1,20 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:fragment="header">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" th:fragment="header">
 
 <header id="header" class="">
-<div class="container">
-		<h1>Administration</h1>
-		<div id="logo">
-			<img src="../../img/osiam_logo.png" th:src="@{/img/osiam_logo.png}" alt="OSIAM Logo" width="150px" />
-		</div>
-		<ul style="width: 50%;">
-			<!-- Please write <li>s next to each other (not in separate lines) as it prevents a layout bug in FF -->
-			<li><a href="user/list.html" th:href="@{/admin/user/list}" th:text="#{msg.list.userList}">User List</a></li><li><a href="group/list.html" th:href="@{/admin/group/list}" th:text="#{msg.list.groupList}">Group List</a></li>
-		</ul>
-	</div>
+    <div class="container">
+        <h1>Administration</h1>
+
+        <div id="logo">
+            <img src="../../img/osiam_logo.png" th:src="@{/img/osiam_logo.png}" alt="OSIAM Logo" width="150px"/>
+        </div>
+        <ul style="width: 50%;">
+            <!-- Please write <li>s next to each other (not in separate lines) as it prevents a layout bug in FF -->
+            <li><a href="user/list.html" th:href="@{/admin/user/list}" th:text="#{msg.list.userList}">User List</a></li>
+            <li><a href="group/list.html" th:href="@{/admin/group/list}" th:text="#{msg.list.groupList}">Group List</a>
+            </li>
+        </ul>
+    </div>
 </header>
 
 <div class="topbar"></div>

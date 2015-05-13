@@ -1,74 +1,83 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title th:text="#{create_group.title}">Create group</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="#{create_group.title}">Create group</title>
 
-	<th:block th:include="head :: includes"></th:block>
+    <th:block th:include="head :: includes"></th:block>
 
-	<script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}" ></script>
-	<script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}" ></script>
+    <script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}"></script>
+    <script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}"></script>
 </head>
 <body>
 
 <th:block th:include="header :: header"></th:block>
 
 <div class="container shadow" id="content">
-	<div th:replace="makros :: topbar">
-		Topbar ...
-	</div>
+    <div th:replace="makros :: topbar">
+        Topbar ...
+    </div>
 
-	<div id="dialog-message-container" style="display:none;">
-		<input id="dialog-title" type="hidden" th:value="#{msg.group.dialog.title}" />
-		<input id="dialog-success" type="hidden" th:value="#{msg.group.dialog.success}" />
-		<input id="dialog-abort" type="hidden" th:value="#{msg.group.dialog.abort}" />
-		<input id="dialog-update-message" type="hidden" th:value="#{msg.group.dialog.createGroup.message}" />
-		<input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.group.dialog.cancelUpdate.message}" />
-	</div>
+    <div id="dialog-message-container" style="display:none;">
+        <input id="dialog-title" type="hidden" th:value="#{msg.group.dialog.title}"/>
+        <input id="dialog-success" type="hidden" th:value="#{msg.group.dialog.success}"/>
+        <input id="dialog-abort" type="hidden" th:value="#{msg.group.dialog.abort}"/>
+        <input id="dialog-update-message" type="hidden" th:value="#{msg.group.dialog.createGroup.message}"/>
+        <input id="dialog-cancelUpdate-message" type="hidden" th:value="#{msg.group.dialog.cancelUpdate.message}"/>
+    </div>
 
-	<form method="POST" action="" th:object="${model}">
-		<div class="container">
+    <form method="POST" action="" th:object="${model}">
+        <div class="container">
 
-			<h2 th:text="#{create_group.title}">Create group</h2>
+            <h2 th:text="#{create_group.title}">Create group</h2>
 
-			<div th:if="${(param.error != null) and (param.error[0] == 'duplicated')}"
-				th:text="#{create_group.error.duplicated}" class="alert alert-danger">
-				Duplicate data Error
-			</div>
+            <div th:if="${(param.error != null) and (param.error[0] == 'duplicated')}"
+                 th:text="#{create_group.error.duplicated}" class="alert alert-danger">
+                Duplicate data Error
+            </div>
 
-			<div th:if="${(param.error != null) and (param.error[0] == 'validation')}"
-				th:text="#{create_group.error.validation}" class="alert alert-danger">
-				Validation Error
-			</div>
+            <div th:if="${(param.error != null) and (param.error[0] == 'validation')}"
+                 th:text="#{create_group.error.validation}" class="alert alert-danger">
+                Validation Error
+            </div>
 
-			<fieldset>
-				<!-- CSRF token -->
-				<th:block th:replace="makros :: csrf" />
+            <fieldset>
+                <!-- CSRF token -->
+                <th:block th:replace="makros :: csrf"/>
 
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{displayName}')}? ' bg-danger' : '')" >
-					<label for="displayName" th:text="#{create_group.displayName}">Display name</label>
-					<input class="form-control" type="text" th:placeholder="#{create_group.displayName}" id="displayName" th:field="*{displayName}" />
-					<div th:if="${#fields.hasErrors('*{displayName}')}" th:errors="*{displayName}" class="text-danger">Display name</div>
-				</div>
+                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{displayName}')}? ' bg-danger' : '')">
+                    <label for="displayName" th:text="#{create_group.displayName}">Display name</label>
+                    <input class="form-control" type="text" th:placeholder="#{create_group.displayName}"
+                           id="displayName" th:field="*{displayName}"/>
 
-				<div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{externalId}')}? ' bg-danger' : '')" >
-					<label for="externalId" th:text="#{create_group.externalId}">External Id</label>
-					<input class="form-control" type="text" th:placeholder="#{create_group.externalId}" id="externalId" th:field="*{externalId}" />
-					<span th:if="${#fields.hasErrors('*{externalId}')}" th:errors="*{externalId}" class="text-danger">External Id</span>
-				</div>
+                    <div th:if="${#fields.hasErrors('*{displayName}')}" th:errors="*{displayName}" class="text-danger">
+                        Display name
+                    </div>
+                </div>
 
-			</fieldset>
+                <div th:class="'col-sm-4 form-group' + (${#fields.hasErrors('*{externalId}')}? ' bg-danger' : '')">
+                    <label for="externalId" th:text="#{create_group.externalId}">External Id</label>
+                    <input class="form-control" type="text" th:placeholder="#{create_group.externalId}" id="externalId"
+                           th:field="*{externalId}"/>
+                    <span th:if="${#fields.hasErrors('*{externalId}')}" th:errors="*{externalId}" class="text-danger">External Id</span>
+                </div>
 
-			<div class="row">
-				<div class="col-sm-2 col-sm-offset-10 text-right">
-					<button class="btn btn-md btn-primary" type="submit" id="btnSaveChanges" th:text="#{create_group.create}">Save</button>
-					<a th:href="@{list}">
-						<button class="btn btn-md btn-primary" type="button" id="btnCancelChanges" th:text="#{create_group.cancel}">Back</button>
-					</a>
-				</div>
-			</div>
-		</div>
-	</form>
+            </fieldset>
+
+            <div class="row">
+                <div class="col-sm-2 col-sm-offset-10 text-right">
+                    <button class="btn btn-md btn-primary" type="submit" id="btnSaveChanges"
+                            th:text="#{create_group.create}">Save
+                    </button>
+                    <a th:href="@{list}">
+                        <button class="btn btn-md btn-primary" type="button" id="btnCancelChanges"
+                                th:text="#{create_group.cancel}">Back
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

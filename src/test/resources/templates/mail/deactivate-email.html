@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    </head>
-    <body>
-        <div id="mail-subject" th:remove="tag" >You are now deactivated</div>
-        <div id="mail-body" th:remove="tag">
-            You are now deactivated!
-            <div th:text="${user}"></div>
-        </div>
-    </body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div id="mail-subject" th:remove="tag">You are now deactivated</div>
+<div id="mail-body" th:remove="tag">
+    You are now deactivated!
+    <div th:text="${user}"></div>
+</div>
+</body>
 </html>
