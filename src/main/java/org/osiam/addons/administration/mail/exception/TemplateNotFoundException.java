@@ -28,18 +28,18 @@ import org.springframework.http.HttpStatus;
 
 public class TemplateNotFoundException extends OsiamException {
 
-	private static final long serialVersionUID = -292158452140136468L;
+    private static final long serialVersionUID = -292158452140136468L;
 
-	public TemplateNotFoundException() {
-		super();
-	}
+    public TemplateNotFoundException() {
+        super();
+    }
 
-	public TemplateNotFoundException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public TemplateNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public TemplateNotFoundException(String message, String key) {
-		super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value());
-	}
+    public TemplateNotFoundException(String message, String key) {
+        super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
 
 }

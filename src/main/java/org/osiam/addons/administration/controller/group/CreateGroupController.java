@@ -25,84 +25,79 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(CreateGroupController.CONTROLLER_PATH)
 public class CreateGroupController extends GenericController {
 
-	private static final Logger LOG = Logger.getLogger(CreateGroupController.class);
+    public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/group/create";
+    public static final String REQUEST_PARAMETER_ERROR = "error";
+    public static final String REQUEST_PARAMETER_CREATE_SUCCESS = "createSuccess";
+    public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
+    public static final String MODEL = "model";
+    private static final Logger LOG = Logger.getLogger(CreateGroupController.class);
+    private static final String SESSION_KEY_COMMAND = "command";
+    @Inject
+    private GroupService groupService;
 
-	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/group/create";
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView handleCreateGroup() {
+        ModelAndView modelAndView = new ModelAndView("group/createGroup");
 
-	public static final String REQUEST_PARAMETER_ERROR = "error";
-	public static final String REQUEST_PARAMETER_CREATE_SUCCESS = "createSuccess";
-	public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
+        clearSession();
 
-	private static final String SESSION_KEY_COMMAND = "command";
+        modelAndView.addObject(MODEL, new CreateGroupCommand());
 
-	public static final String MODEL = "model";
+        return modelAndView;
+    }
 
-	@Inject
-	private GroupService groupService;
+    private void clearSession() {
+        removeFromSession(SESSION_KEY_COMMAND);
+        removeBindingResultFromSession(MODEL);
+    }
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView handleCreateGroup() {
-		ModelAndView modelAndView = new ModelAndView("group/createGroup");
+    @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
+    public ModelAndView handleCreateGroupFailure() {
+        ModelAndView modelAndView = new ModelAndView("group/createGroup");
 
-		clearSession();
+        modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
+        enrichBindingResultFromSession(MODEL, modelAndView);
 
-		modelAndView.addObject(MODEL, new CreateGroupCommand());
+        return modelAndView;
+    }
 
-		return modelAndView;
-	}
+    @RequestMapping(method = RequestMethod.POST)
+    public String handleCreateGroup(
+            @Valid @ModelAttribute(MODEL) CreateGroupCommand command,
+            BindingResult bindingResult) {
 
-	private void clearSession() {
-		removeFromSession(SESSION_KEY_COMMAND);
-		removeBindingResultFromSession(MODEL);
-	}
+        boolean isDuplicated = false;
+        final RedirectBuilder redirect = new RedirectBuilder()
+                .setPath(CONTROLLER_PATH);
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
-	public ModelAndView handleCreateGroupFailure() {
-		ModelAndView modelAndView = new ModelAndView("group/createGroup");
+        try {
+            if (!bindingResult.hasErrors()) {
+                groupService.createGroup(command.getAsGroup());
 
-		modelAndView.addObject(MODEL, restoreFromSession(SESSION_KEY_COMMAND));
-		enrichBindingResultFromSession(MODEL, modelAndView);
+                redirect.addParameter(REQUEST_PARAMETER_CREATE_SUCCESS, "true");
+                redirect.setPath(GroupViewController.CONTROLLER_PATH);
+                return redirect.build();
+            }
+        } catch (SCIMDataValidationException e) {
+            LOG.warn("Could not add group.", e);
+        } catch (ConflictException e) {
+            LOG.warn("Could not create group. Displayname already taken", e);
+            // duplicate parameter instead validation parameter
+            isDuplicated = true;
+        }
 
-		return modelAndView;
-	}
+        // Set error parameter
+        if (isDuplicated) {
+            redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+        } else {
+            redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+        }
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String handleCreateGroup(
-			@Valid @ModelAttribute(MODEL) CreateGroupCommand command,
-			BindingResult bindingResult) {
+        redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
 
-		boolean isDuplicated = false;
-		final RedirectBuilder redirect = new RedirectBuilder()
-											.setPath(CONTROLLER_PATH);
+        storeInSession(SESSION_KEY_COMMAND, command);
+        storeBindingResultIntoSession(bindingResult, MODEL);
 
-		try {
-			if(!bindingResult.hasErrors()){
-				groupService.createGroup(command.getAsGroup());
-
-				redirect.addParameter(REQUEST_PARAMETER_CREATE_SUCCESS, "true");
-				redirect.setPath(GroupViewController.CONTROLLER_PATH);
-				return redirect.build();
-			}
-		} catch (SCIMDataValidationException e) {
-			LOG.warn("Could not add group.", e);
-		} catch (ConflictException e) {
-			LOG.warn("Could not create group. Displayname already taken", e);
-			// duplicate parameter instead validation parameter
-			isDuplicated = true;
-		}
-
-		//Set error parameter
-		if(isDuplicated) {
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
-		} else {
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
-		}
-
-		redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
-
-		storeInSession(SESSION_KEY_COMMAND, command);
-		storeBindingResultIntoSession(bindingResult, MODEL);
-
-		return redirect.build();
-	}
+        return redirect.build();
+    }
 }

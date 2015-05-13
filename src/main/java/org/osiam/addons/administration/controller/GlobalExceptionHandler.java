@@ -24,38 +24,38 @@ import com.google.common.base.Throwables;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler implements AccessDeniedHandler {
-	private static final Logger LOG = Logger.getLogger(GlobalExceptionHandler.class);
+    private static final Logger LOG = Logger.getLogger(GlobalExceptionHandler.class);
 
-	@Inject
-	private GeneralSessionData session;
+    @Inject
+    private GeneralSessionData session;
 
-	@ExceptionHandler(UnauthorizedException.class)
-	public String handleUnauthorized() {
-		session.setAccesstoken(null);
+    @ExceptionHandler(UnauthorizedException.class)
+    public String handleUnauthorized() {
+        session.setAccessToken(null);
 
-		return new RedirectBuilder().setDestination(LoginController.CONTROLLER_PATH).build();
-	}
+        return new RedirectBuilder().setDestination(LoginController.CONTROLLER_PATH).build();
+    }
 
-	@Override
-	public void handle(HttpServletRequest request, HttpServletResponse response,
-			AccessDeniedException accessDeniedException) throws IOException, ServletException {
+    @Override
+    public void handle(HttpServletRequest request, HttpServletResponse response,
+            AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
-		response.sendRedirect(LoginController.CONTROLLER_PATH);
-	}
+        response.sendRedirect(LoginController.CONTROLLER_PATH);
+    }
 
-	@ExceptionHandler(value = {Exception.class, RuntimeException.class})
-	public ModelAndView handleUncaught(HttpServletRequest request, Exception e) {
-		LOG.error("Uncaught exception was thrown.", e);
+    @ExceptionHandler(value = { Exception.class, RuntimeException.class })
+    public ModelAndView handleUncaught(HttpServletRequest request, Exception e) {
+        LOG.error("Uncaught exception was thrown.", e);
 
-		ModelAndView mav = new ModelAndView("adminError");
+        ModelAndView mav = new ModelAndView("adminError");
 
-		mav.addObject("exception", e);
-		mav.addObject("stacktrace", getStackTrace(e));
+        mav.addObject("exception", e);
+        mav.addObject("stacktrace", getStackTrace(e));
 
-		return mav;
-	}
+        return mav;
+    }
 
-	private String getStackTrace(Throwable t) {
-		return Throwables.getStackTraceAsString(t);
-	}
+    private String getStackTrace(Throwable t) {
+        return Throwables.getStackTraceAsString(t);
+    }
 }

@@ -28,18 +28,18 @@ import org.springframework.http.HttpStatus;
 
 public class TemplateException extends OsiamException {
 
-	private static final long serialVersionUID = -292158452140136468L;
+    private static final long serialVersionUID = -292158452140136468L;
 
-	public TemplateException() {
-		super();
-	}
+    public TemplateException() {
+        super();
+    }
 
-	public TemplateException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public TemplateException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public TemplateException(String message, String key) {
-		super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value());
-	}
+    public TemplateException(String message, String key) {
+        super(message, key, HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
 
 }

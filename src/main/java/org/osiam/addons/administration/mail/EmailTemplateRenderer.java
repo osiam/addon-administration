@@ -43,33 +43,37 @@ import com.google.common.base.Strings;
 @Service
 public class EmailTemplateRenderer {
 
-	@Inject
-	private SpringTemplateEngine templateEngine;
+    @Inject
+    private SpringTemplateEngine templateEngine;
 
-	public String renderEmailSubject(String templateName, Locale locale, Map<String, Object> variables) {
-		String emailSubject = renderTemplate(templateName, "#mail-subject", locale, variables);
-		if (Strings.isNullOrEmpty(emailSubject)) {
-			throw new TemplateException(
-					"Could not find the mail subject in your template file '" + templateName
-							+ "'. Please provide an HTML element with the ID 'mail-subject'.", "template.email.exception.malformed");
-		}
-		return emailSubject;
-	}
+    public String renderEmailSubject(String templateName, Locale locale, Map<String, Object> variables) {
+        String emailSubject = renderTemplate(templateName, "#mail-subject", locale, variables);
+        if (Strings.isNullOrEmpty(emailSubject)) {
+            throw new TemplateException(
+                    "Could not find the mail subject in your template file '" + templateName
+                            + "'. Please provide an HTML element with the ID 'mail-subject'.",
+                    "template.email.exception.malformed");
+        }
+        return emailSubject;
+    }
 
-	public String renderEmailBody(String templateName, Locale locale, Map<String, Object> variables) {
-		String emailBody = renderTemplate(templateName, "#mail-body", locale, variables);
-		if (Strings.isNullOrEmpty(emailBody)) {
-			throw new TemplateException(
-					"Could not find the mail body in your template file '" + templateName
-							+ "'. Please provide an HTML element with the ID 'mail-body'.", "template.email.exception.malformed");
-		}
-		return emailBody;
-	}
+    public String renderEmailBody(String templateName, Locale locale, Map<String, Object> variables) {
+        String emailBody = renderTemplate(templateName, "#mail-body", locale, variables);
+        if (Strings.isNullOrEmpty(emailBody)) {
+            throw new TemplateException(
+                    "Could not find the mail body in your template file '" + templateName
+                            + "'. Please provide an HTML element with the ID 'mail-body'.",
+                    "template.email.exception.malformed");
+        }
+        return emailBody;
+    }
 
-	private String renderTemplate(String templateName, String selectorExpression, Locale locale, Map<String, Object> variables) {
-		Context context = new Context(locale);
-		context.setVariables(variables);
+    private String renderTemplate(String templateName, String selectorExpression, Locale locale,
+            Map<String, Object> variables) {
+        Context context = new Context(locale);
+        context.setVariables(variables);
 
-		return templateEngine.process(templateName + "-email", context, new DOMSelectorFragmentSpec(selectorExpression));
-	}
+        return templateEngine
+                .process(templateName + "-email", context, new DOMSelectorFragmentSpec(selectorExpression));
+    }
 }

@@ -16,56 +16,56 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @PropertySource("classpath:it-database.properties")
 public class DBUnitConfig {
 
-	@Value("${org.osiam.integration-tests.db.driver}")
-	private String driverClassName;
+    @Value("${org.osiam.integration-tests.db.driver}")
+    private String driverClassName;
 
-	@Value("${org.osiam.integration-tests.db.url}")
-	private String url;
+    @Value("${org.osiam.integration-tests.db.url}")
+    private String url;
 
-	@Value("${org.osiam.integration-tests.db.username}")
-	private String username;
+    @Value("${org.osiam.integration-tests.db.username}")
+    private String username;
 
-	@Value("${org.osiam.integration-tests.db.password}")
-	private String pasword;
+    @Value("${org.osiam.integration-tests.db.password}")
+    private String pasword;
 
-	@Value("${org.osiam.integration-tests.db.dialect}")
-	private String databasePlatform;
+    @Value("${org.osiam.integration-tests.db.dialect}")
+    private String databasePlatform;
 
-	@Bean
-	DriverManagerDataSource dataSource() {
-		DriverManagerDataSource result = new DriverManagerDataSource();
+    @Bean
+    DriverManagerDataSource dataSource() {
+        DriverManagerDataSource result = new DriverManagerDataSource();
 
-		result.setDriverClassName(driverClassName);
-		result.setUrl(url);
-		result.setUsername(username);
-		result.setPassword(pasword);
+        result.setDriverClassName(driverClassName);
+        result.setUrl(url);
+        result.setUsername(username);
+        result.setPassword(pasword);
 
-		return result;
-	}
+        return result;
+    }
 
-	@Bean
-	LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
+    @Bean
+    LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
 
-		bean.setDataSource(dataSource());
-		bean.setPackagesToScan("org.osiam");
+        bean.setDataSource(dataSource());
+        bean.setPackagesToScan("org.osiam");
 
-		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-		bean.setJpaVendorAdapter(adapter);
+        HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        bean.setJpaVendorAdapter(adapter);
 
-		adapter.setShowSql(false);
-		adapter.setGenerateDdl(false);
-		adapter.setDatabasePlatform(databasePlatform);
+        adapter.setShowSql(false);
+        adapter.setGenerateDdl(false);
+        adapter.setDatabasePlatform(databasePlatform);
 
-		return bean;
-	}
+        return bean;
+    }
 
-	@Bean
-	JpaTransactionManager txManager() {
-		JpaTransactionManager bean = new JpaTransactionManager();
+    @Bean
+    JpaTransactionManager txManager() {
+        JpaTransactionManager bean = new JpaTransactionManager();
 
-		bean.setEntityManagerFactory(entityManagerFactory().getNativeEntityManagerFactory());
+        bean.setEntityManagerFactory(entityManagerFactory().getNativeEntityManagerFactory());
 
-		return bean;
-	}
+        return bean;
+    }
 }

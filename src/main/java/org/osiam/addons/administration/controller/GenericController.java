@@ -18,115 +18,118 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public abstract class GenericController {
 
-	private static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
+    private static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
 
-	@Inject
-	private HttpSession session;
+    @Inject
+    private HttpSession session;
 
-	/**
-	 *
-	 * @param binder Binds the web request parameters to JavaBean object
-	 * Trims the request parameters
-	 * false set them to empty
-	 * true set them to null
-	 */
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
-	}
+    /**
+     *
+     * @param binder
+     *            Binds the web request parameters to JavaBean object Trims the request parameters false set them to
+     *            empty true set them to null
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
+    }
 
-	/**
-	 * Store an object into the session.
-	 *
-	 * @param key Under which key should this object stored.
-	 * @param toStore Object that should be stored.
-	 */
-	public void storeInSession(String key, Object toStore){
-		session.setAttribute(generateKey(key), toStore);
-	}
+    /**
+     * Store an object into the session.
+     *
+     * @param key
+     *            Under which key should this object stored.
+     * @param toStore
+     *            Object that should be stored.
+     */
+    public void storeInSession(String key, Object toStore) {
+        session.setAttribute(generateKey(key), toStore);
+    }
 
-	/**
-	 * Get the object from the session.
-	 *
-	 * @param key The key under which the object will be found.
-	 * @return The object if one was found under the given key. Otherwise <b>null</b>.
-	 */
-	public Object restoreFromSession(String key){
-		return session.getAttribute(generateKey(key));
-	}
+    /**
+     * Get the object from the session.
+     *
+     * @param key
+     *            The key under which the object will be found.
+     * @return The object if one was found under the given key. Otherwise <b>null</b>.
+     */
+    public Object restoreFromSession(String key) {
+        return session.getAttribute(generateKey(key));
+    }
 
-	/**
-	 * Remove the object from the session.
-	 *
-	 * @param key The key under which the object will be found.
-	 */
-	public void removeFromSession(String key){
-		session.removeAttribute(generateKey(key));
-	}
+    /**
+     * Remove the object from the session.
+     *
+     * @param key
+     *            The key under which the object will be found.
+     */
+    public void removeFromSession(String key) {
+        session.removeAttribute(generateKey(key));
+    }
 
-	/**
-	 * Build filter query
-	 *
-	 * @param filterParameter
-	 *
-	 * @return filter query
-	 */
-	public String buildFilterQuery(Map<String, String> filterParameter) {
-		StringBuilder filterQuery = new StringBuilder();
-		for (Entry<String, String> param : filterParameter.entrySet()) {
-			final String queryPrefixRegEx = "^" + REQUEST_PARAMETER_QUERY_PREFIX.replace(".", "\\.");
-			final String queryField = param.getKey().replaceAll(queryPrefixRegEx, "");
-			final String queryFieldValue = param.getValue();
-			if (!"".equals(queryFieldValue)) {
-				if (filterQuery.length() > 0) {
-					filterQuery.append(" AND ");
-				}
-				filterQuery.append(queryField);
-				filterQuery.append(" sw = \"");
-				filterQuery.append(queryFieldValue);
-				filterQuery.append("\"");
-			}
-		}
-		return filterQuery.toString();
-	}
+    /**
+     * Build filter query
+     *
+     * @param filterParameter
+     *
+     * @return filter query
+     */
+    public String buildFilterQuery(Map<String, String> filterParameter) {
+        StringBuilder filterQuery = new StringBuilder();
+        for (Entry<String, String> param : filterParameter.entrySet()) {
+            final String queryPrefixRegEx = "^" + REQUEST_PARAMETER_QUERY_PREFIX.replace(".", "\\.");
+            final String queryField = param.getKey().replaceAll(queryPrefixRegEx, "");
+            final String queryFieldValue = param.getValue();
+            if (!"".equals(queryFieldValue)) {
+                if (filterQuery.length() > 0) {
+                    filterQuery.append(" AND ");
+                }
+                filterQuery.append(queryField);
+                filterQuery.append(" sw = \"");
+                filterQuery.append(queryFieldValue);
+                filterQuery.append("\"");
+            }
+        }
+        return filterQuery.toString();
+    }
 
-	/**
-	 * Extract query params
-	 *
-	 * @param allParameters
-	 *
-	 * @return extracted params
-	 */
-	public Map<String, String> extractFilterParameter(Map<String, String> allParameters) {
-		Map<String, String> result = new HashMap<String, String>();
-		for (Entry<String, String> param : allParameters.entrySet()) {
-			if (param.getKey().startsWith(REQUEST_PARAMETER_QUERY_PREFIX)) {
-				if (param.getValue() != null) {
-					result.put(param.getKey(), param.getValue().trim());
-				}
-			}
-		}
-		return result;
-	}
+    /**
+     * Extract query params
+     *
+     * @param allParameters
+     *
+     * @return extracted params
+     */
+    public Map<String, String> extractFilterParameter(Map<String, String> allParameters) {
+        Map<String, String> result = new HashMap<String, String>();
+        for (Entry<String, String> param : allParameters.entrySet()) {
+            if (param.getKey().startsWith(REQUEST_PARAMETER_QUERY_PREFIX)) {
+                if (param.getValue() != null) {
+                    result.put(param.getKey(), param.getValue().trim());
+                }
+            }
+        }
+        return result;
+    }
 
-	protected void storeBindingResultIntoSession(BindingResult result, String modelName) {
-		storeInSession(generateKey(modelName), result);
-	}
+    protected void storeBindingResultIntoSession(BindingResult result, String modelName) {
+        storeInSession(generateKey(modelName), result);
+    }
 
-	protected Object restoreBindingResultFromSession(String modelName) {
-		return restoreFromSession(generateKey(modelName));
-	}
+    protected Object restoreBindingResultFromSession(String modelName) {
+        return restoreFromSession(generateKey(modelName));
+    }
 
-	protected void enrichBindingResultFromSession(String modelName, ModelAndView model){
-		model.addObject(BindingResult.MODEL_KEY_PREFIX + modelName, restoreBindingResultFromSession(modelName));
-	}
+    protected void enrichBindingResultFromSession(String modelName, ModelAndView model) {
+        model.addObject(BindingResult.MODEL_KEY_PREFIX + modelName, restoreBindingResultFromSession(modelName));
+    }
 
-	protected void removeBindingResultFromSession(String modelName) {
-		removeFromSession(generateKey(modelName));
-	}
+    protected void removeBindingResultFromSession(String modelName) {
+        removeFromSession(generateKey(modelName));
+    }
 
-	private String generateKey(String key) {
-		return getClass().getName() + key;
-	}
+    private String generateKey(String key) {
+        return getClass().getName() + key;
+    }
 
 }

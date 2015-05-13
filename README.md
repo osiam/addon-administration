@@ -1,9 +1,9 @@
-addon-administration [![Circle CI](https://circleci.com/gh/osiam/addon-administration.svg?style=svg)](https://circleci.com/gh/osiam/addon-administration)
-====================
+# OSIAM addon-administration [![Circle CI](https://circleci.com/gh/osiam/addon-administration.svg?style=svg)](https://circleci.com/gh/osiam/addon-administration)
 
 An administration for the OSIAM server.
 
-# Installation
+## Installation
+
 Copy the addon-administration.war into the tomcat container (webapps). After
 that you must add a new properties file into tomcat classpath. For the moment,
 we assume that the directory /etc/osiam is included in the classpath. Now
@@ -38,9 +38,9 @@ org.osiam.administration.createUser.defaultActive=true
 #can access the admin-view
 org.osiam.administration.adminGroups=
 
-#Define aliases for extension-fields (comma separated). These aliases will be displayed
-#instead of the real extension field name. Each item should follow this pattern:
-#<extension-urn>::<extension field name>=<Display value>
+#Define aliases for extension-fields (comma separated). These aliases will be
+# displayed instead of the real extension field name. Each item should follow
+# this pattern: <extension-urn>::<extension field name>=<Display value>
 org.osiam.administration.extensions=\
 urn:org.osiam:scim:extensions:tests::age=Your age
 ```

@@ -37,164 +37,157 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(EditUserController.CONTROLLER_PATH)
 public class EditUserController extends GenericController {
-	private static final Logger LOG = Logger.getLogger(EditUserController.class);
+    public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/edit";
+    public static final String REQUEST_PARAMETER_ID = "id";
+    public static final String REQUEST_PARAMETER_ERROR = "error";
+    public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
+    public static final String MODEL = "model";
+    public static final String MODEL_ALL_TYPES = "allFieldTypes";
+    public static final String MODEL_EXTENSION_NAMES = "extensionNames";
+    private static final Logger LOG = Logger.getLogger(EditUserController.class);
+    private static final String SESSION_KEY_COMMAND = "command";
+    @Inject
+    private UserService userService;
 
-	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/user/edit";
+    @Inject
+    private ExtensionsService extensionService;
 
-	public static final String REQUEST_PARAMETER_ID = "id";
-	public static final String REQUEST_PARAMETER_ERROR = "error";
-	public static final String REQUEST_PARAMETER_ERROR_RESET_VALUES = "resetValues";
+    @Inject
+    private Validator validator;
 
-	private static final String SESSION_KEY_COMMAND = "command";
+    @Value("${org.osiam.administration.extensions:}")
+    private String[] extensionNames;
 
-	public static final String MODEL = "model";
-	public static final String MODEL_ALL_TYPES = "allFieldTypes";
-	public static final String MODEL_EXTENSION_NAMES = "extensionNames";
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView handleUserEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
+        ModelAndView modelAndView = new ModelAndView("user/editUser");
 
-	@Inject
-	private UserService userService;
+        clearSession();
 
-	@Inject
-	private ExtensionsService extensionService;
+        List<Extension> extensions = extensionService.getExtensions();
 
-	@Inject
-	private Validator validator;
+        User user = userService.getUser(id);
+        modelAndView.addObject(MODEL, new UpdateUserCommand(user, extensions));
+        modelAndView.addObject(MODEL_ALL_TYPES, extractFieldTypes(extensions));
+        modelAndView.addObject(MODEL_EXTENSION_NAMES, customPropertyToMap(extensionNames));
 
-	@Value("${org.osiam.administration.extensions:}")
-	private String[] extensionNames;
+        return modelAndView;
+    }
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView handleUserEdit(@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
-		ModelAndView modelAndView = new ModelAndView("user/editUser");
+    private Map<String, Map<String, String>> extractFieldTypes(List<Extension> extensions) {
+        Map<String, Map<String, String>> result = new HashMap<String, Map<String, String>>();
 
-		clearSession();
+        for (Extension extension : extensions) {
+            result.put(extension.getUrn(), new HashMap<String, String>());
 
-		List<Extension> extensions = extensionService.getExtensions();
+            for (Entry<String, Field> entry : extension.getFields().entrySet()) {
+                result.get(extension.getUrn()).put(entry.getKey(), entry.getValue().getType().getName());
+            }
+        }
 
-		User user = userService.getUser(id);
-		modelAndView.addObject(MODEL, new UpdateUserCommand(user, extensions));
-		modelAndView.addObject(MODEL_ALL_TYPES, extractFieldTypes(extensions));
-		modelAndView.addObject(MODEL_EXTENSION_NAMES, customPropertyToMap(extensionNames));
+        return result;
+    }
 
-		return modelAndView;
-	}
+    private void clearSession() {
+        removeFromSession(SESSION_KEY_COMMAND);
+        removeBindingResultFromSession(MODEL);
+    }
 
+    @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
+    public ModelAndView handleUserEditFailure(
+            @RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
 
-	private Map<String, Map<String, String>> extractFieldTypes(List<Extension> extensions) {
-		Map<String, Map<String, String>> result = new HashMap<String, Map<String,String>>();
+        ModelAndView modelAndView = new ModelAndView("user/editUser");
 
-		for(Extension extension : extensions){
-			result.put(extension.getUrn(), new HashMap<String, String>());
+        UpdateUserCommand cmd = (UpdateUserCommand) restoreFromSession(SESSION_KEY_COMMAND);
+        cmd.enrichExtensions(extensionService.getExtensions());
 
-			for(Entry<String, Field> entry : extension.getFields().entrySet()){
-				result.get(extension.getUrn()).put(entry.getKey(), entry.getValue().getType().getName());
-			}
-		}
+        modelAndView.addObject(MODEL, cmd);
+        modelAndView.addObject(MODEL_ALL_TYPES, extractFieldTypes(extensionService.getExtensions()));
+        modelAndView.addObject(MODEL_EXTENSION_NAMES, customPropertyToMap(extensionNames));
 
-		return result;
-	}
+        enrichBindingResultFromSession(MODEL, modelAndView);
 
-	private void clearSession() {
-		removeFromSession(SESSION_KEY_COMMAND);
-		removeBindingResultFromSession(MODEL);
-	}
+        return modelAndView;
+    }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public String handleUserUpdate(
+            @ModelAttribute(MODEL) UpdateUserCommand command,
+            BindingResult bindingResult) {
 
-	@RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAMETER_ERROR_RESET_VALUES + "=true")
-	public ModelAndView handleUserEditFailure(
-			@RequestParam(value = REQUEST_PARAMETER_ID) final String id) {
+        boolean isDuplicated = false;
 
-		ModelAndView modelAndView = new ModelAndView("user/editUser");
+        User user = userService.getUser(command.getId());
+        command.setUser(user);
 
-		UpdateUserCommand cmd = (UpdateUserCommand)restoreFromSession(SESSION_KEY_COMMAND);
-		cmd.enrichExtensions(extensionService.getExtensions());
+        validateCommand(command, extensionService.getExtensionsMap(), bindingResult);
 
-		modelAndView.addObject(MODEL, cmd);
-		modelAndView.addObject(MODEL_ALL_TYPES, extractFieldTypes(extensionService.getExtensions()));
-		modelAndView.addObject(MODEL_EXTENSION_NAMES, customPropertyToMap(extensionNames));
+        final RedirectBuilder redirect = new RedirectBuilder()
+                .setPath(CONTROLLER_PATH)
+                .addParameter(REQUEST_PARAMETER_ID, command.getId());
 
-		enrichBindingResultFromSession(MODEL, modelAndView);
+        try {
+            if (!bindingResult.hasErrors()) {
+                userService.replaceUser(command.getId(), command.getAsUser());
 
-		return modelAndView;
-	}
+                redirect.addParameter("saveSuccess", true);
+                redirect.setPath(UserViewController.CONTROLLER_PATH);
+                return redirect.build();
+            }
+        } catch (SCIMDataValidationException e) {
+            // just log the exception and fall through to error handling
+            LOG.warn("Validation failed. Unable to update user.", e);
+        } catch (ConflictException e) {
+            // just log the exception and fall through to error handling
+            LOG.warn("Duplicated data. Unable to update user.", e);
+            // duplicate parameter instead validation parameter
+            isDuplicated = true;
+        }
 
+        // Set error parameter
+        if (isDuplicated) {
+            redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
+        } else {
+            redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
+        }
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String handleUserUpdate(
-			@ModelAttribute(MODEL) UpdateUserCommand command,
-			BindingResult bindingResult) {
+        redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
 
-		boolean isDuplicated = false;
+        // validation failed - store error information in session and return to edit view
+        storeInSession(SESSION_KEY_COMMAND, command);
+        storeBindingResultIntoSession(bindingResult, MODEL);
 
-		User user = userService.getUser(command.getId());
-		command.setUser(user);
+        return redirect.build();
+    }
 
-		validateCommand(command, extensionService.getExtensionsMap(), bindingResult);
+    /**
+     * We must validate for our own, because we need to purge the command before we can validate it.
+     *
+     * @param command
+     *            the command object
+     * @param bindingResult
+     *            the binding result for that command
+     */
+    private void validateCommand(UpdateUserCommand command, Map<String, Extension> allExtensions,
+            BindingResult bindingResult) {
+        command.purge();
+        command.validate(allExtensions, bindingResult);
+        validator.validate(command, bindingResult);
+    }
 
-		final RedirectBuilder redirect = new RedirectBuilder()
-											.setPath(CONTROLLER_PATH)
-											.addParameter(REQUEST_PARAMETER_ID, command.getId());
+    private HashMap<String, String> customPropertyToMap(String[] arrayToConvert) {
+        HashMap<String, String> returnMap = new HashMap<String, String>();
+        Pattern splitPattern = Pattern.compile("^([^=]*)=(.*)$");
 
-		try {
-			if (!bindingResult.hasErrors()) {
-				userService.replaceUser(command.getId(), command.getAsUser());
+        for (String tempProperty : arrayToConvert) {
+            Matcher matcher = splitPattern.matcher(tempProperty);
 
-				redirect.addParameter("saveSuccess", true);
-				redirect.setPath(UserViewController.CONTROLLER_PATH);
-				return redirect.build();
-			}
-		} catch(SCIMDataValidationException e) {
-			// just log the exception and fall through to error handling
-			LOG.warn("Validation failed. Unable to update user.", e);
-		} catch(ConflictException e) {
-			// just log the exception and fall through to error handling
-			LOG.warn("Duplicated data. Unable to update user.", e);
-			// duplicate parameter instead validation parameter
-			isDuplicated = true;
-		}
+            if (matcher.matches()) {
+                returnMap.put(matcher.group(1), matcher.group(2));
+            }
+        }
 
-		//Set error parameter
-		if(isDuplicated) {
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "duplicated");
-		} else {
-			redirect.addParameter(REQUEST_PARAMETER_ERROR, "validation");
-		}
-
-		redirect.addParameter(REQUEST_PARAMETER_ERROR_RESET_VALUES, "true");
-
-		// validation failed - store error information in session and return to edit view
-		storeInSession(SESSION_KEY_COMMAND, command);
-		storeBindingResultIntoSession(bindingResult, MODEL);
-
-		return redirect.build();
-	}
-
-	/**
-	 * We must validate for our own, because we need to purge the command
-	 * before we can validate it.
-	 *
-	 * @param command the command object
-	 * @param bindingResult the binding result for that command
-	 */
-	private void validateCommand(UpdateUserCommand command, Map<String, Extension> allExtensions, BindingResult bindingResult) {
-		command.purge();
-		command.validate(allExtensions, bindingResult);
-		validator.validate(command, bindingResult);
-	}
-
-
-	private HashMap<String, String> customPropertyToMap(String[] arrayToConvert) {
-		HashMap<String, String> returnMap = new HashMap<String, String>();
-		Pattern splitPattern = Pattern.compile("^([^=]*)=(.*)$");
-
-		for (String tempProperty : arrayToConvert) {
-			Matcher matcher = splitPattern.matcher(tempProperty);
-
-			if(matcher.matches()) {
-				returnMap.put(matcher.group(1), matcher.group(2));
-			}
-		}
-
-		return returnMap;
-	}
+        return returnMap;
+    }
 }

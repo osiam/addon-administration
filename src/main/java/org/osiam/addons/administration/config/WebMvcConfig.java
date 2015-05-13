@@ -9,20 +9,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-	@Bean(name = "messageSource")
-	public ResourceBundleMessageSource initializeMessageSource() {
-		ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
+    @Bean(name = "messageSource")
+    public ResourceBundleMessageSource initializeMessageSource() {
+        ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
 
-		resource.setBasenames("l10n/general");
+        resource.setBasenames("l10n/general");
 
-		return resource;
-	}
+        return resource;
+    }
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
-		registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
-		registry.addResourceHandler("/img/**").addResourceLocations("classpath:/img/");
-		registry.addResourceHandler("/fonts/**").addResourceLocations("classpath:/fonts/");
-	}
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
+        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
+        registry.addResourceHandler("/img/**").addResourceLocations("classpath:/img/");
+        registry.addResourceHandler("/fonts/**").addResourceLocations("classpath:/fonts/");
+    }
 }

@@ -20,40 +20,40 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SeleniumFactory {
 
-	@Inject
-	private Browser browser;
+    @Inject
+    private Browser browser;
 
-	@Bean
-	public Browser browser() {
-		WebDriver driver;
+    @Bean
+    public Browser browser() {
+        WebDriver driver;
 
-		try {
-			driver = new InternetExplorerDriver();
-		} catch (Exception e) {
-			try {
-				driver = new SafariDriver();
-			} catch (Exception e1) {
-				try {
-					driver = new FirefoxDriver();
-				} catch (Exception e2) {
-					driver = new HtmlUnitDriver(true);
-				}
-			}
-		}
+        try {
+            driver = new InternetExplorerDriver();
+        } catch (Exception e) {
+            try {
+                driver = new SafariDriver();
+            } catch (Exception e1) {
+                try {
+                    driver = new FirefoxDriver();
+                } catch (Exception e2) {
+                    driver = new HtmlUnitDriver(true);
+                }
+            }
+        }
 
-		Browser browser = new Browser(driver);
-		configure(browser);
+        Browser browser = new Browser(driver);
+        configure(browser);
 
-		return browser;
-	}
+        return browser;
+    }
 
-	private void configure(Browser browser) {
-		browser.setImplicitWait(3000);
-		browser.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
-	}
+    private void configure(Browser browser) {
+        browser.setImplicitWait(3000);
+        browser.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
+    }
 
-	@PreDestroy
-	void closeBrowser() {
-		browser.quit();
-	}
+    @PreDestroy
+    void closeBrowser() {
+        browser.quit();
+    }
 }

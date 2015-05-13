@@ -21,30 +21,31 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Inject
-	private AdminAccessDecisionManager decisionManager;
+    @Inject
+    private AdminAccessDecisionManager decisionManager;
 
-	@Inject
-	private GlobalExceptionHandler exceptionHandler;
+    @Inject
+    private GlobalExceptionHandler exceptionHandler;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception { // NOSONAR the authorizeRequests() throws it and can't be omitted
-		CharacterEncodingFilter filter = new CharacterEncodingFilter();
-		filter.setEncoding("UTF-8");
-		filter.setForceEncoding(true);
+    @Override
+    protected void configure(HttpSecurity http) throws Exception { // NOSONAR the authorizeRequests() throws it and
+                                                                   // can't be omitted
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
 
-		http.addFilterBefore(filter, CsrfFilter.class);
-		http.authorizeRequests()
-				.accessDecisionManager(decisionManager)
-				.antMatchers(AdminController.CONTROLLER_PATH + "/**")
-				.authenticated()
-				.and()
-				.exceptionHandling()
-				.authenticationEntryPoint(getAuthenticationEntryPoint())
-				.accessDeniedHandler(exceptionHandler);
-	}
+        http.addFilterBefore(filter, CsrfFilter.class);
+        http.authorizeRequests()
+                .accessDecisionManager(decisionManager)
+                .antMatchers(AdminController.CONTROLLER_PATH + "/**")
+                .authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(getAuthenticationEntryPoint())
+                .accessDeniedHandler(exceptionHandler);
+    }
 
-	private AuthenticationEntryPoint getAuthenticationEntryPoint() {
-		return new LoginUrlAuthenticationEntryPoint(LoginController.CONTROLLER_PATH);
-	}
+    private AuthenticationEntryPoint getAuthenticationEntryPoint() {
+        return new LoginUrlAuthenticationEntryPoint(LoginController.CONTROLLER_PATH);
+    }
 }
