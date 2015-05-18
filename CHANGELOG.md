@@ -12,6 +12,15 @@
     - increase refresh token validity to 24 hours
     - decrease approval validity to 0 seconds
 
+- rename SQL scripts for installing client and group
+
+    Use `client.sql` to create the OAuth client in the `auth-server`'s database
+    and `admin_group.sql` to create the SCIM group `admin` in th
+    `resource-server`'s database and also associate it with the user with id 1.
+    The old file is still in place for compatibility reasons, but will receive
+    no further updates and be eventually removed in a future version. All users
+    are encouraged to update to the new files.
+
 ## 1.4 - 2015-04-29
 - [feature] Bulk operations for user: activate all / deactivate all / delete all
 - [fix] the email type is not required
