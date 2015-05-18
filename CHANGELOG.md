@@ -1,7 +1,18 @@
 # OSIAM addon-administration
 
-## 1.4 - 2015-04-29
+## 1.5 - Unreleased
 
+### Changes
+- adjust some attributes of the OAuth client
+
+    - enable implicit approval
+    - remove unnecessary grants: resource owner credentials grant, client
+      credentials grant, refresh token grant
+    - increase access token validity to 8 hours
+    - increase refresh token validity to 24 hours
+    - decrease approval validity to 0 seconds
+
+## 1.4 - 2015-04-29
 - [feature] Bulk operations for user: activate all / deactivate all / delete all
 - [fix] the email type is not required
 - [change] bump dependency versions
