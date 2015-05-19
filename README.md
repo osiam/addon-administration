@@ -57,11 +57,14 @@ path:
 ## Database setup
 
 **PRECONDITION**
-You need to import the sql script into your postgres database which you will
+
+You need to import the sql scripts into your postgres database which you will
 find in the OSIAM resource server project!
 
-You need to add a specific client for administration in the auth-servers
-database (example_data.sql).
+### OAuth client
+
+You need to add a specific client for administration in the auth-server
+database (client.sql).
 
 Start the database commandline:
 
@@ -70,7 +73,25 @@ Start the database commandline:
 Now insert it as user osiam while being in the directory where you unpacked
 the sources by calling
 
-    $ psql -f ./sql/example_data.sql -U osiam
+    $ psql -f ./sql/client.sql -U osiam
 
-but update the example_data.sql before you import it and sync the data with
+but update the client.sql before you import it and sync the data with
 the above mentioned addon-administration.properties!
+
+### Admin group
+
+You need to add a specific group for administration in the resource-server
+database (admin_group.sql).
+
+Start the database commandline:
+
+    $ sudo -u postgres psql
+
+Now insert it as user osiam while being in the directory where you unpacked
+the sources by calling
+
+    $ psql -f ./sql/admin_group.sql -U osiam
+
+but update the admin_group.sql before you import it and sync the data with
+any existing data on the resource-server.
+

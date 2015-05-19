@@ -1,5 +1,7 @@
 --
--- DEPRECATED: replaced by extension.sql and admin_group.sql
+-- OAuth Client: please sync to the attribute values in the
+-- addon-administration.properties. Has to be imported in the database of the
+-- auth-server, before you deploy the addon-administration!
 --
 
 INSERT INTO osiam_client (internal_id, accesstokenvalidityseconds, client_secret, expiry,
@@ -15,15 +17,3 @@ INSERT INTO osiam_client_scopes (id, scope) VALUES (20, 'PUT');
 INSERT INTO osiam_client_scopes (id, scope) VALUES (20, 'PATCH');
 INSERT INTO osiam_client_scopes (id, scope) VALUES (20, 'DELETE');
 INSERT INTO osiam_client_grants (id, grants) VALUES (20, 'authorization_code');
-
-INSERT INTO scim_meta (id, created, lastmodified, location, resourcetype, version)
-VALUES (2, LOCALTIMESTAMP, LOCALTIMESTAMP, NULL, 'Group', NULL);
-
-INSERT INTO scim_id (internal_id, external_id, id, meta_id)
-VALUES (2, NULL, 'cef9452e-00a9-4cec-a086-d171374aabef', 2);
-
-INSERT INTO scim_group (displayname, internal_id)
-VALUES ('admin', 2);
-
-INSERT INTO scim_group_scim_id (groups_internal_id, members_internal_id)
-VALUES (2, 1);
