@@ -20,7 +20,7 @@
     - remove unnecessary grants: resource owner credentials grant, client
       credentials grant, refresh token grant
     - increase access token validity to 8 hours
-    - increase refresh token validity to 24 hours
+    - decrease refresh token validity to 0 seconds
     - decrease approval validity to 0 seconds
 
 - rename SQL scripts for installing client and group
