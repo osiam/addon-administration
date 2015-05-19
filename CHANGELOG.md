@@ -3,6 +3,11 @@
 ## 1.5 - Unreleased
 
 ### Changes
+- adjust some attributes of the 'admin' group
+
+    - set `external_id` to NULL
+    - set `created` and `lastmodified` timestamps to `LOCALTIMESTAMP`
+
 - adjust some attributes of the OAuth client
 
     - enable implicit approval
