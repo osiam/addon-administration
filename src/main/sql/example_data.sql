@@ -2,12 +2,10 @@
 -- DEPRECATED: replaced by extension.sql and admin_group.sql
 --
 
-INSERT INTO osiam_client (internal_id, accesstokenvalidityseconds, client_secret, expiry,
-                          id, implicit_approval, redirect_uri, refreshtokenvalidityseconds,
-                          validityinseconds)
-VALUES (20, 28800, 'super-secret', NULL,
-        'addon-administration-client', TRUE, 'http://localhost:8080/addon-administration', 86400,
-        0);
+INSERT INTO osiam_client (internal_id, accesstokenvalidityseconds, client_secret, id,
+                          implicit_approval, redirect_uri, refreshtokenvalidityseconds, validityinseconds)
+VALUES (20, 28800, 'super-secret', 'addon-administration-client',
+        TRUE, 'http://localhost:8080/addon-administration', 86400, 0);
 
 INSERT INTO osiam_client_scopes (id, scope) VALUES (20, 'GET');
 INSERT INTO osiam_client_scopes (id, scope) VALUES (20, 'POST');
