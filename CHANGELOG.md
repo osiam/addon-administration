@@ -3,6 +3,12 @@
 ## 1.5 - Unreleased
 
 ### Changes
+
+- remove field `expiry` from OAuth client in SQL scripts
+
+    The field `expiry` has been removed from the auth-server (osiam/auth-server#9)
+    and must be removed from the SQL scripts too.
+
 - adjust some attributes of the 'admin' group
 
     - set `external_id` to NULL

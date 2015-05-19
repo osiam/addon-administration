@@ -26,7 +26,7 @@
     <osiam_client internal_id="100003" id="example-client" redirect_uri="http://localhost:8280/"
                   client_secret="secret"
                   accesstokenvalidityseconds="2342" refreshtokenvalidityseconds="2342" validityinseconds="1337"
-                  implicit_approval="false" expiry="1970-01-01 00:00:01"/>
+                  implicit_approval="false"/>
     <osiam_client_grants id="100003" grants="authorization_code"/>
     <osiam_client_grants id="100003" grants="refresh_token"/>
     <osiam_client_grants id="100003" grants="password"/>
@@ -40,7 +40,7 @@
     <osiam_client internal_id="100080" id="short-living-client" redirect_uri="http://localhost:5001/oauth2"
                   client_secret="other-secret"
                   accesstokenvalidityseconds="1" refreshtokenvalidityseconds="2342" validityinseconds="1"
-                  implicit_approval="false" expiry="1970-01-01 00:00:01"/>
+                  implicit_approval="false"/>
     <osiam_client_grants id="100080" grants="authorization_code"/>
     <osiam_client_grants id="100080" grants="refresh_token"/>
     <osiam_client_grants id="100080" grants="password"/>
