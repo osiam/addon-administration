@@ -1,6 +1,6 @@
 # OSIAM addon-administration
 
-## 1.5 - Unreleased
+## 1.5 - 2015-06-02
 
 ### Changes
 
