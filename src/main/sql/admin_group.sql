@@ -3,7 +3,7 @@
 -- database of the resource-server.
 --
 
-INSERT INTO scim_meta (id, created, lastmodified, location, resourcetype, version)
+INSERT INTO scim_meta (id, created, last_modified, location, resource_type, version)
 VALUES (2, LOCALTIMESTAMP, LOCALTIMESTAMP, NULL, 'Group', NULL);
 
 INSERT INTO scim_id (internal_id, external_id, id, meta_id)
@@ -14,5 +14,5 @@ VALUES ('admin', 2);
 
 -- add default admin user to group
 
-INSERT INTO scim_group_scim_id (groups_internal_id, members_internal_id)
+INSERT INTO scim_group_members (groups, members)
 VALUES (2, 1);
