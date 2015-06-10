@@ -112,10 +112,7 @@ public class EditUserController extends GenericController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String handleUserUpdate(
-            @ModelAttribute(MODEL) UpdateUserCommand command,
-            BindingResult bindingResult) {
-
+    public String handleUserUpdate( @ModelAttribute(MODEL) UpdateUserCommand command, BindingResult bindingResult) {
         boolean isDuplicated = false;
 
         User user = userService.getUser(command.getId());

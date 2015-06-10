@@ -12,6 +12,14 @@
             th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
     <script type="text/javascript" src="../../js/multivalue.js" th:src="@{/js/multivalue.js}"></script>
     <script type="text/javascript" src="../../js/extension.js" th:src="@{/js/extension.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#externalIdCopyFromId").click(function (e) {
+                e.preventDefault();
+                $('#externalId').val($("#userID").text());
+            });
+        });
+    </script>
 
     <link rel="stylesheet" type="text/css" href="../../css/bootstrap-datetimepicker.min.css"
           th:href="@{/css/bootstrap-datetimepicker.min.css}"/>
@@ -304,7 +312,7 @@
         <th:block th:replace="makros :: csrf"/>
 
         <div class="row">
-            <div class="col-md-9"> <!-- Two first columns -->
+            <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-6">
                         <div th:class="'form-group' + (${#fields.hasErrors('*{active}')}? ' bg-danger' : '')">
@@ -314,6 +322,21 @@
                             <div th:if="${#fields.hasErrors('*{active}')}" th:errors="*{active}" class="text-danger">
                                 Active Flag Error
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div th:class="'form-group' + (${#fields.hasErrors('*{externalId}')}? ' bg-danger' : '')">
+                            <label for="externalId">
+                                <span th:text="#{edit_user.externalId}">External ID</span>
+                                (<a id="externalIdCopyFromId" href="#" th:text="#{edit_user.externalId.copyFromId}">
+                                Copy from user id</a>)
+                            </label>
+
+                            <input class="form-control" type="text" th:placeholder="#{edit_user.externalId}"
+                                   id="externalId" th:field="*{externalId}"/>
+
+                            <span th:if="${#fields.hasErrors('*{externalId}')}" th:errors="*{externalId}"
+                                  class="text-danger">External ID Error</span>
                         </div>
                     </div>
                 </div>
@@ -347,8 +370,7 @@
                                    th:placeholder="#{edit_user.name.givenname}" id="givenname"
                                    th:field="*{name.givenname}"/> <span
                                 th:if="${#fields.hasErrors('*{name.givenname}')}"
-                                th:errors="*{name.givenname}" class="text-danger">Givenname
-									Error</span>
+                                th:errors="*{name.givenname}" class="text-danger">Givenname Error</span>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -358,8 +380,7 @@
                                    th:placeholder="#{edit_user.name.middlename}" id="middlename"
                                    th:field="*{name.middlename}"/> <span
                                 th:if="${#fields.hasErrors('*{name.middlename}')}"
-                                th:errors="*{name.middlename}" class="text-danger">Middelname
-									Error</span>
+                                th:errors="*{name.middlename}" class="text-danger">Middelname Error</span>
                         </div>
                     </div>
                 </div>
@@ -372,8 +393,7 @@
                                    th:placeholder="#{edit_user.name.familyname}" id="familyname"
                                    th:field="*{name.familyname}"/> <span
                                 th:if="${#fields.hasErrors('*{name.familyname}')}"
-                                th:errors="*{name.familyname}" class="text-danger">Familyname
-									Error</span>
+                                th:errors="*{name.familyname}" class="text-danger">Familyname Error</span>
                         </div>
                     </div>
                 </div>
@@ -952,37 +972,31 @@
                 <div class="form-group">
                     <strong th:text="#{edit_user.meta.created}">Created</strong><br/>
                     <span th:text="*{meta.created}" id="created"></span>
-                    <!-- <input class="form-control" type="text" th:placeholder="#{edit_user.meta.created}" id="created" th:value="*{meta.created}" readonly="readonly"/>-->
                 </div>
 
                 <div class="form-group">
                     <strong th:text="#{edit_user.meta.lastModified}">Last modified</strong><br/>
                     <span th:text="*{meta.lastModified}" id="lastModified"></span>
-                    <!-- input class="form-control" type="text" th:placeholder="#{edit_user.meta.lastModified}" id="lastModified" th:value="*{meta.lastModified}" readonly="readonly"/-->
                 </div>
 
                 <div class="form-group">
                     <strong th:text="#{edit_user.meta.location}">Location</strong><br/>
                     <span th:text="*{meta.location}" id="location"></span>
-                    <!-- input class="form-control" type="text" th:placeholder="#{edit_user.meta.location}" id="location" th:value="*{meta.location}" readonly="readonly"/-->
                 </div>
 
                 <div class="form-group">
-                    <strong for="resourceType" th:text="#{edit_user.meta.resourceType}">Resource type</strong><br/>
+                    <strong th:text="#{edit_user.meta.resourceType}">Resource type</strong><br/>
                     <span th:text="*{meta.resourceType}" id="resourceType"></span>
-                    <!-- 	input class="form-control" type="text" th:placeholder="#{edit_user.meta.resourceType}" id="resourceType" th:value="*{meta.resourceType}" readonly="readonly"/-->
                 </div>
 
                 <div class="form-group">
-                    <strong for="version" th:text="#{edit_user.meta.version}">Version</strong><br/>
+                    <strong th:text="#{edit_user.meta.version}">Version</strong><br/>
                     <span th:text="*{meta.version}" id="version"></span>
-                    <!-- input class="form-control" type="text" th:placeholder="#{edit_user.meta.version}" id="version" th:value="*{meta.version}" readonly="readonly"/-->
                 </div>
 
                 <div class="form-group">
-                    <strong for="userID" th:text="#{edit_user.id}">Version</strong><br/>
+                    <strong th:text="#{edit_user.id}">Id</strong><br/>
                     <span th:text="*{id}" id="userID"></span>
-                    <!-- input class="form-control" type="text" th:placeholder="#{edit_user.id}" id="userID" th:value="*{id}" readonly="readonly"/-->
                 </div>
             </div>
         </div>
