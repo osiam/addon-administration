@@ -304,7 +304,7 @@
         <th:block th:replace="makros :: csrf"/>
 
         <div class="row">
-            <div class="col-md-9"> <!-- Two first columns -->
+            <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-6">
                         <div th:class="'form-group' + (${#fields.hasErrors('*{active}')}? ' bg-danger' : '')">
@@ -314,6 +314,14 @@
                             <div th:if="${#fields.hasErrors('*{active}')}" th:errors="*{active}" class="text-danger">
                                 Active Flag Error
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div th:class="'form-group' + (${#fields.hasErrors('*{externalId}')}? ' bg-danger' : '')">
+                            <label for="externalId" th:text="#{edit_user.externalId}">External ID</label>
+                            <input class="form-control" type="text" th:placeholder="#{edit_user.externalId}"
+                                   id="externalId" th:field="*{externalId}"/>
+                            <span th:if="${#fields.hasErrors('*{externalId}')}" th:errors="*{externalId}" class="text-danger">External ID Error</span>
                         </div>
                     </div>
                 </div>
@@ -347,8 +355,7 @@
                                    th:placeholder="#{edit_user.name.givenname}" id="givenname"
                                    th:field="*{name.givenname}"/> <span
                                 th:if="${#fields.hasErrors('*{name.givenname}')}"
-                                th:errors="*{name.givenname}" class="text-danger">Givenname
-									Error</span>
+                                th:errors="*{name.givenname}" class="text-danger">Givenname Error</span>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -358,8 +365,7 @@
                                    th:placeholder="#{edit_user.name.middlename}" id="middlename"
                                    th:field="*{name.middlename}"/> <span
                                 th:if="${#fields.hasErrors('*{name.middlename}')}"
-                                th:errors="*{name.middlename}" class="text-danger">Middelname
-									Error</span>
+                                th:errors="*{name.middlename}" class="text-danger">Middelname Error</span>
                         </div>
                     </div>
                 </div>
@@ -372,8 +378,7 @@
                                    th:placeholder="#{edit_user.name.familyname}" id="familyname"
                                    th:field="*{name.familyname}"/> <span
                                 th:if="${#fields.hasErrors('*{name.familyname}')}"
-                                th:errors="*{name.familyname}" class="text-danger">Familyname
-									Error</span>
+                                th:errors="*{name.familyname}" class="text-danger">Familyname Error</span>
                         </div>
                     </div>
                 </div>

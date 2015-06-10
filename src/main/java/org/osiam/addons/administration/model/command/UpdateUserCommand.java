@@ -1,13 +1,7 @@
 package org.osiam.addons.administration.model.command;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -16,16 +10,8 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 import org.osiam.addons.administration.model.validation.ExtensionValidator;
-import org.osiam.resources.scim.Address;
-import org.osiam.resources.scim.Email;
-import org.osiam.resources.scim.Entitlement;
-import org.osiam.resources.scim.Extension;
+import org.osiam.resources.scim.*;
 import org.osiam.resources.scim.Extension.Field;
-import org.osiam.resources.scim.Im;
-import org.osiam.resources.scim.PhoneNumber;
-import org.osiam.resources.scim.UpdateUser;
-import org.osiam.resources.scim.User;
-import org.osiam.resources.scim.X509Certificate;
 import org.springframework.validation.BindingResult;
 
 /**
@@ -36,6 +22,7 @@ public class UpdateUserCommand {
 
     private String id;
     private Boolean active;
+    private String externalId;
     @NotNull
     private String title;
     @NotNull
@@ -81,60 +68,59 @@ public class UpdateUserCommand {
      * Creates a new UpdateUserCommand based on the given {@link User}.
      *
      * @param user
-     *            the user
+     *        the user
      */
     public UpdateUserCommand(User user, Collection<Extension> allExtensions) {
         this.user = user;
-        setId(user.getId());
+        id = user.getId();
 
-        setActive(user.isActive());
-        setTitle(user.getTitle());
-        setDisplayName(user.getDisplayName());
-        setNickName(user.getNickName());
-        setPreferredLanguage(user.getPreferredLanguage());
-        setLocale(user.getLocale());
-        setProfileURL(user.getProfileUrl());
-        setTimezone(user.getTimezone());
-        setUserName(user.getUserName());
-
-        if (user.getName() != null)
-            setName(new NameCommand(user.getName()));
-
-        if (user.getMeta() != null)
-            setMeta(new MetaCommand(user.getMeta()));
+        active = user.isActive();
+        externalId = user.getExternalId();
+        title = user.getTitle();
+        displayName = user.getDisplayName();
+        nickName = user.getNickName();
+        preferredLanguage = user.getPreferredLanguage();
+        locale = user.getLocale();
+        profileURL = user.getProfileUrl();
+        timezone = user.getTimezone();
+        userName = user.getUserName();
 
         if (user.getName() != null) {
-            setName(new NameCommand(user.getName()));
+            name = new NameCommand(user.getName());
+        }
+
+        if (user.getMeta() != null) {
+            meta = new MetaCommand(user.getMeta());
         }
 
         if (user.getEmails() != null) {
             for (Email email : user.getEmails()) {
-                this.emails.add(new EmailCommand(email));
+                emails.add(new EmailCommand(email));
             }
         }
         if (user.getPhoneNumbers() != null) {
             for (PhoneNumber number : user.getPhoneNumbers()) {
-                this.phoneNumbers.add(new PhoneNumberCommand(number));
+                phoneNumbers.add(new PhoneNumberCommand(number));
             }
         }
         if (user.getIms() != null) {
             for (Im im : user.getIms()) {
-                this.ims.add(new ImCommand(im));
+                ims.add(new ImCommand(im));
             }
         }
         if (user.getX509Certificates() != null) {
             for (X509Certificate certificate : user.getX509Certificates()) {
-                this.certificates.add(new X509CertificateCommand(certificate));
+                certificates.add(new X509CertificateCommand(certificate));
             }
         }
         if (user.getAddresses() != null) {
             for (Address address : user.getAddresses()) {
-                this.addresses.add(new AddressCommand(address));
+                addresses.add(new AddressCommand(address));
             }
         }
         if (user.getEntitlements() != null) {
             for (Entitlement entitlement : user.getEntitlements()) {
-                this.entitlements.add(new EntitlementCommand(entitlement));
+                entitlements.add(new EntitlementCommand(entitlement));
             }
         }
 
@@ -142,7 +128,7 @@ public class UpdateUserCommand {
         if (user.getExtensions() != null) {
             for (Extension extension : user.getExtensions().values()) {
                 for (Entry<String, Field> field : extension.getFields().entrySet()) {
-                    this.extensions.get(extension.getUrn()).put(field.getKey(), field.getValue().getValue());
+                    extensions.get(extension.getUrn()).put(field.getKey(), field.getValue().getValue());
                 }
             }
         }
@@ -167,7 +153,7 @@ public class UpdateUserCommand {
      * Sets the displayname.
      *
      * @param displayName
-     *            the displayname to set
+     *        the displayname to set
      */
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
@@ -186,7 +172,7 @@ public class UpdateUserCommand {
      * Sets the locale.
      *
      * @param locale
-     *            the locale to set
+     *        the locale to set
      */
     public void setLocale(String locale) {
         this.locale = locale;
@@ -205,7 +191,7 @@ public class UpdateUserCommand {
      * Sets the nickname.
      *
      * @param nickName
-     *            the nickname to set
+     *        the nickname to set
      */
     public void setNickName(String nickName) {
         this.nickName = nickName;
@@ -224,7 +210,7 @@ public class UpdateUserCommand {
      * Sets the preferredlanguage.
      *
      * @param preferredLanguage
-     *            the preferredlanguage to set
+     *        the preferredlanguage to set
      */
     public void setPreferredLanguage(String preferredLanguage) {
         this.preferredLanguage = preferredLanguage;
@@ -243,7 +229,7 @@ public class UpdateUserCommand {
      * Sets the profileurl.
      *
      * @param profileURL
-     *            the profileurl to set
+     *        the profileurl to set
      */
     public void setProfileURL(String profileURL) {
         this.profileURL = profileURL;
@@ -262,7 +248,7 @@ public class UpdateUserCommand {
      * Sets the timezone.
      *
      * @param timezone
-     *            the timezone to set
+     *        the timezone to set
      */
     public void setTimezone(String timezone) {
         this.timezone = timezone;
@@ -281,7 +267,7 @@ public class UpdateUserCommand {
      * Sets the title.
      *
      * @param title
-     *            the title to set
+     *        the title to set
      */
     public void setTitle(String title) {
         this.title = title;
@@ -300,7 +286,7 @@ public class UpdateUserCommand {
      * Sets the username.
      *
      * @param userName
-     *            the username to set
+     *        the username to set
      */
     public void setUserName(String userName) {
         this.userName = userName;
@@ -319,10 +305,18 @@ public class UpdateUserCommand {
      * Sets the active.
      *
      * @param active
-     *            the active to set
+     *        the active to set
      */
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     /**
@@ -338,7 +332,7 @@ public class UpdateUserCommand {
      * Sets the user.
      *
      * @param user
-     *            the {@link User} to set.
+     *        the {@link User} to set.
      */
     public void setUser(User user) {
         this.user = user;
@@ -357,7 +351,7 @@ public class UpdateUserCommand {
      * Sets the user ID.
      *
      * @param id
-     *            the user ID to set
+     *        the user ID to set
      */
     public void setId(String id) {
         this.id = id;
@@ -425,7 +419,7 @@ public class UpdateUserCommand {
      * Sets the name object.
      *
      * @param name
-     *            the name object to set
+     *        the name object to set
      */
     public void setName(NameCommand name) {
         this.name = name;
@@ -450,12 +444,12 @@ public class UpdateUserCommand {
     public void enrichExtensions(Collection<Extension> allExtensions) {
         for (Extension extension : allExtensions) {
 
-            if (!this.extensions.containsKey(extension.getUrn())) {
-                this.extensions.put(extension.getUrn(), new TreeMap<String, String>());
+            if (!extensions.containsKey(extension.getUrn())) {
+                extensions.put(extension.getUrn(), new TreeMap<String, String>());
             }
 
             for (Entry<String, Field> field : extension.getFields().entrySet()) {
-                SortedMap<String, String> localExtension = this.extensions.get(extension.getUrn());
+                SortedMap<String, String> localExtension = extensions.get(extension.getUrn());
 
                 if (!localExtension.containsKey(field.getKey())) {
                     localExtension.put(field.getKey(), "");
@@ -472,18 +466,19 @@ public class UpdateUserCommand {
     public UpdateUser getAsUpdateUser() {
         UpdateUser.Builder builder = new UpdateUser.Builder();
 
-        if (getActive() != null) {
-            builder.updateActive(getActive());
+        if (active != null) {
+            builder.updateActive(active);
         }
-        builder.updateName(getName().getAsName());
-        builder.updateTitle(getTitle());
-        builder.updateDisplayName(getDisplayName());
-        builder.updateNickName(getNickName());
-        builder.updatePreferredLanguage(getPreferredLanguage());
-        builder.updateLocale(getLocale());
-        builder.updateProfileUrl(getProfileURL());
-        builder.updateTimezone(getTimezone());
-        builder.updateUserName(getUserName());
+        builder.updateExternalId(externalId);
+        builder.updateName(name.getAsName());
+        builder.updateTitle(title);
+        builder.updateDisplayName(displayName);
+        builder.updateNickName(nickName);
+        builder.updatePreferredLanguage(preferredLanguage);
+        builder.updateLocale(locale);
+        builder.updateProfileUrl(profileURL);
+        builder.updateTimezone(timezone);
+        builder.updateUserName(userName);
 
         return builder.build();
     }
@@ -491,48 +486,49 @@ public class UpdateUserCommand {
     public User getAsUser() {
         User.Builder builder = new User.Builder(getUserName());
 
-        builder.setActive(getActive());
-        builder.setName(getName().getAsName());
-        builder.setTitle(getTitle());
-        builder.setDisplayName(getDisplayName());
-        builder.setActive(getActive());
-        builder.setNickName(getNickName());
-        builder.setPreferredLanguage(getPreferredLanguage());
-        builder.setLocale(getLocale());
-        builder.setProfileUrl(getProfileURL());
-        builder.setTimezone(getTimezone());
+        builder.setActive(active);
+        builder.setExternalId(externalId);
+        builder.setName(name.getAsName());
+        builder.setTitle(title);
+        builder.setDisplayName(displayName);
+        builder.setActive(active);
+        builder.setNickName(nickName);
+        builder.setPreferredLanguage(preferredLanguage);
+        builder.setLocale(locale);
+        builder.setProfileUrl(profileURL);
+        builder.setTimezone(timezone);
 
-        for (EmailCommand email : getEmails()) {
+        for (EmailCommand email : emails) {
             if (!email.isEmpty()) {
                 builder.addEmail(email.getAsEmail());
             }
         }
-        for (PhoneNumberCommand number : getPhoneNumbers()) {
+        for (PhoneNumberCommand number : phoneNumbers) {
             if (!number.isEmpty()) {
                 builder.addPhoneNumber(number.getAsPhoneNumber());
             }
         }
-        for (ImCommand im : getIms()) {
+        for (ImCommand im : ims) {
             if (!im.isEmpty()) {
                 builder.addIm(im.getAsIm());
             }
         }
-        for (X509CertificateCommand certificates : getCertificates()) {
-            if (!certificates.isEmpty()) {
-                builder.addX509Certificate(certificates.getAsCertificate());
+        for (X509CertificateCommand certificate : certificates) {
+            if (!certificate.isEmpty()) {
+                builder.addX509Certificate(certificate.getAsCertificate());
             }
         }
-        for (AddressCommand address : getAddresses()) {
+        for (AddressCommand address : addresses) {
             if (!address.isEmpty()) {
                 builder.addAddress(address.getAsAddress());
             }
         }
-        for (EntitlementCommand entitlement : getEntitlements()) {
+        for (EntitlementCommand entitlement : entitlements) {
             if (!entitlement.isEmpty()) {
                 builder.addEntitlement(entitlement.getAsEntitlement());
             }
         }
-        for (Entry<String, SortedMap<String, String>> extension : getExtensions().entrySet()) {
+        for (Entry<String, SortedMap<String, String>> extension : extensions.entrySet()) {
             final String urn = extension.getKey();
             Extension.Builder extensionBuilder = new Extension.Builder(urn);
 
@@ -547,12 +543,12 @@ public class UpdateUserCommand {
     }
 
     public void purge() {
-        removeEmptyElements(getEmails().iterator());
-        removeEmptyElements(getPhoneNumbers().iterator());
-        removeEmptyElements(getIms().iterator());
-        removeEmptyElements(getCertificates().iterator());
-        removeEmptyElements(getAddresses().iterator());
-        removeEmptyElements(getEntitlements().iterator());
+        removeEmptyElements(emails.iterator());
+        removeEmptyElements(phoneNumbers.iterator());
+        removeEmptyElements(ims.iterator());
+        removeEmptyElements(certificates.iterator());
+        removeEmptyElements(addresses.iterator());
+        removeEmptyElements(entitlements.iterator());
         removeEmptyExtensions();
     }
 
@@ -592,12 +588,9 @@ public class UpdateUserCommand {
     }
 
     private void validateExtensions(Map<String, Extension> allExtensions, BindingResult bindingResult) {
-        ExtensionValidator validator = new ExtensionValidator(
-                "extensions",
-                allExtensions,
-                bindingResult);
+        ExtensionValidator validator = new ExtensionValidator("extensions", allExtensions, bindingResult);
 
-        for (Entry<String, SortedMap<String, String>> extension : getExtensions().entrySet()) {
+        for (Entry<String, SortedMap<String, String>> extension : extensions.entrySet()) {
             final String urn = extension.getKey();
             for (Entry<String, String> field : extension.getValue().entrySet()) {
                 final String key = field.getKey();
