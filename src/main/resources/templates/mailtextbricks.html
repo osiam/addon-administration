@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<span id="salutation" th:remove="tag"
+      th:text="#{mail.salutation.prefix} + ' ' + (${user.name} ? (${user.name.formatted}?: #{mail.salutation.standard}) : #{mail.salutation.standard})">Dear Sir or Madam</span>
+</body>
+</html>

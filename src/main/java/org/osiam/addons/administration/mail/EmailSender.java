@@ -68,14 +68,14 @@ public class EmailSender {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("user", user);
 
-        String mailConent = renderer.renderEmailBody("deactivate", locale, variables);
-        String mailSubject = renderer.renderEmailSubject("deactivate", locale, variables);
+        String mailContent = renderer.renderEmailBody("user/deactivate", locale, variables);
+        String mailSubject = renderer.renderEmailSubject("user/deactivate", locale, variables);
         Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
         if (!email.isPresent()) {
             throw new SendEmailException("The user has no email!", "user.no.email");
         }
 
-        sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailConent);
+        sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailContent);
     }
 
     public void sendActivateMail(User user) {
@@ -86,8 +86,8 @@ public class EmailSender {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("user", user);
 
-        String mailConent = renderer.renderEmailBody("activate", locale, variables);
-        String mailSubject = renderer.renderEmailSubject("activate", locale, variables);
+        String mailConent = renderer.renderEmailBody("user/activate", locale, variables);
+        String mailSubject = renderer.renderEmailSubject("user/activate", locale, variables);
         Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
         if (!email.isPresent()) {
             throw new SendEmailException("The user has no email!", "user.no.email");
@@ -96,22 +96,8 @@ public class EmailSender {
         sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailConent);
     }
 
-    public void sendPlainTextMail(String fromAddress, String toAddress, String subject, String content) {
-        mailSender.send(getMessage(fromAddress, toAddress, subject, content));
-    }
-
     public void sendHTMLMail(String fromAddress, String toAddress, String subject, String htmlContent) {
         mailSender.send(getMimeMessage(fromAddress, toAddress, subject, htmlContent));
-    }
-
-    private SimpleMailMessage getMessage(String fromAddress, String toAddress, String subject, String mailContent) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromAddress);
-        message.setTo(toAddress);
-        message.setSubject(subject);
-        message.setText(mailContent);
-        message.setSentDate(new Date());
-        return message;
     }
 
     private MimeMessage getMimeMessage(String fromAddress, String toAddress, String subject, String mailContent) {
