@@ -73,7 +73,7 @@ public class EmailTemplateRenderer {
         Context context = new Context(locale);
         context.setVariables(variables);
 
-        return templateEngine
-                .process(templateName + "-email", context, new DOMSelectorFragmentSpec(selectorExpression));
+        return templateEngine.process(templateName + "-email", context,
+                new DOMSelectorFragmentSpec(selectorExpression));
     }
 }
