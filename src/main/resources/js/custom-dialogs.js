@@ -15,7 +15,7 @@ $(function () {
                 },
                 danger: {
                     label: $('#dialog-abort').val(),
-                    className: "btn-primary"
+                    className: "btn-default"
                 }
             }
         });
@@ -42,7 +42,7 @@ $(function () {
                 },
                 danger: {
                     label: $('#dialog-abort').val(),
-                    className: "btn-primary",
+                    className: "btn-default",
                     callback: function () {
                         $(button).parent().attr('href', continueLocation);
                     }
@@ -53,8 +53,9 @@ $(function () {
         return false;
     });
 
-    $("button[id^='action-button-deactivate-']").click(function () {
-        var button = $(this);
+    $("a[id^='action-button-deactivate-']").click(function (event) {
+        event.preventDefault();
+        var $actionLink = $(this);
 
         bootbox.dialog({
             message: $('#dialog-deactivate-message').html(),
@@ -64,24 +65,23 @@ $(function () {
                     label: $('#dialog-success').val(),
                     className: "btn-primary",
                     callback: function () {
-                        var sendMail = $('div[role="dialog"] #send-mail').is(':checked');
+                        var $form = $actionLink.next();
 
-                        button.parent().find('input[name="sendMail"]').val(sendMail);
-                        button.parent().submit();
+                        $form.find('input[name="sendMail"]').val($('div[role="dialog"] #send-mail').is(':checked'));
+                        $form.submit();
                     }
                 },
                 danger: {
                     label: $('#dialog-abort').val(),
-                    className: "btn-primary"
+                    className: "btn-default"
                 }
             }
         });
-
-        return false;
     });
 
-    $("button[id^='action-button-activate-']").click(function () {
-        var button = $(this);
+    $("a[id^='action-button-activate-']").click(function (event) {
+        event.preventDefault();
+        var $actionLink = $(this);
 
         bootbox.dialog({
             message: $('#dialog-activate-message').html(),
@@ -91,20 +91,18 @@ $(function () {
                     label: $('#dialog-success').val(),
                     className: "btn-primary",
                     callback: function () {
-                        var sendMail = $('div[role="dialog"] #send-mail').is(':checked');
+                        var $form = $actionLink.next();
 
-                        button.parent().find('input[name="sendMail"]').val(sendMail);
-                        button.parent().submit();
+                        $form.find('input[name="sendMail"]').val($('div[role="dialog"] #send-mail').is(':checked'));
+                        $form.submit();
                     }
                 },
                 danger: {
                     label: $('#dialog-abort').val(),
-                    className: "btn-primary"
+                    className: "btn-default"
                 }
             }
         });
-
-        return false;
     });
 
     $("button[id^='action-button-selected-deactivate']").click(function () {
@@ -126,7 +124,7 @@ $(function () {
                 },
                 danger: {
                     label: $('#dialog-abort').val(),
-                    className: "btn-primary"
+                    className: "btn-default"
                 }
             }
         });
@@ -153,7 +151,7 @@ $(function () {
                 },
                 danger: {
                     label: $('#dialog-abort').val(),
-                    className: "btn-primary"
+                    className: "btn-default"
                 }
             }
         });
@@ -161,8 +159,9 @@ $(function () {
         return false;
     });
 
-    $("button[id^='action-button-delete-']").click(function () {
-        var button = $(this);
+    $("a[id^='action-button-delete-user-']").click(function (event) {
+        event.preventDefault();
+        var $actionLink = $(this);
 
         bootbox.dialog({
             message: $('#dialog-delete-message').val(),
@@ -172,17 +171,15 @@ $(function () {
                     label: $('#dialog-success').val(),
                     className: "btn-primary",
                     callback: function () {
-                        button.parent().submit();
+                        $actionLink.next().submit();
                     }
                 },
                 danger: {
                     label: $('#dialog-abort').val(),
-                    className: "btn-primary"
+                    className: "btn-default"
                 }
             }
         });
-
-        return false;
     });
 
     $("button[id^='action-button-selected-delete']").click(function () {
@@ -201,7 +198,7 @@ $(function () {
                 },
                 danger: {
                     label: $('#dialog-abort').val(),
-                    className: "btn-primary"
+                    className: "btn-default"
                 }
             }
         });
@@ -209,27 +206,26 @@ $(function () {
         return false;
     });
 
-    $("button[id^='action-button-delete-group-']").click(function () {
-        var button = $(this);
+    $("a[id^='action-button-delete-group-']").click(function (event) {
+        event.preventDefault();
+        var $actionLink = $(this);
 
         bootbox.dialog({
-            message: $('#dialog-delete-message').html(),
+            message: $('#dialog-delete-message').val(),
             title: $('#dialog-title').val(),
             buttons: {
                 success: {
                     label: $('#dialog-success').val(),
                     className: "btn-primary",
                     callback: function () {
-                        button.parent().submit();
+                        $actionLink.next().submit();
                     }
                 },
                 danger: {
                     label: $('#dialog-abort').val(),
-                    className: "btn-primary"
+                    className: "btn-default"
                 }
             }
         });
-
-        return false;
     });
 });

@@ -19,10 +19,7 @@
     </div>
 
     <div id="dialog-message-container" style="display:none;">
-        <div id="dialog-delete-message">
-            <p th:text="#{msg.group.dialog.delete.message}"/>
-        </div>
-
+        <input id="dialog-delete-message" type="hidden" th:value="#{msg.group.dialog.delete.message}"/>
         <input id="dialog-title" type="hidden" th:value="#{msg.group.dialog.title}"/>
         <input id="dialog-success" type="hidden" th:value="#{msg.group.dialog.success}"/>
         <input id="dialog-abort" type="hidden" th:value="#{msg.group.dialog.abort}"/>
@@ -100,38 +97,31 @@
             </td>
             <td th:text="${group.displayName}">Display Name</td>
             <td>
-                <!-- Start: Action-Menu	-->
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button"
                             th:id="${'action-label-' + groupStat.index}" th:text="#{msg.button.action}"
-                            data-toggle="dropdown" aria-expanded="true"></button>
+                            data-toggle="dropdown" aria-expanded="true">
+                        Action
+                        <span class="caret"></span>
+                    </button>
                     <ul class="dropdown-menu" style="width:250px" role="menu" aria-labelledby="dropdownMenu1">
                         <li role="presentation">
-                            <a th:href="@{edit(id = ${group.id})}">
-                                <button th:id="${'action-button-edit-' + groupStat.index}" th:text="#{msg.button.edit}"
-                                        class="btn-link">Edit
-                                </button>
-                            </a>
+                            <a th:href="@{edit(id = ${group.id})}" th:text="#{msg.button.edit}">Edit</a>
                         </li>
                         <li role="presentation">
+                            <a href="#" th:id="${'action-button-delete-group-' + groupStat.index}"
+                               th:text="#{msg.button.delete}">
+                                Delete
+                            </a>
                             <form action="" method="GET">
                                 <input type="hidden" name="action" value="delete"/>
                                 <input type="hidden" name="id" th:value="${group.id}"/>
-
-                                <button th:id="${'action-button-delete-group-' + groupStat.index}"
-                                        th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete
-                                </button>
                             </form>
                         </li>
                         <li role="presentation">
-                            <form>
-                                <a th:href="@{user(id = ${group.id})}">
-                                    <button th:id="${'action-button-edit-user-membership-' + groupStat.index}"
-                                            th:text="#{msg.button.user.membership}" class="btn-link">Edit User
-                                        Membership
-                                    </button>
-                                </a>
-                            </form>
+                            <a th:href="@{user(id = ${group.id})}" th:text="#{msg.button.user.membership}">
+                                Edit User Membership
+                            </a>
                         </li>
                     </ul>
                 </div>

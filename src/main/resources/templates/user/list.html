@@ -208,56 +208,47 @@
                     </button>
                     <ul class="dropdown-menu" style="width:250px" role="menu" aria-labelledby="dropdownMenu1">
                         <li role="presentation">
-                            <a th:href="@{edit(id = ${user.id})}">
-                                <button th:id="${'action-button-edit-' + userStat.index}" th:text="#{msg.button.edit}"
-                                        class="btn-link">Edit
-                                </button>
-                            </a>
+                            <a th:href="@{edit(id = ${user.id})}" th:text="#{msg.button.edit}">Edit</a>
                         </li>
                         <li role="presentation">
-                            <a th:href="@{group(id = ${user.id})}">
-                                <button th:id="${'action-button-edit-group-membership-' + userStat.index}"
-                                        th:text="#{msg.button.group.membership}" class="btn-link">Edit groupmembership
-                                </button>
+                            <a th:href="@{group(id = ${user.id})}" th:text="#{msg.button.group.membership}">
+                                Edit group membership
                             </a>
                         </li>
                         <li role="presentation" th:if="${user.active}">
+                            <a href="#" th:id="${'action-button-deactivate-' + userStat.index}"
+                               th:text="#{msg.button.deactivate}">
+                                Deactivate
+                            </a>
                             <form action="" method="POST">
-                                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
                                 <th:block th:replace="makros :: csrf"/>
                                 <input type="hidden" name="action" value="deactivate"/>
-                                <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail"
-                                       value="true"/>
+                                <input type="hidden" name="sendMail" value="true"/>
                                 <input type="hidden" name="id" th:value="${user.id}"/>
-                                <button th:id="${'action-button-deactivate-' + userStat.index}"
-                                        th:text="#{msg.button.deactivate}" class="btn-link" type="submit">Deactivate
-                                </button>
                             </form>
                         </li>
                         <li role="presentation" th:unless="${user.active}">
+                            <a href="#" th:id="${'action-button-activate-' + userStat.index}"
+                               th:text="#{msg.button.activate}">
+                                Activate
+                            </a>
                             <form action="" method="POST">
-                                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
                                 <th:block th:replace="makros :: csrf"/>
                                 <input type="hidden" name="action" value="activate"/>
-                                <input th:id="${'send-mail-' + userStat.index}" type="hidden" name="sendMail"
-                                       value="true"/>
+                                <input type="hidden" name="sendMail" value="true"/>
                                 <input type="hidden" name="id" th:value="${user.id}"/>
 
-                                <button th:id="${'action-button-activate-' + userStat.index}"
-                                        th:text="#{msg.button.activate}" class="btn-link" type="submit">Activate
-                                </button>
                             </form>
                         </li>
                         <li role="presentation">
+                            <a href="#" th:id="${'action-button-delete-user-' + userStat.index}"
+                               th:text="#{msg.button.delete}">
+                                Delete
+                            </a>
                             <form action="" method="POST">
-                                <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
                                 <th:block th:replace="makros :: csrf"/>
                                 <input type="hidden" name="action" value="delete"/>
                                 <input type="hidden" name="id" th:value="${user.id}"/>
-
-                                <button th:id="${'action-button-delete-' + userStat.index}"
-                                        th:text="#{msg.button.delete}" class="btn-link" type="submit">Delete
-                                </button>
                             </form>
                         </li>
                     </ul>
