@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <th:block th:include="head :: includes"></th:block>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>User-List</title>
-
-    <th:block th:include="head :: includes"></th:block>
 
     <script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}"></script>
     <script type="text/javascript" src="../../js/custom-dialogs.js" th:src="@{/js/custom-dialogs.js}"></script>
@@ -28,7 +28,6 @@
             </p>
         </div>
 
-
         <div id="dialog-deactivate-selected-message">
             <p th:text="#{msg.user.dialog.deactivate.selected.message}"/>
 
@@ -38,7 +37,6 @@
             </p>
         </div>
 
-
         <div id="dialog-activate-message">
             <p th:text="#{msg.user.dialog.activate.message}"/>
 
@@ -47,7 +45,6 @@
                 <input id="send-mail" type="checkbox"/>
             </p>
         </div>
-
 
         <div id="dialog-activate-selected-message">
             <p th:text="#{msg.user.dialog.activate.selected.message}"/>
@@ -98,70 +95,58 @@
                 <input id="user-checkbox" type="checkbox" class="checkbox master-checkbox"/>
             </th>
             <th>
-					<span th:if="${orderBy eq 'userName' and not orderDirection}">
-						<a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">
-                            <span class="glyphicon glyphicon-sort-by-alphabet"></span>
-                            <span th:text="#{msg.user.login}">Login</span>
-                        </a>
-					</span>
-					<span th:unless="${orderBy eq 'userName' and not orderDirection}">
-						<a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">
-                            <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
-                            <span th:text="#{msg.user.login}">Login</span>
-                        </a>
-					</span>
+                <span th:if="${orderBy eq 'userName' and not orderDirection}">
+                <a id="order-by-login-asc" th:href="@{'' (action='sort', orderBy='userName', asc=true)}">
+                    <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                    <span th:text="#{msg.user.login}">Login</span>
+                </a>
+                </span>
+                <span th:unless="${orderBy eq 'userName' and not orderDirection}">
+                <a id="order-by-login-desc" th:href="@{'' (action='sort', orderBy='userName', asc=false)}">
+                    <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                    <span th:text="#{msg.user.login}">Login</span>
+                </a>
+                </span>
             </th>
             <th>
-					<span th:if="${orderBy eq 'name.givenName' and not orderDirection}">
-						<a id="order-by-givenname-asc"
-                           th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}">
-                            <span class="glyphicon glyphicon-sort-by-alphabet"></span>
-                            <span th:text="#{msg.user.name.given}">Given Name</span>
-                        </a>
-					</span>
-					<span th:unless="${orderBy eq 'name.givenName' and not orderDirection}">
-						<a id="order-by-givenname-desc"
-                           th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}">
-                            <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
-                            <span th:text="#{msg.user.name.given}">Given Name</span>
-                        </a>
-					</span>
+                <span th:if="${orderBy eq 'name.givenName' and not orderDirection}">
+                <a id="order-by-givenname-asc"
+                   th:href="@{'' (action='sort', orderBy='name.givenName', asc=true)}">
+                    <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                    <span th:text="#{msg.user.name.given}">Given Name</span>
+                </a>
+                </span>
+                <span th:unless="${orderBy eq 'name.givenName' and not orderDirection}">
+                <a id="order-by-givenname-desc"
+                   th:href="@{'' (action='sort', orderBy='name.givenName', asc=false)}">
+                    <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                    <span th:text="#{msg.user.name.given}">Given Name</span>
+                </a>
+                </span>
             </th>
             <th>
-					<span th:if="${orderBy eq 'name.familyName' and not orderDirection}">
-						<a id="order-by-familyname-asc"
-                           th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}">
-                            <span class="glyphicon glyphicon-sort-by-alphabet"></span>
-                            <span th:text="#{msg.user.name.family}">Family Name</span>
-                        </a>
-					</span>
-					<span th:unless="${orderBy eq 'name.familyName' and not orderDirection}">
-						<a id="order-by-familyname-desc"
-                           th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}">
-                            <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
-                            <span th:text="#{msg.user.name.family}">Family Name</span>
-                        </a>
-					</span>
+                <span th:if="${orderBy eq 'name.familyName' and not orderDirection}">
+                <a id="order-by-familyname-asc"
+                   th:href="@{'' (action='sort', orderBy='name.familyName', asc=true)}">
+                    <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                    <span th:text="#{msg.user.name.family}">Family Name</span>
+                </a>
+                </span>
+                <span th:unless="${orderBy eq 'name.familyName' and not orderDirection}">
+                <a id="order-by-familyname-desc"
+                   th:href="@{'' (action='sort', orderBy='name.familyName', asc=false)}">
+                    <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                    <span th:text="#{msg.user.name.family}">Family Name</span>
+                </a>
+                </span>
             </th>
             <th>
                 <span style="color:#58ACFA" th:text="#{msg.user.group}">Group</span>
 
-                <!--/*  Sorting by Group is not supported yet...
-
-                <span class="sortingArrows">
-                    <a id="order-by-group-asc" th:href="@{'' (action='sort', orderBy='groups.display', asc=true)}">
-                        <img th:src="@{/img/arrow_up.png}" src="../../img/arrow_up.png" alt="" />
-                    </a>
-                    <a id="order-by-group-desc" th:href="@{'' (action='sort', orderBy='groups.display', asc=false)}">
-                        <img th:src="@{/img/arrow_down.png}" src="../../img/arrow_down.png" alt="" />
-                    </a>
-                </span>
-                */-->
             </th>
             <th></th>
         </tr>
         </thead>
-
 
         <tbody>
         <!-- Start: Filter-Row -->
@@ -172,15 +157,23 @@
 
                 <!--/* All osiam-query relevant fields must begin with "query."!  */-->
                 <td><input type="hidden" name="action" value="filter"/></td>
-                <td class="input-group-sm"><input id="filter-login" class="form-control" name="query.userName"
-                                                  type="text" th:value="*{get('query.userName')}"/></td>
-                <td class="input-group-sm"><input id="filter-givenname" class="form-control" name="query.name.givenName"
-                                                  type="text" th:value="*{get('query.name.givenName')}"/></td>
-                <td class="input-group-sm"><input id="filter-familyname" class="form-control"
-                                                  name="query.name.familyName" type="text"
-                                                  th:value="*{get('query.name.familyName')}"/></td>
-                <td class="input-group-sm"><input id="filter-group" class="form-control" name="query.groups.display"
-                                                  type="text" th:value="*{get('query.groups.display')}"/></td>
+                <td class="input-group-sm">
+                    <input id="filter-login" class="form-control" name="query.userName"
+                           type="text" th:value="*{get('query.userName')}"/>
+                </td>
+                <td class="input-group-sm">
+                    <input id="filter-givenname" class="form-control" name="query.name.givenName"
+                           type="text" th:value="*{get('query.name.givenName')}"/>
+                </td>
+                <td class="input-group-sm">
+                    <input id="filter-familyname" class="form-control"
+                           name="query.name.familyName" type="text"
+                           th:value="*{get('query.name.familyName')}"/>
+                </td>
+                <td class="input-group-sm">
+                    <input id="filter-group" class="form-control" name="query.groups.display"
+                           type="text" th:value="*{get('query.groups.display')}"/>
+                </td>
                 <td>
                     <button id="filter-button" class="btn btn-default btn-sm" type="submit">
                         <span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>

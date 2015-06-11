@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <th:block th:include="head :: includes"></th:block>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title th:text="#{edit_user.title}">Create user</title>
-
-    <th:block th:include="head :: includes"></th:block>
 
     <script type="text/javascript" src="../../js/bootbox.min.js" th:src="@{/js/bootbox.min.js}"></script>
     <script type="text/javascript" src="../../js/bootstrap-datetimepicker.min.js"
