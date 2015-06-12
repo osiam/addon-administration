@@ -48,52 +48,52 @@
                             <input id="assigned-master-checkbox" type="checkbox" class="checkbox master-checkbox"/>
                         </th>
                         <th>
-								<span th:if="${assignedOrderBy eq 'userName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-login-asc"
+                                <span th:if="${assignedOrderBy eq 'userName' and not assignedOrderDirection}">
+                                    <a id="order-by-assigned-login-asc"
                                        th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='userName', assignedAsc=true)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet"
-                                              th:text="#{edit_user_membership.user.login}">Login</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                        <span th:text="#{edit_user_membership.user.login}">Login</span>
                                     </a>
-								</span>
-								<span th:unless="${assignedOrderBy eq 'userName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-login-desc"
+                                </span>
+                                <span th:unless="${assignedOrderBy eq 'userName' and not assignedOrderDirection}">
+                                    <a id="order-by-assigned-login-desc"
                                        th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='userName', assignedAsc=false)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
-                                              th:text="#{edit_user_membership.user.login}">Login</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                                        <span th:text="#{edit_user_membership.user.login}">Login</span>
                                     </a>
-								</span>
+                                </span>
                         </th>
                         <th>
-								<span th:if="${assignedOrderBy eq 'name.givenName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-givenname-asc"
+                                <span th:if="${assignedOrderBy eq 'name.givenName' and not assignedOrderDirection}">
+                                    <a id="order-by-assigned-givenname-asc"
                                        th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.givenName', assignedAsc=true)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet"
-                                              th:text="#{edit_user_membership.user.givenName}">Given Name</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                        <span th:text="#{edit_user_membership.user.givenName}">Given Name</span>
                                     </a>
-								</span>
-								<span th:unless="${assignedOrderBy eq 'name.givenName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-givenname-desc"
+                                </span>
+                                <span th:unless="${assignedOrderBy eq 'name.givenName' and not assignedOrderDirection}">
+                                    <a id="order-by-assigned-givenname-desc"
                                        th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.givenName', assignedAsc=false)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
-                                              th:text="#{edit_user_membership.user.givenName}">Given Name</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                                        <span th:text="#{edit_user_membership.user.givenName}">Given Name</span>
                                     </a>
-								</span>
+                                </span>
                         </th>
                         <th>
-								<span th:if="${assignedOrderBy eq 'name.familyName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-familyname-asc"
+                                <span th:if="${assignedOrderBy eq 'name.familyName' and not assignedOrderDirection}">
+                                    <a id="order-by-assigned-familyname-asc"
                                        th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.familyName', assignedAsc=true)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet"
-                                              th:text="#{edit_user_membership.user.lastName}">Last Name</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                        <span th:text="#{edit_user_membership.user.lastName}">Last Name</span>
                                     </a>
-								</span>
-								<span th:unless="${assignedOrderBy eq 'name.familyName' and not assignedOrderDirection}">
-									<a id="order-by-assigned-familyname-desc"
+                                </span>
+                                <span th:unless="${assignedOrderBy eq 'name.familyName' and not assignedOrderDirection}">
+                                    <a id="order-by-assigned-familyname-desc"
                                        th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='name.familyName', assignedAsc=false)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
-                                              th:text="#{edit_user_membership.user.lastName}">Last Name</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                                        <span th:text="#{edit_user_membership.user.lastName}">Last Name</span>
                                     </a>
-								</span>
+                                </span>
                         </th>
                     </tr>
                     </thead>
@@ -113,7 +113,8 @@
                         <td>
                             <button id="assigned-filter-button" class="btn btn-default btn-sm" name="action"
                                     value="filter" type="submit">
-                                <span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+                                <span class="glyphicon glyphicon-filter"></span>
+                                <span th:text="#{msg.button.filter}">Filter</span>
                             </button>
                         </td>
                     </tr>
@@ -186,52 +187,52 @@
                             <input id="unassigned-master-checkbox" type="checkbox" class="checkbox master-checkbox"/>
                         </th>
                         <th>
-								<span th:if="${unassignedOrderBy eq 'userName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-login-asc"
+                                <span th:if="${unassignedOrderBy eq 'userName' and not unassignedOrderDirection}">
+                                    <a id="order-by-unassigned-login-asc"
                                        th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='userName', unassignedAsc=true)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet"
-                                              th:text="#{edit_user_membership.user.login}">Login</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                        <span th:text="#{edit_user_membership.user.login}">Login</span>
                                     </a>
-								</span>
-								<span th:unless="${unassignedOrderBy eq 'userName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-login-desc"
+                                </span>
+                                <span th:unless="${unassignedOrderBy eq 'userName' and not unassignedOrderDirection}">
+                                    <a id="order-by-unassigned-login-desc"
                                        th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='userName', unassignedAsc=false)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
-                                              th:text="#{edit_user_membership.user.login}">Login</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                                        <span th:text="#{edit_user_membership.user.login}">Login</span>
                                     </a>
-								</span>
+                                </span>
                         </th>
                         <th>
-								<span th:if="${unassignedOrderBy eq 'name.givenName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-givenname-asc"
+                                <span th:if="${unassignedOrderBy eq 'name.givenName' and not unassignedOrderDirection}">
+                                    <a id="order-by-unassigned-givenname-asc"
                                        th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.givenName', unassignedAsc=true)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet"
-                                              th:text="#{edit_user_membership.user.givenName}">Given Name</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                        <span th:text="#{edit_user_membership.user.givenName}">Given Name</span>
                                     </a>
-								</span>
-								<span th:unless="${unassignedOrderBy eq 'name.givenName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-givenname-desc"
+                                </span>
+                                <span th:unless="${unassignedOrderBy eq 'name.givenName' and not unassignedOrderDirection}">
+                                    <a id="order-by-unassigned-givenname-desc"
                                        th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.givenName', unassignedAsc=false)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
-                                              th:text="#{edit_user_membership.user.givenName}">Given Name</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                                        <span th:text="#{edit_user_membership.user.givenName}">Given Name</span>
                                     </a>
-								</span>
+                                </span>
                         </th>
                         <th>
-								<span th:if="${unassignedOrderBy eq 'name.familyName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-familyname-asc"
+                                <span th:if="${unassignedOrderBy eq 'name.familyName' and not unassignedOrderDirection}">
+                                    <a id="order-by-unassigned-familyname-asc"
                                        th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.familyName', unassignedAsc=true)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet"
-                                              th:text="#{edit_user_membership.user.lastName}">Last Name</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                        <span th:text="#{edit_user_membership.user.lastName}">Last Name</span>
                                     </a>
-								</span>
-								<span th:unless="${unassignedOrderBy eq 'name.familyName' and not unassignedOrderDirection}">
-									<a id="order-by-unassigned-familyname-desc"
+                                </span>
+                                <span th:unless="${unassignedOrderBy eq 'name.familyName' and not unassignedOrderDirection}">
+                                    <a id="order-by-unassigned-familyname-desc"
                                        th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='name.familyName', unassignedAsc=false)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
-                                              th:text="#{edit_user_membership.user.lastName}">Last Name</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                                        <span th:text="#{edit_user_membership.user.lastName}">Last Name</span>
                                     </a>
-								</span>
+                                </span>
                         </th>
                     </tr>
                     </thead>
@@ -250,7 +251,8 @@
                         <td>
                             <button id="unassigned-filter-button" class="btn btn-default btn-sm" name="action"
                                     value="filter" type="submit">
-                                <span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+                                <span class="glyphicon glyphicon-filter"></span>
+                                <span th:text="#{msg.button.filter}">Filter</span>
                             </button>
                         </td>
                     </tr>
