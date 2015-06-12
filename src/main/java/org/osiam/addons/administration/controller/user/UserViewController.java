@@ -170,7 +170,7 @@ public class UserViewController {
                 }
 
                 filterQuery.append(queryField);
-                filterQuery.append(" sw = \"");
+                filterQuery.append(" sw \"");
                 filterQuery.append(queryFieldValue);
                 filterQuery.append("\"");
             }

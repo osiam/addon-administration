@@ -155,7 +155,7 @@ public class GroupViewController {
                 }
 
                 filterQuery.append(queryField);
-                filterQuery.append(" sw = \"");
+                filterQuery.append(" sw \"");
                 filterQuery.append(queryFieldValue);
                 filterQuery.append("\"");
             }

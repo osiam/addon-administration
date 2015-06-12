@@ -185,19 +185,6 @@ nav ul li ul{
 }
 
 /******* table sorter ***********/
-.sortingArrows {
-    display: inline-block;
-    height: 25px;
-    vertical-align: bottom;
-    width: 5px;
-}
-
-.sortingArrows a {
-    display: block;
-    cursor: pointer;
-    height: 7px;
-}
-
 table tr td:last-child,
 table tr th:last-child {
     text-align: center;

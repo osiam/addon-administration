@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <th:block th:include="head :: includes"></th:block>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title th:text="#{edit_group_membership.title}">Edit group membership</title>
 
-    <th:block th:include="head :: includes"></th:block>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#filter-display-name-assigned").keyup(function (e) {
+                if (e.which == 13) {
+                    e.preventDefault();
+                    $('#filter-button-assigned').trigger('click');
+                }
+            });
+
+            $("#filter-display-name-available").keyup(function (e) {
+                if (e.which == 13) {
+                    e.preventDefault();
+                    $('#filter-button-available').trigger('click');
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 
@@ -36,7 +54,7 @@
         <div class="col-md-6 form-group">
             <h4 style="margin-bottom:5px" th:text="#{edit_group_membership.group.user}">My groups</h4>
 
-            <form id="filter-form" action="" method="POST">
+            <form id="filter-form-assigned" action="" method="POST">
                 <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
                 <th:block th:replace="makros :: csrf"/>
                 <input type="hidden" name="panel" value="remove"/>
@@ -45,25 +63,23 @@
                     <thead>
                     <tr>
                         <th>
-                            <input id="group-checkbox" type="checkbox" class="checkbox master-checkbox only-on-js"/>
+                            <input id="group-checkbox-assigned" type="checkbox" class="checkbox master-checkbox"/>
                         </th>
                         <th>
-								<span class="sortingArrows"
-                                      th:if="${assignedOrderBy eq 'displayName' and not assignedOrderDirection}">
-									<a id="order-by-my-displayname-asc"
+                                <span th:if="${assignedOrderBy eq 'displayName' and not assignedOrderDirection}">
+                                    <a id="order-by-my-displayname-asc"
                                        th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='displayName', assignedAsc=true)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet"
-                                              th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                        <span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
                                     </a>
-								</span>
-								<span class="sortingArrows"
-                                      th:unless="${assignedOrderBy eq 'displayName' and not assignedOrderDirection}">
-									<a id="order-by-my-displayname-desc"
+                                </span>
+                                <span th:unless="${assignedOrderBy eq 'displayName' and not assignedOrderDirection}">
+                                    <a id="order-by-my-displayname-desc"
                                        th:href="@{'' (id=${param.id}, action='assignedSort', assignedOrderBy='displayName', assignedAsc=false)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
-                                              th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                                        <span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
                                     </a>
-								</span>
+                                </span>
                         </th>
                         <th></th>
                     </tr>
@@ -73,19 +89,21 @@
                     <tr th:object="${pagingInformationAssignedGroups.filterFields}">
                         <!--/* All osiam-query relevant fields must begin with "query."!  */-->
                         <td></td>
-                        <td class="input-group-sm"><input id="filter-display-name" class="form-control"
-                                                          name="query.displayName" type="text"
-                                                          th:value="*{get('query.displayName')}"/></td>
+                        <td class="input-group-sm">
+                            <input id="filter-display-name-assigned" class="form-control" name="query.displayName" type="text"
+                                   th:value="*{get('query.displayName')}"/>
+                        </td>
                         <td>
-                            <button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter"
+                            <button id="filter-button-assigned" class="btn btn-default btn-sm" name="action" value="filter"
                                     type="submit">
-                                <span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+                                <span class="glyphicon glyphicon-filter"></span>
+                                <span th:text="#{msg.button.filter}">Filter</span>
                             </button>
                         </td>
                     </tr>
                     <tr th:each="group : ${assignedGroups.resources}">
                         <td>
-                            <input type="checkbox" name="groupId" th:value="${group.id}"/>
+                            <input type="checkbox" class="checkbox" name="groupId" th:value="${group.id}"/>
                         </td>
                         <td th:text="${group.displayName}">Group #1</td>
                         <td>
@@ -114,7 +132,7 @@
                 <th:block th:replace="makros :: csrf"/>
                 <input type="hidden" name="action" value="assignedLimit"/>
 
-                <select id="paging-limit" name="assignedLimit" class="form-control"
+                <select id="paging-limit-assigned" name="assignedLimit" class="form-control"
                         onchange="document['form-assigned-limit'].submit();">
                     <option th:selected="${pagingInformationAssignedGroups.limit} == 5">5</option>
                     <option th:selected="${pagingInformationAssignedGroups.limit} == 10">10</option>
@@ -131,7 +149,7 @@
         <div class="col-md-6 form-group">
             <h4 style="margin-bottom:5px" th:text="#{edit_group_membership.group.other}">Other groups</h4>
 
-            <form id="filter-form" action="" method="POST">
+            <form id="filter-form-available" action="" method="POST">
                 <!--/* ALL forms with PATCH, POST, PUT, and DELETE methods must include a CSRF-Token! */-->
                 <th:block th:replace="makros :: csrf"/>
                 <input type="hidden" name="panel" value="add"/>
@@ -140,25 +158,23 @@
                     <thead>
                     <tr>
                         <th>
-                            <input id="group-checkbox" type="checkbox" class="checkbox master-checkbox only-on-js"/>
+                            <input id="group-checkbox" type="checkbox" class="checkbox master-checkbox"/>
                         </th>
                         <th>
-								<span class="sortingArrows"
-                                      th:if="${unassignedOrderBy eq 'displayName' and not unassignedOrderDirection}">
-									<a id="order-by-other-displayname-asc"
+                                <span th:if="${unassignedOrderBy eq 'displayName' and not unassignedOrderDirection}">
+                                    <a id="order-by-other-displayname-asc"
                                        th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='displayName', unassignedAsc=true)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet"
-                                              th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                        <span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
                                     </a>
-								</span>
-								<span class="sortingArrows"
-                                      th:unless="${unassignedOrderBy eq 'displayName' and not unassignedOrderDirection}">
-									<a id="order-by-other-displayname-desc"
+                                </span>
+                                <span th:unless="${unassignedOrderBy eq 'displayName' and not unassignedOrderDirection}">
+                                    <a id="order-by-other-displayname-desc"
                                        th:href="@{'' (id=${param.id}, action='unassignedSort', unassignedOrderBy='displayName', unassignedAsc=false)}">
-                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"
-                                              th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
+                                        <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                                        <span th:text="#{edit_group_membership.group.displayName}">DisplayName</span>
                                     </a>
-								</span>
+                                </span>
                         </th>
                         <th></th>
                     </tr>
@@ -168,19 +184,20 @@
                     <tr th:object="${pagingInformationUnassignedGroups.filterFields}">
                         <!--/* All osiam-query relevant fields must begin with "query."!  */-->
                         <td></td>
-                        <td class="input-group-sm"><input id="filter-display-name" class="form-control"
+                        <td class="input-group-sm"><input id="filter-display-name-available" class="form-control"
                                                           name="query.displayName" type="text"
                                                           th:value="*{get('query.displayName')}"/></td>
                         <td>
-                            <button id="filter-button" class="btn btn-default btn-sm" name="action" value="filter"
+                            <button id="filter-button-available" class="btn btn-default btn-sm" name="action" value="filter"
                                     type="submit">
-                                <span class="glyphicon glyphicon-filter" th:text="#{msg.button.filter}">Filter</span>
+                                <span class="glyphicon glyphicon-filter"></span>
+                                <span th:text="#{msg.button.filter}">Filter</span>
                             </button>
                         </td>
                     </tr>
                     <tr th:each="group : ${unassignedGroups.resources}">
                         <td>
-                            <input type="checkbox" name="groupId" th:value="${group.id}"/>
+                            <input type="checkbox" class="checkbox" name="groupId" th:value="${group.id}"/>
                         </td>
                         <td th:text="${group.displayName}">Group #1</td>
                         <td>
@@ -227,10 +244,8 @@
 
     <div class="row">
         <div class="col-md-12 text-right">
-            <a th:href="@{list}">
-                <button class="btn btn-md btn-primary" type="button" id="btnCancelChanges"
-                        th:text="#{edit_user.cancel}">Back
-                </button>
+            <a th:href="@{list}" class="btn btn-primary" th:text="#{edit_user.cancel}">
+                Back
             </a>
         </div>
     </div>
