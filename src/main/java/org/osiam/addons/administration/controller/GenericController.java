@@ -85,7 +85,7 @@ public abstract class GenericController {
                     filterQuery.append(" AND ");
                 }
                 filterQuery.append(queryField);
-                filterQuery.append(" sw = \"");
+                filterQuery.append(" sw \"");
                 filterQuery.append(queryFieldValue);
                 filterQuery.append("\"");
             }
