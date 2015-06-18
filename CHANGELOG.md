@@ -2,9 +2,26 @@
 
 ## 1.6 - 2015-06-18
 
+### Features
+
+- Allow setting of `external_id` for users
+- Add button to copy user id into external id field
+
 ### Changes
 
 - Bump connector to make use of more concurrent HTTP connections
+- UI: Apply Bootstrap defaults
+
+### Fixes
+
+- Rename Style.css to currently used name in template
+- Add templates for (de-)activation of users
+- `sw =` is not a filter operator
+- UI: Make dropdowns work again in IE8+
+- UI: Make back/cancel buttons work again in IE8+
+- UI: Fix visual glitches icons
+- UI: Align checkboxes on group membership view
+- UI: Fix ambiguous form submission in IE8 in group membership
 
 ## 1.5 - 2015-06-02
 
