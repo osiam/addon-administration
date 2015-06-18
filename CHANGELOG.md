@@ -9,6 +9,7 @@
 
 ### Changes
 
+- Bump Jackson version
 - Bump connector to make use of more concurrent HTTP connections
 - UI: Apply Bootstrap defaults
 
