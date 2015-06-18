@@ -1,5 +1,11 @@
 # OSIAM addon-administration
 
+## 1.6 - 2015-06-18
+
+### Changes
+
+- Bump connector to make use of more concurrent HTTP connections
+
 ## 1.5 - 2015-06-02
 
 ### Changes
