@@ -3,7 +3,6 @@ package org.osiam.addons.administration.controller.group;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.CreateGroupCommand;
@@ -11,6 +10,8 @@ import org.osiam.addons.administration.service.GroupService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.client.exception.ConflictException;
 import org.osiam.resources.exception.SCIMDataValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(CreateGroupController.CONTROLLER_PATH)
 public class CreateGroupController extends GenericController {
 
-	private static final Logger LOG = Logger.getLogger(CreateGroupController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CreateGroupController.class);
 
 	public static final String CONTROLLER_PATH = AdminController.CONTROLLER_PATH + "/group/create";
 

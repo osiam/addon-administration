@@ -7,10 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.client.exception.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,7 +25,7 @@ import com.google.common.base.Throwables;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler implements AccessDeniedHandler {
-	private static final Logger LOG = Logger.getLogger(GlobalExceptionHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	@Inject
 	private GeneralSessionData session;
