@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
 import org.osiam.addons.administration.model.command.UpdateUserCommand;
@@ -21,6 +20,8 @@ import org.osiam.resources.exception.SCIMDataValidationException;
 import org.osiam.resources.scim.Extension;
 import org.osiam.resources.scim.Extension.Field;
 import org.osiam.resources.scim.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -44,7 +45,7 @@ public class EditUserController extends GenericController {
     public static final String MODEL = "model";
     public static final String MODEL_ALL_TYPES = "allFieldTypes";
     public static final String MODEL_EXTENSION_NAMES = "extensionNames";
-    private static final Logger LOG = Logger.getLogger(EditUserController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EditUserController.class);
     private static final String SESSION_KEY_COMMAND = "command";
     @Inject
     private UserService userService;
