@@ -1,5 +1,13 @@
 # OSIAM addon-administration
 
+## 1.7
+
+### Changes
+
+- Update OSIAM connector4java
+- Remove usage of old, method-based OAuth scopes
+- Use the SLF4J interface to get the loggers
+
 ## 1.6 - 2015-06-18
 
 ### Features
