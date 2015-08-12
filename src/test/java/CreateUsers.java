@@ -12,7 +12,7 @@ public class CreateUsers {
                 .setClientSecret("secret")
                 .build();
 
-        AccessToken accessToken = connector.retrieveAccessToken(Scope.ALL);
+        AccessToken accessToken = connector.retrieveAccessToken(Scope.ADMIN);
 
         for (int i = 0; i < 10; i++) {
             Group group = new Group.Builder("Group" + i)

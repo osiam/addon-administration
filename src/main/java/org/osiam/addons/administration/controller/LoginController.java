@@ -28,7 +28,7 @@ public class LoginController {
     @RequestMapping
     public String handleRedirectToLogin() {
         return new RedirectBuilder()
-                .setDestination(connector.getAuthorizationUri(Scope.ALL).toString())
+                .setDestination(connector.getAuthorizationUri(Scope.ADMIN).toString())
                 .build();
     }
 
