@@ -1,28 +1,7 @@
 package org.osiam.addons.administration.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.inject.Inject;
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.Response.StatusType;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.glassfish.jersey.apache.connector.ApacheClientProperties;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
@@ -38,8 +17,23 @@ import org.osiam.resources.scim.Extension.Builder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.inject.Inject;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.Response.StatusType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
+import java.util.*;
+import java.util.Map.Entry;
 
 @Component
 public class ExtensionsService {
@@ -51,11 +45,9 @@ public class ExtensionsService {
     @Inject
     private GeneralSessionData sessionData;
 
+    @Inject
     private ObjectMapper mapper;
 
-    public ExtensionsService() {
-        mapper = new ObjectMapper();
-    }
 
     public List<Extension> getExtensions() {
         String content = requestExtensionTypes();
@@ -112,7 +104,7 @@ public class ExtensionsService {
 
     private String extractErrorMessage(String content, StatusType status) {
         try {
-            OAuthErrorMessage error = new ObjectMapper().readValue(content, OAuthErrorMessage.class);
+            OAuthErrorMessage error = mapper.readValue(content, OAuthErrorMessage.class);
             return error.getDescription();
         } catch (IOException e) {
             String errorMessage = String.format("Could not deserialize the error response for the HTTP status '%s'.",
@@ -164,33 +156,33 @@ public class ExtensionsService {
                 Builder builder = extensionBuilder.get(urn);
 
                 switch (fieldType.getValue()) {
-                case "STRING":
-                    builder.setField(fieldName, "null");
-                    break;
-                case "INTEGER":
-                    builder.setField(fieldName, BigInteger.ZERO);
-                    break;
-                case "DECIMAL":
-                    builder.setField(fieldName, BigDecimal.ZERO);
-                    break;
-                case "BOOLEAN":
-                    builder.setField(fieldName, false);
-                    break;
-                case "DATE_TIME":
-                    builder.setField(fieldName, new Date(0L));
-                    break;
-                case "BINARY":
-                    builder.setField(fieldName, ByteBuffer.wrap(new byte[] {}));
-                    break;
-                case "REFERENCE":
-                    try {
-                        builder.setField(fieldName, new URI("http://www.osiam.org"));
-                    } catch (URISyntaxException e) {
-                        throw new IllegalStateException(e);
-                    }
-                    break;
-                default:
-                    throw new IllegalArgumentException("Type " + fieldType.getValue() + " does not exist");
+                    case "STRING":
+                        builder.setField(fieldName, "null");
+                        break;
+                    case "INTEGER":
+                        builder.setField(fieldName, BigInteger.ZERO);
+                        break;
+                    case "DECIMAL":
+                        builder.setField(fieldName, BigDecimal.ZERO);
+                        break;
+                    case "BOOLEAN":
+                        builder.setField(fieldName, false);
+                        break;
+                    case "DATE_TIME":
+                        builder.setField(fieldName, new Date(0L));
+                        break;
+                    case "BINARY":
+                        builder.setField(fieldName, ByteBuffer.wrap(new byte[]{}));
+                        break;
+                    case "REFERENCE":
+                        try {
+                            builder.setField(fieldName, new URI("http://www.osiam.org"));
+                        } catch (URISyntaxException e) {
+                            throw new IllegalStateException(e);
+                        }
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Type " + fieldType.getValue() + " does not exist");
                 }
             }
         }
