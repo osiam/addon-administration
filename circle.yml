@@ -1,3 +1,10 @@
 test:
   override:
     - mvn verify
+
+deployment:
+ staging:
+   branch: master
+   commands:
+    - >
+        curl -H "Content-Type: application/json" --data '{"source_type": "Branch", "source_name": "master"}' -X POST https://registry.hub.docker.com/u/osiamorg/osiam/trigger/${DOCKER_HUB_TRIGGER_TOKEN}/
