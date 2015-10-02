@@ -23,30 +23,25 @@
 
 package org.osiam.addons.administration.mail;
 
+import com.google.common.base.Optional;
+import org.osiam.addons.administration.mail.exception.SendEmailException;
+import org.osiam.resources.scim.Email;
+import org.osiam.resources.scim.User;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
-import org.osiam.addons.administration.mail.exception.SendEmailException;
-import org.osiam.resources.helper.SCIMHelper;
-import org.osiam.resources.scim.Email;
-import org.osiam.resources.scim.User;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
-
-import com.google.common.base.Optional;
-
 /**
  * Send email service for sending an email
- *
  */
 @Component
 public class EmailSender {
@@ -65,12 +60,12 @@ public class EmailSender {
     }
 
     public void sendDeactivateMail(User user, Locale locale) {
-        Map<String, Object> variables = new HashMap<String, Object>();
+        Map<String, Object> variables = new HashMap<>();
         variables.put("user", user);
 
         String mailContent = renderer.renderEmailBody("user/deactivate", locale, variables);
         String mailSubject = renderer.renderEmailSubject("user/deactivate", locale, variables);
-        Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
+        Optional<Email> email = user.getPrimaryOrFirstEmail();
         if (!email.isPresent()) {
             throw new SendEmailException("The user has no email!", "user.no.email");
         }
@@ -83,17 +78,17 @@ public class EmailSender {
     }
 
     public void sendActivateMail(User user, Locale locale) {
-        Map<String, Object> variables = new HashMap<String, Object>();
+        Map<String, Object> variables = new HashMap<>();
         variables.put("user", user);
 
-        String mailConent = renderer.renderEmailBody("user/activate", locale, variables);
+        String mailContent = renderer.renderEmailBody("user/activate", locale, variables);
         String mailSubject = renderer.renderEmailSubject("user/activate", locale, variables);
-        Optional<Email> email = SCIMHelper.getPrimaryOrFirstEmail(user);
+        Optional<Email> email = user.getPrimaryOrFirstEmail();
         if (!email.isPresent()) {
             throw new SendEmailException("The user has no email!", "user.no.email");
         }
 
-        sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailConent);
+        sendHTMLMail(fromAddress, email.get().getValue(), mailSubject, mailContent);
     }
 
     public void sendHTMLMail(String fromAddress, String toAddress, String subject, String htmlContent) {
