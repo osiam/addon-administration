@@ -1,5 +1,16 @@
 # OSIAM addon-administration
 
+## 1.7 - Unreleased
+
+### Features
+
+- Rollback User Creation on MailException
+
+### Updates
+
+- OSIAM connector4java 1.7
+- Spring Boot 1.2.6
+
 ## 1.6 - 2015-06-18
 
 ### Features
