@@ -45,7 +45,7 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/osiam/addon-administration.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/osiam/addon-administration.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>maintenance-1.x</tag>
     </scm>
 
     <properties>
