@@ -1,12 +1,18 @@
 # OSIAM addon-administration
 
-## 1.7
+## 2.0 - Unreleased
 
 ### Changes
 
-- Update OSIAM connector4java
 - Remove usage of old, method-based OAuth scopes
 - Use the SLF4J interface to get the loggers
+
+## 1.7 - 2015-10-09
+
+### Updates
+
+- OSIAM connector4java 1.7
+- Spring Boot 1.2.6
 
 ## 1.6 - 2015-06-18
 
