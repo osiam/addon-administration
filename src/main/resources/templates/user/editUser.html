@@ -1026,7 +1026,7 @@
                                th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="number"/>
                         <input th:case="'BOOLEAN'" th:id="${fieldEntry.key}"
                                th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="checkbox"
-                               th:value="${fieldEntry.value}"/>
+                               value="true"/>
                         <input th:case="'DATE_TIME'" th:id="${fieldEntry.key}"
                                th:field="*{extensions[__${extensionUrn}__][__${fieldEntry.key}__]}" type="datetime"/>
                         <input th:case="'REFERENCE'" th:id="${fieldEntry.key}"
