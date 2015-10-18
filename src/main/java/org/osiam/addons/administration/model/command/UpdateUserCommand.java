@@ -1,18 +1,17 @@
 package org.osiam.addons.administration.model.command;
 
-import java.util.*;
-import java.util.Map.Entry;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 import org.osiam.addons.administration.model.validation.ExtensionValidator;
 import org.osiam.resources.scim.*;
 import org.osiam.resources.scim.Extension.Field;
 import org.springframework.validation.BindingResult;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Command object for the user update view.
@@ -452,7 +451,7 @@ public class UpdateUserCommand {
                 SortedMap<String, String> localExtension = extensions.get(extension.getUrn());
 
                 if (!localExtension.containsKey(field.getKey())) {
-                    localExtension.put(field.getKey(), "");
+                    localExtension.put(field.getKey(), null);
                 }
             }
         }
