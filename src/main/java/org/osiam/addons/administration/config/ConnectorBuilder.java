@@ -17,25 +17,19 @@ public class ConnectorBuilder {
     @Value("${org.osiam.clientSecret}")
     private String clientSecret;
 
-    @Value("${org.osiam.authServerEndpoint}")
-    private String authServerEndpoint;
-
-    @Value("${org.osiam.resourceServerEndpoint}")
-    private String resourceServerEndpoint;
+    @Value("${org.osiam.endpoint}")
+    private String osiamEndpoint;
 
     @Value("${org.osiam.redirectUri}")
     private String redirectUri;
 
     @Bean
     public OsiamConnector build() {
-        OsiamConnector con = new OsiamConnector.Builder()
-                .setAuthServerEndpoint(authServerEndpoint)
-                .setResourceServerEndpoint(resourceServerEndpoint)
+        return new OsiamConnector.Builder()
+                .setEndpoint(osiamEndpoint)
                 .setClientRedirectUri(redirectUri)
                 .setClientId(clientId)
                 .setClientSecret(clientSecret)
                 .build();
-
-        return con;
     }
 }
