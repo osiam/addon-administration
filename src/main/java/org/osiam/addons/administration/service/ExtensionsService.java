@@ -32,16 +32,23 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 @Component
 public class ExtensionsService {
+
     private static final String BEARER = "Bearer ";
     private static final int CONNECT_TIMEOUT = 2500;
     private static final int READ_TIMEOUT = 5000;
-    @Value("${org.osiam.resourceServerEndpoint}")
-    private String resourceServerEndpoint;
+
+    @Value("${org.osiam.endpoint}")
+    private String osiamEndpoint;
+
     @Inject
     private GeneralSessionData sessionData;
 
@@ -51,12 +58,12 @@ public class ExtensionsService {
 
     public List<Extension> getExtensions() {
         String content = requestExtensionTypes();
-        return parseToListOfExtenions(content);
+        return parseToListOfExtensions(content);
     }
 
     public Map<String, Extension> getExtensionsMap() {
         List<Extension> extensions = getExtensions();
-        Map<String, Extension> result = new HashMap<String, Extension>();
+        Map<String, Extension> result = new HashMap<>();
 
         for (Extension e : extensions) {
             result.put(e.getUrn(), e);
@@ -126,11 +133,11 @@ public class ExtensionsService {
                 .property(ClientProperties.READ_TIMEOUT, READ_TIMEOUT)
                 .property(ApacheClientProperties.CONNECTION_MANAGER, new PoolingHttpClientConnectionManager()));
 
-        return client.target(resourceServerEndpoint);
+        return client.target(osiamEndpoint);
     }
 
-    private List<Extension> parseToListOfExtenions(String content) {
-        List<ExtensionDefinition> extensions = null;
+    private List<Extension> parseToListOfExtensions(String content) {
+        List<ExtensionDefinition> extensions;
 
         try {
             extensions = mapper.readValue(content, new TypeReference<ArrayList<ExtensionDefinition>>() {
@@ -145,7 +152,7 @@ public class ExtensionsService {
 
         // urnFieldPattern
 
-        Map<String, Builder> extensionBuilder = new HashMap<String, Extension.Builder>();
+        Map<String, Builder> extensionBuilder = new HashMap<>();
 
         for (ExtensionDefinition curExtension : extensions) {
             final String urn = curExtension.getUrn();
@@ -187,7 +194,7 @@ public class ExtensionsService {
             }
         }
 
-        List<Extension> result = new ArrayList<Extension>();
+        List<Extension> result = new ArrayList<>();
 
         for (Builder builder : extensionBuilder.values()) {
             result.add(builder.build());

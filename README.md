@@ -1,6 +1,6 @@
 # OSIAM addon-administration [![Circle CI](https://circleci.com/gh/osiam/addon-administration.svg?style=svg)](https://circleci.com/gh/osiam/addon-administration)
 
-An administration for the OSIAM server.
+An administration for OSIAM.
 
 ## Installation
 
@@ -11,43 +11,43 @@ create a new file named "addon-administration.properties" in that directory
 (/etc/osiam/addon-administration.properties). Edit the file with an editor of
 your choice and add the following content:
 
-```
-#Osiam-Endpoints
-org.osiam.authServerEndpoint=http://<osiam-tomcat>/osiam-auth-server
-org.osiam.resourceServerEndpoint=http://<osiam-tomcat>/osiam-resource-server
-org.osiam.redirectUri=http://<admin-tomcat>/addon-administration/
+## Configuration
 
-#Client credentials
-org.osiam.clientId=<clientId>
-org.osiam.clientSecret=<clientSecret>
+### OSIAM Endpoints
+    org.osiam.endpoint=http://<osiam-address>/osiam
+    org.osiam.redirectUri=http://<addon-administration-address>/addon-administration/
 
-#Mail settings
-org.osiam.mail.from=admin@your-domain.com
-org.osiam.mail.server.host.name=<serverHost>
-org.osiam.mail.server.smtp.port=<serverPort>
-org.osiam.mail.server.username=<send mail account: username>
-org.osiam.mail.server.password=<send mail account: password>
-org.osiam.mail.server.transport.protocol=smtp
-org.osiam.mail.server.smtp.auth=true
-org.osiam.mail.server.smtp.starttls.enable=true
+### Client credentials
+    org.osiam.clientId=<clientId>
+    org.osiam.clientSecret=<clientSecret>
 
-#Should the addon activate a new created user?
-org.osiam.administration.createUser.defaultActive=true
+### Mail settings
+    org.osiam.mail.from=admin@your-domain.com
+    org.osiam.mail.server.host.name=<serverHost>
+    org.osiam.mail.server.smtp.port=<serverPort>
+    org.osiam.mail.server.username=<send mail account: username>
+    org.osiam.mail.server.password=<send mail account: password>
+    org.osiam.mail.server.transport.protocol=smtp
+    org.osiam.mail.server.smtp.auth=true
+    org.osiam.mail.server.smtp.starttls.enable=true
 
-#Only users which are in one of the following groups (comma separated)
-#can access the admin-view
-org.osiam.administration.adminGroups=
+### Should the addon activate a new created user?
+    org.osiam.administration.createUser.defaultActive=true
 
-#Define aliases for extension-fields (comma separated). These aliases will be
-# displayed instead of the real extension field name. Each item should follow
-# this pattern: <extension-urn>::<extension field name>=<Display value>
-org.osiam.administration.extensions=\
-urn:org.osiam:scim:extensions:tests::age=Your age
-```
+### Only users which are in one of the following groups (comma separated) can access the admin-view
+    org.osiam.administration.adminGroups=<groupName>
+
+### Define aliases for extension-fields
+
+These aliases will be displayed instead of the real extension field name. Each
+item should follow this pattern:
+
+    <extension-urn>::<extension field name>=<Display value>
+    org.osiam.administration.extensions=urn:org.osiam:scim:extensions:tests::age=Your age
 
 Replace the placeholder (&lt;&gt;) with your specific values. Note that the
-&lt;osiam-tomcat&gt; and &lt;admin-tomcat&gt; can be the same. But it is not
-assuming!
+&lt;osiam-address&gt; and &lt;addon-administration-address&gt; can be the same.
+But it is not assuming!
 
 For sending email you must provide the email template-files under the following
 path:
@@ -80,8 +80,8 @@ the above mentioned addon-administration.properties!
 
 ### Admin group
 
-You need to add a specific group for administration in the resource-server
-database (admin_group.sql).
+You need to add a specific group for administration in the OSIAM database
+(admin_group.sql).
 
 Start the database commandline:
 
@@ -93,5 +93,4 @@ the sources by calling
     $ psql -f ./sql/admin_group.sql -U osiam
 
 but update the admin_group.sql before you import it and sync the data with
-any existing data on the resource-server.
-
+any existing data in the osiam database.

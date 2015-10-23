@@ -1,6 +1,6 @@
 --
 -- Group 'admin' for the addon-administration. Has to be imported in the
--- database of the resource-server.
+-- database of OSIAM.
 --
 
 INSERT INTO scim_meta (id, created, last_modified, location, resource_type, version)
