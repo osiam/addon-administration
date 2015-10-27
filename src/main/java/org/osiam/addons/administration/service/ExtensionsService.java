@@ -14,10 +14,10 @@ import org.osiam.client.exception.OAuthErrorMessage;
 import org.osiam.client.exception.UnauthorizedException;
 import org.osiam.resources.scim.Extension;
 import org.osiam.resources.scim.Extension.Builder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -46,15 +46,25 @@ public class ExtensionsService {
     private static final int CONNECT_TIMEOUT = 2500;
     private static final int READ_TIMEOUT = 5000;
 
-    @Value("${org.osiam.endpoint}")
-    private String osiamEndpoint;
+    private final GeneralSessionData sessionData;
+    private final ObjectMapper mapper;
+    private final WebTarget target;
 
-    @Inject
-    private GeneralSessionData sessionData;
+    @Autowired
+    public ExtensionsService(@Value("${org.osiam.endpoint}") String osiamEndpoint, GeneralSessionData sessionData,
+                             ObjectMapper mapper) {
+        this.sessionData = sessionData;
+        this.mapper = mapper;
 
-    @Inject
-    private ObjectMapper mapper;
+        Client client = ClientBuilder.newClient(new ClientConfig()
+                .connectorProvider(new ApacheConnectorProvider())
+                .property(ClientProperties.REQUEST_ENTITY_PROCESSING, RequestEntityProcessing.BUFFERED)
+                .property(ClientProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT)
+                .property(ClientProperties.READ_TIMEOUT, READ_TIMEOUT)
+                .property(ApacheClientProperties.CONNECTION_MANAGER, new PoolingHttpClientConnectionManager()));
 
+        target = client.target(osiamEndpoint);
+    }
 
     public List<Extension> getExtensions() {
         String content = requestExtensionTypes();
@@ -73,8 +83,6 @@ public class ExtensionsService {
     }
 
     private String requestExtensionTypes() {
-        WebTarget target = buildWebTarget();
-
         StatusType status;
         String content;
         try {
@@ -123,17 +131,6 @@ public class ExtensionsService {
 
             return errorMessage;
         }
-    }
-
-    private WebTarget buildWebTarget() {
-        Client client = ClientBuilder.newClient(new ClientConfig()
-                .connectorProvider(new ApacheConnectorProvider())
-                .property(ClientProperties.REQUEST_ENTITY_PROCESSING, RequestEntityProcessing.BUFFERED)
-                .property(ClientProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT)
-                .property(ClientProperties.READ_TIMEOUT, READ_TIMEOUT)
-                .property(ApacheClientProperties.CONNECTION_MANAGER, new PoolingHttpClientConnectionManager()));
-
-        return client.target(osiamEndpoint);
     }
 
     private List<Extension> parseToListOfExtensions(String content) {
