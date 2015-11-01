@@ -26,7 +26,7 @@ public class ConnectorBuilder {
     @Bean
     public OsiamConnector build() {
         return new OsiamConnector.Builder()
-                .setEndpoint(osiamEndpoint)
+                .withEndpoint(osiamEndpoint)
                 .setClientRedirectUri(redirectUri)
                 .setClientId(clientId)
                 .setClientSecret(clientSecret)
