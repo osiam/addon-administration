@@ -2,6 +2,7 @@ package org.osiam.addons.administration.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.glassfish.jersey.apache.connector.ApacheClientProperties;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
@@ -14,6 +15,7 @@ import org.osiam.client.exception.OAuthErrorMessage;
 import org.osiam.client.exception.UnauthorizedException;
 import org.osiam.resources.scim.Extension;
 import org.osiam.resources.scim.Extension.Builder;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -32,11 +34,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 @Component
@@ -51,8 +49,11 @@ public class ExtensionsService {
     private final WebTarget target;
 
     @Autowired
-    public ExtensionsService(@Value("${org.osiam.endpoint}") String osiamEndpoint, GeneralSessionData sessionData,
-                             ObjectMapper mapper) {
+    public ExtensionsService(
+            @Value("${org.osiam.endpoint:}") String osiamEndpoint,
+            @Value("${org.osiam.resourceServerEndpoint:}") String resourceServerEndpoint,
+            GeneralSessionData sessionData, ObjectMapper mapper
+    ) {
         this.sessionData = sessionData;
         this.mapper = mapper;
 
@@ -63,7 +64,13 @@ public class ExtensionsService {
                 .property(ClientProperties.READ_TIMEOUT, READ_TIMEOUT)
                 .property(ApacheClientProperties.CONNECTION_MANAGER, new PoolingHttpClientConnectionManager()));
 
-        target = client.target(osiamEndpoint);
+        if (!Strings.isNullOrEmpty(osiamEndpoint)) {
+            target = client.target(osiamEndpoint);
+        } else if (!Strings.isNullOrEmpty(resourceServerEndpoint)) {
+            target = client.target(resourceServerEndpoint);
+        } else {
+            throw new BeanCreationException("Error creating extension client. No OSIAM endpoint set.");
+        }
     }
 
     public List<Extension> getExtensions() {

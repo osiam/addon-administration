@@ -4,17 +4,24 @@ An administration for OSIAM.
 
 ## Installation
 
-Copy the addon-administration.war into the tomcat container (webapps). After
-that you must add a new properties file into tomcat classpath. For the moment,
-we assume that the directory /etc/osiam is included in the classpath. Now
-create a new file named "addon-administration.properties" in that directory
-(/etc/osiam/addon-administration.properties). Edit the file with an editor of
+Copy the `addon-administration.war` into the Tomcat container (`webapps`). After
+that you must add a new properties file into Tomcat classpath. For the moment,
+we assume that the directory `/etc/osiam` is included in the classpath. Now
+create a new file named `addon-administration.properties` in that directory
+(`/etc/osiam/addon-administration.properties`). Edit the file with an editor of
 your choice and add the following content:
 
 ## Configuration
 
-### OSIAM Endpoints
+### OSIAM Endpoints (OSIAM 3.x)
     org.osiam.endpoint=http://<osiam-address>/osiam
+
+### OSIAM Endpoints (OSIAM 2.x)
+    org.osiam.authServerEndpoint=http://<osiam-address>/osiam-auth-server
+    org.osiam.resourceServerEndpoint=http://<osiam-address>/osiam-resource-server
+    org.osiam.connector.legacy-schemas=false
+
+### Redirect URI for Authorization Code Grant
     org.osiam.redirectUri=http://<addon-administration-address>/addon-administration/
 
 ### Client credentials
@@ -56,15 +63,13 @@ path:
 
 ## Database setup
 
-**PRECONDITION**
-
-You need to import the sql scripts into your postgres database which you will
-find in the OSIAM resource server project!
-
 ### OAuth client
 
-You need to add a specific client for administration in the auth-server
-database (client.sql).
+You need to add a specific client for administration in OSIAM's database
+(`client.sql`).
+
+**Note for users of OSIAM 2.x:** the `client.sql` must be run against the
+auth-server's database.
 
 Start the database commandline:
 
@@ -75,13 +80,16 @@ the sources by calling
 
     $ psql -f ./sql/client.sql -U osiam
 
-but update the client.sql before you import it and sync the data with
-the above mentioned addon-administration.properties!
+but update the `client.sql` before you import it and sync the data with the
+aforementioned addon-administration.properties!
 
 ### Admin group
 
-You need to add a specific group for administration in the OSIAM database
-(admin_group.sql).
+You need to add a specific group for administration in OSIAM's database
+(`admin_group.sql`).
+
+**Note for users of OSIAM 2.x:** the `admin_group.sql` must be run against the
+resource-server's database.
 
 Start the database commandline:
 
@@ -92,5 +100,5 @@ the sources by calling
 
     $ psql -f ./sql/admin_group.sql -U osiam
 
-but update the admin_group.sql before you import it and sync the data with
-any existing data in the osiam database.
+but update the `admin_group.sql` before you import it and sync the data with
+any existing data in OSIAM's database.
