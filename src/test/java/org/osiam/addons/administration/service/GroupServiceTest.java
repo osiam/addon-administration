@@ -45,7 +45,7 @@ public class GroupServiceTest {
 
     @Spy
     @InjectMocks
-    GroupService toTestSpy = new GroupService();
+    GroupService groupService = new GroupService();
 
     @Test
     public void searchGroup_advanced() {
@@ -55,7 +55,7 @@ public class GroupServiceTest {
         final String orderBy = "orderby";
         final Boolean asc = false; // desc
 
-        toTestSpy.searchGroup(query, limit, offset, orderBy, asc);
+        groupService.searchGroup(query, limit, offset, orderBy, asc);
 
         ArgumentCaptor<Query> cap = ArgumentCaptor.forClass(Query.class);
 
@@ -73,7 +73,7 @@ public class GroupServiceTest {
     public void deleteGroup() {
         final String id = "groupID";
 
-        toTestSpy.deleteGroup(id);
+        groupService.deleteGroup(id);
 
         verify(connector).deleteGroup(eq(id), same(accessToken));
     }
@@ -82,10 +82,10 @@ public class GroupServiceTest {
     public void getGroup() {
         String id = "groupID";
 
-        Group group = mock(Group.class);
+        Group group = new Group.Builder("testGroup").build();
         doReturn(group).when(connector).getGroup(eq(id), same(accessToken));
 
-        Group result = toTestSpy.getGroup(id);
+        Group result = groupService.getGroup(id);
         assertEquals(group, result);
     }
 
@@ -94,7 +94,7 @@ public class GroupServiceTest {
         UpdateGroup updateGroup = new UpdateGroup.Builder().build();
         String id = "user ID";
 
-        toTestSpy.updateGroup(id, updateGroup);
+        groupService.updateGroup(id, updateGroup);
         verify(connector, times(1)).updateGroup(eq(id), eq(updateGroup), same(accessToken));
     }
 
@@ -102,7 +102,7 @@ public class GroupServiceTest {
     public void addUserToGroups_emptyGroupIds() {
         final String userId = "userId";
 
-        toTestSpy.addUserToGroups(userId);
+        groupService.addUserToGroups(userId);
 
         verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
     }
@@ -112,7 +112,7 @@ public class GroupServiceTest {
         final String userId = "userId";
         final String groupId = "groupId";
 
-        toTestSpy.addUserToGroups(userId, groupId);
+        groupService.addUserToGroups(userId, groupId);
 
         ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
 
@@ -127,7 +127,7 @@ public class GroupServiceTest {
         final String userId = "userId";
         final String[] groupIds = new String[] { "groupId#1", "groupId#2" };
 
-        toTestSpy.addUserToGroups(userId, groupIds);
+        groupService.addUserToGroups(userId, groupIds);
 
         for (int i = 0; i < groupIds.length; i++) {
             ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
@@ -143,7 +143,7 @@ public class GroupServiceTest {
     public void addUsersToGroup_emptyUserIds() {
         final String userId = "userId";
 
-        toTestSpy.addUsersToGroup(userId);
+        groupService.addUsersToGroup(userId);
 
         verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
     }
@@ -153,7 +153,7 @@ public class GroupServiceTest {
         final String groupId = "groupId";
         final String userId = "userId";
 
-        toTestSpy.addUsersToGroup(groupId, userId);
+        groupService.addUsersToGroup(groupId, userId);
 
         ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
 
@@ -168,7 +168,7 @@ public class GroupServiceTest {
         final String groupId = "groupId";
         final String[] userIds = new String[] { "userId#1", "userId#2" };
 
-        toTestSpy.addUsersToGroup(groupId, userIds);
+        groupService.addUsersToGroup(groupId, userIds);
 
         ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
 
@@ -184,7 +184,7 @@ public class GroupServiceTest {
     public void removeUsersFromGroup_emptyUserIds() {
         final String groupId = "groupId";
 
-        toTestSpy.removeUsersFromGroup(groupId);
+        groupService.removeUsersFromGroup(groupId);
 
         verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
     }
@@ -194,7 +194,7 @@ public class GroupServiceTest {
         final String groupId = "groupId";
         final String userId = "userId";
 
-        toTestSpy.removeUsersFromGroup(groupId, userId);
+        groupService.removeUsersFromGroup(groupId, userId);
 
         ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
 
@@ -209,7 +209,7 @@ public class GroupServiceTest {
         final String groupId = "groupId";
         final String[] userIds = new String[] { "userId#1", "userId#2" };
 
-        toTestSpy.removeUsersFromGroup(groupId, userIds);
+        groupService.removeUsersFromGroup(groupId, userIds);
 
         ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
 
@@ -225,7 +225,7 @@ public class GroupServiceTest {
     public void removeUserFromGroups_emptyGroupIds() {
         final String userId = "userId";
 
-        toTestSpy.removeUserFromGroups(userId);
+        groupService.removeUserFromGroups(userId);
 
         verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
     }
@@ -235,7 +235,7 @@ public class GroupServiceTest {
         final String userId = "userId";
         final String groupId = "groupId";
 
-        toTestSpy.removeUserFromGroups(userId, groupId);
+        groupService.removeUserFromGroups(userId, groupId);
 
         ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
 
@@ -250,7 +250,7 @@ public class GroupServiceTest {
         final String userId = "userId";
         final String[] groupIds = new String[] { "groupId#1", "groupId#2" };
 
-        toTestSpy.removeUserFromGroups(userId, groupIds);
+        groupService.removeUserFromGroups(userId, groupIds);
 
         for (int i = 0; i < groupIds.length; i++) {
             ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);

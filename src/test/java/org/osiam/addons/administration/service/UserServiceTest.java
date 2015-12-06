@@ -40,7 +40,7 @@ public class UserServiceTest {
 
     @Spy
     @InjectMocks
-    UserService toTestSpy = new UserService();
+    UserService userService = new UserService();
 
     @Test
     public void searchUser_advanced() {
@@ -51,7 +51,7 @@ public class UserServiceTest {
         final Boolean asc = false; // desc
         final String attributes = "attributes";
 
-        toTestSpy.searchUser(query, limit, offset, orderBy, asc, attributes);
+        userService.searchUser(query, limit, offset, orderBy, asc, attributes);
 
         ArgumentCaptor<Query> cap = ArgumentCaptor.forClass(Query.class);
 
@@ -70,16 +70,16 @@ public class UserServiceTest {
     public void getUser() {
         String id = "userID";
 
-        User user = mock(User.class);
+        User user = new User.Builder("testUser").build();
         doReturn(user).when(connector).getUser(eq(id), same(accessToken));
 
-        User result = toTestSpy.getUser(id);
+        User result = userService.getUser(id);
         assertEquals(user, result);
     }
 
     @Test
     public void logoutCurrentUser() {
-        toTestSpy.logoutCurrentUser();
+        userService.logoutCurrentUser();
 
         verify(connector, times(1)).revokeAccessToken(same(accessToken));
     }
@@ -88,7 +88,7 @@ public class UserServiceTest {
     public void createUser() {
         User newUser = new User.Builder("username").build();
 
-        toTestSpy.createUser(newUser);
+        userService.createUser(newUser);
         verify(connector, times(1)).createUser(same(newUser), same(accessToken));
     }
 
@@ -97,7 +97,7 @@ public class UserServiceTest {
         UpdateUser updateUser = new UpdateUser.Builder().build();
         String id = "user ID";
 
-        toTestSpy.updateUser(id, updateUser);
+        userService.updateUser(id, updateUser);
         verify(connector, times(1)).updateUser(eq(id), same(updateUser), same(accessToken));
     }
 
@@ -105,7 +105,7 @@ public class UserServiceTest {
     public void deactivateUser() {
         String id = "userID";
 
-        toTestSpy.deactivateUser(id);
+        userService.deactivateUser(id);
         ArgumentCaptor<UpdateUser> cap = ArgumentCaptor.forClass(UpdateUser.class);
 
         verify(connector, times(1)).updateUser(eq(id), cap.capture(), same(accessToken));
@@ -116,7 +116,7 @@ public class UserServiceTest {
     public void activateUser() {
         String id = "userID";
 
-        toTestSpy.activateUser(id);
+        userService.activateUser(id);
         ArgumentCaptor<UpdateUser> cap = ArgumentCaptor.forClass(UpdateUser.class);
 
         verify(connector, times(1)).updateUser(eq(id), cap.capture(), same(accessToken));
@@ -127,7 +127,7 @@ public class UserServiceTest {
     public void deleteUser() {
         String id = "userId";
 
-        toTestSpy.deleteUser(id);
+        userService.deleteUser(id);
 
         verify(connector, times(1)).deleteUser(eq(id), same(accessToken));
     }
@@ -137,7 +137,7 @@ public class UserServiceTest {
         User replaceUser = new User.Builder().build();
         String id = "user ID";
 
-        toTestSpy.replaceUser(id, replaceUser);
+        userService.replaceUser(id, replaceUser);
         verify(connector, times(1)).replaceUser(eq(id), eq(replaceUser), same(accessToken));
         verify(connector, times(1)).revokeAllAccessTokens(eq(id), same(accessToken));
     }
@@ -159,7 +159,7 @@ public class UserServiceTest {
         pagingInformation.setLimit(count);
         pagingInformation.setOffset((long) startIndex);
 
-        toTestSpy.getAssignedUsers(groupId, pagingInformation, attributes);
+        userService.getAssignedUsers(groupId, pagingInformation, attributes);
         verify(connector, times(1)).searchUsers(cap.capture(), same(accessToken));
 
         assertEquals(cap.getValue().getAttributes(), attributes);
@@ -189,7 +189,7 @@ public class UserServiceTest {
         pagingInformation.setOffset((long) startIndex);
         pagingInformation.setQuery(query);
 
-        toTestSpy.getAssignedUsers(groupId, pagingInformation, attributes);
+        userService.getAssignedUsers(groupId, pagingInformation, attributes);
         verify(connector, times(1)).searchUsers(cap.capture(), same(accessToken));
 
         assertEquals(cap.getValue().getAttributes(), attributes);
