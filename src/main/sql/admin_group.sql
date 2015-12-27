@@ -26,6 +26,8 @@ INSERT INTO scim_group VALUES (
 
 -- add default admin user to group
 
+-- Uncomment the next line and comment the line after the next line, if you use OSIAM < 2.5
+--INSERT INTO scim_group_scim_id VALUES (
 INSERT INTO scim_group_members VALUES (
   2, -- groups
   1 -- members
