@@ -11,3 +11,5 @@ deployment:
    commands:
     - >
         curl -H "Content-Type: application/json" --data '{"source_type": "Branch", "source_name": "master"}' -X POST https://registry.hub.docker.com/u/osiamorg/osiam/trigger/${DOCKER_HUB_TRIGGER_TOKEN}/
+    - >
+        curl -H "Content-Type: application/json" --data '{"source_type": "Branch", "source_name": "maintenance-2.x"}' -X POST https://registry.hub.docker.com/u/osiamorg/osiam/trigger/${DOCKER_HUB_TRIGGER_TOKEN}/
