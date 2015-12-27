@@ -1,13 +1,58 @@
 # OSIAM addon-administration
 
-## 2.0 - Unreleased
+## 1.8 - 2015-12-27
+
+**NOTICE:** This version should be compatible with all versions of OSIAM >= 2.2.
+
+### Features
+
+- Support legacy SCIM schemas for connecting to OSIAM <= 2.3
+
+    See [OSIAM Endpoints (OSIAM 2.x)](README.md#osiam-endpoints-osiam-2x), if you use OSIAM <= 2.3.
+
+- Support OSIAM 3.x
+
+    See [OSIAM Endpoints (OSIAM 3.x)](README.md#osiam-endpoints-osiam-3x), if you use OSIAM 3.x.
 
 ### Changes
 
-- Remove usage of old, method-based OAuth scopes
-- Use the SLF4J interface to get the loggers
+- Make SQL scripts more independent of database schema
+
+    Use `INSERT`s without field names.
+
+- Change table name in SQL script `admin_group.sql`
+
+    Due to the database schema changes in the resource-server, `scim_group_scim_id` becomes `scim_group_members`.
+    A statement with the old table name is still contained as a comment for your convenience.
+
+- Use the new scope `ADMIN` for connections to OSIAM
+
+    Abandon the usage of the deprecated method-based scopes.
+    SQL files have been changed to install the necessary client with scope `ADMIN`.
+    Add the scope `ADMIN` to the `addon-administration-client`:
+
+        INSERT INTO osiam_client_scopes (id, scope) VALUES (<id of addon-administration-client>, 'ADMIN');
+
+    By default `<id of addon-administration-client>` is set to `20`.
+
+- Remove deprecated SQL file `example_data.sql`
+
+### Fixes
+
+- Fix handling of boolean extension fields
+
+    Fixes #83
+
+- Create REST client only once to improve performance
+
+### Updates
+
+- OSIAM connector4java 1.8
+- Spring Boot 1.2.7
 
 ## 1.7 - 2015-10-09
+
+**NOTICE:** This version is only compatible with OSIAM 2.4 and later.
 
 ### Updates
 

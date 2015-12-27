@@ -33,7 +33,7 @@
 
     <groupId>org.osiam</groupId>
     <artifactId>addon-administration</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.8-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>OSIAM Administration</name>
@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.osiam</groupId>
             <artifactId>connector4java</artifactId>
-            <version>1.8-SNAPSHOT</version>
+            <version>1.8</version>
         </dependency>
 
         <dependency>

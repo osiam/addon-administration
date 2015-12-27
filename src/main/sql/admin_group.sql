@@ -3,16 +3,32 @@
 -- database of OSIAM.
 --
 
-INSERT INTO scim_meta (id, created, last_modified, location, resource_type, version)
-VALUES (2, LOCALTIMESTAMP, LOCALTIMESTAMP, NULL, 'Group', NULL);
+INSERT INTO scim_meta VALUES (
+  2, -- id
+  LOCALTIMESTAMP, -- created
+  LOCALTIMESTAMP, -- last_modified
+  NULL, -- location
+  'Group', -- resource_type
+  NULL -- version
+);
 
-INSERT INTO scim_id (internal_id, external_id, id, meta)
-VALUES (2, NULL, 'cef9452e-00a9-4cec-a086-d171374aabef', 2);
+INSERT INTO scim_id VALUES (
+  2, -- internal_id
+  NULL, -- external_id
+  'cef9452e-00a9-4cec-a086-d171374aabef', -- id
+  2 -- meta
+);
 
-INSERT INTO scim_group (display_name, internal_id)
-VALUES ('admin', 2);
+INSERT INTO scim_group VALUES (
+  'admin', -- display_name
+  2 -- internal_id
+);
 
 -- add default admin user to group
 
-INSERT INTO scim_group_members (groups, members)
-VALUES (2, 1);
+-- Uncomment the next line and comment the line after the next line, if you use OSIAM < 2.5
+--INSERT INTO scim_group_scim_id VALUES (
+INSERT INTO scim_group_members VALUES (
+  2, -- groups
+  1 -- members
+);
