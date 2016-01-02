@@ -5,7 +5,7 @@ import javax.validation.Valid;
 
 import org.osiam.addons.administration.controller.AdminController;
 import org.osiam.addons.administration.controller.GenericController;
-import org.osiam.addons.administration.model.command.UpdateGroupCommand;
+import org.osiam.addons.administration.model.command.EditGroupCommand;
 import org.osiam.addons.administration.service.GroupService;
 import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.client.exception.ConflictException;
@@ -45,7 +45,7 @@ public class EditGroupController extends GenericController {
 
         Group group = groupService.getGroup(id);
 
-        modelAndView.addObject(MODEL, new UpdateGroupCommand(group));
+        modelAndView.addObject(MODEL, new EditGroupCommand(group));
 
         return modelAndView;
     }
@@ -67,7 +67,7 @@ public class EditGroupController extends GenericController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String handleGroupUpdate(@Valid @ModelAttribute(MODEL) UpdateGroupCommand command,
+    public String handleGroupUpdate(@Valid @ModelAttribute(MODEL) EditGroupCommand command,
             BindingResult bindingResult) {
         boolean isDuplicated = false;
 

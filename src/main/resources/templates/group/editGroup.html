@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <th:block th:include="head :: includes"></th:block>
+    <th:block th:include="head :: includes"/>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title th:text="#{edit_group.title}">Edit group</title>
@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<th:block th:include="header :: header"></th:block>
+<th:block th:include="header :: header"/>
 
 <div class="container shadow" id="content">
     <div th:replace="makros :: topbar">
