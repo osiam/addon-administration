@@ -1,5 +1,13 @@
 # OSIAM addon-administration
 
+## Unreleased
+
+### Fixes
+
+- Fix: Changing the displayName removes all members from a group
+
+    Fixes #119
+
 ## 1.8 - 2015-12-27
 
 **NOTICE:** This version should be compatible with all versions of OSIAM >= 2.2.
