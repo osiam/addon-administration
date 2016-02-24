@@ -2,6 +2,17 @@
 
 An administration for OSIAM.
 
+## Screenshots
+
+### List users
+![Screenshot User List](/docs/screenshots/user-list.png?raw=true "List users")
+
+### Create a new user
+![Screenshot User Create](/docs/screenshots/create-user.png?raw=true "Create user")
+
+### Edit a user
+![Screenshot User Edit](/docs/screenshots/edit-user.png?raw=true "Edit user")
+
 ## Installation
 
 Copy the `addon-administration.war` into the Tomcat container (`webapps`). After
