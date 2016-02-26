@@ -1,4 +1,4 @@
-# OSIAM addon-administration [![Circle CI](https://circleci.com/gh/osiam/addon-administration.svg?style=svg)](https://circleci.com/gh/osiam/addon-administration)
+# OSIAM addon-administration [![Circle CI](https://circleci.com/gh/osiam/addon-administration.svg?style=svg)](https://circleci.com/gh/osiam/addon-administration) [![Codacy Badge](https://api.codacy.com/project/badge/grade/9806775f28c74ddd80633d0a4a8e6bc3)](https://www.codacy.com/app/OSIAM/addon-administration)
 
 An administration for OSIAM.
 
