@@ -144,6 +144,10 @@ nav ul li ul{
     padding: 0 8px 0 0;
 }
 
+#header li:last-child {
+    border: none;
+}
+
 .topbar {
     background-color: rgba(217, 237, 247, 0.7);
     height: 30px;
@@ -221,6 +225,10 @@ table tr td:last-child nav {
 .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
 .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
     padding-bottom: 10px;
+}
+
+.textCenter {
+    text-align: center;
 }
 
 .textRight {

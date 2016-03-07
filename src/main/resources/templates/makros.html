@@ -121,7 +121,7 @@
     */-->
     <div th:fragment="topbar" class="topbar">
         <div class="container">
-            <a id="logout-button" th:href="@{/admin/logout}" class="pull-right tn btn-info btn-xs">
+            <a id="logout-button" th:href="@{/admin/logout}" class="pull-right tn btn-info btn-xs"  th:if="${isLoggedIn}">
                 <span th:text="#{msg.logout}">Logout</span>
                 <span class="glyphicon glyphicon-remove"></span>
             </a>
