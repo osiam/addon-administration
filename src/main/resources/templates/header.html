@@ -8,10 +8,13 @@
         <div id="logo">
             <img src="../../img/osiam_logo.png" th:src="@{/img/osiam_logo.png}" alt="OSIAM Logo" width="150px"/>
         </div>
-        <ul style="width: 50%;">
+        <ul style="width: 50%;" th:if="${isLoggedIn}">
             <!-- Please write <li>s next to each other (not in separate lines) as it prevents a layout bug in FF -->
-            <li><a href="user/list.html" th:href="@{/admin/user/list}" th:text="#{msg.list.userList}">User List</a></li>
-            <li><a href="group/list.html" th:href="@{/admin/group/list}" th:text="#{msg.list.groupList}">Group List</a>
+            <li>
+                <a href="user/list.html" th:href="@{/admin/user/list}" th:text="#{msg.list.userList}">User List</a>
+            </li>
+            <li>
+                <a href="group/list.html" th:href="@{/admin/group/list}" th:text="#{msg.list.groupList}">Group List</a>
             </li>
         </ul>
     </div>

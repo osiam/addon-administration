@@ -7,10 +7,12 @@ import java.util.Map.Entry;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -21,7 +23,10 @@ public abstract class GenericController {
     private static final String REQUEST_PARAMETER_QUERY_PREFIX = "query.";
 
     @Inject
-    private HttpSession session;
+    private HttpSession httpSession;
+
+    @Inject
+    private GeneralSessionData generalSessionData;
 
     /**
      *
@@ -34,8 +39,13 @@ public abstract class GenericController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
     }
 
+    @ModelAttribute("isLoggedIn")
+    public boolean isLoggedIn() {
+        return generalSessionData.getAccessToken() != null;
+    }
+
     /**
-     * Store an object into the session.
+     * Store an object into the http session.
      *
      * @param key
      *            Under which key should this object stored.
@@ -43,28 +53,28 @@ public abstract class GenericController {
      *            Object that should be stored.
      */
     public void storeInSession(String key, Object toStore) {
-        session.setAttribute(generateKey(key), toStore);
+        httpSession.setAttribute(generateKey(key), toStore);
     }
 
     /**
-     * Get the object from the session.
+     * Get the object from the http session.
      *
      * @param key
      *            The key under which the object will be found.
      * @return The object if one was found under the given key. Otherwise <b>null</b>.
      */
     public Object restoreFromSession(String key) {
-        return session.getAttribute(generateKey(key));
+        return httpSession.getAttribute(generateKey(key));
     }
 
     /**
-     * Remove the object from the session.
+     * Remove the object from the http session.
      *
      * @param key
      *            The key under which the object will be found.
      */
     public void removeFromSession(String key) {
-        session.removeAttribute(generateKey(key));
+        httpSession.removeAttribute(generateKey(key));
     }
 
     /**

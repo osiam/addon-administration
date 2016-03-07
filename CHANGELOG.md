@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Features
+
+- Create a landingpage
+
 ### Fixes
 
 - Fix: Changing the displayName removes all members from a group

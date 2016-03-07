@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import javax.inject.Inject;
 
 import org.osiam.addons.administration.controller.AdminController;
+import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.addons.administration.model.session.GrouplistSession;
 import org.osiam.addons.administration.paging.PagingBuilder;
 import org.osiam.addons.administration.paging.PagingLinks;
@@ -15,6 +16,7 @@ import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.resources.scim.Group;
 import org.osiam.resources.scim.SCIMSearchResult;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +55,9 @@ public class GroupViewController {
 
     @Inject
     private GrouplistSession session;
+
+    @Inject
+    private GeneralSessionData generalSessionData;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleList(
@@ -207,5 +212,10 @@ public class GroupViewController {
                 .addParameter(REQUEST_PARAMETER_ORDER_BY, session.getPagingInformation().getOrderBy())
                 .addParameter(REQUEST_PARAMETER_ASCENDING, session.getPagingInformation().getAscending())
                 .build();
+    }
+
+    @ModelAttribute("isLoggedIn")
+    public boolean isLoggedIn() {
+        return generalSessionData.getAccessToken() != null;
     }
 }
