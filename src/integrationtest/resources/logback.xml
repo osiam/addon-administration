@@ -1,0 +1,15 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%level] %date %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.dbunit" level="ERROR"/>
+    <logger name="org.osiam.bundled.org.apache.http" level="WARN"/>
+    <logger name="ch.qos.logback" level="ERROR"/>
+
+    <root level="ERROR">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

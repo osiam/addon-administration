@@ -1,0 +1,18 @@
+packaging:
+  add:
+    - target/addon-administration-${project.version}
+    - target/dependency/osiam.war
+
+links:
+  - postgres
+
+ports:
+  - 8380
+
+healthChecks:
+  pings:
+    - url: http://localhost:8380/manager/text/list
+      timeout: 80000
+      pattern: osiam:running
+
+tag: ${project.artifactId}_tomcat
