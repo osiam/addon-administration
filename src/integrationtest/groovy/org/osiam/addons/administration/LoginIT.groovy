@@ -30,4 +30,12 @@ class LoginIT extends IntegrationTest {
         then:
         at Start
     }
+
+    def 'start page with wrong auth code shows error'() {
+        when:
+        go ADMINISTRATION_HOST + '?code=123456'
+
+        then:
+        $('p', 'class': 'text-danger').displayed
+    }
 }

@@ -1,13 +1,13 @@
 package org.osiam.addons.administration.controller;
 
 import org.osiam.addons.administration.model.session.GeneralSessionData;
-import org.osiam.addons.administration.util.RedirectBuilder;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.exception.ConflictException;
 import org.osiam.client.oauth.Scope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,12 +37,15 @@ public class LoginController {
     }
 
     @RequestMapping(params = "code")
-    public String handleLoggedIn(@RequestParam(value = "code", required = true) String code) {
+    public String handleLoggedIn(@RequestParam(value = "code", required = true) String code,
+                                 Model model) {
+
         try {
             generalSessionData.setAccessToken(connector.retrieveAccessToken(code));
         } catch (ConflictException e) {
-            logger.error(e.getMessage());
-            return "/";
+            logger.warn(e.getMessage());
+            model.addAttribute("showAuthCodeErrorMessage", true);
+            return "start";
         }
 
         return "redirect:/";

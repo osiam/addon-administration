@@ -18,6 +18,8 @@
 
     <p th:text="#{msg.start.welcome.description}">Here you can administrate the users and groups of the OSIAM instance you connected to.</p>
 
+    <p class="text-danger" th:text="#{msg.start.error.auth.code}" th:if="${showAuthCodeErrorMessage}">Authentication failed. Please log in again.</p>
+
     <a id="login-button" th:href="@{${redirectUri}}" class="btn btn-primary" th:unless="${isLoggedIn}" style="margin-top: 10px;">
         <span th:text="#{msg.user.login}">Login</span>
     </a>
