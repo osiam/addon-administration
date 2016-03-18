@@ -13,6 +13,12 @@ An administration for OSIAM.
 ### Edit a user
 ![Screenshot User Edit](/docs/screenshots/edit-user.png?raw=true "Edit user")
 
+## Snapshots
+
+To use the latest snapshot of the OSIAM administration just download it from
+the oss jfrog repository:
+https://oss.jfrog.org/artifactory/repo/org/osiam/addon-administration
+
 ## Installation
 
 Copy the `addon-administration.war` into the Tomcat container (`webapps`). After

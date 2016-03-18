@@ -26,10 +26,12 @@ test:
     - test -z $COVERALLS_REPO_TOKEN || mvn coveralls:report -DrepoToken=$COVERALLS_REPO_TOKEN
 
 deployment:
- staging:
-   branch: master
-   commands:
-    - >
+  staging:
+    branch: master
+    commands:
+      - wget https://raw.githubusercontent.com/osiam/circleci/master/settings.xml
+      - mvn deploy -s settings.xml -DskipTests
+      - >
         curl -H "Content-Type: application/json" --data '{"source_type": "Branch", "source_name": "master"}' -X POST https://registry.hub.docker.com/u/osiamorg/osiam/trigger/${DOCKER_HUB_TRIGGER_TOKEN}/
-    - >
+      - >
         curl -H "Content-Type: application/json" --data '{"source_type": "Branch", "source_name": "maintenance-2.x"}' -X POST https://registry.hub.docker.com/u/osiamorg/osiam/trigger/${DOCKER_HUB_TRIGGER_TOKEN}/
