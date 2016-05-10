@@ -457,7 +457,6 @@
                             <src>src/integrationtest/docker</src>
                             <version>1.16</version>
                             <host>${docker.host}</host>
-                            <exclude>${excluded.container}</exclude>
                             <removeIntermediateImages>${docker.removeIntermediateImages}</removeIntermediateImages>
                             <cache>false</cache>
                             <permissionErrorTolerant>true</permissionErrorTolerant>
