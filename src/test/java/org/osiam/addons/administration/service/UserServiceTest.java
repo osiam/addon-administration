@@ -139,7 +139,6 @@ public class UserServiceTest {
 
         userService.replaceUser(id, replaceUser);
         verify(connector, times(1)).replaceUser(eq(id), eq(replaceUser), same(accessToken));
-        verify(connector, times(1)).revokeAllAccessTokens(eq(id), same(accessToken));
     }
 
     @Test
