@@ -457,31 +457,6 @@ public class UpdateUserCommand {
         }
     }
 
-    /**
-     * Returns a SCIM {@link UpdateUser} based on this command.
-     *
-     * @return the requested {@link UpdateUser}
-     */
-    public UpdateUser getAsUpdateUser() {
-        UpdateUser.Builder builder = new UpdateUser.Builder();
-
-        if (active != null) {
-            builder.updateActive(active);
-        }
-        builder.updateExternalId(externalId);
-        builder.updateName(name.getAsName());
-        builder.updateTitle(title);
-        builder.updateDisplayName(displayName);
-        builder.updateNickName(nickName);
-        builder.updatePreferredLanguage(preferredLanguage);
-        builder.updateLocale(locale);
-        builder.updateProfileUrl(profileURL);
-        builder.updateTimezone(timezone);
-        builder.updateUserName(userName);
-
-        return builder.build();
-    }
-
     public User getAsUser() {
         User.Builder builder = new User.Builder(getUserName());
 

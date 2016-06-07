@@ -9,8 +9,8 @@ import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
 import org.osiam.client.query.QueryBuilder;
 import org.osiam.resources.scim.Group;
+import org.osiam.resources.scim.MemberRef;
 import org.osiam.resources.scim.SCIMSearchResult;
-import org.osiam.resources.scim.UpdateGroup;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -72,72 +72,65 @@ public class GroupService {
      * @param id
      *            the group Id
      * @return the requested group
-     * @throws NoSuchGroupException
-     *             if no group was found for id.
      */
     public Group getGroup(String id) {
         return connector.getGroup(id, getAccesstoken());
     }
 
-    /**
-     * Updates a group based on the given {@link UpdateGroup}.
-     *
-     * @param id
-     *            the group ID
-     * @param updateGroup
-     *            the {@link UpdateGroup}
-     */
-    public Group updateGroup(String id, UpdateGroup updateGroup) {
-        return connector.updateGroup(id, updateGroup, getAccesstoken());
+    public void replaceGroup(String groupId, Group group) {
+        connector.replaceGroup(groupId, group, getAccesstoken());
     }
 
     /**
      * Add the given users to the given groups.
      *
-     * @param userId
+     * @param groupId
      *            The user id.
-     * @param groupIds
+     * @param userIds
      *            The group id(s)
      */
     public void addUsersToGroup(String groupId, String... userIds) {
         if (userIds == null || userIds.length == 0) {
             return;
         }
-        UpdateGroup.Builder updateGroup = new UpdateGroup.Builder();
+        Group group = connector.getGroup(groupId, getAccesstoken());
+        Group.Builder updatedGroup = new Group.Builder(group);
 
         for (String userId : userIds) {
-            updateGroup.addMember(userId);
+            updatedGroup.addMember(new MemberRef.Builder()
+                    .setValue(userId)
+                    .build());
         }
-        updateGroup(groupId, updateGroup.build());
+
+        connector.replaceGroup(groupId, updatedGroup.build(), getAccesstoken());
     }
 
     /**
      * Remove the given users from the given groups.
      *
-     * @param userId
+     * @param groupId
      *            The user id.
-     * @param groupIds
+     * @param userIds
      *            The group id(s)
      */
     public void removeUsersFromGroup(String groupId, String... userIds) {
         if (userIds == null || userIds.length == 0) {
             return;
         }
-        UpdateGroup.Builder updateGroup = new UpdateGroup.Builder();
+        Group group = connector.getGroup(groupId, getAccesstoken());
+        Group.Builder updatedGroup = new Group.Builder(group);
 
         for (String userId : userIds) {
-            updateGroup.deleteMember(userId);
+            updatedGroup.removeMember(new MemberRef.Builder()
+                    .setValue(userId)
+                    .build());
         }
-        updateGroup(groupId, updateGroup.build());
+
+        connector.replaceGroup(groupId, updatedGroup.build(), getAccesstoken());
     }
 
     /**
-     * Create a group based on the given {@link UpdateGroup}.
-     *
-     * @param id
-     *            the group ID
-     * @param updateGroup
-     *
+     * Create a new group.
      */
     public Group createGroup(Group group) {
         return connector.createGroup(group, getAccesstoken());
@@ -207,10 +200,14 @@ public class GroupService {
         }
 
         for (String groupId : groupIds) {
-            UpdateGroup.Builder update = new UpdateGroup.Builder();
-            update.addMember(userId);
+            Group group = connector.getGroup(groupId, getAccesstoken());
+            Group.Builder updatedGroup = new Group.Builder(group);
 
-            updateGroup(groupId, update.build());
+            updatedGroup.addMember(new MemberRef.Builder()
+                    .setValue(userId)
+                    .build());
+
+            connector.replaceGroup(groupId, updatedGroup.build(), getAccesstoken());
         }
     }
 
@@ -228,10 +225,14 @@ public class GroupService {
         }
 
         for (String groupId : groupIds) {
-            UpdateGroup.Builder update = new UpdateGroup.Builder();
-            update.deleteMember(userId);
+            Group group = connector.getGroup(groupId, getAccesstoken());
+            Group.Builder updatedGroup = new Group.Builder(group);
 
-            updateGroup(groupId, update.build());
+            updatedGroup.removeMember(new MemberRef.Builder()
+                    .setValue(userId)
+                    .build());
+
+            connector.replaceGroup(groupId, updatedGroup.build(), getAccesstoken());
         }
     }
 

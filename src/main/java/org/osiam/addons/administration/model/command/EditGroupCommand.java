@@ -2,7 +2,6 @@ package org.osiam.addons.administration.model.command;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.osiam.resources.scim.Group;
-import org.osiam.resources.scim.UpdateGroup;
 
 /**
  * Command object for the group update view.
@@ -64,19 +63,14 @@ public class EditGroupCommand {
     }
 
     /**
-     * Returns a SCIM {@link UpdateGroup} based on this command.
+     * Update the given {@link Group} with the values from this command.
      *
-     * @return the requested {@link UpdateGroup}
+     * @return The updated {@link Group}
      */
-    public UpdateGroup getAsUpdateGroup() {
-        UpdateGroup.Builder builder = new UpdateGroup.Builder();
-
-        builder.updateDisplayName(getDisplayName());
-        if (getExternalId() != null && getExternalId().equals("")) {
-            builder.deleteExternalId();
-        } else {
-            builder.updateExternalId(getExternalId());
-        }
-        return builder.build();
+    public Group updateGroup(Group group) {
+        return new Group.Builder(group)
+                .setDisplayName(getDisplayName())
+                .setExternalId(getExternalId())
+                .build();
     }
 }

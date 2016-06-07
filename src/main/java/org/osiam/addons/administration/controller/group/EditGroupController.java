@@ -76,7 +76,8 @@ public class EditGroupController extends GenericController {
 
         try {
             if (!bindingResult.hasErrors()) {
-                groupService.updateGroup(command.getId(), command.getAsUpdateGroup());
+                final Group group = groupService.getGroup(command.getId());
+                groupService.replaceGroup(command.getId(), command.updateGroup(group));
 
                 redirect.addParameter("saveSuccess", true);
                 redirect.setPath(GroupViewController.CONTROLLER_PATH);

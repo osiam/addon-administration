@@ -1,7 +1,5 @@
 package org.osiam.addons.administration.service;
 
-import javax.inject.Inject;
-
 import org.osiam.addons.administration.model.session.GeneralSessionData;
 import org.osiam.addons.administration.model.session.PagingInformation;
 import org.osiam.client.OsiamConnector;
@@ -9,9 +7,10 @@ import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
 import org.osiam.client.query.QueryBuilder;
 import org.osiam.resources.scim.SCIMSearchResult;
-import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
 import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
 
 /**
  * This class contains all logic about handling users.
@@ -67,8 +66,6 @@ public class UserService {
      * @param id
      *            the user ID
      * @return the requested user
-     * @throws NoSuchUserException
-     *             if the no user was found for id.
      */
     public User getUser(String id) {
         return connector.getUser(id, sessionData.getAccessToken());
@@ -94,27 +91,17 @@ public class UserService {
     }
 
     /**
-     * Updates a user based on the given {@link UpdateUser}.
-     *
-     * @param id
-     *            the user ID
-     * @param updateUser
-     *            the {@link UpdateUser}
-     */
-    public void updateUser(String id, UpdateUser updateUser) {
-        connector.updateUser(id, updateUser, sessionData.getAccessToken());
-    }
-
-    /**
      * Deactivate the user by the given userId.
      *
      * @param id
      *            the user ID
      */
     public void deactivateUser(String id) {
-        UpdateUser updateUser = new UpdateUser.Builder().updateActive(false).build();
-
-        connector.updateUser(id, updateUser, sessionData.getAccessToken());
+        User user = connector.getUser(id, sessionData.getAccessToken());
+        User updatedUser = new User.Builder(user)
+                .setActive(false)
+                .build();
+        connector.replaceUser(id, updatedUser, sessionData.getAccessToken());
     }
 
     /**
@@ -124,9 +111,11 @@ public class UserService {
      *            the user ID
      */
     public void activateUser(String id) {
-        UpdateUser updateUser = new UpdateUser.Builder().updateActive(true).build();
-
-        connector.updateUser(id, updateUser, sessionData.getAccessToken());
+        User user = connector.getUser(id, sessionData.getAccessToken());
+        User updatedUser = new User.Builder(user)
+                .setActive(true)
+                .build();
+        connector.replaceUser(id, updatedUser, sessionData.getAccessToken());
     }
 
     /**

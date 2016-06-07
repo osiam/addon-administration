@@ -1,17 +1,5 @@
 package org.osiam.addons.administration.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.same;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -25,13 +13,22 @@ import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
 import org.osiam.resources.scim.Group;
 import org.osiam.resources.scim.MemberRef;
-import org.osiam.resources.scim.UpdateGroup;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GroupServiceTest {
-
-    final String OPERATION_DELETE = "delete";
-    final String OPERATION_ADD = null;
 
     @Mock
     OsiamConnector connector;
@@ -53,9 +50,8 @@ public class GroupServiceTest {
         final Integer limit = 13;
         final Long offset = 12L;
         final String orderBy = "orderby";
-        final Boolean asc = false; // desc
 
-        groupService.searchGroup(query, limit, offset, orderBy, asc);
+        groupService.searchGroup(query, limit, offset, orderBy, false);
 
         ArgumentCaptor<Query> cap = ArgumentCaptor.forClass(Query.class);
 
@@ -90,52 +86,46 @@ public class GroupServiceTest {
     }
 
     @Test
-    public void updateGroup() {
-        UpdateGroup updateGroup = new UpdateGroup.Builder().build();
-        String id = "user ID";
-
-        groupService.updateGroup(id, updateGroup);
-        verify(connector, times(1)).updateGroup(eq(id), eq(updateGroup), same(accessToken));
-    }
-
-    @Test
     public void addUserToGroups_emptyGroupIds() {
         final String userId = "userId";
 
         groupService.addUserToGroups(userId);
 
-        verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
+        verify(connector, never()).replaceGroup(anyString(), any(Group.class), any(AccessToken.class));
     }
 
     @Test
     public void addUserToGroups_oneGroupId() {
         final String userId = "userId";
         final String groupId = "groupId";
+        Group group = new Group.Builder("testGroup").build();
+        doReturn(group).when(connector).getGroup(eq(groupId), same(accessToken));
 
         groupService.addUserToGroups(userId, groupId);
 
-        ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+        ArgumentCaptor<Group> updateCap = ArgumentCaptor.forClass(Group.class);
 
-        verify(connector, times(1)).updateGroup(
+        verify(connector, times(1)).replaceGroup(
                 eq(groupId), updateCap.capture(), same(accessToken));
 
-        assertContainsMember(updateCap.getValue(), userId, OPERATION_ADD);
+        assertContainsMember(updateCap.getValue(), userId);
     }
 
     @Test
     public void addUserToGroups_multiGroupIds() {
         final String userId = "userId";
         final String[] groupIds = new String[] { "groupId#1", "groupId#2" };
+        Group group = new Group.Builder("testGroup").build();
+        doReturn(group).when(connector).getGroup(anyString(), same(accessToken));
 
         groupService.addUserToGroups(userId, groupIds);
 
-        for (int i = 0; i < groupIds.length; i++) {
-            ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+        for (String groupId : groupIds) {
+            ArgumentCaptor<Group> updateCap = ArgumentCaptor.forClass(Group.class);
 
-            verify(connector, times(1)).updateGroup(
-                    eq(groupIds[i]), updateCap.capture(), same(accessToken));
+            verify(connector, times(1)).replaceGroup(eq(groupId), updateCap.capture(), same(accessToken));
 
-            assertContainsMember(updateCap.getValue(), userId, OPERATION_ADD);
+            assertContainsMember(updateCap.getValue(), userId);
         }
     }
 
@@ -145,38 +135,42 @@ public class GroupServiceTest {
 
         groupService.addUsersToGroup(userId);
 
-        verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
+        verify(connector, never()).replaceGroup(anyString(), any(Group.class), any(AccessToken.class));
     }
 
     @Test
     public void addUsersToGroup_oneUserId() {
         final String groupId = "groupId";
         final String userId = "userId";
+        Group group = new Group.Builder("testGroup").build();
+        doReturn(group).when(connector).getGroup(eq(groupId), same(accessToken));
 
         groupService.addUsersToGroup(groupId, userId);
 
-        ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+        ArgumentCaptor<Group> updateCap = ArgumentCaptor.forClass(Group.class);
 
-        verify(connector, times(1)).updateGroup(
+        verify(connector, times(1)).replaceGroup(
                 eq(groupId), updateCap.capture(), same(accessToken));
 
-        assertContainsMember(updateCap.getValue(), userId, OPERATION_ADD);
+        assertContainsMember(updateCap.getValue(), userId);
     }
 
     @Test
     public void addUsersToGroup_multiUserIds() {
         final String groupId = "groupId";
         final String[] userIds = new String[] { "userId#1", "userId#2" };
+        Group group = new Group.Builder("testGroup").build();
+        doReturn(group).when(connector).getGroup(eq(groupId), same(accessToken));
 
         groupService.addUsersToGroup(groupId, userIds);
 
-        ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+        ArgumentCaptor<Group> updateCap = ArgumentCaptor.forClass(Group.class);
 
-        verify(connector, times(1)).updateGroup(
+        verify(connector, times(1)).replaceGroup(
                 eq(groupId), updateCap.capture(), same(accessToken));
 
-        for (int i = 0; i < userIds.length; i++) {
-            assertContainsMember(updateCap.getValue(), userIds[i], OPERATION_ADD);
+        for (String userId : userIds) {
+            assertContainsMember(updateCap.getValue(), userId);
         }
     }
 
@@ -186,38 +180,41 @@ public class GroupServiceTest {
 
         groupService.removeUsersFromGroup(groupId);
 
-        verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
+        verify(connector, never()).replaceGroup(anyString(), any(Group.class), any(AccessToken.class));
     }
 
     @Test
     public void removeUsersFromGroup_oneGroupId() {
         final String groupId = "groupId";
         final String userId = "userId";
+        Group group = new Group.Builder("testGroup").build();
+        doReturn(group).when(connector).getGroup(eq(groupId), same(accessToken));
 
         groupService.removeUsersFromGroup(groupId, userId);
 
-        ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+        ArgumentCaptor<Group> updateCap = ArgumentCaptor.forClass(Group.class);
 
-        verify(connector, times(1)).updateGroup(
-                eq(groupId), updateCap.capture(), same(accessToken));
+        verify(connector, times(1)).replaceGroup(eq(groupId), updateCap.capture(), same(accessToken));
 
-        assertContainsMember(updateCap.getValue(), userId, OPERATION_DELETE);
+        assertNotContainsMember(updateCap.getValue(), userId);
     }
 
     @Test
     public void removeUsersFromGroup_multiUserIds() {
         final String groupId = "groupId";
         final String[] userIds = new String[] { "userId#1", "userId#2" };
+        Group group = new Group.Builder("testGroup").build();
+        doReturn(group).when(connector).getGroup(eq(groupId), same(accessToken));
 
         groupService.removeUsersFromGroup(groupId, userIds);
 
-        ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+        ArgumentCaptor<Group> updateCap = ArgumentCaptor.forClass(Group.class);
 
-        verify(connector, times(1)).updateGroup(
+        verify(connector, times(1)).replaceGroup(
                 eq(groupId), updateCap.capture(), same(accessToken));
 
-        for (int i = 0; i < userIds.length; i++) {
-            assertContainsMember(updateCap.getValue(), userIds[i], OPERATION_DELETE);
+        for (String userId : userIds) {
+            assertNotContainsMember(updateCap.getValue(), userId);
         }
     }
 
@@ -227,52 +224,61 @@ public class GroupServiceTest {
 
         groupService.removeUserFromGroups(userId);
 
-        verify(connector, never()).updateGroup(anyString(), any(UpdateGroup.class), any(AccessToken.class));
+        verify(connector, never()).replaceGroup(anyString(), any(Group.class), any(AccessToken.class));
     }
 
     @Test
     public void removeUserFromGroups_oneGroupId() {
         final String userId = "userId";
         final String groupId = "groupId";
+        Group group = new Group.Builder("testGroup").build();
+        doReturn(group).when(connector).getGroup(eq(groupId), same(accessToken));
 
         groupService.removeUserFromGroups(userId, groupId);
 
-        ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+        ArgumentCaptor<Group> updateCap = ArgumentCaptor.forClass(Group.class);
 
-        verify(connector, times(1)).updateGroup(
-                eq(groupId), updateCap.capture(), same(accessToken));
+        verify(connector, times(1)).replaceGroup(eq(groupId), updateCap.capture(), same(accessToken));
 
-        assertContainsMember(updateCap.getValue(), userId, OPERATION_DELETE);
+        assertNotContainsMember(updateCap.getValue(), userId);
     }
 
     @Test
     public void removeUserFromGroups_multiGroupIds() {
         final String userId = "userId";
         final String[] groupIds = new String[] { "groupId#1", "groupId#2" };
+        Group group1 = new Group.Builder("testGroup1").build();
+        doReturn(group1).when(connector).getGroup(eq("groupId#1"), same(accessToken));
+        Group group2 = new Group.Builder("testGroup2").build();
+        doReturn(group2).when(connector).getGroup(eq("groupId#2"), same(accessToken));
 
         groupService.removeUserFromGroups(userId, groupIds);
 
-        for (int i = 0; i < groupIds.length; i++) {
-            ArgumentCaptor<UpdateGroup> updateCap = ArgumentCaptor.forClass(UpdateGroup.class);
+        for (String groupId : groupIds) {
+            ArgumentCaptor<Group> updateCap = ArgumentCaptor.forClass(Group.class);
 
-            verify(connector, times(1)).updateGroup(
-                    eq(groupIds[i]), updateCap.capture(), same(accessToken));
+            verify(connector, times(1)).replaceGroup(eq(groupId), updateCap.capture(), same(accessToken));
 
-            assertContainsMember(updateCap.getValue(), userId, OPERATION_DELETE);
+            assertNotContainsMember(updateCap.getValue(), userId);
         }
     }
 
-    private void assertContainsMember(UpdateGroup update, String userId, String operation) {
-        Group group = update.getScimConformUpdateGroup();
-
+    private void assertNotContainsMember(Group group, String userId) {
         boolean found = false;
         for (MemberRef member : group.getMembers()) {
             if (member.getValue().equals(userId)) {
-                if ((operation == null && member.getOperation() == null) ||
-                        (operation != null && operation.equals(member.getOperation()))) {
+                found = true;
+            }
+        }
 
-                    found = true;
-                }
+        assertFalse(found);
+    }
+
+    private void assertContainsMember(Group group, String userId) {
+        boolean found = false;
+        for (MemberRef member : group.getMembers()) {
+            if (member.getValue().equals(userId)) {
+                found = true;
             }
         }
 

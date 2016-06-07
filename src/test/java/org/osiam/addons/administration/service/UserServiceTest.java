@@ -1,15 +1,5 @@
 package org.osiam.addons.administration.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.same;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -22,8 +12,16 @@ import org.osiam.addons.administration.model.session.PagingInformation;
 import org.osiam.client.OsiamConnector;
 import org.osiam.client.oauth.AccessToken;
 import org.osiam.client.query.Query;
-import org.osiam.resources.scim.UpdateUser;
 import org.osiam.resources.scim.User;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -93,34 +91,29 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updateUser() {
-        UpdateUser updateUser = new UpdateUser.Builder().build();
-        String id = "user ID";
-
-        userService.updateUser(id, updateUser);
-        verify(connector, times(1)).updateUser(eq(id), same(updateUser), same(accessToken));
-    }
-
-    @Test
     public void deactivateUser() {
         String id = "userID";
+        User user = new User.Builder("testUser").build();
+        doReturn(user).when(connector).getUser(eq(id), same(accessToken));
 
         userService.deactivateUser(id);
-        ArgumentCaptor<UpdateUser> cap = ArgumentCaptor.forClass(UpdateUser.class);
+        ArgumentCaptor<User> cap = ArgumentCaptor.forClass(User.class);
 
-        verify(connector, times(1)).updateUser(eq(id), cap.capture(), same(accessToken));
-        assertFalse(cap.getValue().getScimConformUpdateUser().isActive());
+        verify(connector, times(1)).replaceUser(eq(id), cap.capture(), same(accessToken));
+        assertFalse(cap.getValue().isActive());
     }
 
     @Test
     public void activateUser() {
         String id = "userID";
+        User user = new User.Builder("testUser").build();
+        doReturn(user).when(connector).getUser(eq(id), same(accessToken));
 
         userService.activateUser(id);
-        ArgumentCaptor<UpdateUser> cap = ArgumentCaptor.forClass(UpdateUser.class);
+        ArgumentCaptor<User> cap = ArgumentCaptor.forClass(User.class);
 
-        verify(connector, times(1)).updateUser(eq(id), cap.capture(), same(accessToken));
-        assertTrue(cap.getValue().getScimConformUpdateUser().isActive());
+        verify(connector, times(1)).replaceUser(eq(id), cap.capture(), same(accessToken));
+        assertTrue(cap.getValue().isActive());
     }
 
     @Test
