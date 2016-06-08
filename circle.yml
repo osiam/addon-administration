@@ -29,8 +29,7 @@ deployment:
   staging:
     branch: master
     commands:
-      - wget https://raw.githubusercontent.com/osiam/circleci/master/settings.xml
-      - mvn deploy -s settings.xml -DskipTests
+      - curl -T target/addon-administration.war -u${BINTRAY_USER}:${BINTRAY_KEY} -H "X-Bintray-Package:addon-administration" -H "X-Bintray-Version:latest" -H "X-Bintray-Publish:1" -H "X-Bintray-Override:1" https://api.bintray.com/content/osiam/downloads/addon-administration/latest/addon-administration-latest.war
       - >
         curl -H "Content-Type: application/json" --data '{"source_type": "Branch", "source_name": "master"}' -X POST https://registry.hub.docker.com/u/osiamorg/osiam/trigger/${DOCKER_HUB_TRIGGER_TOKEN}/
       - >

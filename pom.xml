@@ -50,19 +50,6 @@
         <tag>HEAD</tag>
     </scm>
 
-    <distributionManagement>
-        <repository>
-            <id>osiam-releases</id>
-            <name>public evolvis release repository</name>
-            <url>scpexe://maven-repo.evolvis.org:/var/www/maven_repo/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>oss-jfrog-artifactory-snapshots</name>
-            <url>https://oss.jfrog.org/artifactory/oss-snapshot-local</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <properties>
         <start-class>org.osiam.addons.administration.Administration</start-class>
 
@@ -285,15 +272,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <tagNameFormat>v@{project.version}</tagNameFormat>
-                </configuration>
             </plugin>
 
             <plugin>

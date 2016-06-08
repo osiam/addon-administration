@@ -15,9 +15,10 @@ An administration for OSIAM.
 
 ## Snapshots
 
-To use the latest snapshot of the OSIAM administration just download it from
-the oss jfrog repository:
-https://oss.jfrog.org/artifactory/repo/org/osiam/addon-administration
+To use the latest snapshot of the OSIAM administration just download it
+from Bintray:
+https://dl.bintray.com/osiam/downloads/addon-administration/latest/addon-administration-latest.war
+([GPG Signature](https://dl.bintray.com/osiam/downloads/addon-administration/latest/addon-administration-latest.war.asc))
 
 ## Installation
 
