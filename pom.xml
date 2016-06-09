@@ -33,7 +33,7 @@
 
     <groupId>org.osiam</groupId>
     <artifactId>addon-administration</artifactId>
-    <version>1.9-SNAPSHOT</version>
+    <version>latest-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>OSIAM Administration</name>
