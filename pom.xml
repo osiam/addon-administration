@@ -62,7 +62,7 @@
         <version.docker-maven-plugin>2.10.6</version.docker-maven-plugin>
 
         <!-- OSIAM -->
-        <version.osiam>3.0-SNAPSHOT</version.osiam>
+        <version.osiam>latest-SNAPSHOT</version.osiam>
         <version.osiam.connector4java>1.9-SNAPSHOT</version.osiam.connector4java>
 
         <sonar.core.codeCoveragePlugin>cobertura</sonar.core.codeCoveragePlugin>
