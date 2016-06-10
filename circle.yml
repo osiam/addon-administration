@@ -34,3 +34,8 @@ deployment:
         curl -H "Content-Type: application/json" --data '{"source_type": "Branch", "source_name": "master"}' -X POST https://registry.hub.docker.com/u/osiamorg/osiam/trigger/${DOCKER_HUB_TRIGGER_TOKEN}/
       - >
         curl -H "Content-Type: application/json" --data '{"source_type": "Branch", "source_name": "maintenance-2.x"}' -X POST https://registry.hub.docker.com/u/osiamorg/osiam/trigger/${DOCKER_HUB_TRIGGER_TOKEN}/
+  release:
+    tag: /.*/
+    owner: osiam
+    commands:
+      - curl -T target/addon-administration.war -u${BINTRAY_USER}:${BINTRAY_KEY} -H "X-Bintray-Package:addon-administration" -H "X-Bintray-Version:${CIRCLE_TAG}" -H "X-Bintray-Publish:1" -H "X-Bintray-Override:1" https://api.bintray.com/content/osiam/downloads/addon-administration/${CIRCLE_TAG}/addon-administration-${CIRCLE_TAG}.war
