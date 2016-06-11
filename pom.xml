@@ -200,13 +200,6 @@
 
     <repositories>
         <repository>
-            <id>osiam-releases</id>
-            <url>https://maven-repo.evolvis.org/releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
             <snapshots />
             <id>osiam-snapshots</id>
             <name>libs-snapshot</name>
