@@ -2,15 +2,32 @@
 
 ## Unreleased
 
+**NOTICE:** This version should be compatible with OSIAM 3.x and OSIAM 2.x.
+
 ### Features
 
-- Create a landingpage
+- The Administration now uses a dedicated landing page, so users that are not logged in, will not be
+  immediately redirected to the login page.
+
+### Changes
+
+- Use replace API instead of update API, because OSIAM 3.0 removes support for updates.
+- Snapshot builds can now be downloaded from [Bintray]
+  (https://dl.bintray.com/osiam/downloads/addon-administration/latest/addon-administration-latest.war)
+  ([GPG Signature](https://dl.bintray.com/osiam/downloads/addon-administration/latest/addon-administration-latest.war.asc)).
 
 ### Fixes
 
-- Fix: Changing the displayName removes all members from a group
+- Changing the displayName removed all members from a group (#119).
+- Umlauts in email were not correctly displayed (#82).
+- Access tokens were revoked after editing a user, which rendered the Administration unusable, if
+  one edited themselves.
 
-    Fixes #119
+### Updates
+
+- OSIAM connector4java 1.9
+- Spring Boot 1.3.5
+- Jersey 2.22.2
 
 ## 1.8 - 2015-12-27
 
