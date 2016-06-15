@@ -16,6 +16,8 @@ dependencies:
     - sudo jpm install com.codacy:codacy-coverage-reporter:assembly
 
 test:
+  pre:
+    - test -z ${CIRCLE_TAG} || mvn versions:set -DnewVersion=${CIRCLE_TAG}
   override:
     - mvn verify -P integration-tests
   post:
