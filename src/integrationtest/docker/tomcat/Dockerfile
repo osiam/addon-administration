@@ -1,11 +1,13 @@
 FROM tomcat:8-jre8
 
-COPY addon-administration-${project.version} $CATALINA_HOME/webapps/addon-administration
-
 COPY osiam.war $CATALINA_HOME/webapps/osiam.war
 RUN java -jar $CATALINA_HOME/webapps/osiam.war initHome --osiam.home=/var/lib/osiam
 COPY osiam.yaml /var/lib/osiam/config/osiam.yaml
 COPY osiam.xml /usr/local/tomcat/conf/Catalina/localhost/osiam.xml
+
+COPY addon-administration-${project.version} $CATALINA_HOME/webapps/addon-administration
+COPY addon-administration.properties /var/lib/osiam/config/addon-administration.properties
+COPY addon-administration.xml /usr/local/tomcat/conf/Catalina/localhost/addon-administration.xml
 
 COPY manager $CATALINA_HOME/webapps/manager
 COPY greenmail-webapp-1.4.1 $CATALINA_HOME/webapps/greenmail-webapp
