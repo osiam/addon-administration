@@ -1,0 +1,5 @@
+<Context>
+    <Environment name="spring.config.location"
+                 value="/var/lib/osiam/config/addon-administration.properties"
+                 type="java.lang.String"/>
+</Context>
