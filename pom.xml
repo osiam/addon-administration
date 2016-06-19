@@ -63,7 +63,7 @@
 
         <!-- OSIAM -->
         <version.osiam>latest-SNAPSHOT</version.osiam>
-        <version.osiam.connector4java>1.9.CR1</version.osiam.connector4java>
+        <version.osiam.connector4java>latest-SNAPSHOT</version.osiam.connector4java>
 
         <sonar.core.codeCoveragePlugin>cobertura</sonar.core.codeCoveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
