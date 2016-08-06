@@ -1,6 +1,6 @@
 # OSIAM addon-administration
 
-## Unreleased
+## 1.9 - 2016-08-06
 
 **NOTICE:** This version should be compatible with OSIAM 3.x and OSIAM 2.x.
 
@@ -26,8 +26,8 @@
 ### Updates
 
 - OSIAM connector4java 1.9
-- Spring Boot 1.3.5
-- Jersey 2.22.2
+- Spring Boot 1.3.6
+- Jersey 2.23.1
 
 ## 1.8 - 2015-12-27
 
