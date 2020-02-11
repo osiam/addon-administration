@@ -206,7 +206,7 @@
             </releases>
             <id>osiam-snapshots</id>
             <name>libs-snapshot</name>
-            <url>http://oss.jfrog.org/artifactory/libs-snapshot</url>
+            <url>https://oss.jfrog.org/artifactory/libs-snapshot</url>
         </repository>
     </repositories>
 
